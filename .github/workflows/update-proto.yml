@@ -27,8 +27,10 @@ jobs:
         with:
           node-version: 22.x
 
-      - name: Install packages
-        run: npm ci --ignore-scripts
+      - name: Enable Corepack and install packages
+        run: |
+          corepack enable
+          yarn install --immutable
 
       - name: Update WAProto
         run: node update-proto.mjs
