@@ -1,0 +1,13 @@
+{
+  "name": "baileys",
+  "version": "7.0.0-rc14",
+  "type": "module",
+  "description": "WAProto auto-updater (trimmed repo, see AGENTS.md)",
+  "license": "MIT",
+  "dependencies": {
+    "protobufjs": "^7.5.6"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

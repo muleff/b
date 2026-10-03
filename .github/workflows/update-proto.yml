@@ -1,0 +1,44 @@
+name: Update WAProto
+
+on:
+  schedule:
+    - cron: '0 */2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-waproto
+  cancel-in-progress: false
+
+jobs:
+  update-proto:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+
+      - name: Install packages
+        run: npm ci --ignore-scripts
+
+      - name: Update WAProto
+        run: node update-proto.mjs
+
+      - name: Commit and push
+        run: |
+          git config user.name "muleff"
+          git config user.email "oimuleff@gmail.com"
+          git add WAProto/
+          if git diff --cached --quiet; then
+            echo "WAProto already up to date."
+            exit 0
+          fi
+          git commit -s -m "auto update proto"
+          git push
