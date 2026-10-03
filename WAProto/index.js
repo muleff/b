@@ -21164,6 +21164,15 @@ export const proto = $root.proto = (() => {
         return BotUnifiedResponseMutation;
     })();
 
+    proto.COMMAND_COMMAND_TYPE = (function() {
+        const valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[1] = "EVERYONE"] = 1;
+        values[valuesById[2] = "SILENT"] = 2;
+        values[valuesById[3] = "AI"] = 3;
+        values[valuesById[4] = "AI_IMAGINE"] = 4;
+        return values;
+    })();
+
     proto.CallLogRecord = (function() {
 
         function CallLogRecord(p) {
@@ -28006,6 +28015,207 @@ export const proto = $root.proto = (() => {
         };
 
         return CombinedFingerprint;
+    })();
+
+    proto.Command = (function() {
+
+        function Command(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        Command.prototype.commandType = null;
+        Command.prototype.offset = null;
+        Command.prototype.length = null;
+        Command.prototype.validationToken = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(Command.prototype, "_commandType", {
+            get: $util.oneOfGetter($oneOfFields = ["commandType"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(Command.prototype, "_offset", {
+            get: $util.oneOfGetter($oneOfFields = ["offset"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(Command.prototype, "_length", {
+            get: $util.oneOfGetter($oneOfFields = ["length"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(Command.prototype, "_validationToken", {
+            get: $util.oneOfGetter($oneOfFields = ["validationToken"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Command.create = function create(properties) {
+            return new Command(properties);
+        };
+
+        Command.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.commandType != null && Object.hasOwnProperty.call(m, "commandType"))
+                w.uint32(8).int32(m.commandType);
+            if (m.offset != null && Object.hasOwnProperty.call(m, "offset"))
+                w.uint32(16).uint32(m.offset);
+            if (m.length != null && Object.hasOwnProperty.call(m, "length"))
+                w.uint32(24).uint32(m.length);
+            if (m.validationToken != null && Object.hasOwnProperty.call(m, "validationToken"))
+                w.uint32(34).string(m.validationToken);
+            return w;
+        };
+
+        Command.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.Command();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.commandType = r.int32();
+                        break;
+                    }
+                case 2: {
+                        m.offset = r.uint32();
+                        break;
+                    }
+                case 3: {
+                        m.length = r.uint32();
+                        break;
+                    }
+                case 4: {
+                        m.validationToken = r.string();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        Command.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.Command)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.Command: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.Command();
+            switch (d.commandType) {
+            default:
+                if (typeof d.commandType === "number") {
+                    m.commandType = d.commandType;
+                    break;
+                }
+                break;
+            case "EVERYONE":
+            case 1:
+                m.commandType = 1;
+                break;
+            case "SILENT":
+            case 2:
+                m.commandType = 2;
+                break;
+            case "AI":
+            case 3:
+                m.commandType = 3;
+                break;
+            case "AI_IMAGINE":
+            case 4:
+                m.commandType = 4;
+                break;
+            }
+            if (d.offset != null) {
+                m.offset = d.offset >>> 0;
+            }
+            if (d.length != null) {
+                m.length = d.length >>> 0;
+            }
+            if (d.validationToken != null) {
+                m.validationToken = String(d.validationToken);
+            }
+            return m;
+        };
+
+        Command.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.commandType != null && Object.hasOwnProperty.call(m, "commandType")) {
+                d.commandType = o.enums === String ? $root.proto.COMMAND_COMMAND_TYPE[m.commandType] === undefined ? m.commandType : $root.proto.COMMAND_COMMAND_TYPE[m.commandType] : m.commandType;
+                if (o.oneofs)
+                    d._commandType = "commandType";
+            }
+            if (m.offset != null && Object.hasOwnProperty.call(m, "offset")) {
+                d.offset = m.offset;
+                if (o.oneofs)
+                    d._offset = "offset";
+            }
+            if (m.length != null && Object.hasOwnProperty.call(m, "length")) {
+                d.length = m.length;
+                if (o.oneofs)
+                    d._length = "length";
+            }
+            if (m.validationToken != null && Object.hasOwnProperty.call(m, "validationToken")) {
+                d.validationToken = m.validationToken;
+                if (o.oneofs)
+                    d._validationToken = "validationToken";
+            }
+            return d;
+        };
+
+        Command.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        Command.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.Command";
+        };
+
+        return Command;
     })();
 
     proto.CommentMetadata = (function() {
@@ -35691,6 +35901,3949 @@ export const proto = $root.proto = (() => {
         return Conversation;
     })();
 
+    proto.DecryptMekForDistributionFromTransportSenderInput = (function() {
+
+        function DecryptMekForDistributionFromTransportSenderInput(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DecryptMekForDistributionFromTransportSenderInput.prototype.mekDistribution = null;
+        DecryptMekForDistributionFromTransportSenderInput.prototype.mekId = null;
+        DecryptMekForDistributionFromTransportSenderInput.prototype.rosterHash = null;
+        DecryptMekForDistributionFromTransportSenderInput.prototype.recipientEncSk = null;
+        DecryptMekForDistributionFromTransportSenderInput.prototype.version = null;
+        DecryptMekForDistributionFromTransportSenderInput.prototype.conf = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DecryptMekForDistributionFromTransportSenderInput.prototype, "_mekDistribution", {
+            get: $util.oneOfGetter($oneOfFields = ["mekDistribution"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DecryptMekForDistributionFromTransportSenderInput.prototype, "_mekId", {
+            get: $util.oneOfGetter($oneOfFields = ["mekId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DecryptMekForDistributionFromTransportSenderInput.prototype, "_rosterHash", {
+            get: $util.oneOfGetter($oneOfFields = ["rosterHash"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DecryptMekForDistributionFromTransportSenderInput.prototype, "_recipientEncSk", {
+            get: $util.oneOfGetter($oneOfFields = ["recipientEncSk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DecryptMekForDistributionFromTransportSenderInput.prototype, "_version", {
+            get: $util.oneOfGetter($oneOfFields = ["version"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DecryptMekForDistributionFromTransportSenderInput.prototype, "_conf", {
+            get: $util.oneOfGetter($oneOfFields = ["conf"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DecryptMekForDistributionFromTransportSenderInput.create = function create(properties) {
+            return new DecryptMekForDistributionFromTransportSenderInput(properties);
+        };
+
+        DecryptMekForDistributionFromTransportSenderInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.mekDistribution != null && Object.hasOwnProperty.call(m, "mekDistribution"))
+                $root.proto.DecryptMekForDistributionFromTransportSenderInput.TransportSenderMEKDistributionSingleRecipient.encode(m.mekDistribution, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.mekId != null && Object.hasOwnProperty.call(m, "mekId"))
+                w.uint32(18).bytes(m.mekId);
+            if (m.rosterHash != null && Object.hasOwnProperty.call(m, "rosterHash"))
+                w.uint32(26).bytes(m.rosterHash);
+            if (m.recipientEncSk != null && Object.hasOwnProperty.call(m, "recipientEncSk"))
+                w.uint32(34).bytes(m.recipientEncSk);
+            if (m.version != null && Object.hasOwnProperty.call(m, "version"))
+                w.uint32(40).uint64(m.version);
+            if (m.conf != null && Object.hasOwnProperty.call(m, "conf"))
+                $root.proto.MinosClientConfig.encode(m.conf, w.uint32(50).fork(), q + 1).ldelim();
+            return w;
+        };
+
+        DecryptMekForDistributionFromTransportSenderInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DecryptMekForDistributionFromTransportSenderInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.mekDistribution = $root.proto.DecryptMekForDistributionFromTransportSenderInput.TransportSenderMEKDistributionSingleRecipient.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.mekId = r.bytes();
+                        break;
+                    }
+                case 3: {
+                        m.rosterHash = r.bytes();
+                        break;
+                    }
+                case 4: {
+                        m.recipientEncSk = r.bytes();
+                        break;
+                    }
+                case 5: {
+                        m.version = r.uint64();
+                        break;
+                    }
+                case 6: {
+                        m.conf = $root.proto.MinosClientConfig.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DecryptMekForDistributionFromTransportSenderInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DecryptMekForDistributionFromTransportSenderInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DecryptMekForDistributionFromTransportSenderInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DecryptMekForDistributionFromTransportSenderInput();
+            if (d.mekDistribution != null) {
+                if (!$util.isObject(d.mekDistribution))
+                    throw TypeError(".proto.DecryptMekForDistributionFromTransportSenderInput.mekDistribution: object expected");
+                m.mekDistribution = $root.proto.DecryptMekForDistributionFromTransportSenderInput.TransportSenderMEKDistributionSingleRecipient.fromObject(d.mekDistribution, n + 1);
+            }
+            if (d.mekId != null) {
+                if (typeof d.mekId === "string")
+                    $util.base64.decode(d.mekId, m.mekId = $util.newBuffer($util.base64.length(d.mekId)), 0);
+                else if (d.mekId.length >= 0)
+                    m.mekId = d.mekId;
+            }
+            if (d.rosterHash != null) {
+                if (typeof d.rosterHash === "string")
+                    $util.base64.decode(d.rosterHash, m.rosterHash = $util.newBuffer($util.base64.length(d.rosterHash)), 0);
+                else if (d.rosterHash.length >= 0)
+                    m.rosterHash = d.rosterHash;
+            }
+            if (d.recipientEncSk != null) {
+                if (typeof d.recipientEncSk === "string")
+                    $util.base64.decode(d.recipientEncSk, m.recipientEncSk = $util.newBuffer($util.base64.length(d.recipientEncSk)), 0);
+                else if (d.recipientEncSk.length >= 0)
+                    m.recipientEncSk = d.recipientEncSk;
+            }
+            if (d.version != null) {
+                if ($util.Long)
+                    m.version = $util.Long.fromValue(d.version, true);
+                else if (typeof d.version === "string")
+                    m.version = parseInt(d.version, 10);
+                else if (typeof d.version === "number")
+                    m.version = d.version;
+                else if (typeof d.version === "object")
+                    m.version = new $util.LongBits(d.version.low >>> 0, d.version.high >>> 0).toNumber(true);
+            }
+            if (d.conf != null) {
+                if (!$util.isObject(d.conf))
+                    throw TypeError(".proto.DecryptMekForDistributionFromTransportSenderInput.conf: object expected");
+                m.conf = $root.proto.MinosClientConfig.fromObject(d.conf, n + 1);
+            }
+            return m;
+        };
+
+        DecryptMekForDistributionFromTransportSenderInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.mekDistribution != null && Object.hasOwnProperty.call(m, "mekDistribution")) {
+                d.mekDistribution = $root.proto.DecryptMekForDistributionFromTransportSenderInput.TransportSenderMEKDistributionSingleRecipient.toObject(m.mekDistribution, o, q + 1);
+                if (o.oneofs)
+                    d._mekDistribution = "mekDistribution";
+            }
+            if (m.mekId != null && Object.hasOwnProperty.call(m, "mekId")) {
+                d.mekId = o.bytes === String ? $util.base64.encode(m.mekId, 0, m.mekId.length) : o.bytes === Array ? Array.prototype.slice.call(m.mekId) : m.mekId;
+                if (o.oneofs)
+                    d._mekId = "mekId";
+            }
+            if (m.rosterHash != null && Object.hasOwnProperty.call(m, "rosterHash")) {
+                d.rosterHash = o.bytes === String ? $util.base64.encode(m.rosterHash, 0, m.rosterHash.length) : o.bytes === Array ? Array.prototype.slice.call(m.rosterHash) : m.rosterHash;
+                if (o.oneofs)
+                    d._rosterHash = "rosterHash";
+            }
+            if (m.recipientEncSk != null && Object.hasOwnProperty.call(m, "recipientEncSk")) {
+                d.recipientEncSk = o.bytes === String ? $util.base64.encode(m.recipientEncSk, 0, m.recipientEncSk.length) : o.bytes === Array ? Array.prototype.slice.call(m.recipientEncSk) : m.recipientEncSk;
+                if (o.oneofs)
+                    d._recipientEncSk = "recipientEncSk";
+            }
+            if (m.version != null && Object.hasOwnProperty.call(m, "version")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.version = typeof m.version === "number" ? BigInt(m.version) : $util.Long.fromBits(m.version.low >>> 0, m.version.high >>> 0, true).toBigInt();
+                else if (typeof m.version === "number")
+                    d.version = o.longs === String ? String(m.version) : m.version;
+                else
+                    d.version = o.longs === String ? longToString(m.version, true) : o.longs === Number ? longToNumber(m.version, true) : m.version;
+                if (o.oneofs)
+                    d._version = "version";
+            }
+            if (m.conf != null && Object.hasOwnProperty.call(m, "conf")) {
+                d.conf = $root.proto.MinosClientConfig.toObject(m.conf, o, q + 1);
+                if (o.oneofs)
+                    d._conf = "conf";
+            }
+            return d;
+        };
+
+        DecryptMekForDistributionFromTransportSenderInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DecryptMekForDistributionFromTransportSenderInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DecryptMekForDistributionFromTransportSenderInput";
+        };
+
+        DecryptMekForDistributionFromTransportSenderInput.TransportSenderMEKDistributionSingleRecipient = (function() {
+
+            function TransportSenderMEKDistributionSingleRecipient(p) {
+                if (p)
+                    for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                        if (p[ks[i]] != null && ks[i] !== "__proto__")
+                            this[ks[i]] = p[ks[i]];
+            }
+
+            TransportSenderMEKDistributionSingleRecipient.prototype.encryptedMek = null;
+            TransportSenderMEKDistributionSingleRecipient.prototype.ephemeralEncryptionPk = null;
+            TransportSenderMEKDistributionSingleRecipient.prototype.signingPk = null;
+            TransportSenderMEKDistributionSingleRecipient.prototype.signature = null;
+            TransportSenderMEKDistributionSingleRecipient.prototype.recipientEpochHead = null;
+
+            let $oneOfFields;
+
+            Object.defineProperty(TransportSenderMEKDistributionSingleRecipient.prototype, "_encryptedMek", {
+                get: $util.oneOfGetter($oneOfFields = ["encryptedMek"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            Object.defineProperty(TransportSenderMEKDistributionSingleRecipient.prototype, "_ephemeralEncryptionPk", {
+                get: $util.oneOfGetter($oneOfFields = ["ephemeralEncryptionPk"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            Object.defineProperty(TransportSenderMEKDistributionSingleRecipient.prototype, "_signingPk", {
+                get: $util.oneOfGetter($oneOfFields = ["signingPk"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            Object.defineProperty(TransportSenderMEKDistributionSingleRecipient.prototype, "_signature", {
+                get: $util.oneOfGetter($oneOfFields = ["signature"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            Object.defineProperty(TransportSenderMEKDistributionSingleRecipient.prototype, "_recipientEpochHead", {
+                get: $util.oneOfGetter($oneOfFields = ["recipientEpochHead"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            TransportSenderMEKDistributionSingleRecipient.create = function create(properties) {
+                return new TransportSenderMEKDistributionSingleRecipient(properties);
+            };
+
+            TransportSenderMEKDistributionSingleRecipient.encode = function encode(m, w, q) {
+                if (!w)
+                    w = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                if (m.encryptedMek != null && Object.hasOwnProperty.call(m, "encryptedMek"))
+                    w.uint32(10).bytes(m.encryptedMek);
+                if (m.ephemeralEncryptionPk != null && Object.hasOwnProperty.call(m, "ephemeralEncryptionPk"))
+                    w.uint32(18).bytes(m.ephemeralEncryptionPk);
+                if (m.signingPk != null && Object.hasOwnProperty.call(m, "signingPk"))
+                    w.uint32(26).bytes(m.signingPk);
+                if (m.signature != null && Object.hasOwnProperty.call(m, "signature"))
+                    w.uint32(34).bytes(m.signature);
+                if (m.recipientEpochHead != null && Object.hasOwnProperty.call(m, "recipientEpochHead"))
+                    w.uint32(42).bytes(m.recipientEpochHead);
+                return w;
+            };
+
+            TransportSenderMEKDistributionSingleRecipient.decode = function decode(r, l, e, n) {
+                if (!(r instanceof $Reader))
+                    r = $Reader.create(r);
+                if (n === undefined)
+                    n = 0;
+                if (n > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var c, m;
+                if (l === undefined)
+                    c = r.len;
+                else {
+                    c = r.pos + l;
+                    if (c > r.len)
+                        throw RangeError("index out of range");
+                    l = r.len;
+                    r.len = c;
+                }
+                m = new $root.proto.DecryptMekForDistributionFromTransportSenderInput.TransportSenderMEKDistributionSingleRecipient();
+                while (r.pos < c) {
+                    var t = r.uint32();
+                    if (t === e)
+                        break;
+                    switch (t >>> 3) {
+                    case 1: {
+                            m.encryptedMek = r.bytes();
+                            break;
+                        }
+                    case 2: {
+                            m.ephemeralEncryptionPk = r.bytes();
+                            break;
+                        }
+                    case 3: {
+                            m.signingPk = r.bytes();
+                            break;
+                        }
+                    case 4: {
+                            m.signature = r.bytes();
+                            break;
+                        }
+                    case 5: {
+                            m.recipientEpochHead = r.bytes();
+                            break;
+                        }
+                    default:
+                        r.skipType(t & 7, n);
+                        break;
+                    }
+                }
+                if (l !== undefined) {
+                    if (r.pos !== c)
+                        throw RangeError("index out of range");
+                    r.len = l;
+                }
+                return m;
+            };
+
+            TransportSenderMEKDistributionSingleRecipient.fromObject = function fromObject(d, n) {
+                if (d instanceof $root.proto.DecryptMekForDistributionFromTransportSenderInput.TransportSenderMEKDistributionSingleRecipient)
+                    return d;
+                if (!$util.isObject(d))
+                    throw TypeError(".proto.DecryptMekForDistributionFromTransportSenderInput.TransportSenderMEKDistributionSingleRecipient: object expected");
+                if (n === undefined)
+                    n = 0;
+                if (n > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var m = new $root.proto.DecryptMekForDistributionFromTransportSenderInput.TransportSenderMEKDistributionSingleRecipient();
+                if (d.encryptedMek != null) {
+                    if (typeof d.encryptedMek === "string")
+                        $util.base64.decode(d.encryptedMek, m.encryptedMek = $util.newBuffer($util.base64.length(d.encryptedMek)), 0);
+                    else if (d.encryptedMek.length >= 0)
+                        m.encryptedMek = d.encryptedMek;
+                }
+                if (d.ephemeralEncryptionPk != null) {
+                    if (typeof d.ephemeralEncryptionPk === "string")
+                        $util.base64.decode(d.ephemeralEncryptionPk, m.ephemeralEncryptionPk = $util.newBuffer($util.base64.length(d.ephemeralEncryptionPk)), 0);
+                    else if (d.ephemeralEncryptionPk.length >= 0)
+                        m.ephemeralEncryptionPk = d.ephemeralEncryptionPk;
+                }
+                if (d.signingPk != null) {
+                    if (typeof d.signingPk === "string")
+                        $util.base64.decode(d.signingPk, m.signingPk = $util.newBuffer($util.base64.length(d.signingPk)), 0);
+                    else if (d.signingPk.length >= 0)
+                        m.signingPk = d.signingPk;
+                }
+                if (d.signature != null) {
+                    if (typeof d.signature === "string")
+                        $util.base64.decode(d.signature, m.signature = $util.newBuffer($util.base64.length(d.signature)), 0);
+                    else if (d.signature.length >= 0)
+                        m.signature = d.signature;
+                }
+                if (d.recipientEpochHead != null) {
+                    if (typeof d.recipientEpochHead === "string")
+                        $util.base64.decode(d.recipientEpochHead, m.recipientEpochHead = $util.newBuffer($util.base64.length(d.recipientEpochHead)), 0);
+                    else if (d.recipientEpochHead.length >= 0)
+                        m.recipientEpochHead = d.recipientEpochHead;
+                }
+                return m;
+            };
+
+            TransportSenderMEKDistributionSingleRecipient.toObject = function toObject(m, o, q) {
+                if (!o)
+                    o = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                var d = {};
+                if (m.encryptedMek != null && Object.hasOwnProperty.call(m, "encryptedMek")) {
+                    d.encryptedMek = o.bytes === String ? $util.base64.encode(m.encryptedMek, 0, m.encryptedMek.length) : o.bytes === Array ? Array.prototype.slice.call(m.encryptedMek) : m.encryptedMek;
+                    if (o.oneofs)
+                        d._encryptedMek = "encryptedMek";
+                }
+                if (m.ephemeralEncryptionPk != null && Object.hasOwnProperty.call(m, "ephemeralEncryptionPk")) {
+                    d.ephemeralEncryptionPk = o.bytes === String ? $util.base64.encode(m.ephemeralEncryptionPk, 0, m.ephemeralEncryptionPk.length) : o.bytes === Array ? Array.prototype.slice.call(m.ephemeralEncryptionPk) : m.ephemeralEncryptionPk;
+                    if (o.oneofs)
+                        d._ephemeralEncryptionPk = "ephemeralEncryptionPk";
+                }
+                if (m.signingPk != null && Object.hasOwnProperty.call(m, "signingPk")) {
+                    d.signingPk = o.bytes === String ? $util.base64.encode(m.signingPk, 0, m.signingPk.length) : o.bytes === Array ? Array.prototype.slice.call(m.signingPk) : m.signingPk;
+                    if (o.oneofs)
+                        d._signingPk = "signingPk";
+                }
+                if (m.signature != null && Object.hasOwnProperty.call(m, "signature")) {
+                    d.signature = o.bytes === String ? $util.base64.encode(m.signature, 0, m.signature.length) : o.bytes === Array ? Array.prototype.slice.call(m.signature) : m.signature;
+                    if (o.oneofs)
+                        d._signature = "signature";
+                }
+                if (m.recipientEpochHead != null && Object.hasOwnProperty.call(m, "recipientEpochHead")) {
+                    d.recipientEpochHead = o.bytes === String ? $util.base64.encode(m.recipientEpochHead, 0, m.recipientEpochHead.length) : o.bytes === Array ? Array.prototype.slice.call(m.recipientEpochHead) : m.recipientEpochHead;
+                    if (o.oneofs)
+                        d._recipientEpochHead = "recipientEpochHead";
+                }
+                return d;
+            };
+
+            TransportSenderMEKDistributionSingleRecipient.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            TransportSenderMEKDistributionSingleRecipient.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/proto.DecryptMekForDistributionFromTransportSenderInput.TransportSenderMEKDistributionSingleRecipient";
+            };
+
+            return TransportSenderMEKDistributionSingleRecipient;
+        })();
+
+        return DecryptMekForDistributionFromTransportSenderInput;
+    })();
+
+    proto.DecryptMekForDistributionFromTransportSenderResult = (function() {
+
+        function DecryptMekForDistributionFromTransportSenderResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DecryptMekForDistributionFromTransportSenderResult.prototype.success = null;
+        DecryptMekForDistributionFromTransportSenderResult.prototype.errorMessage = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DecryptMekForDistributionFromTransportSenderResult.prototype, "result", {
+            get: $util.oneOfGetter($oneOfFields = ["success", "errorMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DecryptMekForDistributionFromTransportSenderResult.create = function create(properties) {
+            return new DecryptMekForDistributionFromTransportSenderResult(properties);
+        };
+
+        DecryptMekForDistributionFromTransportSenderResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.success != null && Object.hasOwnProperty.call(m, "success"))
+                $root.proto.DecryptMekForDistributionFromTransportSenderSuccess.encode(m.success, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage"))
+                w.uint32(18).string(m.errorMessage);
+            return w;
+        };
+
+        DecryptMekForDistributionFromTransportSenderResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DecryptMekForDistributionFromTransportSenderResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.success = $root.proto.DecryptMekForDistributionFromTransportSenderSuccess.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.errorMessage = r.string();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DecryptMekForDistributionFromTransportSenderResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DecryptMekForDistributionFromTransportSenderResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DecryptMekForDistributionFromTransportSenderResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DecryptMekForDistributionFromTransportSenderResult();
+            if (d.success != null) {
+                if (!$util.isObject(d.success))
+                    throw TypeError(".proto.DecryptMekForDistributionFromTransportSenderResult.success: object expected");
+                m.success = $root.proto.DecryptMekForDistributionFromTransportSenderSuccess.fromObject(d.success, n + 1);
+            }
+            if (d.errorMessage != null) {
+                m.errorMessage = String(d.errorMessage);
+            }
+            return m;
+        };
+
+        DecryptMekForDistributionFromTransportSenderResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.success != null && Object.hasOwnProperty.call(m, "success")) {
+                d.success = $root.proto.DecryptMekForDistributionFromTransportSenderSuccess.toObject(m.success, o, q + 1);
+                if (o.oneofs)
+                    d.result = "success";
+            }
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage")) {
+                d.errorMessage = m.errorMessage;
+                if (o.oneofs)
+                    d.result = "errorMessage";
+            }
+            return d;
+        };
+
+        DecryptMekForDistributionFromTransportSenderResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DecryptMekForDistributionFromTransportSenderResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DecryptMekForDistributionFromTransportSenderResult";
+        };
+
+        return DecryptMekForDistributionFromTransportSenderResult;
+    })();
+
+    proto.DecryptMekForDistributionFromTransportSenderSuccess = (function() {
+
+        function DecryptMekForDistributionFromTransportSenderSuccess(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DecryptMekForDistributionFromTransportSenderSuccess.prototype.mek = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DecryptMekForDistributionFromTransportSenderSuccess.prototype, "_mek", {
+            get: $util.oneOfGetter($oneOfFields = ["mek"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DecryptMekForDistributionFromTransportSenderSuccess.create = function create(properties) {
+            return new DecryptMekForDistributionFromTransportSenderSuccess(properties);
+        };
+
+        DecryptMekForDistributionFromTransportSenderSuccess.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.mek != null && Object.hasOwnProperty.call(m, "mek"))
+                w.uint32(10).bytes(m.mek);
+            return w;
+        };
+
+        DecryptMekForDistributionFromTransportSenderSuccess.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DecryptMekForDistributionFromTransportSenderSuccess();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.mek = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DecryptMekForDistributionFromTransportSenderSuccess.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DecryptMekForDistributionFromTransportSenderSuccess)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DecryptMekForDistributionFromTransportSenderSuccess: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DecryptMekForDistributionFromTransportSenderSuccess();
+            if (d.mek != null) {
+                if (typeof d.mek === "string")
+                    $util.base64.decode(d.mek, m.mek = $util.newBuffer($util.base64.length(d.mek)), 0);
+                else if (d.mek.length >= 0)
+                    m.mek = d.mek;
+            }
+            return m;
+        };
+
+        DecryptMekForDistributionFromTransportSenderSuccess.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.mek != null && Object.hasOwnProperty.call(m, "mek")) {
+                d.mek = o.bytes === String ? $util.base64.encode(m.mek, 0, m.mek.length) : o.bytes === Array ? Array.prototype.slice.call(m.mek) : m.mek;
+                if (o.oneofs)
+                    d._mek = "mek";
+            }
+            return d;
+        };
+
+        DecryptMekForDistributionFromTransportSenderSuccess.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DecryptMekForDistributionFromTransportSenderSuccess.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DecryptMekForDistributionFromTransportSenderSuccess";
+        };
+
+        return DecryptMekForDistributionFromTransportSenderSuccess;
+    })();
+
+    proto.DecryptMekForDistributionInput = (function() {
+
+        function DecryptMekForDistributionInput(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DecryptMekForDistributionInput.prototype.toMailboxSk = null;
+        DecryptMekForDistributionInput.prototype.fromPk = null;
+        DecryptMekForDistributionInput.prototype.mekId = null;
+        DecryptMekForDistributionInput.prototype.senderEpochHead = null;
+        DecryptMekForDistributionInput.prototype.rosterHash = null;
+        DecryptMekForDistributionInput.prototype.ciphertext = null;
+        DecryptMekForDistributionInput.prototype.toEpochHead = null;
+        DecryptMekForDistributionInput.prototype.mekEncryptionVersion = null;
+        DecryptMekForDistributionInput.prototype.conf = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DecryptMekForDistributionInput.prototype, "_toMailboxSk", {
+            get: $util.oneOfGetter($oneOfFields = ["toMailboxSk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DecryptMekForDistributionInput.prototype, "_fromPk", {
+            get: $util.oneOfGetter($oneOfFields = ["fromPk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DecryptMekForDistributionInput.prototype, "_mekId", {
+            get: $util.oneOfGetter($oneOfFields = ["mekId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DecryptMekForDistributionInput.prototype, "_senderEpochHead", {
+            get: $util.oneOfGetter($oneOfFields = ["senderEpochHead"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DecryptMekForDistributionInput.prototype, "_rosterHash", {
+            get: $util.oneOfGetter($oneOfFields = ["rosterHash"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DecryptMekForDistributionInput.prototype, "_ciphertext", {
+            get: $util.oneOfGetter($oneOfFields = ["ciphertext"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DecryptMekForDistributionInput.prototype, "_toEpochHead", {
+            get: $util.oneOfGetter($oneOfFields = ["toEpochHead"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DecryptMekForDistributionInput.prototype, "_mekEncryptionVersion", {
+            get: $util.oneOfGetter($oneOfFields = ["mekEncryptionVersion"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DecryptMekForDistributionInput.prototype, "_conf", {
+            get: $util.oneOfGetter($oneOfFields = ["conf"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DecryptMekForDistributionInput.create = function create(properties) {
+            return new DecryptMekForDistributionInput(properties);
+        };
+
+        DecryptMekForDistributionInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.toMailboxSk != null && Object.hasOwnProperty.call(m, "toMailboxSk"))
+                w.uint32(10).bytes(m.toMailboxSk);
+            if (m.fromPk != null && Object.hasOwnProperty.call(m, "fromPk"))
+                w.uint32(18).bytes(m.fromPk);
+            if (m.mekId != null && Object.hasOwnProperty.call(m, "mekId"))
+                w.uint32(26).bytes(m.mekId);
+            if (m.senderEpochHead != null && Object.hasOwnProperty.call(m, "senderEpochHead"))
+                w.uint32(34).bytes(m.senderEpochHead);
+            if (m.rosterHash != null && Object.hasOwnProperty.call(m, "rosterHash"))
+                w.uint32(42).bytes(m.rosterHash);
+            if (m.ciphertext != null && Object.hasOwnProperty.call(m, "ciphertext"))
+                w.uint32(50).bytes(m.ciphertext);
+            if (m.toEpochHead != null && Object.hasOwnProperty.call(m, "toEpochHead"))
+                w.uint32(58).bytes(m.toEpochHead);
+            if (m.mekEncryptionVersion != null && Object.hasOwnProperty.call(m, "mekEncryptionVersion"))
+                w.uint32(64).int32(m.mekEncryptionVersion);
+            if (m.conf != null && Object.hasOwnProperty.call(m, "conf"))
+                $root.proto.MinosClientConfig.encode(m.conf, w.uint32(74).fork(), q + 1).ldelim();
+            return w;
+        };
+
+        DecryptMekForDistributionInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DecryptMekForDistributionInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.toMailboxSk = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.fromPk = r.bytes();
+                        break;
+                    }
+                case 3: {
+                        m.mekId = r.bytes();
+                        break;
+                    }
+                case 4: {
+                        m.senderEpochHead = r.bytes();
+                        break;
+                    }
+                case 5: {
+                        m.rosterHash = r.bytes();
+                        break;
+                    }
+                case 6: {
+                        m.ciphertext = r.bytes();
+                        break;
+                    }
+                case 7: {
+                        m.toEpochHead = r.bytes();
+                        break;
+                    }
+                case 8: {
+                        m.mekEncryptionVersion = r.int32();
+                        break;
+                    }
+                case 9: {
+                        m.conf = $root.proto.MinosClientConfig.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DecryptMekForDistributionInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DecryptMekForDistributionInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DecryptMekForDistributionInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DecryptMekForDistributionInput();
+            if (d.toMailboxSk != null) {
+                if (typeof d.toMailboxSk === "string")
+                    $util.base64.decode(d.toMailboxSk, m.toMailboxSk = $util.newBuffer($util.base64.length(d.toMailboxSk)), 0);
+                else if (d.toMailboxSk.length >= 0)
+                    m.toMailboxSk = d.toMailboxSk;
+            }
+            if (d.fromPk != null) {
+                if (typeof d.fromPk === "string")
+                    $util.base64.decode(d.fromPk, m.fromPk = $util.newBuffer($util.base64.length(d.fromPk)), 0);
+                else if (d.fromPk.length >= 0)
+                    m.fromPk = d.fromPk;
+            }
+            if (d.mekId != null) {
+                if (typeof d.mekId === "string")
+                    $util.base64.decode(d.mekId, m.mekId = $util.newBuffer($util.base64.length(d.mekId)), 0);
+                else if (d.mekId.length >= 0)
+                    m.mekId = d.mekId;
+            }
+            if (d.senderEpochHead != null) {
+                if (typeof d.senderEpochHead === "string")
+                    $util.base64.decode(d.senderEpochHead, m.senderEpochHead = $util.newBuffer($util.base64.length(d.senderEpochHead)), 0);
+                else if (d.senderEpochHead.length >= 0)
+                    m.senderEpochHead = d.senderEpochHead;
+            }
+            if (d.rosterHash != null) {
+                if (typeof d.rosterHash === "string")
+                    $util.base64.decode(d.rosterHash, m.rosterHash = $util.newBuffer($util.base64.length(d.rosterHash)), 0);
+                else if (d.rosterHash.length >= 0)
+                    m.rosterHash = d.rosterHash;
+            }
+            if (d.ciphertext != null) {
+                if (typeof d.ciphertext === "string")
+                    $util.base64.decode(d.ciphertext, m.ciphertext = $util.newBuffer($util.base64.length(d.ciphertext)), 0);
+                else if (d.ciphertext.length >= 0)
+                    m.ciphertext = d.ciphertext;
+            }
+            if (d.toEpochHead != null) {
+                if (typeof d.toEpochHead === "string")
+                    $util.base64.decode(d.toEpochHead, m.toEpochHead = $util.newBuffer($util.base64.length(d.toEpochHead)), 0);
+                else if (d.toEpochHead.length >= 0)
+                    m.toEpochHead = d.toEpochHead;
+            }
+            if (d.mekEncryptionVersion != null) {
+                m.mekEncryptionVersion = d.mekEncryptionVersion | 0;
+            }
+            if (d.conf != null) {
+                if (!$util.isObject(d.conf))
+                    throw TypeError(".proto.DecryptMekForDistributionInput.conf: object expected");
+                m.conf = $root.proto.MinosClientConfig.fromObject(d.conf, n + 1);
+            }
+            return m;
+        };
+
+        DecryptMekForDistributionInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.toMailboxSk != null && Object.hasOwnProperty.call(m, "toMailboxSk")) {
+                d.toMailboxSk = o.bytes === String ? $util.base64.encode(m.toMailboxSk, 0, m.toMailboxSk.length) : o.bytes === Array ? Array.prototype.slice.call(m.toMailboxSk) : m.toMailboxSk;
+                if (o.oneofs)
+                    d._toMailboxSk = "toMailboxSk";
+            }
+            if (m.fromPk != null && Object.hasOwnProperty.call(m, "fromPk")) {
+                d.fromPk = o.bytes === String ? $util.base64.encode(m.fromPk, 0, m.fromPk.length) : o.bytes === Array ? Array.prototype.slice.call(m.fromPk) : m.fromPk;
+                if (o.oneofs)
+                    d._fromPk = "fromPk";
+            }
+            if (m.mekId != null && Object.hasOwnProperty.call(m, "mekId")) {
+                d.mekId = o.bytes === String ? $util.base64.encode(m.mekId, 0, m.mekId.length) : o.bytes === Array ? Array.prototype.slice.call(m.mekId) : m.mekId;
+                if (o.oneofs)
+                    d._mekId = "mekId";
+            }
+            if (m.senderEpochHead != null && Object.hasOwnProperty.call(m, "senderEpochHead")) {
+                d.senderEpochHead = o.bytes === String ? $util.base64.encode(m.senderEpochHead, 0, m.senderEpochHead.length) : o.bytes === Array ? Array.prototype.slice.call(m.senderEpochHead) : m.senderEpochHead;
+                if (o.oneofs)
+                    d._senderEpochHead = "senderEpochHead";
+            }
+            if (m.rosterHash != null && Object.hasOwnProperty.call(m, "rosterHash")) {
+                d.rosterHash = o.bytes === String ? $util.base64.encode(m.rosterHash, 0, m.rosterHash.length) : o.bytes === Array ? Array.prototype.slice.call(m.rosterHash) : m.rosterHash;
+                if (o.oneofs)
+                    d._rosterHash = "rosterHash";
+            }
+            if (m.ciphertext != null && Object.hasOwnProperty.call(m, "ciphertext")) {
+                d.ciphertext = o.bytes === String ? $util.base64.encode(m.ciphertext, 0, m.ciphertext.length) : o.bytes === Array ? Array.prototype.slice.call(m.ciphertext) : m.ciphertext;
+                if (o.oneofs)
+                    d._ciphertext = "ciphertext";
+            }
+            if (m.toEpochHead != null && Object.hasOwnProperty.call(m, "toEpochHead")) {
+                d.toEpochHead = o.bytes === String ? $util.base64.encode(m.toEpochHead, 0, m.toEpochHead.length) : o.bytes === Array ? Array.prototype.slice.call(m.toEpochHead) : m.toEpochHead;
+                if (o.oneofs)
+                    d._toEpochHead = "toEpochHead";
+            }
+            if (m.mekEncryptionVersion != null && Object.hasOwnProperty.call(m, "mekEncryptionVersion")) {
+                d.mekEncryptionVersion = m.mekEncryptionVersion;
+                if (o.oneofs)
+                    d._mekEncryptionVersion = "mekEncryptionVersion";
+            }
+            if (m.conf != null && Object.hasOwnProperty.call(m, "conf")) {
+                d.conf = $root.proto.MinosClientConfig.toObject(m.conf, o, q + 1);
+                if (o.oneofs)
+                    d._conf = "conf";
+            }
+            return d;
+        };
+
+        DecryptMekForDistributionInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DecryptMekForDistributionInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DecryptMekForDistributionInput";
+        };
+
+        return DecryptMekForDistributionInput;
+    })();
+
+    proto.DecryptMekForDistributionResult = (function() {
+
+        function DecryptMekForDistributionResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DecryptMekForDistributionResult.prototype.success = null;
+        DecryptMekForDistributionResult.prototype.errorMessage = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DecryptMekForDistributionResult.prototype, "result", {
+            get: $util.oneOfGetter($oneOfFields = ["success", "errorMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DecryptMekForDistributionResult.create = function create(properties) {
+            return new DecryptMekForDistributionResult(properties);
+        };
+
+        DecryptMekForDistributionResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.success != null && Object.hasOwnProperty.call(m, "success"))
+                $root.proto.DecryptMekForDistributionSuccess.encode(m.success, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage"))
+                w.uint32(18).string(m.errorMessage);
+            return w;
+        };
+
+        DecryptMekForDistributionResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DecryptMekForDistributionResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.success = $root.proto.DecryptMekForDistributionSuccess.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.errorMessage = r.string();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DecryptMekForDistributionResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DecryptMekForDistributionResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DecryptMekForDistributionResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DecryptMekForDistributionResult();
+            if (d.success != null) {
+                if (!$util.isObject(d.success))
+                    throw TypeError(".proto.DecryptMekForDistributionResult.success: object expected");
+                m.success = $root.proto.DecryptMekForDistributionSuccess.fromObject(d.success, n + 1);
+            }
+            if (d.errorMessage != null) {
+                m.errorMessage = String(d.errorMessage);
+            }
+            return m;
+        };
+
+        DecryptMekForDistributionResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.success != null && Object.hasOwnProperty.call(m, "success")) {
+                d.success = $root.proto.DecryptMekForDistributionSuccess.toObject(m.success, o, q + 1);
+                if (o.oneofs)
+                    d.result = "success";
+            }
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage")) {
+                d.errorMessage = m.errorMessage;
+                if (o.oneofs)
+                    d.result = "errorMessage";
+            }
+            return d;
+        };
+
+        DecryptMekForDistributionResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DecryptMekForDistributionResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DecryptMekForDistributionResult";
+        };
+
+        return DecryptMekForDistributionResult;
+    })();
+
+    proto.DecryptMekForDistributionSuccess = (function() {
+
+        function DecryptMekForDistributionSuccess(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DecryptMekForDistributionSuccess.prototype.mek = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DecryptMekForDistributionSuccess.prototype, "_mek", {
+            get: $util.oneOfGetter($oneOfFields = ["mek"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DecryptMekForDistributionSuccess.create = function create(properties) {
+            return new DecryptMekForDistributionSuccess(properties);
+        };
+
+        DecryptMekForDistributionSuccess.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.mek != null && Object.hasOwnProperty.call(m, "mek"))
+                w.uint32(10).bytes(m.mek);
+            return w;
+        };
+
+        DecryptMekForDistributionSuccess.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DecryptMekForDistributionSuccess();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.mek = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DecryptMekForDistributionSuccess.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DecryptMekForDistributionSuccess)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DecryptMekForDistributionSuccess: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DecryptMekForDistributionSuccess();
+            if (d.mek != null) {
+                if (typeof d.mek === "string")
+                    $util.base64.decode(d.mek, m.mek = $util.newBuffer($util.base64.length(d.mek)), 0);
+                else if (d.mek.length >= 0)
+                    m.mek = d.mek;
+            }
+            return m;
+        };
+
+        DecryptMekForDistributionSuccess.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.mek != null && Object.hasOwnProperty.call(m, "mek")) {
+                d.mek = o.bytes === String ? $util.base64.encode(m.mek, 0, m.mek.length) : o.bytes === Array ? Array.prototype.slice.call(m.mek) : m.mek;
+                if (o.oneofs)
+                    d._mek = "mek";
+            }
+            return d;
+        };
+
+        DecryptMekForDistributionSuccess.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DecryptMekForDistributionSuccess.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DecryptMekForDistributionSuccess";
+        };
+
+        return DecryptMekForDistributionSuccess;
+    })();
+
+    proto.DecryptSelfMmkDistributionInput = (function() {
+
+        function DecryptSelfMmkDistributionInput(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DecryptSelfMmkDistributionInput.prototype.encryptedMmk = null;
+        DecryptSelfMmkDistributionInput.prototype.exportRootKey = null;
+        DecryptSelfMmkDistributionInput.prototype.mailboxHeadHash = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DecryptSelfMmkDistributionInput.prototype, "_encryptedMmk", {
+            get: $util.oneOfGetter($oneOfFields = ["encryptedMmk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DecryptSelfMmkDistributionInput.prototype, "_exportRootKey", {
+            get: $util.oneOfGetter($oneOfFields = ["exportRootKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DecryptSelfMmkDistributionInput.prototype, "_mailboxHeadHash", {
+            get: $util.oneOfGetter($oneOfFields = ["mailboxHeadHash"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DecryptSelfMmkDistributionInput.create = function create(properties) {
+            return new DecryptSelfMmkDistributionInput(properties);
+        };
+
+        DecryptSelfMmkDistributionInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.encryptedMmk != null && Object.hasOwnProperty.call(m, "encryptedMmk"))
+                w.uint32(10).bytes(m.encryptedMmk);
+            if (m.exportRootKey != null && Object.hasOwnProperty.call(m, "exportRootKey"))
+                w.uint32(18).bytes(m.exportRootKey);
+            if (m.mailboxHeadHash != null && Object.hasOwnProperty.call(m, "mailboxHeadHash"))
+                w.uint32(26).bytes(m.mailboxHeadHash);
+            return w;
+        };
+
+        DecryptSelfMmkDistributionInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DecryptSelfMmkDistributionInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.encryptedMmk = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.exportRootKey = r.bytes();
+                        break;
+                    }
+                case 3: {
+                        m.mailboxHeadHash = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DecryptSelfMmkDistributionInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DecryptSelfMmkDistributionInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DecryptSelfMmkDistributionInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DecryptSelfMmkDistributionInput();
+            if (d.encryptedMmk != null) {
+                if (typeof d.encryptedMmk === "string")
+                    $util.base64.decode(d.encryptedMmk, m.encryptedMmk = $util.newBuffer($util.base64.length(d.encryptedMmk)), 0);
+                else if (d.encryptedMmk.length >= 0)
+                    m.encryptedMmk = d.encryptedMmk;
+            }
+            if (d.exportRootKey != null) {
+                if (typeof d.exportRootKey === "string")
+                    $util.base64.decode(d.exportRootKey, m.exportRootKey = $util.newBuffer($util.base64.length(d.exportRootKey)), 0);
+                else if (d.exportRootKey.length >= 0)
+                    m.exportRootKey = d.exportRootKey;
+            }
+            if (d.mailboxHeadHash != null) {
+                if (typeof d.mailboxHeadHash === "string")
+                    $util.base64.decode(d.mailboxHeadHash, m.mailboxHeadHash = $util.newBuffer($util.base64.length(d.mailboxHeadHash)), 0);
+                else if (d.mailboxHeadHash.length >= 0)
+                    m.mailboxHeadHash = d.mailboxHeadHash;
+            }
+            return m;
+        };
+
+        DecryptSelfMmkDistributionInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.encryptedMmk != null && Object.hasOwnProperty.call(m, "encryptedMmk")) {
+                d.encryptedMmk = o.bytes === String ? $util.base64.encode(m.encryptedMmk, 0, m.encryptedMmk.length) : o.bytes === Array ? Array.prototype.slice.call(m.encryptedMmk) : m.encryptedMmk;
+                if (o.oneofs)
+                    d._encryptedMmk = "encryptedMmk";
+            }
+            if (m.exportRootKey != null && Object.hasOwnProperty.call(m, "exportRootKey")) {
+                d.exportRootKey = o.bytes === String ? $util.base64.encode(m.exportRootKey, 0, m.exportRootKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.exportRootKey) : m.exportRootKey;
+                if (o.oneofs)
+                    d._exportRootKey = "exportRootKey";
+            }
+            if (m.mailboxHeadHash != null && Object.hasOwnProperty.call(m, "mailboxHeadHash")) {
+                d.mailboxHeadHash = o.bytes === String ? $util.base64.encode(m.mailboxHeadHash, 0, m.mailboxHeadHash.length) : o.bytes === Array ? Array.prototype.slice.call(m.mailboxHeadHash) : m.mailboxHeadHash;
+                if (o.oneofs)
+                    d._mailboxHeadHash = "mailboxHeadHash";
+            }
+            return d;
+        };
+
+        DecryptSelfMmkDistributionInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DecryptSelfMmkDistributionInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DecryptSelfMmkDistributionInput";
+        };
+
+        return DecryptSelfMmkDistributionInput;
+    })();
+
+    proto.DecryptSelfMmkDistributionResult = (function() {
+
+        function DecryptSelfMmkDistributionResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DecryptSelfMmkDistributionResult.prototype.success = null;
+        DecryptSelfMmkDistributionResult.prototype.errorMessage = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DecryptSelfMmkDistributionResult.prototype, "result", {
+            get: $util.oneOfGetter($oneOfFields = ["success", "errorMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DecryptSelfMmkDistributionResult.create = function create(properties) {
+            return new DecryptSelfMmkDistributionResult(properties);
+        };
+
+        DecryptSelfMmkDistributionResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.success != null && Object.hasOwnProperty.call(m, "success"))
+                $root.proto.DecryptSelfMmkDistributionSuccess.encode(m.success, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage"))
+                w.uint32(18).string(m.errorMessage);
+            return w;
+        };
+
+        DecryptSelfMmkDistributionResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DecryptSelfMmkDistributionResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.success = $root.proto.DecryptSelfMmkDistributionSuccess.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.errorMessage = r.string();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DecryptSelfMmkDistributionResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DecryptSelfMmkDistributionResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DecryptSelfMmkDistributionResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DecryptSelfMmkDistributionResult();
+            if (d.success != null) {
+                if (!$util.isObject(d.success))
+                    throw TypeError(".proto.DecryptSelfMmkDistributionResult.success: object expected");
+                m.success = $root.proto.DecryptSelfMmkDistributionSuccess.fromObject(d.success, n + 1);
+            }
+            if (d.errorMessage != null) {
+                m.errorMessage = String(d.errorMessage);
+            }
+            return m;
+        };
+
+        DecryptSelfMmkDistributionResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.success != null && Object.hasOwnProperty.call(m, "success")) {
+                d.success = $root.proto.DecryptSelfMmkDistributionSuccess.toObject(m.success, o, q + 1);
+                if (o.oneofs)
+                    d.result = "success";
+            }
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage")) {
+                d.errorMessage = m.errorMessage;
+                if (o.oneofs)
+                    d.result = "errorMessage";
+            }
+            return d;
+        };
+
+        DecryptSelfMmkDistributionResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DecryptSelfMmkDistributionResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DecryptSelfMmkDistributionResult";
+        };
+
+        return DecryptSelfMmkDistributionResult;
+    })();
+
+    proto.DecryptSelfMmkDistributionSuccess = (function() {
+
+        function DecryptSelfMmkDistributionSuccess(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DecryptSelfMmkDistributionSuccess.prototype.mmkSeed = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DecryptSelfMmkDistributionSuccess.prototype, "_mmkSeed", {
+            get: $util.oneOfGetter($oneOfFields = ["mmkSeed"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DecryptSelfMmkDistributionSuccess.create = function create(properties) {
+            return new DecryptSelfMmkDistributionSuccess(properties);
+        };
+
+        DecryptSelfMmkDistributionSuccess.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.mmkSeed != null && Object.hasOwnProperty.call(m, "mmkSeed"))
+                w.uint32(10).bytes(m.mmkSeed);
+            return w;
+        };
+
+        DecryptSelfMmkDistributionSuccess.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DecryptSelfMmkDistributionSuccess();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.mmkSeed = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DecryptSelfMmkDistributionSuccess.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DecryptSelfMmkDistributionSuccess)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DecryptSelfMmkDistributionSuccess: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DecryptSelfMmkDistributionSuccess();
+            if (d.mmkSeed != null) {
+                if (typeof d.mmkSeed === "string")
+                    $util.base64.decode(d.mmkSeed, m.mmkSeed = $util.newBuffer($util.base64.length(d.mmkSeed)), 0);
+                else if (d.mmkSeed.length >= 0)
+                    m.mmkSeed = d.mmkSeed;
+            }
+            return m;
+        };
+
+        DecryptSelfMmkDistributionSuccess.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.mmkSeed != null && Object.hasOwnProperty.call(m, "mmkSeed")) {
+                d.mmkSeed = o.bytes === String ? $util.base64.encode(m.mmkSeed, 0, m.mmkSeed.length) : o.bytes === Array ? Array.prototype.slice.call(m.mmkSeed) : m.mmkSeed;
+                if (o.oneofs)
+                    d._mmkSeed = "mmkSeed";
+            }
+            return d;
+        };
+
+        DecryptSelfMmkDistributionSuccess.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DecryptSelfMmkDistributionSuccess.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DecryptSelfMmkDistributionSuccess";
+        };
+
+        return DecryptSelfMmkDistributionSuccess;
+    })();
+
+    proto.DeriveAttachmentAccessTokenSecretInput = (function() {
+
+        function DeriveAttachmentAccessTokenSecretInput(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DeriveAttachmentAccessTokenSecretInput.prototype.mediaKey = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DeriveAttachmentAccessTokenSecretInput.prototype, "_mediaKey", {
+            get: $util.oneOfGetter($oneOfFields = ["mediaKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DeriveAttachmentAccessTokenSecretInput.create = function create(properties) {
+            return new DeriveAttachmentAccessTokenSecretInput(properties);
+        };
+
+        DeriveAttachmentAccessTokenSecretInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.mediaKey != null && Object.hasOwnProperty.call(m, "mediaKey"))
+                w.uint32(10).bytes(m.mediaKey);
+            return w;
+        };
+
+        DeriveAttachmentAccessTokenSecretInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DeriveAttachmentAccessTokenSecretInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.mediaKey = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DeriveAttachmentAccessTokenSecretInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DeriveAttachmentAccessTokenSecretInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DeriveAttachmentAccessTokenSecretInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DeriveAttachmentAccessTokenSecretInput();
+            if (d.mediaKey != null) {
+                if (typeof d.mediaKey === "string")
+                    $util.base64.decode(d.mediaKey, m.mediaKey = $util.newBuffer($util.base64.length(d.mediaKey)), 0);
+                else if (d.mediaKey.length >= 0)
+                    m.mediaKey = d.mediaKey;
+            }
+            return m;
+        };
+
+        DeriveAttachmentAccessTokenSecretInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.mediaKey != null && Object.hasOwnProperty.call(m, "mediaKey")) {
+                d.mediaKey = o.bytes === String ? $util.base64.encode(m.mediaKey, 0, m.mediaKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.mediaKey) : m.mediaKey;
+                if (o.oneofs)
+                    d._mediaKey = "mediaKey";
+            }
+            return d;
+        };
+
+        DeriveAttachmentAccessTokenSecretInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DeriveAttachmentAccessTokenSecretInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DeriveAttachmentAccessTokenSecretInput";
+        };
+
+        return DeriveAttachmentAccessTokenSecretInput;
+    })();
+
+    proto.DeriveAttachmentAccessTokenSecretResult = (function() {
+
+        function DeriveAttachmentAccessTokenSecretResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DeriveAttachmentAccessTokenSecretResult.prototype.attachmentAccessTokenSecret = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DeriveAttachmentAccessTokenSecretResult.prototype, "_attachmentAccessTokenSecret", {
+            get: $util.oneOfGetter($oneOfFields = ["attachmentAccessTokenSecret"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DeriveAttachmentAccessTokenSecretResult.create = function create(properties) {
+            return new DeriveAttachmentAccessTokenSecretResult(properties);
+        };
+
+        DeriveAttachmentAccessTokenSecretResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.attachmentAccessTokenSecret != null && Object.hasOwnProperty.call(m, "attachmentAccessTokenSecret"))
+                w.uint32(10).bytes(m.attachmentAccessTokenSecret);
+            return w;
+        };
+
+        DeriveAttachmentAccessTokenSecretResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DeriveAttachmentAccessTokenSecretResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.attachmentAccessTokenSecret = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DeriveAttachmentAccessTokenSecretResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DeriveAttachmentAccessTokenSecretResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DeriveAttachmentAccessTokenSecretResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DeriveAttachmentAccessTokenSecretResult();
+            if (d.attachmentAccessTokenSecret != null) {
+                if (typeof d.attachmentAccessTokenSecret === "string")
+                    $util.base64.decode(d.attachmentAccessTokenSecret, m.attachmentAccessTokenSecret = $util.newBuffer($util.base64.length(d.attachmentAccessTokenSecret)), 0);
+                else if (d.attachmentAccessTokenSecret.length >= 0)
+                    m.attachmentAccessTokenSecret = d.attachmentAccessTokenSecret;
+            }
+            return m;
+        };
+
+        DeriveAttachmentAccessTokenSecretResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.attachmentAccessTokenSecret != null && Object.hasOwnProperty.call(m, "attachmentAccessTokenSecret")) {
+                d.attachmentAccessTokenSecret = o.bytes === String ? $util.base64.encode(m.attachmentAccessTokenSecret, 0, m.attachmentAccessTokenSecret.length) : o.bytes === Array ? Array.prototype.slice.call(m.attachmentAccessTokenSecret) : m.attachmentAccessTokenSecret;
+                if (o.oneofs)
+                    d._attachmentAccessTokenSecret = "attachmentAccessTokenSecret";
+            }
+            return d;
+        };
+
+        DeriveAttachmentAccessTokenSecretResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DeriveAttachmentAccessTokenSecretResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DeriveAttachmentAccessTokenSecretResult";
+        };
+
+        return DeriveAttachmentAccessTokenSecretResult;
+    })();
+
+    proto.DeriveAttachmentPrimaryKeySecretInput = (function() {
+
+        function DeriveAttachmentPrimaryKeySecretInput(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DeriveAttachmentPrimaryKeySecretInput.prototype.mediaKey = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DeriveAttachmentPrimaryKeySecretInput.prototype, "_mediaKey", {
+            get: $util.oneOfGetter($oneOfFields = ["mediaKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DeriveAttachmentPrimaryKeySecretInput.create = function create(properties) {
+            return new DeriveAttachmentPrimaryKeySecretInput(properties);
+        };
+
+        DeriveAttachmentPrimaryKeySecretInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.mediaKey != null && Object.hasOwnProperty.call(m, "mediaKey"))
+                w.uint32(10).bytes(m.mediaKey);
+            return w;
+        };
+
+        DeriveAttachmentPrimaryKeySecretInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DeriveAttachmentPrimaryKeySecretInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.mediaKey = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DeriveAttachmentPrimaryKeySecretInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DeriveAttachmentPrimaryKeySecretInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DeriveAttachmentPrimaryKeySecretInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DeriveAttachmentPrimaryKeySecretInput();
+            if (d.mediaKey != null) {
+                if (typeof d.mediaKey === "string")
+                    $util.base64.decode(d.mediaKey, m.mediaKey = $util.newBuffer($util.base64.length(d.mediaKey)), 0);
+                else if (d.mediaKey.length >= 0)
+                    m.mediaKey = d.mediaKey;
+            }
+            return m;
+        };
+
+        DeriveAttachmentPrimaryKeySecretInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.mediaKey != null && Object.hasOwnProperty.call(m, "mediaKey")) {
+                d.mediaKey = o.bytes === String ? $util.base64.encode(m.mediaKey, 0, m.mediaKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.mediaKey) : m.mediaKey;
+                if (o.oneofs)
+                    d._mediaKey = "mediaKey";
+            }
+            return d;
+        };
+
+        DeriveAttachmentPrimaryKeySecretInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DeriveAttachmentPrimaryKeySecretInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DeriveAttachmentPrimaryKeySecretInput";
+        };
+
+        return DeriveAttachmentPrimaryKeySecretInput;
+    })();
+
+    proto.DeriveAttachmentPrimaryKeySecretResult = (function() {
+
+        function DeriveAttachmentPrimaryKeySecretResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DeriveAttachmentPrimaryKeySecretResult.prototype.attachmentPrimaryKeySecret = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DeriveAttachmentPrimaryKeySecretResult.prototype, "_attachmentPrimaryKeySecret", {
+            get: $util.oneOfGetter($oneOfFields = ["attachmentPrimaryKeySecret"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DeriveAttachmentPrimaryKeySecretResult.create = function create(properties) {
+            return new DeriveAttachmentPrimaryKeySecretResult(properties);
+        };
+
+        DeriveAttachmentPrimaryKeySecretResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.attachmentPrimaryKeySecret != null && Object.hasOwnProperty.call(m, "attachmentPrimaryKeySecret"))
+                w.uint32(10).bytes(m.attachmentPrimaryKeySecret);
+            return w;
+        };
+
+        DeriveAttachmentPrimaryKeySecretResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DeriveAttachmentPrimaryKeySecretResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.attachmentPrimaryKeySecret = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DeriveAttachmentPrimaryKeySecretResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DeriveAttachmentPrimaryKeySecretResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DeriveAttachmentPrimaryKeySecretResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DeriveAttachmentPrimaryKeySecretResult();
+            if (d.attachmentPrimaryKeySecret != null) {
+                if (typeof d.attachmentPrimaryKeySecret === "string")
+                    $util.base64.decode(d.attachmentPrimaryKeySecret, m.attachmentPrimaryKeySecret = $util.newBuffer($util.base64.length(d.attachmentPrimaryKeySecret)), 0);
+                else if (d.attachmentPrimaryKeySecret.length >= 0)
+                    m.attachmentPrimaryKeySecret = d.attachmentPrimaryKeySecret;
+            }
+            return m;
+        };
+
+        DeriveAttachmentPrimaryKeySecretResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.attachmentPrimaryKeySecret != null && Object.hasOwnProperty.call(m, "attachmentPrimaryKeySecret")) {
+                d.attachmentPrimaryKeySecret = o.bytes === String ? $util.base64.encode(m.attachmentPrimaryKeySecret, 0, m.attachmentPrimaryKeySecret.length) : o.bytes === Array ? Array.prototype.slice.call(m.attachmentPrimaryKeySecret) : m.attachmentPrimaryKeySecret;
+                if (o.oneofs)
+                    d._attachmentPrimaryKeySecret = "attachmentPrimaryKeySecret";
+            }
+            return d;
+        };
+
+        DeriveAttachmentPrimaryKeySecretResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DeriveAttachmentPrimaryKeySecretResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DeriveAttachmentPrimaryKeySecretResult";
+        };
+
+        return DeriveAttachmentPrimaryKeySecretResult;
+    })();
+
+    proto.DeriveMailboxAuthKeypairInput = (function() {
+
+        function DeriveMailboxAuthKeypairInput(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DeriveMailboxAuthKeypairInput.prototype.exportRootKey = null;
+        DeriveMailboxAuthKeypairInput.prototype.epochNumber = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DeriveMailboxAuthKeypairInput.prototype, "_exportRootKey", {
+            get: $util.oneOfGetter($oneOfFields = ["exportRootKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DeriveMailboxAuthKeypairInput.prototype, "_epochNumber", {
+            get: $util.oneOfGetter($oneOfFields = ["epochNumber"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DeriveMailboxAuthKeypairInput.create = function create(properties) {
+            return new DeriveMailboxAuthKeypairInput(properties);
+        };
+
+        DeriveMailboxAuthKeypairInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.exportRootKey != null && Object.hasOwnProperty.call(m, "exportRootKey"))
+                w.uint32(10).bytes(m.exportRootKey);
+            if (m.epochNumber != null && Object.hasOwnProperty.call(m, "epochNumber"))
+                w.uint32(16).uint64(m.epochNumber);
+            return w;
+        };
+
+        DeriveMailboxAuthKeypairInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DeriveMailboxAuthKeypairInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.exportRootKey = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.epochNumber = r.uint64();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DeriveMailboxAuthKeypairInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DeriveMailboxAuthKeypairInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DeriveMailboxAuthKeypairInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DeriveMailboxAuthKeypairInput();
+            if (d.exportRootKey != null) {
+                if (typeof d.exportRootKey === "string")
+                    $util.base64.decode(d.exportRootKey, m.exportRootKey = $util.newBuffer($util.base64.length(d.exportRootKey)), 0);
+                else if (d.exportRootKey.length >= 0)
+                    m.exportRootKey = d.exportRootKey;
+            }
+            if (d.epochNumber != null) {
+                if ($util.Long)
+                    m.epochNumber = $util.Long.fromValue(d.epochNumber, true);
+                else if (typeof d.epochNumber === "string")
+                    m.epochNumber = parseInt(d.epochNumber, 10);
+                else if (typeof d.epochNumber === "number")
+                    m.epochNumber = d.epochNumber;
+                else if (typeof d.epochNumber === "object")
+                    m.epochNumber = new $util.LongBits(d.epochNumber.low >>> 0, d.epochNumber.high >>> 0).toNumber(true);
+            }
+            return m;
+        };
+
+        DeriveMailboxAuthKeypairInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.exportRootKey != null && Object.hasOwnProperty.call(m, "exportRootKey")) {
+                d.exportRootKey = o.bytes === String ? $util.base64.encode(m.exportRootKey, 0, m.exportRootKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.exportRootKey) : m.exportRootKey;
+                if (o.oneofs)
+                    d._exportRootKey = "exportRootKey";
+            }
+            if (m.epochNumber != null && Object.hasOwnProperty.call(m, "epochNumber")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.epochNumber = typeof m.epochNumber === "number" ? BigInt(m.epochNumber) : $util.Long.fromBits(m.epochNumber.low >>> 0, m.epochNumber.high >>> 0, true).toBigInt();
+                else if (typeof m.epochNumber === "number")
+                    d.epochNumber = o.longs === String ? String(m.epochNumber) : m.epochNumber;
+                else
+                    d.epochNumber = o.longs === String ? longToString(m.epochNumber, true) : o.longs === Number ? longToNumber(m.epochNumber, true) : m.epochNumber;
+                if (o.oneofs)
+                    d._epochNumber = "epochNumber";
+            }
+            return d;
+        };
+
+        DeriveMailboxAuthKeypairInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DeriveMailboxAuthKeypairInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DeriveMailboxAuthKeypairInput";
+        };
+
+        return DeriveMailboxAuthKeypairInput;
+    })();
+
+    proto.DeriveMailboxAuthKeypairResult = (function() {
+
+        function DeriveMailboxAuthKeypairResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DeriveMailboxAuthKeypairResult.prototype.mailboxAuthPublicKey = null;
+        DeriveMailboxAuthKeypairResult.prototype.mailboxAuthPrivateKey = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DeriveMailboxAuthKeypairResult.prototype, "_mailboxAuthPublicKey", {
+            get: $util.oneOfGetter($oneOfFields = ["mailboxAuthPublicKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DeriveMailboxAuthKeypairResult.prototype, "_mailboxAuthPrivateKey", {
+            get: $util.oneOfGetter($oneOfFields = ["mailboxAuthPrivateKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DeriveMailboxAuthKeypairResult.create = function create(properties) {
+            return new DeriveMailboxAuthKeypairResult(properties);
+        };
+
+        DeriveMailboxAuthKeypairResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.mailboxAuthPublicKey != null && Object.hasOwnProperty.call(m, "mailboxAuthPublicKey"))
+                w.uint32(10).bytes(m.mailboxAuthPublicKey);
+            if (m.mailboxAuthPrivateKey != null && Object.hasOwnProperty.call(m, "mailboxAuthPrivateKey"))
+                w.uint32(18).bytes(m.mailboxAuthPrivateKey);
+            return w;
+        };
+
+        DeriveMailboxAuthKeypairResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DeriveMailboxAuthKeypairResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.mailboxAuthPublicKey = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.mailboxAuthPrivateKey = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DeriveMailboxAuthKeypairResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DeriveMailboxAuthKeypairResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DeriveMailboxAuthKeypairResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DeriveMailboxAuthKeypairResult();
+            if (d.mailboxAuthPublicKey != null) {
+                if (typeof d.mailboxAuthPublicKey === "string")
+                    $util.base64.decode(d.mailboxAuthPublicKey, m.mailboxAuthPublicKey = $util.newBuffer($util.base64.length(d.mailboxAuthPublicKey)), 0);
+                else if (d.mailboxAuthPublicKey.length >= 0)
+                    m.mailboxAuthPublicKey = d.mailboxAuthPublicKey;
+            }
+            if (d.mailboxAuthPrivateKey != null) {
+                if (typeof d.mailboxAuthPrivateKey === "string")
+                    $util.base64.decode(d.mailboxAuthPrivateKey, m.mailboxAuthPrivateKey = $util.newBuffer($util.base64.length(d.mailboxAuthPrivateKey)), 0);
+                else if (d.mailboxAuthPrivateKey.length >= 0)
+                    m.mailboxAuthPrivateKey = d.mailboxAuthPrivateKey;
+            }
+            return m;
+        };
+
+        DeriveMailboxAuthKeypairResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.mailboxAuthPublicKey != null && Object.hasOwnProperty.call(m, "mailboxAuthPublicKey")) {
+                d.mailboxAuthPublicKey = o.bytes === String ? $util.base64.encode(m.mailboxAuthPublicKey, 0, m.mailboxAuthPublicKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.mailboxAuthPublicKey) : m.mailboxAuthPublicKey;
+                if (o.oneofs)
+                    d._mailboxAuthPublicKey = "mailboxAuthPublicKey";
+            }
+            if (m.mailboxAuthPrivateKey != null && Object.hasOwnProperty.call(m, "mailboxAuthPrivateKey")) {
+                d.mailboxAuthPrivateKey = o.bytes === String ? $util.base64.encode(m.mailboxAuthPrivateKey, 0, m.mailboxAuthPrivateKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.mailboxAuthPrivateKey) : m.mailboxAuthPrivateKey;
+                if (o.oneofs)
+                    d._mailboxAuthPrivateKey = "mailboxAuthPrivateKey";
+            }
+            return d;
+        };
+
+        DeriveMailboxAuthKeypairResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DeriveMailboxAuthKeypairResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DeriveMailboxAuthKeypairResult";
+        };
+
+        return DeriveMailboxAuthKeypairResult;
+    })();
+
+    proto.DeriveMailboxEncryptionKeypairInput = (function() {
+
+        function DeriveMailboxEncryptionKeypairInput(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DeriveMailboxEncryptionKeypairInput.prototype.exportRootKey = null;
+        DeriveMailboxEncryptionKeypairInput.prototype.epochNumber = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DeriveMailboxEncryptionKeypairInput.prototype, "_exportRootKey", {
+            get: $util.oneOfGetter($oneOfFields = ["exportRootKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DeriveMailboxEncryptionKeypairInput.prototype, "_epochNumber", {
+            get: $util.oneOfGetter($oneOfFields = ["epochNumber"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DeriveMailboxEncryptionKeypairInput.create = function create(properties) {
+            return new DeriveMailboxEncryptionKeypairInput(properties);
+        };
+
+        DeriveMailboxEncryptionKeypairInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.exportRootKey != null && Object.hasOwnProperty.call(m, "exportRootKey"))
+                w.uint32(10).bytes(m.exportRootKey);
+            if (m.epochNumber != null && Object.hasOwnProperty.call(m, "epochNumber"))
+                w.uint32(16).uint64(m.epochNumber);
+            return w;
+        };
+
+        DeriveMailboxEncryptionKeypairInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DeriveMailboxEncryptionKeypairInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.exportRootKey = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.epochNumber = r.uint64();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DeriveMailboxEncryptionKeypairInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DeriveMailboxEncryptionKeypairInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DeriveMailboxEncryptionKeypairInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DeriveMailboxEncryptionKeypairInput();
+            if (d.exportRootKey != null) {
+                if (typeof d.exportRootKey === "string")
+                    $util.base64.decode(d.exportRootKey, m.exportRootKey = $util.newBuffer($util.base64.length(d.exportRootKey)), 0);
+                else if (d.exportRootKey.length >= 0)
+                    m.exportRootKey = d.exportRootKey;
+            }
+            if (d.epochNumber != null) {
+                if ($util.Long)
+                    m.epochNumber = $util.Long.fromValue(d.epochNumber, true);
+                else if (typeof d.epochNumber === "string")
+                    m.epochNumber = parseInt(d.epochNumber, 10);
+                else if (typeof d.epochNumber === "number")
+                    m.epochNumber = d.epochNumber;
+                else if (typeof d.epochNumber === "object")
+                    m.epochNumber = new $util.LongBits(d.epochNumber.low >>> 0, d.epochNumber.high >>> 0).toNumber(true);
+            }
+            return m;
+        };
+
+        DeriveMailboxEncryptionKeypairInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.exportRootKey != null && Object.hasOwnProperty.call(m, "exportRootKey")) {
+                d.exportRootKey = o.bytes === String ? $util.base64.encode(m.exportRootKey, 0, m.exportRootKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.exportRootKey) : m.exportRootKey;
+                if (o.oneofs)
+                    d._exportRootKey = "exportRootKey";
+            }
+            if (m.epochNumber != null && Object.hasOwnProperty.call(m, "epochNumber")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.epochNumber = typeof m.epochNumber === "number" ? BigInt(m.epochNumber) : $util.Long.fromBits(m.epochNumber.low >>> 0, m.epochNumber.high >>> 0, true).toBigInt();
+                else if (typeof m.epochNumber === "number")
+                    d.epochNumber = o.longs === String ? String(m.epochNumber) : m.epochNumber;
+                else
+                    d.epochNumber = o.longs === String ? longToString(m.epochNumber, true) : o.longs === Number ? longToNumber(m.epochNumber, true) : m.epochNumber;
+                if (o.oneofs)
+                    d._epochNumber = "epochNumber";
+            }
+            return d;
+        };
+
+        DeriveMailboxEncryptionKeypairInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DeriveMailboxEncryptionKeypairInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DeriveMailboxEncryptionKeypairInput";
+        };
+
+        return DeriveMailboxEncryptionKeypairInput;
+    })();
+
+    proto.DeriveMailboxEncryptionKeypairResult = (function() {
+
+        function DeriveMailboxEncryptionKeypairResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DeriveMailboxEncryptionKeypairResult.prototype.mailboxEncryptionPublicKey = null;
+        DeriveMailboxEncryptionKeypairResult.prototype.mailboxEncryptionPrivateKey = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DeriveMailboxEncryptionKeypairResult.prototype, "_mailboxEncryptionPublicKey", {
+            get: $util.oneOfGetter($oneOfFields = ["mailboxEncryptionPublicKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DeriveMailboxEncryptionKeypairResult.prototype, "_mailboxEncryptionPrivateKey", {
+            get: $util.oneOfGetter($oneOfFields = ["mailboxEncryptionPrivateKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DeriveMailboxEncryptionKeypairResult.create = function create(properties) {
+            return new DeriveMailboxEncryptionKeypairResult(properties);
+        };
+
+        DeriveMailboxEncryptionKeypairResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.mailboxEncryptionPublicKey != null && Object.hasOwnProperty.call(m, "mailboxEncryptionPublicKey"))
+                w.uint32(10).bytes(m.mailboxEncryptionPublicKey);
+            if (m.mailboxEncryptionPrivateKey != null && Object.hasOwnProperty.call(m, "mailboxEncryptionPrivateKey"))
+                w.uint32(18).bytes(m.mailboxEncryptionPrivateKey);
+            return w;
+        };
+
+        DeriveMailboxEncryptionKeypairResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DeriveMailboxEncryptionKeypairResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.mailboxEncryptionPublicKey = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.mailboxEncryptionPrivateKey = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DeriveMailboxEncryptionKeypairResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DeriveMailboxEncryptionKeypairResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DeriveMailboxEncryptionKeypairResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DeriveMailboxEncryptionKeypairResult();
+            if (d.mailboxEncryptionPublicKey != null) {
+                if (typeof d.mailboxEncryptionPublicKey === "string")
+                    $util.base64.decode(d.mailboxEncryptionPublicKey, m.mailboxEncryptionPublicKey = $util.newBuffer($util.base64.length(d.mailboxEncryptionPublicKey)), 0);
+                else if (d.mailboxEncryptionPublicKey.length >= 0)
+                    m.mailboxEncryptionPublicKey = d.mailboxEncryptionPublicKey;
+            }
+            if (d.mailboxEncryptionPrivateKey != null) {
+                if (typeof d.mailboxEncryptionPrivateKey === "string")
+                    $util.base64.decode(d.mailboxEncryptionPrivateKey, m.mailboxEncryptionPrivateKey = $util.newBuffer($util.base64.length(d.mailboxEncryptionPrivateKey)), 0);
+                else if (d.mailboxEncryptionPrivateKey.length >= 0)
+                    m.mailboxEncryptionPrivateKey = d.mailboxEncryptionPrivateKey;
+            }
+            return m;
+        };
+
+        DeriveMailboxEncryptionKeypairResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.mailboxEncryptionPublicKey != null && Object.hasOwnProperty.call(m, "mailboxEncryptionPublicKey")) {
+                d.mailboxEncryptionPublicKey = o.bytes === String ? $util.base64.encode(m.mailboxEncryptionPublicKey, 0, m.mailboxEncryptionPublicKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.mailboxEncryptionPublicKey) : m.mailboxEncryptionPublicKey;
+                if (o.oneofs)
+                    d._mailboxEncryptionPublicKey = "mailboxEncryptionPublicKey";
+            }
+            if (m.mailboxEncryptionPrivateKey != null && Object.hasOwnProperty.call(m, "mailboxEncryptionPrivateKey")) {
+                d.mailboxEncryptionPrivateKey = o.bytes === String ? $util.base64.encode(m.mailboxEncryptionPrivateKey, 0, m.mailboxEncryptionPrivateKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.mailboxEncryptionPrivateKey) : m.mailboxEncryptionPrivateKey;
+                if (o.oneofs)
+                    d._mailboxEncryptionPrivateKey = "mailboxEncryptionPrivateKey";
+            }
+            return d;
+        };
+
+        DeriveMailboxEncryptionKeypairResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DeriveMailboxEncryptionKeypairResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DeriveMailboxEncryptionKeypairResult";
+        };
+
+        return DeriveMailboxEncryptionKeypairResult;
+    })();
+
+    proto.DeriveMailboxSigningKeypairInput = (function() {
+
+        function DeriveMailboxSigningKeypairInput(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DeriveMailboxSigningKeypairInput.prototype.exportRootKey = null;
+        DeriveMailboxSigningKeypairInput.prototype.epochNumber = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DeriveMailboxSigningKeypairInput.prototype, "_exportRootKey", {
+            get: $util.oneOfGetter($oneOfFields = ["exportRootKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DeriveMailboxSigningKeypairInput.prototype, "_epochNumber", {
+            get: $util.oneOfGetter($oneOfFields = ["epochNumber"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DeriveMailboxSigningKeypairInput.create = function create(properties) {
+            return new DeriveMailboxSigningKeypairInput(properties);
+        };
+
+        DeriveMailboxSigningKeypairInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.exportRootKey != null && Object.hasOwnProperty.call(m, "exportRootKey"))
+                w.uint32(10).bytes(m.exportRootKey);
+            if (m.epochNumber != null && Object.hasOwnProperty.call(m, "epochNumber"))
+                w.uint32(16).uint64(m.epochNumber);
+            return w;
+        };
+
+        DeriveMailboxSigningKeypairInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DeriveMailboxSigningKeypairInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.exportRootKey = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.epochNumber = r.uint64();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DeriveMailboxSigningKeypairInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DeriveMailboxSigningKeypairInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DeriveMailboxSigningKeypairInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DeriveMailboxSigningKeypairInput();
+            if (d.exportRootKey != null) {
+                if (typeof d.exportRootKey === "string")
+                    $util.base64.decode(d.exportRootKey, m.exportRootKey = $util.newBuffer($util.base64.length(d.exportRootKey)), 0);
+                else if (d.exportRootKey.length >= 0)
+                    m.exportRootKey = d.exportRootKey;
+            }
+            if (d.epochNumber != null) {
+                if ($util.Long)
+                    m.epochNumber = $util.Long.fromValue(d.epochNumber, true);
+                else if (typeof d.epochNumber === "string")
+                    m.epochNumber = parseInt(d.epochNumber, 10);
+                else if (typeof d.epochNumber === "number")
+                    m.epochNumber = d.epochNumber;
+                else if (typeof d.epochNumber === "object")
+                    m.epochNumber = new $util.LongBits(d.epochNumber.low >>> 0, d.epochNumber.high >>> 0).toNumber(true);
+            }
+            return m;
+        };
+
+        DeriveMailboxSigningKeypairInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.exportRootKey != null && Object.hasOwnProperty.call(m, "exportRootKey")) {
+                d.exportRootKey = o.bytes === String ? $util.base64.encode(m.exportRootKey, 0, m.exportRootKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.exportRootKey) : m.exportRootKey;
+                if (o.oneofs)
+                    d._exportRootKey = "exportRootKey";
+            }
+            if (m.epochNumber != null && Object.hasOwnProperty.call(m, "epochNumber")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.epochNumber = typeof m.epochNumber === "number" ? BigInt(m.epochNumber) : $util.Long.fromBits(m.epochNumber.low >>> 0, m.epochNumber.high >>> 0, true).toBigInt();
+                else if (typeof m.epochNumber === "number")
+                    d.epochNumber = o.longs === String ? String(m.epochNumber) : m.epochNumber;
+                else
+                    d.epochNumber = o.longs === String ? longToString(m.epochNumber, true) : o.longs === Number ? longToNumber(m.epochNumber, true) : m.epochNumber;
+                if (o.oneofs)
+                    d._epochNumber = "epochNumber";
+            }
+            return d;
+        };
+
+        DeriveMailboxSigningKeypairInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DeriveMailboxSigningKeypairInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DeriveMailboxSigningKeypairInput";
+        };
+
+        return DeriveMailboxSigningKeypairInput;
+    })();
+
+    proto.DeriveMailboxSigningKeypairResult = (function() {
+
+        function DeriveMailboxSigningKeypairResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DeriveMailboxSigningKeypairResult.prototype.success = null;
+        DeriveMailboxSigningKeypairResult.prototype.errorMessage = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DeriveMailboxSigningKeypairResult.prototype, "result", {
+            get: $util.oneOfGetter($oneOfFields = ["success", "errorMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DeriveMailboxSigningKeypairResult.create = function create(properties) {
+            return new DeriveMailboxSigningKeypairResult(properties);
+        };
+
+        DeriveMailboxSigningKeypairResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.success != null && Object.hasOwnProperty.call(m, "success"))
+                $root.proto.DeriveMailboxSigningKeypairSuccess.encode(m.success, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage"))
+                w.uint32(18).string(m.errorMessage);
+            return w;
+        };
+
+        DeriveMailboxSigningKeypairResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DeriveMailboxSigningKeypairResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.success = $root.proto.DeriveMailboxSigningKeypairSuccess.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.errorMessage = r.string();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DeriveMailboxSigningKeypairResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DeriveMailboxSigningKeypairResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DeriveMailboxSigningKeypairResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DeriveMailboxSigningKeypairResult();
+            if (d.success != null) {
+                if (!$util.isObject(d.success))
+                    throw TypeError(".proto.DeriveMailboxSigningKeypairResult.success: object expected");
+                m.success = $root.proto.DeriveMailboxSigningKeypairSuccess.fromObject(d.success, n + 1);
+            }
+            if (d.errorMessage != null) {
+                m.errorMessage = String(d.errorMessage);
+            }
+            return m;
+        };
+
+        DeriveMailboxSigningKeypairResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.success != null && Object.hasOwnProperty.call(m, "success")) {
+                d.success = $root.proto.DeriveMailboxSigningKeypairSuccess.toObject(m.success, o, q + 1);
+                if (o.oneofs)
+                    d.result = "success";
+            }
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage")) {
+                d.errorMessage = m.errorMessage;
+                if (o.oneofs)
+                    d.result = "errorMessage";
+            }
+            return d;
+        };
+
+        DeriveMailboxSigningKeypairResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DeriveMailboxSigningKeypairResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DeriveMailboxSigningKeypairResult";
+        };
+
+        return DeriveMailboxSigningKeypairResult;
+    })();
+
+    proto.DeriveMailboxSigningKeypairSuccess = (function() {
+
+        function DeriveMailboxSigningKeypairSuccess(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DeriveMailboxSigningKeypairSuccess.prototype.mailboxSigningPublicKey = null;
+        DeriveMailboxSigningKeypairSuccess.prototype.mailboxSigningPrivateKey = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DeriveMailboxSigningKeypairSuccess.prototype, "_mailboxSigningPublicKey", {
+            get: $util.oneOfGetter($oneOfFields = ["mailboxSigningPublicKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DeriveMailboxSigningKeypairSuccess.prototype, "_mailboxSigningPrivateKey", {
+            get: $util.oneOfGetter($oneOfFields = ["mailboxSigningPrivateKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DeriveMailboxSigningKeypairSuccess.create = function create(properties) {
+            return new DeriveMailboxSigningKeypairSuccess(properties);
+        };
+
+        DeriveMailboxSigningKeypairSuccess.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.mailboxSigningPublicKey != null && Object.hasOwnProperty.call(m, "mailboxSigningPublicKey"))
+                w.uint32(10).bytes(m.mailboxSigningPublicKey);
+            if (m.mailboxSigningPrivateKey != null && Object.hasOwnProperty.call(m, "mailboxSigningPrivateKey"))
+                w.uint32(18).bytes(m.mailboxSigningPrivateKey);
+            return w;
+        };
+
+        DeriveMailboxSigningKeypairSuccess.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DeriveMailboxSigningKeypairSuccess();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.mailboxSigningPublicKey = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.mailboxSigningPrivateKey = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DeriveMailboxSigningKeypairSuccess.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DeriveMailboxSigningKeypairSuccess)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DeriveMailboxSigningKeypairSuccess: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DeriveMailboxSigningKeypairSuccess();
+            if (d.mailboxSigningPublicKey != null) {
+                if (typeof d.mailboxSigningPublicKey === "string")
+                    $util.base64.decode(d.mailboxSigningPublicKey, m.mailboxSigningPublicKey = $util.newBuffer($util.base64.length(d.mailboxSigningPublicKey)), 0);
+                else if (d.mailboxSigningPublicKey.length >= 0)
+                    m.mailboxSigningPublicKey = d.mailboxSigningPublicKey;
+            }
+            if (d.mailboxSigningPrivateKey != null) {
+                if (typeof d.mailboxSigningPrivateKey === "string")
+                    $util.base64.decode(d.mailboxSigningPrivateKey, m.mailboxSigningPrivateKey = $util.newBuffer($util.base64.length(d.mailboxSigningPrivateKey)), 0);
+                else if (d.mailboxSigningPrivateKey.length >= 0)
+                    m.mailboxSigningPrivateKey = d.mailboxSigningPrivateKey;
+            }
+            return m;
+        };
+
+        DeriveMailboxSigningKeypairSuccess.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.mailboxSigningPublicKey != null && Object.hasOwnProperty.call(m, "mailboxSigningPublicKey")) {
+                d.mailboxSigningPublicKey = o.bytes === String ? $util.base64.encode(m.mailboxSigningPublicKey, 0, m.mailboxSigningPublicKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.mailboxSigningPublicKey) : m.mailboxSigningPublicKey;
+                if (o.oneofs)
+                    d._mailboxSigningPublicKey = "mailboxSigningPublicKey";
+            }
+            if (m.mailboxSigningPrivateKey != null && Object.hasOwnProperty.call(m, "mailboxSigningPrivateKey")) {
+                d.mailboxSigningPrivateKey = o.bytes === String ? $util.base64.encode(m.mailboxSigningPrivateKey, 0, m.mailboxSigningPrivateKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.mailboxSigningPrivateKey) : m.mailboxSigningPrivateKey;
+                if (o.oneofs)
+                    d._mailboxSigningPrivateKey = "mailboxSigningPrivateKey";
+            }
+            return d;
+        };
+
+        DeriveMailboxSigningKeypairSuccess.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DeriveMailboxSigningKeypairSuccess.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DeriveMailboxSigningKeypairSuccess";
+        };
+
+        return DeriveMailboxSigningKeypairSuccess;
+    })();
+
+    proto.DeriveMessagingMailboxKeypairsInput = (function() {
+
+        function DeriveMessagingMailboxKeypairsInput(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DeriveMessagingMailboxKeypairsInput.prototype.mmkSeed = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DeriveMessagingMailboxKeypairsInput.prototype, "_mmkSeed", {
+            get: $util.oneOfGetter($oneOfFields = ["mmkSeed"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DeriveMessagingMailboxKeypairsInput.create = function create(properties) {
+            return new DeriveMessagingMailboxKeypairsInput(properties);
+        };
+
+        DeriveMessagingMailboxKeypairsInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.mmkSeed != null && Object.hasOwnProperty.call(m, "mmkSeed"))
+                w.uint32(10).bytes(m.mmkSeed);
+            return w;
+        };
+
+        DeriveMessagingMailboxKeypairsInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DeriveMessagingMailboxKeypairsInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.mmkSeed = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DeriveMessagingMailboxKeypairsInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DeriveMessagingMailboxKeypairsInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DeriveMessagingMailboxKeypairsInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DeriveMessagingMailboxKeypairsInput();
+            if (d.mmkSeed != null) {
+                if (typeof d.mmkSeed === "string")
+                    $util.base64.decode(d.mmkSeed, m.mmkSeed = $util.newBuffer($util.base64.length(d.mmkSeed)), 0);
+                else if (d.mmkSeed.length >= 0)
+                    m.mmkSeed = d.mmkSeed;
+            }
+            return m;
+        };
+
+        DeriveMessagingMailboxKeypairsInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.mmkSeed != null && Object.hasOwnProperty.call(m, "mmkSeed")) {
+                d.mmkSeed = o.bytes === String ? $util.base64.encode(m.mmkSeed, 0, m.mmkSeed.length) : o.bytes === Array ? Array.prototype.slice.call(m.mmkSeed) : m.mmkSeed;
+                if (o.oneofs)
+                    d._mmkSeed = "mmkSeed";
+            }
+            return d;
+        };
+
+        DeriveMessagingMailboxKeypairsInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DeriveMessagingMailboxKeypairsInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DeriveMessagingMailboxKeypairsInput";
+        };
+
+        return DeriveMessagingMailboxKeypairsInput;
+    })();
+
+    proto.DeriveMessagingMailboxKeypairsResult = (function() {
+
+        function DeriveMessagingMailboxKeypairsResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DeriveMessagingMailboxKeypairsResult.prototype.success = null;
+        DeriveMessagingMailboxKeypairsResult.prototype.errorMessage = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DeriveMessagingMailboxKeypairsResult.prototype, "result", {
+            get: $util.oneOfGetter($oneOfFields = ["success", "errorMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DeriveMessagingMailboxKeypairsResult.create = function create(properties) {
+            return new DeriveMessagingMailboxKeypairsResult(properties);
+        };
+
+        DeriveMessagingMailboxKeypairsResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.success != null && Object.hasOwnProperty.call(m, "success"))
+                $root.proto.DeriveMessagingMailboxKeypairsSuccess.encode(m.success, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage"))
+                w.uint32(18).string(m.errorMessage);
+            return w;
+        };
+
+        DeriveMessagingMailboxKeypairsResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DeriveMessagingMailboxKeypairsResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.success = $root.proto.DeriveMessagingMailboxKeypairsSuccess.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.errorMessage = r.string();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DeriveMessagingMailboxKeypairsResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DeriveMessagingMailboxKeypairsResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DeriveMessagingMailboxKeypairsResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DeriveMessagingMailboxKeypairsResult();
+            if (d.success != null) {
+                if (!$util.isObject(d.success))
+                    throw TypeError(".proto.DeriveMessagingMailboxKeypairsResult.success: object expected");
+                m.success = $root.proto.DeriveMessagingMailboxKeypairsSuccess.fromObject(d.success, n + 1);
+            }
+            if (d.errorMessage != null) {
+                m.errorMessage = String(d.errorMessage);
+            }
+            return m;
+        };
+
+        DeriveMessagingMailboxKeypairsResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.success != null && Object.hasOwnProperty.call(m, "success")) {
+                d.success = $root.proto.DeriveMessagingMailboxKeypairsSuccess.toObject(m.success, o, q + 1);
+                if (o.oneofs)
+                    d.result = "success";
+            }
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage")) {
+                d.errorMessage = m.errorMessage;
+                if (o.oneofs)
+                    d.result = "errorMessage";
+            }
+            return d;
+        };
+
+        DeriveMessagingMailboxKeypairsResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DeriveMessagingMailboxKeypairsResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DeriveMessagingMailboxKeypairsResult";
+        };
+
+        return DeriveMessagingMailboxKeypairsResult;
+    })();
+
+    proto.DeriveMessagingMailboxKeypairsSuccess = (function() {
+
+        function DeriveMessagingMailboxKeypairsSuccess(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DeriveMessagingMailboxKeypairsSuccess.prototype.encSk = null;
+        DeriveMessagingMailboxKeypairsSuccess.prototype.encPk = null;
+        DeriveMessagingMailboxKeypairsSuccess.prototype.authSk = null;
+        DeriveMessagingMailboxKeypairsSuccess.prototype.authPk = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DeriveMessagingMailboxKeypairsSuccess.prototype, "_encSk", {
+            get: $util.oneOfGetter($oneOfFields = ["encSk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DeriveMessagingMailboxKeypairsSuccess.prototype, "_encPk", {
+            get: $util.oneOfGetter($oneOfFields = ["encPk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DeriveMessagingMailboxKeypairsSuccess.prototype, "_authSk", {
+            get: $util.oneOfGetter($oneOfFields = ["authSk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DeriveMessagingMailboxKeypairsSuccess.prototype, "_authPk", {
+            get: $util.oneOfGetter($oneOfFields = ["authPk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DeriveMessagingMailboxKeypairsSuccess.create = function create(properties) {
+            return new DeriveMessagingMailboxKeypairsSuccess(properties);
+        };
+
+        DeriveMessagingMailboxKeypairsSuccess.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.encSk != null && Object.hasOwnProperty.call(m, "encSk"))
+                w.uint32(10).bytes(m.encSk);
+            if (m.encPk != null && Object.hasOwnProperty.call(m, "encPk"))
+                w.uint32(18).bytes(m.encPk);
+            if (m.authSk != null && Object.hasOwnProperty.call(m, "authSk"))
+                w.uint32(26).bytes(m.authSk);
+            if (m.authPk != null && Object.hasOwnProperty.call(m, "authPk"))
+                w.uint32(34).bytes(m.authPk);
+            return w;
+        };
+
+        DeriveMessagingMailboxKeypairsSuccess.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DeriveMessagingMailboxKeypairsSuccess();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.encSk = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.encPk = r.bytes();
+                        break;
+                    }
+                case 3: {
+                        m.authSk = r.bytes();
+                        break;
+                    }
+                case 4: {
+                        m.authPk = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DeriveMessagingMailboxKeypairsSuccess.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DeriveMessagingMailboxKeypairsSuccess)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DeriveMessagingMailboxKeypairsSuccess: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DeriveMessagingMailboxKeypairsSuccess();
+            if (d.encSk != null) {
+                if (typeof d.encSk === "string")
+                    $util.base64.decode(d.encSk, m.encSk = $util.newBuffer($util.base64.length(d.encSk)), 0);
+                else if (d.encSk.length >= 0)
+                    m.encSk = d.encSk;
+            }
+            if (d.encPk != null) {
+                if (typeof d.encPk === "string")
+                    $util.base64.decode(d.encPk, m.encPk = $util.newBuffer($util.base64.length(d.encPk)), 0);
+                else if (d.encPk.length >= 0)
+                    m.encPk = d.encPk;
+            }
+            if (d.authSk != null) {
+                if (typeof d.authSk === "string")
+                    $util.base64.decode(d.authSk, m.authSk = $util.newBuffer($util.base64.length(d.authSk)), 0);
+                else if (d.authSk.length >= 0)
+                    m.authSk = d.authSk;
+            }
+            if (d.authPk != null) {
+                if (typeof d.authPk === "string")
+                    $util.base64.decode(d.authPk, m.authPk = $util.newBuffer($util.base64.length(d.authPk)), 0);
+                else if (d.authPk.length >= 0)
+                    m.authPk = d.authPk;
+            }
+            return m;
+        };
+
+        DeriveMessagingMailboxKeypairsSuccess.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.encSk != null && Object.hasOwnProperty.call(m, "encSk")) {
+                d.encSk = o.bytes === String ? $util.base64.encode(m.encSk, 0, m.encSk.length) : o.bytes === Array ? Array.prototype.slice.call(m.encSk) : m.encSk;
+                if (o.oneofs)
+                    d._encSk = "encSk";
+            }
+            if (m.encPk != null && Object.hasOwnProperty.call(m, "encPk")) {
+                d.encPk = o.bytes === String ? $util.base64.encode(m.encPk, 0, m.encPk.length) : o.bytes === Array ? Array.prototype.slice.call(m.encPk) : m.encPk;
+                if (o.oneofs)
+                    d._encPk = "encPk";
+            }
+            if (m.authSk != null && Object.hasOwnProperty.call(m, "authSk")) {
+                d.authSk = o.bytes === String ? $util.base64.encode(m.authSk, 0, m.authSk.length) : o.bytes === Array ? Array.prototype.slice.call(m.authSk) : m.authSk;
+                if (o.oneofs)
+                    d._authSk = "authSk";
+            }
+            if (m.authPk != null && Object.hasOwnProperty.call(m, "authPk")) {
+                d.authPk = o.bytes === String ? $util.base64.encode(m.authPk, 0, m.authPk.length) : o.bytes === Array ? Array.prototype.slice.call(m.authPk) : m.authPk;
+                if (o.oneofs)
+                    d._authPk = "authPk";
+            }
+            return d;
+        };
+
+        DeriveMessagingMailboxKeypairsSuccess.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DeriveMessagingMailboxKeypairsSuccess.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DeriveMessagingMailboxKeypairsSuccess";
+        };
+
+        return DeriveMessagingMailboxKeypairsSuccess;
+    })();
+
+    proto.DetachedDevicePublicData = (function() {
+
+        function DetachedDevicePublicData(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DetachedDevicePublicData.prototype.deviceId = null;
+        DetachedDevicePublicData.prototype.name = null;
+        DetachedDevicePublicData.prototype.sigPk = null;
+        DetachedDevicePublicData.prototype.authPk = null;
+        DetachedDevicePublicData.prototype.encPk = null;
+        DetachedDevicePublicData.prototype.signature = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DetachedDevicePublicData.prototype, "_deviceId", {
+            get: $util.oneOfGetter($oneOfFields = ["deviceId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DetachedDevicePublicData.prototype, "_name", {
+            get: $util.oneOfGetter($oneOfFields = ["name"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DetachedDevicePublicData.prototype, "_sigPk", {
+            get: $util.oneOfGetter($oneOfFields = ["sigPk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DetachedDevicePublicData.prototype, "_authPk", {
+            get: $util.oneOfGetter($oneOfFields = ["authPk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DetachedDevicePublicData.prototype, "_encPk", {
+            get: $util.oneOfGetter($oneOfFields = ["encPk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DetachedDevicePublicData.prototype, "_signature", {
+            get: $util.oneOfGetter($oneOfFields = ["signature"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DetachedDevicePublicData.create = function create(properties) {
+            return new DetachedDevicePublicData(properties);
+        };
+
+        DetachedDevicePublicData.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.deviceId != null && Object.hasOwnProperty.call(m, "deviceId"))
+                w.uint32(8).uint64(m.deviceId);
+            if (m.name != null && Object.hasOwnProperty.call(m, "name"))
+                w.uint32(18).bytes(m.name);
+            if (m.sigPk != null && Object.hasOwnProperty.call(m, "sigPk"))
+                w.uint32(26).bytes(m.sigPk);
+            if (m.authPk != null && Object.hasOwnProperty.call(m, "authPk"))
+                w.uint32(34).bytes(m.authPk);
+            if (m.encPk != null && Object.hasOwnProperty.call(m, "encPk"))
+                w.uint32(42).bytes(m.encPk);
+            if (m.signature != null && Object.hasOwnProperty.call(m, "signature"))
+                w.uint32(50).bytes(m.signature);
+            return w;
+        };
+
+        DetachedDevicePublicData.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DetachedDevicePublicData();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.deviceId = r.uint64();
+                        break;
+                    }
+                case 2: {
+                        m.name = r.bytes();
+                        break;
+                    }
+                case 3: {
+                        m.sigPk = r.bytes();
+                        break;
+                    }
+                case 4: {
+                        m.authPk = r.bytes();
+                        break;
+                    }
+                case 5: {
+                        m.encPk = r.bytes();
+                        break;
+                    }
+                case 6: {
+                        m.signature = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DetachedDevicePublicData.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DetachedDevicePublicData)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DetachedDevicePublicData: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DetachedDevicePublicData();
+            if (d.deviceId != null) {
+                if ($util.Long)
+                    m.deviceId = $util.Long.fromValue(d.deviceId, true);
+                else if (typeof d.deviceId === "string")
+                    m.deviceId = parseInt(d.deviceId, 10);
+                else if (typeof d.deviceId === "number")
+                    m.deviceId = d.deviceId;
+                else if (typeof d.deviceId === "object")
+                    m.deviceId = new $util.LongBits(d.deviceId.low >>> 0, d.deviceId.high >>> 0).toNumber(true);
+            }
+            if (d.name != null) {
+                if (typeof d.name === "string")
+                    $util.base64.decode(d.name, m.name = $util.newBuffer($util.base64.length(d.name)), 0);
+                else if (d.name.length >= 0)
+                    m.name = d.name;
+            }
+            if (d.sigPk != null) {
+                if (typeof d.sigPk === "string")
+                    $util.base64.decode(d.sigPk, m.sigPk = $util.newBuffer($util.base64.length(d.sigPk)), 0);
+                else if (d.sigPk.length >= 0)
+                    m.sigPk = d.sigPk;
+            }
+            if (d.authPk != null) {
+                if (typeof d.authPk === "string")
+                    $util.base64.decode(d.authPk, m.authPk = $util.newBuffer($util.base64.length(d.authPk)), 0);
+                else if (d.authPk.length >= 0)
+                    m.authPk = d.authPk;
+            }
+            if (d.encPk != null) {
+                if (typeof d.encPk === "string")
+                    $util.base64.decode(d.encPk, m.encPk = $util.newBuffer($util.base64.length(d.encPk)), 0);
+                else if (d.encPk.length >= 0)
+                    m.encPk = d.encPk;
+            }
+            if (d.signature != null) {
+                if (typeof d.signature === "string")
+                    $util.base64.decode(d.signature, m.signature = $util.newBuffer($util.base64.length(d.signature)), 0);
+                else if (d.signature.length >= 0)
+                    m.signature = d.signature;
+            }
+            return m;
+        };
+
+        DetachedDevicePublicData.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.deviceId != null && Object.hasOwnProperty.call(m, "deviceId")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.deviceId = typeof m.deviceId === "number" ? BigInt(m.deviceId) : $util.Long.fromBits(m.deviceId.low >>> 0, m.deviceId.high >>> 0, true).toBigInt();
+                else if (typeof m.deviceId === "number")
+                    d.deviceId = o.longs === String ? String(m.deviceId) : m.deviceId;
+                else
+                    d.deviceId = o.longs === String ? longToString(m.deviceId, true) : o.longs === Number ? longToNumber(m.deviceId, true) : m.deviceId;
+                if (o.oneofs)
+                    d._deviceId = "deviceId";
+            }
+            if (m.name != null && Object.hasOwnProperty.call(m, "name")) {
+                d.name = o.bytes === String ? $util.base64.encode(m.name, 0, m.name.length) : o.bytes === Array ? Array.prototype.slice.call(m.name) : m.name;
+                if (o.oneofs)
+                    d._name = "name";
+            }
+            if (m.sigPk != null && Object.hasOwnProperty.call(m, "sigPk")) {
+                d.sigPk = o.bytes === String ? $util.base64.encode(m.sigPk, 0, m.sigPk.length) : o.bytes === Array ? Array.prototype.slice.call(m.sigPk) : m.sigPk;
+                if (o.oneofs)
+                    d._sigPk = "sigPk";
+            }
+            if (m.authPk != null && Object.hasOwnProperty.call(m, "authPk")) {
+                d.authPk = o.bytes === String ? $util.base64.encode(m.authPk, 0, m.authPk.length) : o.bytes === Array ? Array.prototype.slice.call(m.authPk) : m.authPk;
+                if (o.oneofs)
+                    d._authPk = "authPk";
+            }
+            if (m.encPk != null && Object.hasOwnProperty.call(m, "encPk")) {
+                d.encPk = o.bytes === String ? $util.base64.encode(m.encPk, 0, m.encPk.length) : o.bytes === Array ? Array.prototype.slice.call(m.encPk) : m.encPk;
+                if (o.oneofs)
+                    d._encPk = "encPk";
+            }
+            if (m.signature != null && Object.hasOwnProperty.call(m, "signature")) {
+                d.signature = o.bytes === String ? $util.base64.encode(m.signature, 0, m.signature.length) : o.bytes === Array ? Array.prototype.slice.call(m.signature) : m.signature;
+                if (o.oneofs)
+                    d._signature = "signature";
+            }
+            return d;
+        };
+
+        DetachedDevicePublicData.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DetachedDevicePublicData.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DetachedDevicePublicData";
+        };
+
+        return DetachedDevicePublicData;
+    })();
+
     proto.DeviceCapabilities = (function() {
 
         function DeviceCapabilities(p) {
@@ -38966,6 +43119,134 @@ export const proto = $root.proto = (() => {
         return DisappearingMode;
     })();
 
+    proto.EXTENDED_CONTENT_MESSAGE_CTA_BUTTON_TYPE = (function() {
+        const valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[11] = "OPEN_NATIVE"] = 11;
+        return values;
+    })();
+
+    proto.EXTENDED_CONTENT_MESSAGE_EXTENDED_CONTENT_TYPE = (function() {
+        const valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[-1] = "UNSUPPORTED"] = -1;
+        values[valuesById[4] = "IG_STORY_PHOTO_MENTION"] = 4;
+        values[valuesById[9] = "IG_SINGLE_IMAGE_POST_SHARE"] = 9;
+        values[valuesById[10] = "IG_MULTIPOST_SHARE"] = 10;
+        values[valuesById[11] = "IG_SINGLE_VIDEO_POST_SHARE"] = 11;
+        values[valuesById[12] = "IG_STORY_PHOTO_SHARE"] = 12;
+        values[valuesById[13] = "IG_STORY_VIDEO_SHARE"] = 13;
+        values[valuesById[14] = "IG_CLIPS_SHARE"] = 14;
+        values[valuesById[15] = "IG_IGTV_SHARE"] = 15;
+        values[valuesById[16] = "IG_SHOP_SHARE"] = 16;
+        values[valuesById[19] = "IG_PROFILE_SHARE"] = 19;
+        values[valuesById[20] = "IG_STORY_PHOTO_HIGHLIGHT_SHARE"] = 20;
+        values[valuesById[21] = "IG_STORY_VIDEO_HIGHLIGHT_SHARE"] = 21;
+        values[valuesById[22] = "IG_STORY_REPLY"] = 22;
+        values[valuesById[23] = "IG_STORY_REACTION"] = 23;
+        values[valuesById[24] = "IG_STORY_VIDEO_MENTION"] = 24;
+        values[valuesById[25] = "IG_STORY_HIGHLIGHT_REPLY"] = 25;
+        values[valuesById[26] = "IG_STORY_HIGHLIGHT_REACTION"] = 26;
+        values[valuesById[27] = "IG_EXTERNAL_LINK"] = 27;
+        values[valuesById[28] = "IG_RECEIVER_FETCH"] = 28;
+        values[valuesById[1000] = "FB_FEED_SHARE"] = 1000;
+        values[valuesById[1001] = "FB_STORY_REPLY"] = 1001;
+        values[valuesById[1002] = "FB_STORY_SHARE"] = 1002;
+        values[valuesById[1003] = "FB_STORY_MENTION"] = 1003;
+        values[valuesById[1004] = "FB_FEED_VIDEO_SHARE"] = 1004;
+        values[valuesById[1005] = "FB_GAMING_CUSTOM_UPDATE"] = 1005;
+        values[valuesById[1006] = "FB_PRODUCER_STORY_REPLY"] = 1006;
+        values[valuesById[1007] = "FB_EVENT"] = 1007;
+        values[valuesById[1008] = "FB_FEED_POST_PRIVATE_REPLY"] = 1008;
+        values[valuesById[1009] = "FB_SHORT"] = 1009;
+        values[valuesById[1010] = "FB_COMMENT_MENTION_SHARE"] = 1010;
+        values[valuesById[1011] = "FB_POST_MENTION"] = 1011;
+        values[valuesById[1013] = "FB_PROFILE_DIRECTORY_ITEM"] = 1013;
+        values[valuesById[1014] = "FB_FEED_POST_REACTION_REPLY"] = 1014;
+        values[valuesById[1015] = "FB_QUICKSNAP_REPLY"] = 1015;
+        values[valuesById[2000] = "MSG_EXTERNAL_LINK_SHARE"] = 2000;
+        values[valuesById[2001] = "MSG_P2P_PAYMENT"] = 2001;
+        values[valuesById[2002] = "MSG_LOCATION_SHARING"] = 2002;
+        values[valuesById[2003] = "MSG_LOCATION_SHARING_V2"] = 2003;
+        values[valuesById[2004] = "MSG_HIGHLIGHTS_TAB_FRIEND_UPDATES_REPLY"] = 2004;
+        values[valuesById[2005] = "MSG_HIGHLIGHTS_TAB_LOCAL_EVENT_REPLY"] = 2005;
+        values[valuesById[2006] = "MSG_RECEIVER_FETCH"] = 2006;
+        values[valuesById[2007] = "MSG_IG_MEDIA_SHARE"] = 2007;
+        values[valuesById[2008] = "MSG_GEN_AI_SEARCH_PLUGIN_RESPONSE"] = 2008;
+        values[valuesById[2009] = "MSG_REELS_LIST"] = 2009;
+        values[valuesById[2010] = "MSG_CONTACT"] = 2010;
+        values[valuesById[2011] = "MSG_THREADS_POST_SHARE"] = 2011;
+        values[valuesById[2012] = "MSG_FILE"] = 2012;
+        values[valuesById[2013] = "MSG_AVATAR_DETAILS"] = 2013;
+        values[valuesById[2014] = "MSG_AI_CONTACT"] = 2014;
+        values[valuesById[2015] = "MSG_MEMORIES_SHARE"] = 2015;
+        values[valuesById[2016] = "MSG_SHARED_ALBUM_REPLY"] = 2016;
+        values[valuesById[2017] = "MSG_SHARED_ALBUM"] = 2017;
+        values[valuesById[2018] = "MSG_OCCAMADILLO_XMA"] = 2018;
+        values[valuesById[2021] = "MSG_GEN_AI_SUBSCRIPTION"] = 2021;
+        values[valuesById[2022] = "MSG_GEN_AI_REMINDER"] = 2022;
+        values[valuesById[2023] = "MSG_GEN_AI_MEMU_ONBOARDING_RESPONSE"] = 2023;
+        values[valuesById[2024] = "MSG_NOTE_REPLY"] = 2024;
+        values[valuesById[2025] = "MSG_NOTE_MENTION"] = 2025;
+        values[valuesById[2026] = "GEN_AI_ENTITY"] = 2026;
+        values[valuesById[2027] = "MSG_OPG_P2P_PAYMENT"] = 2027;
+        values[valuesById[2028] = "GEN_AI_RICH_RESPONSE"] = 2028;
+        values[valuesById[2029] = "MSG_MUSIC_STICKER"] = 2029;
+        values[valuesById[2030] = "MSG_PHONE_NUMBER"] = 2030;
+        values[valuesById[2031] = "AI_ACTIVITY_SHARE"] = 2031;
+        values[valuesById[2032] = "MSG_PRIVATE_XMA"] = 2032;
+        values[valuesById[2033] = "MSG_SOCIAL_CUE_MEMORIES"] = 2033;
+        values[valuesById[2060] = "MSG_MANUS_GROWTH_REFERRAL"] = 2060;
+        values[valuesById[2061] = "MSG_MOMENT_LINK"] = 2061;
+        values[valuesById[2062] = "MSG_HORIZON_WEEL"] = 2062;
+        values[valuesById[2063] = "MSG_MOMENT_ADDED"] = 2063;
+        values[valuesById[3000] = "RTC_AUDIO_CALL"] = 3000;
+        values[valuesById[3001] = "RTC_VIDEO_CALL"] = 3001;
+        values[valuesById[3002] = "RTC_MISSED_AUDIO_CALL"] = 3002;
+        values[valuesById[3003] = "RTC_MISSED_VIDEO_CALL"] = 3003;
+        values[valuesById[3004] = "RTC_GROUP_AUDIO_CALL"] = 3004;
+        values[valuesById[3005] = "RTC_GROUP_VIDEO_CALL"] = 3005;
+        values[valuesById[3006] = "RTC_MISSED_GROUP_AUDIO_CALL"] = 3006;
+        values[valuesById[3007] = "RTC_MISSED_GROUP_VIDEO_CALL"] = 3007;
+        values[valuesById[3008] = "RTC_ONGOING_AUDIO_CALL"] = 3008;
+        values[valuesById[3009] = "RTC_ONGOING_VIDEO_CALL"] = 3009;
+        values[valuesById[3025] = "MSG_RECEIVER_FETCH_FALLBACK"] = 3025;
+        values[valuesById[4000] = "DATACLASS_SENDER_COPY"] = 4000;
+        return values;
+    })();
+
+    proto.EXTENDED_CONTENT_MESSAGE_OVERLAY_ICON_GLYPH = (function() {
+        const valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "INFO"] = 0;
+        values[valuesById[1] = "EYE_OFF"] = 1;
+        values[valuesById[2] = "NEWS_OFF"] = 2;
+        values[valuesById[3] = "WARNING"] = 3;
+        values[valuesById[4] = "PRIVATE"] = 4;
+        values[valuesById[5] = "NONE"] = 5;
+        values[valuesById[6] = "MEDIA_LABEL"] = 6;
+        values[valuesById[7] = "POST_COVER"] = 7;
+        values[valuesById[8] = "POST_LABEL"] = 8;
+        values[valuesById[9] = "WARNING_SCREENS"] = 9;
+        return values;
+    })();
+
+    proto.EXTENDED_CONTENT_MESSAGE_XMA_DATACLASS_TYPE = (function() {
+        const valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "SENDER_COPY"] = 0;
+        values[valuesById[1] = "SERVER"] = 1;
+        values[valuesById[2] = "SIGNED_CLIENT"] = 2;
+        return values;
+    })();
+
+    proto.EXTENDED_CONTENT_MESSAGE_XMA_LAYOUT_TYPE = (function() {
+        const valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "SINGLE"] = 0;
+        values[valuesById[1] = "HSCROLL"] = 1;
+        values[valuesById[3] = "PORTRAIT"] = 3;
+        values[valuesById[12] = "STANDARD_DXMA"] = 12;
+        values[valuesById[15] = "LIST_DXMA"] = 15;
+        values[valuesById[16] = "GRID"] = 16;
+        return values;
+    })();
+
     proto.EmbeddedContent = (function() {
 
         function EmbeddedContent(p) {
@@ -39675,6 +43956,1149 @@ export const proto = $root.proto = (() => {
         return EmbeddedMusic;
     })();
 
+    proto.EncryptMekForDistributionInput = (function() {
+
+        function EncryptMekForDistributionInput(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        EncryptMekForDistributionInput.prototype.senderEpochHead = null;
+        EncryptMekForDistributionInput.prototype.toMailboxPk = null;
+        EncryptMekForDistributionInput.prototype.fromKeypair = null;
+        EncryptMekForDistributionInput.prototype.mek = null;
+        EncryptMekForDistributionInput.prototype.toEpochHead = null;
+        EncryptMekForDistributionInput.prototype.conf = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(EncryptMekForDistributionInput.prototype, "_senderEpochHead", {
+            get: $util.oneOfGetter($oneOfFields = ["senderEpochHead"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(EncryptMekForDistributionInput.prototype, "_toMailboxPk", {
+            get: $util.oneOfGetter($oneOfFields = ["toMailboxPk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(EncryptMekForDistributionInput.prototype, "_fromKeypair", {
+            get: $util.oneOfGetter($oneOfFields = ["fromKeypair"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(EncryptMekForDistributionInput.prototype, "_mek", {
+            get: $util.oneOfGetter($oneOfFields = ["mek"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(EncryptMekForDistributionInput.prototype, "_toEpochHead", {
+            get: $util.oneOfGetter($oneOfFields = ["toEpochHead"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(EncryptMekForDistributionInput.prototype, "_conf", {
+            get: $util.oneOfGetter($oneOfFields = ["conf"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        EncryptMekForDistributionInput.create = function create(properties) {
+            return new EncryptMekForDistributionInput(properties);
+        };
+
+        EncryptMekForDistributionInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.senderEpochHead != null && Object.hasOwnProperty.call(m, "senderEpochHead"))
+                w.uint32(10).bytes(m.senderEpochHead);
+            if (m.toMailboxPk != null && Object.hasOwnProperty.call(m, "toMailboxPk"))
+                w.uint32(18).bytes(m.toMailboxPk);
+            if (m.fromKeypair != null && Object.hasOwnProperty.call(m, "fromKeypair"))
+                $root.proto.EncryptMekForDistributionInput.MailboxAuthKP.encode(m.fromKeypair, w.uint32(26).fork(), q + 1).ldelim();
+            if (m.mek != null && Object.hasOwnProperty.call(m, "mek"))
+                $root.proto.MekBundle.encode(m.mek, w.uint32(34).fork(), q + 1).ldelim();
+            if (m.toEpochHead != null && Object.hasOwnProperty.call(m, "toEpochHead"))
+                w.uint32(42).bytes(m.toEpochHead);
+            if (m.conf != null && Object.hasOwnProperty.call(m, "conf"))
+                $root.proto.MinosClientConfig.encode(m.conf, w.uint32(50).fork(), q + 1).ldelim();
+            return w;
+        };
+
+        EncryptMekForDistributionInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.EncryptMekForDistributionInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.senderEpochHead = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.toMailboxPk = r.bytes();
+                        break;
+                    }
+                case 3: {
+                        m.fromKeypair = $root.proto.EncryptMekForDistributionInput.MailboxAuthKP.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 4: {
+                        m.mek = $root.proto.MekBundle.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 5: {
+                        m.toEpochHead = r.bytes();
+                        break;
+                    }
+                case 6: {
+                        m.conf = $root.proto.MinosClientConfig.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        EncryptMekForDistributionInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.EncryptMekForDistributionInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.EncryptMekForDistributionInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.EncryptMekForDistributionInput();
+            if (d.senderEpochHead != null) {
+                if (typeof d.senderEpochHead === "string")
+                    $util.base64.decode(d.senderEpochHead, m.senderEpochHead = $util.newBuffer($util.base64.length(d.senderEpochHead)), 0);
+                else if (d.senderEpochHead.length >= 0)
+                    m.senderEpochHead = d.senderEpochHead;
+            }
+            if (d.toMailboxPk != null) {
+                if (typeof d.toMailboxPk === "string")
+                    $util.base64.decode(d.toMailboxPk, m.toMailboxPk = $util.newBuffer($util.base64.length(d.toMailboxPk)), 0);
+                else if (d.toMailboxPk.length >= 0)
+                    m.toMailboxPk = d.toMailboxPk;
+            }
+            if (d.fromKeypair != null) {
+                if (!$util.isObject(d.fromKeypair))
+                    throw TypeError(".proto.EncryptMekForDistributionInput.fromKeypair: object expected");
+                m.fromKeypair = $root.proto.EncryptMekForDistributionInput.MailboxAuthKP.fromObject(d.fromKeypair, n + 1);
+            }
+            if (d.mek != null) {
+                if (!$util.isObject(d.mek))
+                    throw TypeError(".proto.EncryptMekForDistributionInput.mek: object expected");
+                m.mek = $root.proto.MekBundle.fromObject(d.mek, n + 1);
+            }
+            if (d.toEpochHead != null) {
+                if (typeof d.toEpochHead === "string")
+                    $util.base64.decode(d.toEpochHead, m.toEpochHead = $util.newBuffer($util.base64.length(d.toEpochHead)), 0);
+                else if (d.toEpochHead.length >= 0)
+                    m.toEpochHead = d.toEpochHead;
+            }
+            if (d.conf != null) {
+                if (!$util.isObject(d.conf))
+                    throw TypeError(".proto.EncryptMekForDistributionInput.conf: object expected");
+                m.conf = $root.proto.MinosClientConfig.fromObject(d.conf, n + 1);
+            }
+            return m;
+        };
+
+        EncryptMekForDistributionInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.senderEpochHead != null && Object.hasOwnProperty.call(m, "senderEpochHead")) {
+                d.senderEpochHead = o.bytes === String ? $util.base64.encode(m.senderEpochHead, 0, m.senderEpochHead.length) : o.bytes === Array ? Array.prototype.slice.call(m.senderEpochHead) : m.senderEpochHead;
+                if (o.oneofs)
+                    d._senderEpochHead = "senderEpochHead";
+            }
+            if (m.toMailboxPk != null && Object.hasOwnProperty.call(m, "toMailboxPk")) {
+                d.toMailboxPk = o.bytes === String ? $util.base64.encode(m.toMailboxPk, 0, m.toMailboxPk.length) : o.bytes === Array ? Array.prototype.slice.call(m.toMailboxPk) : m.toMailboxPk;
+                if (o.oneofs)
+                    d._toMailboxPk = "toMailboxPk";
+            }
+            if (m.fromKeypair != null && Object.hasOwnProperty.call(m, "fromKeypair")) {
+                d.fromKeypair = $root.proto.EncryptMekForDistributionInput.MailboxAuthKP.toObject(m.fromKeypair, o, q + 1);
+                if (o.oneofs)
+                    d._fromKeypair = "fromKeypair";
+            }
+            if (m.mek != null && Object.hasOwnProperty.call(m, "mek")) {
+                d.mek = $root.proto.MekBundle.toObject(m.mek, o, q + 1);
+                if (o.oneofs)
+                    d._mek = "mek";
+            }
+            if (m.toEpochHead != null && Object.hasOwnProperty.call(m, "toEpochHead")) {
+                d.toEpochHead = o.bytes === String ? $util.base64.encode(m.toEpochHead, 0, m.toEpochHead.length) : o.bytes === Array ? Array.prototype.slice.call(m.toEpochHead) : m.toEpochHead;
+                if (o.oneofs)
+                    d._toEpochHead = "toEpochHead";
+            }
+            if (m.conf != null && Object.hasOwnProperty.call(m, "conf")) {
+                d.conf = $root.proto.MinosClientConfig.toObject(m.conf, o, q + 1);
+                if (o.oneofs)
+                    d._conf = "conf";
+            }
+            return d;
+        };
+
+        EncryptMekForDistributionInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        EncryptMekForDistributionInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.EncryptMekForDistributionInput";
+        };
+
+        EncryptMekForDistributionInput.MailboxAuthKP = (function() {
+
+            function MailboxAuthKP(p) {
+                if (p)
+                    for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                        if (p[ks[i]] != null && ks[i] !== "__proto__")
+                            this[ks[i]] = p[ks[i]];
+            }
+
+            MailboxAuthKP.prototype.sk = null;
+            MailboxAuthKP.prototype.pk = null;
+
+            let $oneOfFields;
+
+            Object.defineProperty(MailboxAuthKP.prototype, "_sk", {
+                get: $util.oneOfGetter($oneOfFields = ["sk"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            Object.defineProperty(MailboxAuthKP.prototype, "_pk", {
+                get: $util.oneOfGetter($oneOfFields = ["pk"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            MailboxAuthKP.create = function create(properties) {
+                return new MailboxAuthKP(properties);
+            };
+
+            MailboxAuthKP.encode = function encode(m, w, q) {
+                if (!w)
+                    w = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                if (m.sk != null && Object.hasOwnProperty.call(m, "sk"))
+                    w.uint32(10).bytes(m.sk);
+                if (m.pk != null && Object.hasOwnProperty.call(m, "pk"))
+                    w.uint32(18).bytes(m.pk);
+                return w;
+            };
+
+            MailboxAuthKP.decode = function decode(r, l, e, n) {
+                if (!(r instanceof $Reader))
+                    r = $Reader.create(r);
+                if (n === undefined)
+                    n = 0;
+                if (n > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var c, m;
+                if (l === undefined)
+                    c = r.len;
+                else {
+                    c = r.pos + l;
+                    if (c > r.len)
+                        throw RangeError("index out of range");
+                    l = r.len;
+                    r.len = c;
+                }
+                m = new $root.proto.EncryptMekForDistributionInput.MailboxAuthKP();
+                while (r.pos < c) {
+                    var t = r.uint32();
+                    if (t === e)
+                        break;
+                    switch (t >>> 3) {
+                    case 1: {
+                            m.sk = r.bytes();
+                            break;
+                        }
+                    case 2: {
+                            m.pk = r.bytes();
+                            break;
+                        }
+                    default:
+                        r.skipType(t & 7, n);
+                        break;
+                    }
+                }
+                if (l !== undefined) {
+                    if (r.pos !== c)
+                        throw RangeError("index out of range");
+                    r.len = l;
+                }
+                return m;
+            };
+
+            MailboxAuthKP.fromObject = function fromObject(d, n) {
+                if (d instanceof $root.proto.EncryptMekForDistributionInput.MailboxAuthKP)
+                    return d;
+                if (!$util.isObject(d))
+                    throw TypeError(".proto.EncryptMekForDistributionInput.MailboxAuthKP: object expected");
+                if (n === undefined)
+                    n = 0;
+                if (n > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var m = new $root.proto.EncryptMekForDistributionInput.MailboxAuthKP();
+                if (d.sk != null) {
+                    if (typeof d.sk === "string")
+                        $util.base64.decode(d.sk, m.sk = $util.newBuffer($util.base64.length(d.sk)), 0);
+                    else if (d.sk.length >= 0)
+                        m.sk = d.sk;
+                }
+                if (d.pk != null) {
+                    if (typeof d.pk === "string")
+                        $util.base64.decode(d.pk, m.pk = $util.newBuffer($util.base64.length(d.pk)), 0);
+                    else if (d.pk.length >= 0)
+                        m.pk = d.pk;
+                }
+                return m;
+            };
+
+            MailboxAuthKP.toObject = function toObject(m, o, q) {
+                if (!o)
+                    o = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                var d = {};
+                if (m.sk != null && Object.hasOwnProperty.call(m, "sk")) {
+                    d.sk = o.bytes === String ? $util.base64.encode(m.sk, 0, m.sk.length) : o.bytes === Array ? Array.prototype.slice.call(m.sk) : m.sk;
+                    if (o.oneofs)
+                        d._sk = "sk";
+                }
+                if (m.pk != null && Object.hasOwnProperty.call(m, "pk")) {
+                    d.pk = o.bytes === String ? $util.base64.encode(m.pk, 0, m.pk.length) : o.bytes === Array ? Array.prototype.slice.call(m.pk) : m.pk;
+                    if (o.oneofs)
+                        d._pk = "pk";
+                }
+                return d;
+            };
+
+            MailboxAuthKP.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            MailboxAuthKP.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/proto.EncryptMekForDistributionInput.MailboxAuthKP";
+            };
+
+            return MailboxAuthKP;
+        })();
+
+        return EncryptMekForDistributionInput;
+    })();
+
+    proto.EncryptMekForDistributionResult = (function() {
+
+        function EncryptMekForDistributionResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        EncryptMekForDistributionResult.prototype.ciphertext = null;
+        EncryptMekForDistributionResult.prototype.version = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(EncryptMekForDistributionResult.prototype, "_ciphertext", {
+            get: $util.oneOfGetter($oneOfFields = ["ciphertext"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(EncryptMekForDistributionResult.prototype, "_version", {
+            get: $util.oneOfGetter($oneOfFields = ["version"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        EncryptMekForDistributionResult.create = function create(properties) {
+            return new EncryptMekForDistributionResult(properties);
+        };
+
+        EncryptMekForDistributionResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.ciphertext != null && Object.hasOwnProperty.call(m, "ciphertext"))
+                w.uint32(10).bytes(m.ciphertext);
+            if (m.version != null && Object.hasOwnProperty.call(m, "version"))
+                w.uint32(16).uint64(m.version);
+            return w;
+        };
+
+        EncryptMekForDistributionResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.EncryptMekForDistributionResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.ciphertext = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.version = r.uint64();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        EncryptMekForDistributionResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.EncryptMekForDistributionResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.EncryptMekForDistributionResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.EncryptMekForDistributionResult();
+            if (d.ciphertext != null) {
+                if (typeof d.ciphertext === "string")
+                    $util.base64.decode(d.ciphertext, m.ciphertext = $util.newBuffer($util.base64.length(d.ciphertext)), 0);
+                else if (d.ciphertext.length >= 0)
+                    m.ciphertext = d.ciphertext;
+            }
+            if (d.version != null) {
+                if ($util.Long)
+                    m.version = $util.Long.fromValue(d.version, true);
+                else if (typeof d.version === "string")
+                    m.version = parseInt(d.version, 10);
+                else if (typeof d.version === "number")
+                    m.version = d.version;
+                else if (typeof d.version === "object")
+                    m.version = new $util.LongBits(d.version.low >>> 0, d.version.high >>> 0).toNumber(true);
+            }
+            return m;
+        };
+
+        EncryptMekForDistributionResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.ciphertext != null && Object.hasOwnProperty.call(m, "ciphertext")) {
+                d.ciphertext = o.bytes === String ? $util.base64.encode(m.ciphertext, 0, m.ciphertext.length) : o.bytes === Array ? Array.prototype.slice.call(m.ciphertext) : m.ciphertext;
+                if (o.oneofs)
+                    d._ciphertext = "ciphertext";
+            }
+            if (m.version != null && Object.hasOwnProperty.call(m, "version")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.version = typeof m.version === "number" ? BigInt(m.version) : $util.Long.fromBits(m.version.low >>> 0, m.version.high >>> 0, true).toBigInt();
+                else if (typeof m.version === "number")
+                    d.version = o.longs === String ? String(m.version) : m.version;
+                else
+                    d.version = o.longs === String ? longToString(m.version, true) : o.longs === Number ? longToNumber(m.version, true) : m.version;
+                if (o.oneofs)
+                    d._version = "version";
+            }
+            return d;
+        };
+
+        EncryptMekForDistributionResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        EncryptMekForDistributionResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.EncryptMekForDistributionResult";
+        };
+
+        return EncryptMekForDistributionResult;
+    })();
+
+    proto.EncryptMeksForDistributionFromTransportSenderInput = (function() {
+
+        function EncryptMeksForDistributionFromTransportSenderInput(p) {
+            this.recipientMailboxEncryptionPks = [];
+            this.recipientEpochHeads = [];
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        EncryptMeksForDistributionFromTransportSenderInput.prototype.mek = null;
+        EncryptMeksForDistributionFromTransportSenderInput.prototype.transportSigningKp = null;
+        EncryptMeksForDistributionFromTransportSenderInput.prototype.recipientMailboxEncryptionPks = $util.emptyArray;
+        EncryptMeksForDistributionFromTransportSenderInput.prototype.recipientEpochHeads = $util.emptyArray;
+        EncryptMeksForDistributionFromTransportSenderInput.prototype.conf = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(EncryptMeksForDistributionFromTransportSenderInput.prototype, "_mek", {
+            get: $util.oneOfGetter($oneOfFields = ["mek"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(EncryptMeksForDistributionFromTransportSenderInput.prototype, "_transportSigningKp", {
+            get: $util.oneOfGetter($oneOfFields = ["transportSigningKp"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(EncryptMeksForDistributionFromTransportSenderInput.prototype, "_conf", {
+            get: $util.oneOfGetter($oneOfFields = ["conf"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        EncryptMeksForDistributionFromTransportSenderInput.create = function create(properties) {
+            return new EncryptMeksForDistributionFromTransportSenderInput(properties);
+        };
+
+        EncryptMeksForDistributionFromTransportSenderInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.mek != null && Object.hasOwnProperty.call(m, "mek"))
+                $root.proto.MekBundle.encode(m.mek, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.transportSigningKp != null && Object.hasOwnProperty.call(m, "transportSigningKp"))
+                $root.proto.EncryptMeksForDistributionFromTransportSenderInput.TransportSigningKP.encode(m.transportSigningKp, w.uint32(18).fork(), q + 1).ldelim();
+            if (m.recipientMailboxEncryptionPks != null && m.recipientMailboxEncryptionPks.length) {
+                for (var i = 0; i < m.recipientMailboxEncryptionPks.length; ++i)
+                    w.uint32(26).bytes(m.recipientMailboxEncryptionPks[i]);
+            }
+            if (m.recipientEpochHeads != null && m.recipientEpochHeads.length) {
+                for (var i = 0; i < m.recipientEpochHeads.length; ++i)
+                    w.uint32(34).bytes(m.recipientEpochHeads[i]);
+            }
+            if (m.conf != null && Object.hasOwnProperty.call(m, "conf"))
+                $root.proto.MinosClientConfig.encode(m.conf, w.uint32(42).fork(), q + 1).ldelim();
+            return w;
+        };
+
+        EncryptMeksForDistributionFromTransportSenderInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.EncryptMeksForDistributionFromTransportSenderInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.mek = $root.proto.MekBundle.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.transportSigningKp = $root.proto.EncryptMeksForDistributionFromTransportSenderInput.TransportSigningKP.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 3: {
+                        if (!(m.recipientMailboxEncryptionPks && m.recipientMailboxEncryptionPks.length))
+                            m.recipientMailboxEncryptionPks = [];
+                        m.recipientMailboxEncryptionPks.push(r.bytes());
+                        break;
+                    }
+                case 4: {
+                        if (!(m.recipientEpochHeads && m.recipientEpochHeads.length))
+                            m.recipientEpochHeads = [];
+                        m.recipientEpochHeads.push(r.bytes());
+                        break;
+                    }
+                case 5: {
+                        m.conf = $root.proto.MinosClientConfig.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        EncryptMeksForDistributionFromTransportSenderInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.EncryptMeksForDistributionFromTransportSenderInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.EncryptMeksForDistributionFromTransportSenderInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.EncryptMeksForDistributionFromTransportSenderInput();
+            if (d.mek != null) {
+                if (!$util.isObject(d.mek))
+                    throw TypeError(".proto.EncryptMeksForDistributionFromTransportSenderInput.mek: object expected");
+                m.mek = $root.proto.MekBundle.fromObject(d.mek, n + 1);
+            }
+            if (d.transportSigningKp != null) {
+                if (!$util.isObject(d.transportSigningKp))
+                    throw TypeError(".proto.EncryptMeksForDistributionFromTransportSenderInput.transportSigningKp: object expected");
+                m.transportSigningKp = $root.proto.EncryptMeksForDistributionFromTransportSenderInput.TransportSigningKP.fromObject(d.transportSigningKp, n + 1);
+            }
+            if (d.recipientMailboxEncryptionPks) {
+                if (!Array.isArray(d.recipientMailboxEncryptionPks))
+                    throw TypeError(".proto.EncryptMeksForDistributionFromTransportSenderInput.recipientMailboxEncryptionPks: array expected");
+                m.recipientMailboxEncryptionPks = [];
+                for (var i = 0; i < d.recipientMailboxEncryptionPks.length; ++i) {
+                    if (typeof d.recipientMailboxEncryptionPks[i] === "string")
+                        $util.base64.decode(d.recipientMailboxEncryptionPks[i], m.recipientMailboxEncryptionPks[i] = $util.newBuffer($util.base64.length(d.recipientMailboxEncryptionPks[i])), 0);
+                    else if (d.recipientMailboxEncryptionPks[i].length >= 0)
+                        m.recipientMailboxEncryptionPks[i] = d.recipientMailboxEncryptionPks[i];
+                }
+            }
+            if (d.recipientEpochHeads) {
+                if (!Array.isArray(d.recipientEpochHeads))
+                    throw TypeError(".proto.EncryptMeksForDistributionFromTransportSenderInput.recipientEpochHeads: array expected");
+                m.recipientEpochHeads = [];
+                for (var i = 0; i < d.recipientEpochHeads.length; ++i) {
+                    if (typeof d.recipientEpochHeads[i] === "string")
+                        $util.base64.decode(d.recipientEpochHeads[i], m.recipientEpochHeads[i] = $util.newBuffer($util.base64.length(d.recipientEpochHeads[i])), 0);
+                    else if (d.recipientEpochHeads[i].length >= 0)
+                        m.recipientEpochHeads[i] = d.recipientEpochHeads[i];
+                }
+            }
+            if (d.conf != null) {
+                if (!$util.isObject(d.conf))
+                    throw TypeError(".proto.EncryptMeksForDistributionFromTransportSenderInput.conf: object expected");
+                m.conf = $root.proto.MinosClientConfig.fromObject(d.conf, n + 1);
+            }
+            return m;
+        };
+
+        EncryptMeksForDistributionFromTransportSenderInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (o.arrays || o.defaults) {
+                d.recipientMailboxEncryptionPks = [];
+                d.recipientEpochHeads = [];
+            }
+            if (m.mek != null && Object.hasOwnProperty.call(m, "mek")) {
+                d.mek = $root.proto.MekBundle.toObject(m.mek, o, q + 1);
+                if (o.oneofs)
+                    d._mek = "mek";
+            }
+            if (m.transportSigningKp != null && Object.hasOwnProperty.call(m, "transportSigningKp")) {
+                d.transportSigningKp = $root.proto.EncryptMeksForDistributionFromTransportSenderInput.TransportSigningKP.toObject(m.transportSigningKp, o, q + 1);
+                if (o.oneofs)
+                    d._transportSigningKp = "transportSigningKp";
+            }
+            if (m.recipientMailboxEncryptionPks && m.recipientMailboxEncryptionPks.length) {
+                d.recipientMailboxEncryptionPks = [];
+                for (var j = 0; j < m.recipientMailboxEncryptionPks.length; ++j) {
+                    d.recipientMailboxEncryptionPks[j] = o.bytes === String ? $util.base64.encode(m.recipientMailboxEncryptionPks[j], 0, m.recipientMailboxEncryptionPks[j].length) : o.bytes === Array ? Array.prototype.slice.call(m.recipientMailboxEncryptionPks[j]) : m.recipientMailboxEncryptionPks[j];
+                }
+            }
+            if (m.recipientEpochHeads && m.recipientEpochHeads.length) {
+                d.recipientEpochHeads = [];
+                for (var j = 0; j < m.recipientEpochHeads.length; ++j) {
+                    d.recipientEpochHeads[j] = o.bytes === String ? $util.base64.encode(m.recipientEpochHeads[j], 0, m.recipientEpochHeads[j].length) : o.bytes === Array ? Array.prototype.slice.call(m.recipientEpochHeads[j]) : m.recipientEpochHeads[j];
+                }
+            }
+            if (m.conf != null && Object.hasOwnProperty.call(m, "conf")) {
+                d.conf = $root.proto.MinosClientConfig.toObject(m.conf, o, q + 1);
+                if (o.oneofs)
+                    d._conf = "conf";
+            }
+            return d;
+        };
+
+        EncryptMeksForDistributionFromTransportSenderInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        EncryptMeksForDistributionFromTransportSenderInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.EncryptMeksForDistributionFromTransportSenderInput";
+        };
+
+        EncryptMeksForDistributionFromTransportSenderInput.TransportSigningKP = (function() {
+
+            function TransportSigningKP(p) {
+                if (p)
+                    for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                        if (p[ks[i]] != null && ks[i] !== "__proto__")
+                            this[ks[i]] = p[ks[i]];
+            }
+
+            TransportSigningKP.prototype.sk = null;
+            TransportSigningKP.prototype.pk = null;
+
+            let $oneOfFields;
+
+            Object.defineProperty(TransportSigningKP.prototype, "_sk", {
+                get: $util.oneOfGetter($oneOfFields = ["sk"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            Object.defineProperty(TransportSigningKP.prototype, "_pk", {
+                get: $util.oneOfGetter($oneOfFields = ["pk"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            TransportSigningKP.create = function create(properties) {
+                return new TransportSigningKP(properties);
+            };
+
+            TransportSigningKP.encode = function encode(m, w, q) {
+                if (!w)
+                    w = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                if (m.sk != null && Object.hasOwnProperty.call(m, "sk"))
+                    w.uint32(10).bytes(m.sk);
+                if (m.pk != null && Object.hasOwnProperty.call(m, "pk"))
+                    w.uint32(18).bytes(m.pk);
+                return w;
+            };
+
+            TransportSigningKP.decode = function decode(r, l, e, n) {
+                if (!(r instanceof $Reader))
+                    r = $Reader.create(r);
+                if (n === undefined)
+                    n = 0;
+                if (n > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var c, m;
+                if (l === undefined)
+                    c = r.len;
+                else {
+                    c = r.pos + l;
+                    if (c > r.len)
+                        throw RangeError("index out of range");
+                    l = r.len;
+                    r.len = c;
+                }
+                m = new $root.proto.EncryptMeksForDistributionFromTransportSenderInput.TransportSigningKP();
+                while (r.pos < c) {
+                    var t = r.uint32();
+                    if (t === e)
+                        break;
+                    switch (t >>> 3) {
+                    case 1: {
+                            m.sk = r.bytes();
+                            break;
+                        }
+                    case 2: {
+                            m.pk = r.bytes();
+                            break;
+                        }
+                    default:
+                        r.skipType(t & 7, n);
+                        break;
+                    }
+                }
+                if (l !== undefined) {
+                    if (r.pos !== c)
+                        throw RangeError("index out of range");
+                    r.len = l;
+                }
+                return m;
+            };
+
+            TransportSigningKP.fromObject = function fromObject(d, n) {
+                if (d instanceof $root.proto.EncryptMeksForDistributionFromTransportSenderInput.TransportSigningKP)
+                    return d;
+                if (!$util.isObject(d))
+                    throw TypeError(".proto.EncryptMeksForDistributionFromTransportSenderInput.TransportSigningKP: object expected");
+                if (n === undefined)
+                    n = 0;
+                if (n > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var m = new $root.proto.EncryptMeksForDistributionFromTransportSenderInput.TransportSigningKP();
+                if (d.sk != null) {
+                    if (typeof d.sk === "string")
+                        $util.base64.decode(d.sk, m.sk = $util.newBuffer($util.base64.length(d.sk)), 0);
+                    else if (d.sk.length >= 0)
+                        m.sk = d.sk;
+                }
+                if (d.pk != null) {
+                    if (typeof d.pk === "string")
+                        $util.base64.decode(d.pk, m.pk = $util.newBuffer($util.base64.length(d.pk)), 0);
+                    else if (d.pk.length >= 0)
+                        m.pk = d.pk;
+                }
+                return m;
+            };
+
+            TransportSigningKP.toObject = function toObject(m, o, q) {
+                if (!o)
+                    o = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                var d = {};
+                if (m.sk != null && Object.hasOwnProperty.call(m, "sk")) {
+                    d.sk = o.bytes === String ? $util.base64.encode(m.sk, 0, m.sk.length) : o.bytes === Array ? Array.prototype.slice.call(m.sk) : m.sk;
+                    if (o.oneofs)
+                        d._sk = "sk";
+                }
+                if (m.pk != null && Object.hasOwnProperty.call(m, "pk")) {
+                    d.pk = o.bytes === String ? $util.base64.encode(m.pk, 0, m.pk.length) : o.bytes === Array ? Array.prototype.slice.call(m.pk) : m.pk;
+                    if (o.oneofs)
+                        d._pk = "pk";
+                }
+                return d;
+            };
+
+            TransportSigningKP.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            TransportSigningKP.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/proto.EncryptMeksForDistributionFromTransportSenderInput.TransportSigningKP";
+            };
+
+            return TransportSigningKP;
+        })();
+
+        return EncryptMeksForDistributionFromTransportSenderInput;
+    })();
+
+    proto.EncryptMeksForDistributionFromTransportSenderResult = (function() {
+
+        function EncryptMeksForDistributionFromTransportSenderResult(p) {
+            this.encryptedMeks = [];
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        EncryptMeksForDistributionFromTransportSenderResult.prototype.encryptedMeks = $util.emptyArray;
+        EncryptMeksForDistributionFromTransportSenderResult.prototype.ephemeralEncryptionPk = null;
+        EncryptMeksForDistributionFromTransportSenderResult.prototype.signingPk = null;
+        EncryptMeksForDistributionFromTransportSenderResult.prototype.signature = null;
+        EncryptMeksForDistributionFromTransportSenderResult.prototype.version = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(EncryptMeksForDistributionFromTransportSenderResult.prototype, "_ephemeralEncryptionPk", {
+            get: $util.oneOfGetter($oneOfFields = ["ephemeralEncryptionPk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(EncryptMeksForDistributionFromTransportSenderResult.prototype, "_signingPk", {
+            get: $util.oneOfGetter($oneOfFields = ["signingPk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(EncryptMeksForDistributionFromTransportSenderResult.prototype, "_signature", {
+            get: $util.oneOfGetter($oneOfFields = ["signature"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(EncryptMeksForDistributionFromTransportSenderResult.prototype, "_version", {
+            get: $util.oneOfGetter($oneOfFields = ["version"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        EncryptMeksForDistributionFromTransportSenderResult.create = function create(properties) {
+            return new EncryptMeksForDistributionFromTransportSenderResult(properties);
+        };
+
+        EncryptMeksForDistributionFromTransportSenderResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.encryptedMeks != null && m.encryptedMeks.length) {
+                for (var i = 0; i < m.encryptedMeks.length; ++i)
+                    w.uint32(10).bytes(m.encryptedMeks[i]);
+            }
+            if (m.ephemeralEncryptionPk != null && Object.hasOwnProperty.call(m, "ephemeralEncryptionPk"))
+                w.uint32(18).bytes(m.ephemeralEncryptionPk);
+            if (m.signingPk != null && Object.hasOwnProperty.call(m, "signingPk"))
+                w.uint32(26).bytes(m.signingPk);
+            if (m.signature != null && Object.hasOwnProperty.call(m, "signature"))
+                w.uint32(34).bytes(m.signature);
+            if (m.version != null && Object.hasOwnProperty.call(m, "version"))
+                w.uint32(40).uint64(m.version);
+            return w;
+        };
+
+        EncryptMeksForDistributionFromTransportSenderResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.EncryptMeksForDistributionFromTransportSenderResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        if (!(m.encryptedMeks && m.encryptedMeks.length))
+                            m.encryptedMeks = [];
+                        m.encryptedMeks.push(r.bytes());
+                        break;
+                    }
+                case 2: {
+                        m.ephemeralEncryptionPk = r.bytes();
+                        break;
+                    }
+                case 3: {
+                        m.signingPk = r.bytes();
+                        break;
+                    }
+                case 4: {
+                        m.signature = r.bytes();
+                        break;
+                    }
+                case 5: {
+                        m.version = r.uint64();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        EncryptMeksForDistributionFromTransportSenderResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.EncryptMeksForDistributionFromTransportSenderResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.EncryptMeksForDistributionFromTransportSenderResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.EncryptMeksForDistributionFromTransportSenderResult();
+            if (d.encryptedMeks) {
+                if (!Array.isArray(d.encryptedMeks))
+                    throw TypeError(".proto.EncryptMeksForDistributionFromTransportSenderResult.encryptedMeks: array expected");
+                m.encryptedMeks = [];
+                for (var i = 0; i < d.encryptedMeks.length; ++i) {
+                    if (typeof d.encryptedMeks[i] === "string")
+                        $util.base64.decode(d.encryptedMeks[i], m.encryptedMeks[i] = $util.newBuffer($util.base64.length(d.encryptedMeks[i])), 0);
+                    else if (d.encryptedMeks[i].length >= 0)
+                        m.encryptedMeks[i] = d.encryptedMeks[i];
+                }
+            }
+            if (d.ephemeralEncryptionPk != null) {
+                if (typeof d.ephemeralEncryptionPk === "string")
+                    $util.base64.decode(d.ephemeralEncryptionPk, m.ephemeralEncryptionPk = $util.newBuffer($util.base64.length(d.ephemeralEncryptionPk)), 0);
+                else if (d.ephemeralEncryptionPk.length >= 0)
+                    m.ephemeralEncryptionPk = d.ephemeralEncryptionPk;
+            }
+            if (d.signingPk != null) {
+                if (typeof d.signingPk === "string")
+                    $util.base64.decode(d.signingPk, m.signingPk = $util.newBuffer($util.base64.length(d.signingPk)), 0);
+                else if (d.signingPk.length >= 0)
+                    m.signingPk = d.signingPk;
+            }
+            if (d.signature != null) {
+                if (typeof d.signature === "string")
+                    $util.base64.decode(d.signature, m.signature = $util.newBuffer($util.base64.length(d.signature)), 0);
+                else if (d.signature.length >= 0)
+                    m.signature = d.signature;
+            }
+            if (d.version != null) {
+                if ($util.Long)
+                    m.version = $util.Long.fromValue(d.version, true);
+                else if (typeof d.version === "string")
+                    m.version = parseInt(d.version, 10);
+                else if (typeof d.version === "number")
+                    m.version = d.version;
+                else if (typeof d.version === "object")
+                    m.version = new $util.LongBits(d.version.low >>> 0, d.version.high >>> 0).toNumber(true);
+            }
+            return m;
+        };
+
+        EncryptMeksForDistributionFromTransportSenderResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (o.arrays || o.defaults) {
+                d.encryptedMeks = [];
+            }
+            if (m.encryptedMeks && m.encryptedMeks.length) {
+                d.encryptedMeks = [];
+                for (var j = 0; j < m.encryptedMeks.length; ++j) {
+                    d.encryptedMeks[j] = o.bytes === String ? $util.base64.encode(m.encryptedMeks[j], 0, m.encryptedMeks[j].length) : o.bytes === Array ? Array.prototype.slice.call(m.encryptedMeks[j]) : m.encryptedMeks[j];
+                }
+            }
+            if (m.ephemeralEncryptionPk != null && Object.hasOwnProperty.call(m, "ephemeralEncryptionPk")) {
+                d.ephemeralEncryptionPk = o.bytes === String ? $util.base64.encode(m.ephemeralEncryptionPk, 0, m.ephemeralEncryptionPk.length) : o.bytes === Array ? Array.prototype.slice.call(m.ephemeralEncryptionPk) : m.ephemeralEncryptionPk;
+                if (o.oneofs)
+                    d._ephemeralEncryptionPk = "ephemeralEncryptionPk";
+            }
+            if (m.signingPk != null && Object.hasOwnProperty.call(m, "signingPk")) {
+                d.signingPk = o.bytes === String ? $util.base64.encode(m.signingPk, 0, m.signingPk.length) : o.bytes === Array ? Array.prototype.slice.call(m.signingPk) : m.signingPk;
+                if (o.oneofs)
+                    d._signingPk = "signingPk";
+            }
+            if (m.signature != null && Object.hasOwnProperty.call(m, "signature")) {
+                d.signature = o.bytes === String ? $util.base64.encode(m.signature, 0, m.signature.length) : o.bytes === Array ? Array.prototype.slice.call(m.signature) : m.signature;
+                if (o.oneofs)
+                    d._signature = "signature";
+            }
+            if (m.version != null && Object.hasOwnProperty.call(m, "version")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.version = typeof m.version === "number" ? BigInt(m.version) : $util.Long.fromBits(m.version.low >>> 0, m.version.high >>> 0, true).toBigInt();
+                else if (typeof m.version === "number")
+                    d.version = o.longs === String ? String(m.version) : m.version;
+                else
+                    d.version = o.longs === String ? longToString(m.version, true) : o.longs === Number ? longToNumber(m.version, true) : m.version;
+                if (o.oneofs)
+                    d._version = "version";
+            }
+            return d;
+        };
+
+        EncryptMeksForDistributionFromTransportSenderResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        EncryptMeksForDistributionFromTransportSenderResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.EncryptMeksForDistributionFromTransportSenderResult";
+        };
+
+        return EncryptMeksForDistributionFromTransportSenderResult;
+    })();
+
     proto.EncryptedPairingRequest = (function() {
 
         function EncryptedPairingRequest(p) {
@@ -39971,6 +45395,396 @@ export const proto = $root.proto = (() => {
         };
 
         return EphemeralSetting;
+    })();
+
+    proto.EpochPublicData = (function() {
+
+        function EpochPublicData(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        EpochPublicData.prototype.epochNumber = null;
+        EpochPublicData.prototype.userFbid = null;
+        EpochPublicData.prototype.mailboxSigningPk = null;
+        EpochPublicData.prototype.mailboxEncryptionPk = null;
+        EpochPublicData.prototype.mailboxAuthPk = null;
+        EpochPublicData.prototype.previousEpochHead = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(EpochPublicData.prototype, "_epochNumber", {
+            get: $util.oneOfGetter($oneOfFields = ["epochNumber"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(EpochPublicData.prototype, "_userFbid", {
+            get: $util.oneOfGetter($oneOfFields = ["userFbid"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(EpochPublicData.prototype, "_mailboxSigningPk", {
+            get: $util.oneOfGetter($oneOfFields = ["mailboxSigningPk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(EpochPublicData.prototype, "_mailboxEncryptionPk", {
+            get: $util.oneOfGetter($oneOfFields = ["mailboxEncryptionPk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(EpochPublicData.prototype, "_mailboxAuthPk", {
+            get: $util.oneOfGetter($oneOfFields = ["mailboxAuthPk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(EpochPublicData.prototype, "_previousEpochHead", {
+            get: $util.oneOfGetter($oneOfFields = ["previousEpochHead"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        EpochPublicData.create = function create(properties) {
+            return new EpochPublicData(properties);
+        };
+
+        EpochPublicData.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.epochNumber != null && Object.hasOwnProperty.call(m, "epochNumber"))
+                w.uint32(8).uint64(m.epochNumber);
+            if (m.userFbid != null && Object.hasOwnProperty.call(m, "userFbid"))
+                w.uint32(18).string(m.userFbid);
+            if (m.mailboxSigningPk != null && Object.hasOwnProperty.call(m, "mailboxSigningPk"))
+                w.uint32(26).bytes(m.mailboxSigningPk);
+            if (m.mailboxEncryptionPk != null && Object.hasOwnProperty.call(m, "mailboxEncryptionPk"))
+                w.uint32(34).bytes(m.mailboxEncryptionPk);
+            if (m.mailboxAuthPk != null && Object.hasOwnProperty.call(m, "mailboxAuthPk"))
+                w.uint32(42).bytes(m.mailboxAuthPk);
+            if (m.previousEpochHead != null && Object.hasOwnProperty.call(m, "previousEpochHead"))
+                w.uint32(50).bytes(m.previousEpochHead);
+            return w;
+        };
+
+        EpochPublicData.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.EpochPublicData();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.epochNumber = r.uint64();
+                        break;
+                    }
+                case 2: {
+                        m.userFbid = r.string();
+                        break;
+                    }
+                case 3: {
+                        m.mailboxSigningPk = r.bytes();
+                        break;
+                    }
+                case 4: {
+                        m.mailboxEncryptionPk = r.bytes();
+                        break;
+                    }
+                case 5: {
+                        m.mailboxAuthPk = r.bytes();
+                        break;
+                    }
+                case 6: {
+                        m.previousEpochHead = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        EpochPublicData.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.EpochPublicData)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.EpochPublicData: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.EpochPublicData();
+            if (d.epochNumber != null) {
+                if ($util.Long)
+                    m.epochNumber = $util.Long.fromValue(d.epochNumber, true);
+                else if (typeof d.epochNumber === "string")
+                    m.epochNumber = parseInt(d.epochNumber, 10);
+                else if (typeof d.epochNumber === "number")
+                    m.epochNumber = d.epochNumber;
+                else if (typeof d.epochNumber === "object")
+                    m.epochNumber = new $util.LongBits(d.epochNumber.low >>> 0, d.epochNumber.high >>> 0).toNumber(true);
+            }
+            if (d.userFbid != null) {
+                m.userFbid = String(d.userFbid);
+            }
+            if (d.mailboxSigningPk != null) {
+                if (typeof d.mailboxSigningPk === "string")
+                    $util.base64.decode(d.mailboxSigningPk, m.mailboxSigningPk = $util.newBuffer($util.base64.length(d.mailboxSigningPk)), 0);
+                else if (d.mailboxSigningPk.length >= 0)
+                    m.mailboxSigningPk = d.mailboxSigningPk;
+            }
+            if (d.mailboxEncryptionPk != null) {
+                if (typeof d.mailboxEncryptionPk === "string")
+                    $util.base64.decode(d.mailboxEncryptionPk, m.mailboxEncryptionPk = $util.newBuffer($util.base64.length(d.mailboxEncryptionPk)), 0);
+                else if (d.mailboxEncryptionPk.length >= 0)
+                    m.mailboxEncryptionPk = d.mailboxEncryptionPk;
+            }
+            if (d.mailboxAuthPk != null) {
+                if (typeof d.mailboxAuthPk === "string")
+                    $util.base64.decode(d.mailboxAuthPk, m.mailboxAuthPk = $util.newBuffer($util.base64.length(d.mailboxAuthPk)), 0);
+                else if (d.mailboxAuthPk.length >= 0)
+                    m.mailboxAuthPk = d.mailboxAuthPk;
+            }
+            if (d.previousEpochHead != null) {
+                if (typeof d.previousEpochHead === "string")
+                    $util.base64.decode(d.previousEpochHead, m.previousEpochHead = $util.newBuffer($util.base64.length(d.previousEpochHead)), 0);
+                else if (d.previousEpochHead.length >= 0)
+                    m.previousEpochHead = d.previousEpochHead;
+            }
+            return m;
+        };
+
+        EpochPublicData.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.epochNumber != null && Object.hasOwnProperty.call(m, "epochNumber")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.epochNumber = typeof m.epochNumber === "number" ? BigInt(m.epochNumber) : $util.Long.fromBits(m.epochNumber.low >>> 0, m.epochNumber.high >>> 0, true).toBigInt();
+                else if (typeof m.epochNumber === "number")
+                    d.epochNumber = o.longs === String ? String(m.epochNumber) : m.epochNumber;
+                else
+                    d.epochNumber = o.longs === String ? longToString(m.epochNumber, true) : o.longs === Number ? longToNumber(m.epochNumber, true) : m.epochNumber;
+                if (o.oneofs)
+                    d._epochNumber = "epochNumber";
+            }
+            if (m.userFbid != null && Object.hasOwnProperty.call(m, "userFbid")) {
+                d.userFbid = m.userFbid;
+                if (o.oneofs)
+                    d._userFbid = "userFbid";
+            }
+            if (m.mailboxSigningPk != null && Object.hasOwnProperty.call(m, "mailboxSigningPk")) {
+                d.mailboxSigningPk = o.bytes === String ? $util.base64.encode(m.mailboxSigningPk, 0, m.mailboxSigningPk.length) : o.bytes === Array ? Array.prototype.slice.call(m.mailboxSigningPk) : m.mailboxSigningPk;
+                if (o.oneofs)
+                    d._mailboxSigningPk = "mailboxSigningPk";
+            }
+            if (m.mailboxEncryptionPk != null && Object.hasOwnProperty.call(m, "mailboxEncryptionPk")) {
+                d.mailboxEncryptionPk = o.bytes === String ? $util.base64.encode(m.mailboxEncryptionPk, 0, m.mailboxEncryptionPk.length) : o.bytes === Array ? Array.prototype.slice.call(m.mailboxEncryptionPk) : m.mailboxEncryptionPk;
+                if (o.oneofs)
+                    d._mailboxEncryptionPk = "mailboxEncryptionPk";
+            }
+            if (m.mailboxAuthPk != null && Object.hasOwnProperty.call(m, "mailboxAuthPk")) {
+                d.mailboxAuthPk = o.bytes === String ? $util.base64.encode(m.mailboxAuthPk, 0, m.mailboxAuthPk.length) : o.bytes === Array ? Array.prototype.slice.call(m.mailboxAuthPk) : m.mailboxAuthPk;
+                if (o.oneofs)
+                    d._mailboxAuthPk = "mailboxAuthPk";
+            }
+            if (m.previousEpochHead != null && Object.hasOwnProperty.call(m, "previousEpochHead")) {
+                d.previousEpochHead = o.bytes === String ? $util.base64.encode(m.previousEpochHead, 0, m.previousEpochHead.length) : o.bytes === Array ? Array.prototype.slice.call(m.previousEpochHead) : m.previousEpochHead;
+                if (o.oneofs)
+                    d._previousEpochHead = "previousEpochHead";
+            }
+            return d;
+        };
+
+        EpochPublicData.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        EpochPublicData.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.EpochPublicData";
+        };
+
+        return EpochPublicData;
+    })();
+
+    proto.EpochSignatures = (function() {
+
+        function EpochSignatures(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        EpochSignatures.prototype.selfSignature = null;
+        EpochSignatures.prototype.prevSignature = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(EpochSignatures.prototype, "_selfSignature", {
+            get: $util.oneOfGetter($oneOfFields = ["selfSignature"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(EpochSignatures.prototype, "_prevSignature", {
+            get: $util.oneOfGetter($oneOfFields = ["prevSignature"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        EpochSignatures.create = function create(properties) {
+            return new EpochSignatures(properties);
+        };
+
+        EpochSignatures.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.selfSignature != null && Object.hasOwnProperty.call(m, "selfSignature"))
+                w.uint32(10).bytes(m.selfSignature);
+            if (m.prevSignature != null && Object.hasOwnProperty.call(m, "prevSignature"))
+                w.uint32(18).bytes(m.prevSignature);
+            return w;
+        };
+
+        EpochSignatures.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.EpochSignatures();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.selfSignature = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.prevSignature = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        EpochSignatures.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.EpochSignatures)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.EpochSignatures: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.EpochSignatures();
+            if (d.selfSignature != null) {
+                if (typeof d.selfSignature === "string")
+                    $util.base64.decode(d.selfSignature, m.selfSignature = $util.newBuffer($util.base64.length(d.selfSignature)), 0);
+                else if (d.selfSignature.length >= 0)
+                    m.selfSignature = d.selfSignature;
+            }
+            if (d.prevSignature != null) {
+                if (typeof d.prevSignature === "string")
+                    $util.base64.decode(d.prevSignature, m.prevSignature = $util.newBuffer($util.base64.length(d.prevSignature)), 0);
+                else if (d.prevSignature.length >= 0)
+                    m.prevSignature = d.prevSignature;
+            }
+            return m;
+        };
+
+        EpochSignatures.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.selfSignature != null && Object.hasOwnProperty.call(m, "selfSignature")) {
+                d.selfSignature = o.bytes === String ? $util.base64.encode(m.selfSignature, 0, m.selfSignature.length) : o.bytes === Array ? Array.prototype.slice.call(m.selfSignature) : m.selfSignature;
+                if (o.oneofs)
+                    d._selfSignature = "selfSignature";
+            }
+            if (m.prevSignature != null && Object.hasOwnProperty.call(m, "prevSignature")) {
+                d.prevSignature = o.bytes === String ? $util.base64.encode(m.prevSignature, 0, m.prevSignature.length) : o.bytes === Array ? Array.prototype.slice.call(m.prevSignature) : m.prevSignature;
+                if (o.oneofs)
+                    d._prevSignature = "prevSignature";
+            }
+            return d;
+        };
+
+        EpochSignatures.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        EpochSignatures.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.EpochSignatures";
+        };
+
+        return EpochSignatures;
     })();
 
     proto.EventAdditionalMetadata = (function() {
@@ -40441,6 +46255,1406 @@ export const proto = $root.proto = (() => {
         return ExitCode;
     })();
 
+    proto.ExtendedContentMessage = (function() {
+
+        function ExtendedContentMessage(p) {
+            this.ctas = [];
+            this.previews = [];
+            this.mentionedJid = [];
+            this.commands = [];
+            this.mentions = [];
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        ExtendedContentMessage.prototype.associatedMessage = null;
+        ExtendedContentMessage.prototype.targetType = null;
+        ExtendedContentMessage.prototype.targetUsername = null;
+        ExtendedContentMessage.prototype.targetId = null;
+        ExtendedContentMessage.prototype.targetExpiringAtSec = null;
+        ExtendedContentMessage.prototype.xmaLayoutType = null;
+        ExtendedContentMessage.prototype.ctas = $util.emptyArray;
+        ExtendedContentMessage.prototype.previews = $util.emptyArray;
+        ExtendedContentMessage.prototype.titleText = null;
+        ExtendedContentMessage.prototype.subtitleText = null;
+        ExtendedContentMessage.prototype.maxTitleNumOfLines = null;
+        ExtendedContentMessage.prototype.maxSubtitleNumOfLines = null;
+        ExtendedContentMessage.prototype.favicon = null;
+        ExtendedContentMessage.prototype.headerImage = null;
+        ExtendedContentMessage.prototype.headerTitle = null;
+        ExtendedContentMessage.prototype.overlayIconGlyph = null;
+        ExtendedContentMessage.prototype.overlayTitle = null;
+        ExtendedContentMessage.prototype.overlayDescription = null;
+        ExtendedContentMessage.prototype.sentWithMessageId = null;
+        ExtendedContentMessage.prototype.messageText = null;
+        ExtendedContentMessage.prototype.headerSubtitle = null;
+        ExtendedContentMessage.prototype.xmaDataclass = null;
+        ExtendedContentMessage.prototype.contentRef = null;
+        ExtendedContentMessage.prototype.mentionedJid = $util.emptyArray;
+        ExtendedContentMessage.prototype.commands = $util.emptyArray;
+        ExtendedContentMessage.prototype.mentions = $util.emptyArray;
+        ExtendedContentMessage.prototype.xmaDataclassType = null;
+        ExtendedContentMessage.prototype.signedXmaDataclassValidation = null;
+        ExtendedContentMessage.prototype.featureSharedSessionId = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(ExtendedContentMessage.prototype, "_associatedMessage", {
+            get: $util.oneOfGetter($oneOfFields = ["associatedMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ExtendedContentMessage.prototype, "_targetType", {
+            get: $util.oneOfGetter($oneOfFields = ["targetType"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ExtendedContentMessage.prototype, "_targetUsername", {
+            get: $util.oneOfGetter($oneOfFields = ["targetUsername"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ExtendedContentMessage.prototype, "_targetId", {
+            get: $util.oneOfGetter($oneOfFields = ["targetId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ExtendedContentMessage.prototype, "_targetExpiringAtSec", {
+            get: $util.oneOfGetter($oneOfFields = ["targetExpiringAtSec"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ExtendedContentMessage.prototype, "_xmaLayoutType", {
+            get: $util.oneOfGetter($oneOfFields = ["xmaLayoutType"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ExtendedContentMessage.prototype, "_titleText", {
+            get: $util.oneOfGetter($oneOfFields = ["titleText"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ExtendedContentMessage.prototype, "_subtitleText", {
+            get: $util.oneOfGetter($oneOfFields = ["subtitleText"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ExtendedContentMessage.prototype, "_maxTitleNumOfLines", {
+            get: $util.oneOfGetter($oneOfFields = ["maxTitleNumOfLines"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ExtendedContentMessage.prototype, "_maxSubtitleNumOfLines", {
+            get: $util.oneOfGetter($oneOfFields = ["maxSubtitleNumOfLines"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ExtendedContentMessage.prototype, "_favicon", {
+            get: $util.oneOfGetter($oneOfFields = ["favicon"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ExtendedContentMessage.prototype, "_headerImage", {
+            get: $util.oneOfGetter($oneOfFields = ["headerImage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ExtendedContentMessage.prototype, "_headerTitle", {
+            get: $util.oneOfGetter($oneOfFields = ["headerTitle"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ExtendedContentMessage.prototype, "_overlayIconGlyph", {
+            get: $util.oneOfGetter($oneOfFields = ["overlayIconGlyph"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ExtendedContentMessage.prototype, "_overlayTitle", {
+            get: $util.oneOfGetter($oneOfFields = ["overlayTitle"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ExtendedContentMessage.prototype, "_overlayDescription", {
+            get: $util.oneOfGetter($oneOfFields = ["overlayDescription"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ExtendedContentMessage.prototype, "_sentWithMessageId", {
+            get: $util.oneOfGetter($oneOfFields = ["sentWithMessageId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ExtendedContentMessage.prototype, "_messageText", {
+            get: $util.oneOfGetter($oneOfFields = ["messageText"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ExtendedContentMessage.prototype, "_headerSubtitle", {
+            get: $util.oneOfGetter($oneOfFields = ["headerSubtitle"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ExtendedContentMessage.prototype, "_xmaDataclass", {
+            get: $util.oneOfGetter($oneOfFields = ["xmaDataclass"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ExtendedContentMessage.prototype, "_contentRef", {
+            get: $util.oneOfGetter($oneOfFields = ["contentRef"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ExtendedContentMessage.prototype, "_xmaDataclassType", {
+            get: $util.oneOfGetter($oneOfFields = ["xmaDataclassType"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ExtendedContentMessage.prototype, "_signedXmaDataclassValidation", {
+            get: $util.oneOfGetter($oneOfFields = ["signedXmaDataclassValidation"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ExtendedContentMessage.prototype, "_featureSharedSessionId", {
+            get: $util.oneOfGetter($oneOfFields = ["featureSharedSessionId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        ExtendedContentMessage.create = function create(properties) {
+            return new ExtendedContentMessage(properties);
+        };
+
+        ExtendedContentMessage.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.associatedMessage != null && Object.hasOwnProperty.call(m, "associatedMessage"))
+                $root.proto.SubProtocol.encode(m.associatedMessage, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.targetType != null && Object.hasOwnProperty.call(m, "targetType"))
+                w.uint32(16).int32(m.targetType);
+            if (m.targetUsername != null && Object.hasOwnProperty.call(m, "targetUsername"))
+                w.uint32(26).string(m.targetUsername);
+            if (m.targetId != null && Object.hasOwnProperty.call(m, "targetId"))
+                w.uint32(34).string(m.targetId);
+            if (m.targetExpiringAtSec != null && Object.hasOwnProperty.call(m, "targetExpiringAtSec"))
+                w.uint32(40).int64(m.targetExpiringAtSec);
+            if (m.xmaLayoutType != null && Object.hasOwnProperty.call(m, "xmaLayoutType"))
+                w.uint32(48).int32(m.xmaLayoutType);
+            if (m.ctas != null && m.ctas.length) {
+                for (var i = 0; i < m.ctas.length; ++i)
+                    $root.proto.ExtendedContentMessage.CTA.encode(m.ctas[i], w.uint32(58).fork(), q + 1).ldelim();
+            }
+            if (m.previews != null && m.previews.length) {
+                for (var i = 0; i < m.previews.length; ++i)
+                    $root.proto.SubProtocol.encode(m.previews[i], w.uint32(66).fork(), q + 1).ldelim();
+            }
+            if (m.titleText != null && Object.hasOwnProperty.call(m, "titleText"))
+                w.uint32(74).string(m.titleText);
+            if (m.subtitleText != null && Object.hasOwnProperty.call(m, "subtitleText"))
+                w.uint32(82).string(m.subtitleText);
+            if (m.maxTitleNumOfLines != null && Object.hasOwnProperty.call(m, "maxTitleNumOfLines"))
+                w.uint32(88).uint32(m.maxTitleNumOfLines);
+            if (m.maxSubtitleNumOfLines != null && Object.hasOwnProperty.call(m, "maxSubtitleNumOfLines"))
+                w.uint32(96).uint32(m.maxSubtitleNumOfLines);
+            if (m.favicon != null && Object.hasOwnProperty.call(m, "favicon"))
+                $root.proto.SubProtocol.encode(m.favicon, w.uint32(106).fork(), q + 1).ldelim();
+            if (m.headerImage != null && Object.hasOwnProperty.call(m, "headerImage"))
+                $root.proto.SubProtocol.encode(m.headerImage, w.uint32(114).fork(), q + 1).ldelim();
+            if (m.headerTitle != null && Object.hasOwnProperty.call(m, "headerTitle"))
+                w.uint32(122).string(m.headerTitle);
+            if (m.overlayIconGlyph != null && Object.hasOwnProperty.call(m, "overlayIconGlyph"))
+                w.uint32(128).int32(m.overlayIconGlyph);
+            if (m.overlayTitle != null && Object.hasOwnProperty.call(m, "overlayTitle"))
+                w.uint32(138).string(m.overlayTitle);
+            if (m.overlayDescription != null && Object.hasOwnProperty.call(m, "overlayDescription"))
+                w.uint32(146).string(m.overlayDescription);
+            if (m.sentWithMessageId != null && Object.hasOwnProperty.call(m, "sentWithMessageId"))
+                w.uint32(154).string(m.sentWithMessageId);
+            if (m.messageText != null && Object.hasOwnProperty.call(m, "messageText"))
+                w.uint32(162).string(m.messageText);
+            if (m.headerSubtitle != null && Object.hasOwnProperty.call(m, "headerSubtitle"))
+                w.uint32(170).string(m.headerSubtitle);
+            if (m.xmaDataclass != null && Object.hasOwnProperty.call(m, "xmaDataclass"))
+                w.uint32(178).string(m.xmaDataclass);
+            if (m.contentRef != null && Object.hasOwnProperty.call(m, "contentRef"))
+                w.uint32(186).string(m.contentRef);
+            if (m.mentionedJid != null && m.mentionedJid.length) {
+                for (var i = 0; i < m.mentionedJid.length; ++i)
+                    w.uint32(194).string(m.mentionedJid[i]);
+            }
+            if (m.commands != null && m.commands.length) {
+                for (var i = 0; i < m.commands.length; ++i)
+                    $root.proto.Command.encode(m.commands[i], w.uint32(202).fork(), q + 1).ldelim();
+            }
+            if (m.mentions != null && m.mentions.length) {
+                for (var i = 0; i < m.mentions.length; ++i)
+                    $root.proto.Mention.encode(m.mentions[i], w.uint32(210).fork(), q + 1).ldelim();
+            }
+            if (m.xmaDataclassType != null && Object.hasOwnProperty.call(m, "xmaDataclassType"))
+                w.uint32(216).int32(m.xmaDataclassType);
+            if (m.signedXmaDataclassValidation != null && Object.hasOwnProperty.call(m, "signedXmaDataclassValidation"))
+                w.uint32(226).string(m.signedXmaDataclassValidation);
+            if (m.featureSharedSessionId != null && Object.hasOwnProperty.call(m, "featureSharedSessionId"))
+                w.uint32(234).string(m.featureSharedSessionId);
+            return w;
+        };
+
+        ExtendedContentMessage.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.ExtendedContentMessage();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.associatedMessage = $root.proto.SubProtocol.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.targetType = r.int32();
+                        break;
+                    }
+                case 3: {
+                        m.targetUsername = r.string();
+                        break;
+                    }
+                case 4: {
+                        m.targetId = r.string();
+                        break;
+                    }
+                case 5: {
+                        m.targetExpiringAtSec = r.int64();
+                        break;
+                    }
+                case 6: {
+                        m.xmaLayoutType = r.int32();
+                        break;
+                    }
+                case 7: {
+                        if (!(m.ctas && m.ctas.length))
+                            m.ctas = [];
+                        m.ctas.push($root.proto.ExtendedContentMessage.CTA.decode(r, r.uint32(), undefined, n + 1));
+                        break;
+                    }
+                case 8: {
+                        if (!(m.previews && m.previews.length))
+                            m.previews = [];
+                        m.previews.push($root.proto.SubProtocol.decode(r, r.uint32(), undefined, n + 1));
+                        break;
+                    }
+                case 9: {
+                        m.titleText = r.string();
+                        break;
+                    }
+                case 10: {
+                        m.subtitleText = r.string();
+                        break;
+                    }
+                case 11: {
+                        m.maxTitleNumOfLines = r.uint32();
+                        break;
+                    }
+                case 12: {
+                        m.maxSubtitleNumOfLines = r.uint32();
+                        break;
+                    }
+                case 13: {
+                        m.favicon = $root.proto.SubProtocol.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 14: {
+                        m.headerImage = $root.proto.SubProtocol.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 15: {
+                        m.headerTitle = r.string();
+                        break;
+                    }
+                case 16: {
+                        m.overlayIconGlyph = r.int32();
+                        break;
+                    }
+                case 17: {
+                        m.overlayTitle = r.string();
+                        break;
+                    }
+                case 18: {
+                        m.overlayDescription = r.string();
+                        break;
+                    }
+                case 19: {
+                        m.sentWithMessageId = r.string();
+                        break;
+                    }
+                case 20: {
+                        m.messageText = r.string();
+                        break;
+                    }
+                case 21: {
+                        m.headerSubtitle = r.string();
+                        break;
+                    }
+                case 22: {
+                        m.xmaDataclass = r.string();
+                        break;
+                    }
+                case 23: {
+                        m.contentRef = r.string();
+                        break;
+                    }
+                case 24: {
+                        if (!(m.mentionedJid && m.mentionedJid.length))
+                            m.mentionedJid = [];
+                        m.mentionedJid.push(r.string());
+                        break;
+                    }
+                case 25: {
+                        if (!(m.commands && m.commands.length))
+                            m.commands = [];
+                        m.commands.push($root.proto.Command.decode(r, r.uint32(), undefined, n + 1));
+                        break;
+                    }
+                case 26: {
+                        if (!(m.mentions && m.mentions.length))
+                            m.mentions = [];
+                        m.mentions.push($root.proto.Mention.decode(r, r.uint32(), undefined, n + 1));
+                        break;
+                    }
+                case 27: {
+                        m.xmaDataclassType = r.int32();
+                        break;
+                    }
+                case 28: {
+                        m.signedXmaDataclassValidation = r.string();
+                        break;
+                    }
+                case 29: {
+                        m.featureSharedSessionId = r.string();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        ExtendedContentMessage.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.ExtendedContentMessage)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.ExtendedContentMessage: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.ExtendedContentMessage();
+            if (d.associatedMessage != null) {
+                if (!$util.isObject(d.associatedMessage))
+                    throw TypeError(".proto.ExtendedContentMessage.associatedMessage: object expected");
+                m.associatedMessage = $root.proto.SubProtocol.fromObject(d.associatedMessage, n + 1);
+            }
+            switch (d.targetType) {
+            default:
+                if (typeof d.targetType === "number") {
+                    m.targetType = d.targetType;
+                    break;
+                }
+                break;
+            case "UNSUPPORTED":
+            case -1:
+                m.targetType = -1;
+                break;
+            case "IG_STORY_PHOTO_MENTION":
+            case 4:
+                m.targetType = 4;
+                break;
+            case "IG_SINGLE_IMAGE_POST_SHARE":
+            case 9:
+                m.targetType = 9;
+                break;
+            case "IG_MULTIPOST_SHARE":
+            case 10:
+                m.targetType = 10;
+                break;
+            case "IG_SINGLE_VIDEO_POST_SHARE":
+            case 11:
+                m.targetType = 11;
+                break;
+            case "IG_STORY_PHOTO_SHARE":
+            case 12:
+                m.targetType = 12;
+                break;
+            case "IG_STORY_VIDEO_SHARE":
+            case 13:
+                m.targetType = 13;
+                break;
+            case "IG_CLIPS_SHARE":
+            case 14:
+                m.targetType = 14;
+                break;
+            case "IG_IGTV_SHARE":
+            case 15:
+                m.targetType = 15;
+                break;
+            case "IG_SHOP_SHARE":
+            case 16:
+                m.targetType = 16;
+                break;
+            case "IG_PROFILE_SHARE":
+            case 19:
+                m.targetType = 19;
+                break;
+            case "IG_STORY_PHOTO_HIGHLIGHT_SHARE":
+            case 20:
+                m.targetType = 20;
+                break;
+            case "IG_STORY_VIDEO_HIGHLIGHT_SHARE":
+            case 21:
+                m.targetType = 21;
+                break;
+            case "IG_STORY_REPLY":
+            case 22:
+                m.targetType = 22;
+                break;
+            case "IG_STORY_REACTION":
+            case 23:
+                m.targetType = 23;
+                break;
+            case "IG_STORY_VIDEO_MENTION":
+            case 24:
+                m.targetType = 24;
+                break;
+            case "IG_STORY_HIGHLIGHT_REPLY":
+            case 25:
+                m.targetType = 25;
+                break;
+            case "IG_STORY_HIGHLIGHT_REACTION":
+            case 26:
+                m.targetType = 26;
+                break;
+            case "IG_EXTERNAL_LINK":
+            case 27:
+                m.targetType = 27;
+                break;
+            case "IG_RECEIVER_FETCH":
+            case 28:
+                m.targetType = 28;
+                break;
+            case "FB_FEED_SHARE":
+            case 1000:
+                m.targetType = 1000;
+                break;
+            case "FB_STORY_REPLY":
+            case 1001:
+                m.targetType = 1001;
+                break;
+            case "FB_STORY_SHARE":
+            case 1002:
+                m.targetType = 1002;
+                break;
+            case "FB_STORY_MENTION":
+            case 1003:
+                m.targetType = 1003;
+                break;
+            case "FB_FEED_VIDEO_SHARE":
+            case 1004:
+                m.targetType = 1004;
+                break;
+            case "FB_GAMING_CUSTOM_UPDATE":
+            case 1005:
+                m.targetType = 1005;
+                break;
+            case "FB_PRODUCER_STORY_REPLY":
+            case 1006:
+                m.targetType = 1006;
+                break;
+            case "FB_EVENT":
+            case 1007:
+                m.targetType = 1007;
+                break;
+            case "FB_FEED_POST_PRIVATE_REPLY":
+            case 1008:
+                m.targetType = 1008;
+                break;
+            case "FB_SHORT":
+            case 1009:
+                m.targetType = 1009;
+                break;
+            case "FB_COMMENT_MENTION_SHARE":
+            case 1010:
+                m.targetType = 1010;
+                break;
+            case "FB_POST_MENTION":
+            case 1011:
+                m.targetType = 1011;
+                break;
+            case "FB_PROFILE_DIRECTORY_ITEM":
+            case 1013:
+                m.targetType = 1013;
+                break;
+            case "FB_FEED_POST_REACTION_REPLY":
+            case 1014:
+                m.targetType = 1014;
+                break;
+            case "FB_QUICKSNAP_REPLY":
+            case 1015:
+                m.targetType = 1015;
+                break;
+            case "MSG_EXTERNAL_LINK_SHARE":
+            case 2000:
+                m.targetType = 2000;
+                break;
+            case "MSG_P2P_PAYMENT":
+            case 2001:
+                m.targetType = 2001;
+                break;
+            case "MSG_LOCATION_SHARING":
+            case 2002:
+                m.targetType = 2002;
+                break;
+            case "MSG_LOCATION_SHARING_V2":
+            case 2003:
+                m.targetType = 2003;
+                break;
+            case "MSG_HIGHLIGHTS_TAB_FRIEND_UPDATES_REPLY":
+            case 2004:
+                m.targetType = 2004;
+                break;
+            case "MSG_HIGHLIGHTS_TAB_LOCAL_EVENT_REPLY":
+            case 2005:
+                m.targetType = 2005;
+                break;
+            case "MSG_RECEIVER_FETCH":
+            case 2006:
+                m.targetType = 2006;
+                break;
+            case "MSG_IG_MEDIA_SHARE":
+            case 2007:
+                m.targetType = 2007;
+                break;
+            case "MSG_GEN_AI_SEARCH_PLUGIN_RESPONSE":
+            case 2008:
+                m.targetType = 2008;
+                break;
+            case "MSG_REELS_LIST":
+            case 2009:
+                m.targetType = 2009;
+                break;
+            case "MSG_CONTACT":
+            case 2010:
+                m.targetType = 2010;
+                break;
+            case "MSG_THREADS_POST_SHARE":
+            case 2011:
+                m.targetType = 2011;
+                break;
+            case "MSG_FILE":
+            case 2012:
+                m.targetType = 2012;
+                break;
+            case "MSG_AVATAR_DETAILS":
+            case 2013:
+                m.targetType = 2013;
+                break;
+            case "MSG_AI_CONTACT":
+            case 2014:
+                m.targetType = 2014;
+                break;
+            case "MSG_MEMORIES_SHARE":
+            case 2015:
+                m.targetType = 2015;
+                break;
+            case "MSG_SHARED_ALBUM_REPLY":
+            case 2016:
+                m.targetType = 2016;
+                break;
+            case "MSG_SHARED_ALBUM":
+            case 2017:
+                m.targetType = 2017;
+                break;
+            case "MSG_OCCAMADILLO_XMA":
+            case 2018:
+                m.targetType = 2018;
+                break;
+            case "MSG_GEN_AI_SUBSCRIPTION":
+            case 2021:
+                m.targetType = 2021;
+                break;
+            case "MSG_GEN_AI_REMINDER":
+            case 2022:
+                m.targetType = 2022;
+                break;
+            case "MSG_GEN_AI_MEMU_ONBOARDING_RESPONSE":
+            case 2023:
+                m.targetType = 2023;
+                break;
+            case "MSG_NOTE_REPLY":
+            case 2024:
+                m.targetType = 2024;
+                break;
+            case "MSG_NOTE_MENTION":
+            case 2025:
+                m.targetType = 2025;
+                break;
+            case "GEN_AI_ENTITY":
+            case 2026:
+                m.targetType = 2026;
+                break;
+            case "MSG_OPG_P2P_PAYMENT":
+            case 2027:
+                m.targetType = 2027;
+                break;
+            case "GEN_AI_RICH_RESPONSE":
+            case 2028:
+                m.targetType = 2028;
+                break;
+            case "MSG_MUSIC_STICKER":
+            case 2029:
+                m.targetType = 2029;
+                break;
+            case "MSG_PHONE_NUMBER":
+            case 2030:
+                m.targetType = 2030;
+                break;
+            case "AI_ACTIVITY_SHARE":
+            case 2031:
+                m.targetType = 2031;
+                break;
+            case "MSG_PRIVATE_XMA":
+            case 2032:
+                m.targetType = 2032;
+                break;
+            case "MSG_SOCIAL_CUE_MEMORIES":
+            case 2033:
+                m.targetType = 2033;
+                break;
+            case "MSG_MANUS_GROWTH_REFERRAL":
+            case 2060:
+                m.targetType = 2060;
+                break;
+            case "MSG_MOMENT_LINK":
+            case 2061:
+                m.targetType = 2061;
+                break;
+            case "MSG_HORIZON_WEEL":
+            case 2062:
+                m.targetType = 2062;
+                break;
+            case "MSG_MOMENT_ADDED":
+            case 2063:
+                m.targetType = 2063;
+                break;
+            case "RTC_AUDIO_CALL":
+            case 3000:
+                m.targetType = 3000;
+                break;
+            case "RTC_VIDEO_CALL":
+            case 3001:
+                m.targetType = 3001;
+                break;
+            case "RTC_MISSED_AUDIO_CALL":
+            case 3002:
+                m.targetType = 3002;
+                break;
+            case "RTC_MISSED_VIDEO_CALL":
+            case 3003:
+                m.targetType = 3003;
+                break;
+            case "RTC_GROUP_AUDIO_CALL":
+            case 3004:
+                m.targetType = 3004;
+                break;
+            case "RTC_GROUP_VIDEO_CALL":
+            case 3005:
+                m.targetType = 3005;
+                break;
+            case "RTC_MISSED_GROUP_AUDIO_CALL":
+            case 3006:
+                m.targetType = 3006;
+                break;
+            case "RTC_MISSED_GROUP_VIDEO_CALL":
+            case 3007:
+                m.targetType = 3007;
+                break;
+            case "RTC_ONGOING_AUDIO_CALL":
+            case 3008:
+                m.targetType = 3008;
+                break;
+            case "RTC_ONGOING_VIDEO_CALL":
+            case 3009:
+                m.targetType = 3009;
+                break;
+            case "MSG_RECEIVER_FETCH_FALLBACK":
+            case 3025:
+                m.targetType = 3025;
+                break;
+            case "DATACLASS_SENDER_COPY":
+            case 4000:
+                m.targetType = 4000;
+                break;
+            }
+            if (d.targetUsername != null) {
+                m.targetUsername = String(d.targetUsername);
+            }
+            if (d.targetId != null) {
+                m.targetId = String(d.targetId);
+            }
+            if (d.targetExpiringAtSec != null) {
+                if ($util.Long)
+                    m.targetExpiringAtSec = $util.Long.fromValue(d.targetExpiringAtSec, false);
+                else if (typeof d.targetExpiringAtSec === "string")
+                    m.targetExpiringAtSec = parseInt(d.targetExpiringAtSec, 10);
+                else if (typeof d.targetExpiringAtSec === "number")
+                    m.targetExpiringAtSec = d.targetExpiringAtSec;
+                else if (typeof d.targetExpiringAtSec === "object")
+                    m.targetExpiringAtSec = new $util.LongBits(d.targetExpiringAtSec.low >>> 0, d.targetExpiringAtSec.high >>> 0).toNumber();
+            }
+            switch (d.xmaLayoutType) {
+            default:
+                if (typeof d.xmaLayoutType === "number") {
+                    m.xmaLayoutType = d.xmaLayoutType;
+                    break;
+                }
+                break;
+            case "SINGLE":
+            case 0:
+                m.xmaLayoutType = 0;
+                break;
+            case "HSCROLL":
+            case 1:
+                m.xmaLayoutType = 1;
+                break;
+            case "PORTRAIT":
+            case 3:
+                m.xmaLayoutType = 3;
+                break;
+            case "STANDARD_DXMA":
+            case 12:
+                m.xmaLayoutType = 12;
+                break;
+            case "LIST_DXMA":
+            case 15:
+                m.xmaLayoutType = 15;
+                break;
+            case "GRID":
+            case 16:
+                m.xmaLayoutType = 16;
+                break;
+            }
+            if (d.ctas) {
+                if (!Array.isArray(d.ctas))
+                    throw TypeError(".proto.ExtendedContentMessage.ctas: array expected");
+                m.ctas = [];
+                for (var i = 0; i < d.ctas.length; ++i) {
+                    if (!$util.isObject(d.ctas[i]))
+                        throw TypeError(".proto.ExtendedContentMessage.ctas: object expected");
+                    m.ctas[i] = $root.proto.ExtendedContentMessage.CTA.fromObject(d.ctas[i], n + 1);
+                }
+            }
+            if (d.previews) {
+                if (!Array.isArray(d.previews))
+                    throw TypeError(".proto.ExtendedContentMessage.previews: array expected");
+                m.previews = [];
+                for (var i = 0; i < d.previews.length; ++i) {
+                    if (!$util.isObject(d.previews[i]))
+                        throw TypeError(".proto.ExtendedContentMessage.previews: object expected");
+                    m.previews[i] = $root.proto.SubProtocol.fromObject(d.previews[i], n + 1);
+                }
+            }
+            if (d.titleText != null) {
+                m.titleText = String(d.titleText);
+            }
+            if (d.subtitleText != null) {
+                m.subtitleText = String(d.subtitleText);
+            }
+            if (d.maxTitleNumOfLines != null) {
+                m.maxTitleNumOfLines = d.maxTitleNumOfLines >>> 0;
+            }
+            if (d.maxSubtitleNumOfLines != null) {
+                m.maxSubtitleNumOfLines = d.maxSubtitleNumOfLines >>> 0;
+            }
+            if (d.favicon != null) {
+                if (!$util.isObject(d.favicon))
+                    throw TypeError(".proto.ExtendedContentMessage.favicon: object expected");
+                m.favicon = $root.proto.SubProtocol.fromObject(d.favicon, n + 1);
+            }
+            if (d.headerImage != null) {
+                if (!$util.isObject(d.headerImage))
+                    throw TypeError(".proto.ExtendedContentMessage.headerImage: object expected");
+                m.headerImage = $root.proto.SubProtocol.fromObject(d.headerImage, n + 1);
+            }
+            if (d.headerTitle != null) {
+                m.headerTitle = String(d.headerTitle);
+            }
+            switch (d.overlayIconGlyph) {
+            default:
+                if (typeof d.overlayIconGlyph === "number") {
+                    m.overlayIconGlyph = d.overlayIconGlyph;
+                    break;
+                }
+                break;
+            case "INFO":
+            case 0:
+                m.overlayIconGlyph = 0;
+                break;
+            case "EYE_OFF":
+            case 1:
+                m.overlayIconGlyph = 1;
+                break;
+            case "NEWS_OFF":
+            case 2:
+                m.overlayIconGlyph = 2;
+                break;
+            case "WARNING":
+            case 3:
+                m.overlayIconGlyph = 3;
+                break;
+            case "PRIVATE":
+            case 4:
+                m.overlayIconGlyph = 4;
+                break;
+            case "NONE":
+            case 5:
+                m.overlayIconGlyph = 5;
+                break;
+            case "MEDIA_LABEL":
+            case 6:
+                m.overlayIconGlyph = 6;
+                break;
+            case "POST_COVER":
+            case 7:
+                m.overlayIconGlyph = 7;
+                break;
+            case "POST_LABEL":
+            case 8:
+                m.overlayIconGlyph = 8;
+                break;
+            case "WARNING_SCREENS":
+            case 9:
+                m.overlayIconGlyph = 9;
+                break;
+            }
+            if (d.overlayTitle != null) {
+                m.overlayTitle = String(d.overlayTitle);
+            }
+            if (d.overlayDescription != null) {
+                m.overlayDescription = String(d.overlayDescription);
+            }
+            if (d.sentWithMessageId != null) {
+                m.sentWithMessageId = String(d.sentWithMessageId);
+            }
+            if (d.messageText != null) {
+                m.messageText = String(d.messageText);
+            }
+            if (d.headerSubtitle != null) {
+                m.headerSubtitle = String(d.headerSubtitle);
+            }
+            if (d.xmaDataclass != null) {
+                m.xmaDataclass = String(d.xmaDataclass);
+            }
+            if (d.contentRef != null) {
+                m.contentRef = String(d.contentRef);
+            }
+            if (d.mentionedJid) {
+                if (!Array.isArray(d.mentionedJid))
+                    throw TypeError(".proto.ExtendedContentMessage.mentionedJid: array expected");
+                m.mentionedJid = [];
+                for (var i = 0; i < d.mentionedJid.length; ++i) {
+                    m.mentionedJid[i] = String(d.mentionedJid[i]);
+                }
+            }
+            if (d.commands) {
+                if (!Array.isArray(d.commands))
+                    throw TypeError(".proto.ExtendedContentMessage.commands: array expected");
+                m.commands = [];
+                for (var i = 0; i < d.commands.length; ++i) {
+                    if (!$util.isObject(d.commands[i]))
+                        throw TypeError(".proto.ExtendedContentMessage.commands: object expected");
+                    m.commands[i] = $root.proto.Command.fromObject(d.commands[i], n + 1);
+                }
+            }
+            if (d.mentions) {
+                if (!Array.isArray(d.mentions))
+                    throw TypeError(".proto.ExtendedContentMessage.mentions: array expected");
+                m.mentions = [];
+                for (var i = 0; i < d.mentions.length; ++i) {
+                    if (!$util.isObject(d.mentions[i]))
+                        throw TypeError(".proto.ExtendedContentMessage.mentions: object expected");
+                    m.mentions[i] = $root.proto.Mention.fromObject(d.mentions[i], n + 1);
+                }
+            }
+            switch (d.xmaDataclassType) {
+            default:
+                if (typeof d.xmaDataclassType === "number") {
+                    m.xmaDataclassType = d.xmaDataclassType;
+                    break;
+                }
+                break;
+            case "SENDER_COPY":
+            case 0:
+                m.xmaDataclassType = 0;
+                break;
+            case "SERVER":
+            case 1:
+                m.xmaDataclassType = 1;
+                break;
+            case "SIGNED_CLIENT":
+            case 2:
+                m.xmaDataclassType = 2;
+                break;
+            }
+            if (d.signedXmaDataclassValidation != null) {
+                m.signedXmaDataclassValidation = String(d.signedXmaDataclassValidation);
+            }
+            if (d.featureSharedSessionId != null) {
+                m.featureSharedSessionId = String(d.featureSharedSessionId);
+            }
+            return m;
+        };
+
+        ExtendedContentMessage.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (o.arrays || o.defaults) {
+                d.ctas = [];
+                d.previews = [];
+                d.mentionedJid = [];
+                d.commands = [];
+                d.mentions = [];
+            }
+            if (m.associatedMessage != null && Object.hasOwnProperty.call(m, "associatedMessage")) {
+                d.associatedMessage = $root.proto.SubProtocol.toObject(m.associatedMessage, o, q + 1);
+                if (o.oneofs)
+                    d._associatedMessage = "associatedMessage";
+            }
+            if (m.targetType != null && Object.hasOwnProperty.call(m, "targetType")) {
+                d.targetType = o.enums === String ? $root.proto.EXTENDED_CONTENT_MESSAGE_EXTENDED_CONTENT_TYPE[m.targetType] === undefined ? m.targetType : $root.proto.EXTENDED_CONTENT_MESSAGE_EXTENDED_CONTENT_TYPE[m.targetType] : m.targetType;
+                if (o.oneofs)
+                    d._targetType = "targetType";
+            }
+            if (m.targetUsername != null && Object.hasOwnProperty.call(m, "targetUsername")) {
+                d.targetUsername = m.targetUsername;
+                if (o.oneofs)
+                    d._targetUsername = "targetUsername";
+            }
+            if (m.targetId != null && Object.hasOwnProperty.call(m, "targetId")) {
+                d.targetId = m.targetId;
+                if (o.oneofs)
+                    d._targetId = "targetId";
+            }
+            if (m.targetExpiringAtSec != null && Object.hasOwnProperty.call(m, "targetExpiringAtSec")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.targetExpiringAtSec = typeof m.targetExpiringAtSec === "number" ? BigInt(m.targetExpiringAtSec) : $util.Long.fromBits(m.targetExpiringAtSec.low >>> 0, m.targetExpiringAtSec.high >>> 0, false).toBigInt();
+                else if (typeof m.targetExpiringAtSec === "number")
+                    d.targetExpiringAtSec = o.longs === String ? String(m.targetExpiringAtSec) : m.targetExpiringAtSec;
+                else
+                    d.targetExpiringAtSec = o.longs === String ? longToString(m.targetExpiringAtSec) : o.longs === Number ? longToNumber(m.targetExpiringAtSec) : m.targetExpiringAtSec;
+                if (o.oneofs)
+                    d._targetExpiringAtSec = "targetExpiringAtSec";
+            }
+            if (m.xmaLayoutType != null && Object.hasOwnProperty.call(m, "xmaLayoutType")) {
+                d.xmaLayoutType = o.enums === String ? $root.proto.EXTENDED_CONTENT_MESSAGE_XMA_LAYOUT_TYPE[m.xmaLayoutType] === undefined ? m.xmaLayoutType : $root.proto.EXTENDED_CONTENT_MESSAGE_XMA_LAYOUT_TYPE[m.xmaLayoutType] : m.xmaLayoutType;
+                if (o.oneofs)
+                    d._xmaLayoutType = "xmaLayoutType";
+            }
+            if (m.ctas && m.ctas.length) {
+                d.ctas = [];
+                for (var j = 0; j < m.ctas.length; ++j) {
+                    d.ctas[j] = $root.proto.ExtendedContentMessage.CTA.toObject(m.ctas[j], o, q + 1);
+                }
+            }
+            if (m.previews && m.previews.length) {
+                d.previews = [];
+                for (var j = 0; j < m.previews.length; ++j) {
+                    d.previews[j] = $root.proto.SubProtocol.toObject(m.previews[j], o, q + 1);
+                }
+            }
+            if (m.titleText != null && Object.hasOwnProperty.call(m, "titleText")) {
+                d.titleText = m.titleText;
+                if (o.oneofs)
+                    d._titleText = "titleText";
+            }
+            if (m.subtitleText != null && Object.hasOwnProperty.call(m, "subtitleText")) {
+                d.subtitleText = m.subtitleText;
+                if (o.oneofs)
+                    d._subtitleText = "subtitleText";
+            }
+            if (m.maxTitleNumOfLines != null && Object.hasOwnProperty.call(m, "maxTitleNumOfLines")) {
+                d.maxTitleNumOfLines = m.maxTitleNumOfLines;
+                if (o.oneofs)
+                    d._maxTitleNumOfLines = "maxTitleNumOfLines";
+            }
+            if (m.maxSubtitleNumOfLines != null && Object.hasOwnProperty.call(m, "maxSubtitleNumOfLines")) {
+                d.maxSubtitleNumOfLines = m.maxSubtitleNumOfLines;
+                if (o.oneofs)
+                    d._maxSubtitleNumOfLines = "maxSubtitleNumOfLines";
+            }
+            if (m.favicon != null && Object.hasOwnProperty.call(m, "favicon")) {
+                d.favicon = $root.proto.SubProtocol.toObject(m.favicon, o, q + 1);
+                if (o.oneofs)
+                    d._favicon = "favicon";
+            }
+            if (m.headerImage != null && Object.hasOwnProperty.call(m, "headerImage")) {
+                d.headerImage = $root.proto.SubProtocol.toObject(m.headerImage, o, q + 1);
+                if (o.oneofs)
+                    d._headerImage = "headerImage";
+            }
+            if (m.headerTitle != null && Object.hasOwnProperty.call(m, "headerTitle")) {
+                d.headerTitle = m.headerTitle;
+                if (o.oneofs)
+                    d._headerTitle = "headerTitle";
+            }
+            if (m.overlayIconGlyph != null && Object.hasOwnProperty.call(m, "overlayIconGlyph")) {
+                d.overlayIconGlyph = o.enums === String ? $root.proto.EXTENDED_CONTENT_MESSAGE_OVERLAY_ICON_GLYPH[m.overlayIconGlyph] === undefined ? m.overlayIconGlyph : $root.proto.EXTENDED_CONTENT_MESSAGE_OVERLAY_ICON_GLYPH[m.overlayIconGlyph] : m.overlayIconGlyph;
+                if (o.oneofs)
+                    d._overlayIconGlyph = "overlayIconGlyph";
+            }
+            if (m.overlayTitle != null && Object.hasOwnProperty.call(m, "overlayTitle")) {
+                d.overlayTitle = m.overlayTitle;
+                if (o.oneofs)
+                    d._overlayTitle = "overlayTitle";
+            }
+            if (m.overlayDescription != null && Object.hasOwnProperty.call(m, "overlayDescription")) {
+                d.overlayDescription = m.overlayDescription;
+                if (o.oneofs)
+                    d._overlayDescription = "overlayDescription";
+            }
+            if (m.sentWithMessageId != null && Object.hasOwnProperty.call(m, "sentWithMessageId")) {
+                d.sentWithMessageId = m.sentWithMessageId;
+                if (o.oneofs)
+                    d._sentWithMessageId = "sentWithMessageId";
+            }
+            if (m.messageText != null && Object.hasOwnProperty.call(m, "messageText")) {
+                d.messageText = m.messageText;
+                if (o.oneofs)
+                    d._messageText = "messageText";
+            }
+            if (m.headerSubtitle != null && Object.hasOwnProperty.call(m, "headerSubtitle")) {
+                d.headerSubtitle = m.headerSubtitle;
+                if (o.oneofs)
+                    d._headerSubtitle = "headerSubtitle";
+            }
+            if (m.xmaDataclass != null && Object.hasOwnProperty.call(m, "xmaDataclass")) {
+                d.xmaDataclass = m.xmaDataclass;
+                if (o.oneofs)
+                    d._xmaDataclass = "xmaDataclass";
+            }
+            if (m.contentRef != null && Object.hasOwnProperty.call(m, "contentRef")) {
+                d.contentRef = m.contentRef;
+                if (o.oneofs)
+                    d._contentRef = "contentRef";
+            }
+            if (m.mentionedJid && m.mentionedJid.length) {
+                d.mentionedJid = [];
+                for (var j = 0; j < m.mentionedJid.length; ++j) {
+                    d.mentionedJid[j] = m.mentionedJid[j];
+                }
+            }
+            if (m.commands && m.commands.length) {
+                d.commands = [];
+                for (var j = 0; j < m.commands.length; ++j) {
+                    d.commands[j] = $root.proto.Command.toObject(m.commands[j], o, q + 1);
+                }
+            }
+            if (m.mentions && m.mentions.length) {
+                d.mentions = [];
+                for (var j = 0; j < m.mentions.length; ++j) {
+                    d.mentions[j] = $root.proto.Mention.toObject(m.mentions[j], o, q + 1);
+                }
+            }
+            if (m.xmaDataclassType != null && Object.hasOwnProperty.call(m, "xmaDataclassType")) {
+                d.xmaDataclassType = o.enums === String ? $root.proto.EXTENDED_CONTENT_MESSAGE_XMA_DATACLASS_TYPE[m.xmaDataclassType] === undefined ? m.xmaDataclassType : $root.proto.EXTENDED_CONTENT_MESSAGE_XMA_DATACLASS_TYPE[m.xmaDataclassType] : m.xmaDataclassType;
+                if (o.oneofs)
+                    d._xmaDataclassType = "xmaDataclassType";
+            }
+            if (m.signedXmaDataclassValidation != null && Object.hasOwnProperty.call(m, "signedXmaDataclassValidation")) {
+                d.signedXmaDataclassValidation = m.signedXmaDataclassValidation;
+                if (o.oneofs)
+                    d._signedXmaDataclassValidation = "signedXmaDataclassValidation";
+            }
+            if (m.featureSharedSessionId != null && Object.hasOwnProperty.call(m, "featureSharedSessionId")) {
+                d.featureSharedSessionId = m.featureSharedSessionId;
+                if (o.oneofs)
+                    d._featureSharedSessionId = "featureSharedSessionId";
+            }
+            return d;
+        };
+
+        ExtendedContentMessage.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        ExtendedContentMessage.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.ExtendedContentMessage";
+        };
+
+        ExtendedContentMessage.CTA = (function() {
+
+            function CTA(p) {
+                if (p)
+                    for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                        if (p[ks[i]] != null && ks[i] !== "__proto__")
+                            this[ks[i]] = p[ks[i]];
+            }
+
+            CTA.prototype.buttonType = null;
+            CTA.prototype.title = null;
+            CTA.prototype.actionUrl = null;
+            CTA.prototype.nativeUrl = null;
+            CTA.prototype.ctaType = null;
+            CTA.prototype.actionContentBlob = null;
+
+            let $oneOfFields;
+
+            Object.defineProperty(CTA.prototype, "_buttonType", {
+                get: $util.oneOfGetter($oneOfFields = ["buttonType"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            Object.defineProperty(CTA.prototype, "_title", {
+                get: $util.oneOfGetter($oneOfFields = ["title"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            Object.defineProperty(CTA.prototype, "_actionUrl", {
+                get: $util.oneOfGetter($oneOfFields = ["actionUrl"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            Object.defineProperty(CTA.prototype, "_nativeUrl", {
+                get: $util.oneOfGetter($oneOfFields = ["nativeUrl"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            Object.defineProperty(CTA.prototype, "_ctaType", {
+                get: $util.oneOfGetter($oneOfFields = ["ctaType"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            Object.defineProperty(CTA.prototype, "_actionContentBlob", {
+                get: $util.oneOfGetter($oneOfFields = ["actionContentBlob"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            CTA.create = function create(properties) {
+                return new CTA(properties);
+            };
+
+            CTA.encode = function encode(m, w, q) {
+                if (!w)
+                    w = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                if (m.buttonType != null && Object.hasOwnProperty.call(m, "buttonType"))
+                    w.uint32(8).int32(m.buttonType);
+                if (m.title != null && Object.hasOwnProperty.call(m, "title"))
+                    w.uint32(18).string(m.title);
+                if (m.actionUrl != null && Object.hasOwnProperty.call(m, "actionUrl"))
+                    w.uint32(26).string(m.actionUrl);
+                if (m.nativeUrl != null && Object.hasOwnProperty.call(m, "nativeUrl"))
+                    w.uint32(34).string(m.nativeUrl);
+                if (m.ctaType != null && Object.hasOwnProperty.call(m, "ctaType"))
+                    w.uint32(42).string(m.ctaType);
+                if (m.actionContentBlob != null && Object.hasOwnProperty.call(m, "actionContentBlob"))
+                    w.uint32(50).string(m.actionContentBlob);
+                return w;
+            };
+
+            CTA.decode = function decode(r, l, e, n) {
+                if (!(r instanceof $Reader))
+                    r = $Reader.create(r);
+                if (n === undefined)
+                    n = 0;
+                if (n > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var c, m;
+                if (l === undefined)
+                    c = r.len;
+                else {
+                    c = r.pos + l;
+                    if (c > r.len)
+                        throw RangeError("index out of range");
+                    l = r.len;
+                    r.len = c;
+                }
+                m = new $root.proto.ExtendedContentMessage.CTA();
+                while (r.pos < c) {
+                    var t = r.uint32();
+                    if (t === e)
+                        break;
+                    switch (t >>> 3) {
+                    case 1: {
+                            m.buttonType = r.int32();
+                            break;
+                        }
+                    case 2: {
+                            m.title = r.string();
+                            break;
+                        }
+                    case 3: {
+                            m.actionUrl = r.string();
+                            break;
+                        }
+                    case 4: {
+                            m.nativeUrl = r.string();
+                            break;
+                        }
+                    case 5: {
+                            m.ctaType = r.string();
+                            break;
+                        }
+                    case 6: {
+                            m.actionContentBlob = r.string();
+                            break;
+                        }
+                    default:
+                        r.skipType(t & 7, n);
+                        break;
+                    }
+                }
+                if (l !== undefined) {
+                    if (r.pos !== c)
+                        throw RangeError("index out of range");
+                    r.len = l;
+                }
+                return m;
+            };
+
+            CTA.fromObject = function fromObject(d, n) {
+                if (d instanceof $root.proto.ExtendedContentMessage.CTA)
+                    return d;
+                if (!$util.isObject(d))
+                    throw TypeError(".proto.ExtendedContentMessage.CTA: object expected");
+                if (n === undefined)
+                    n = 0;
+                if (n > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var m = new $root.proto.ExtendedContentMessage.CTA();
+                switch (d.buttonType) {
+                default:
+                    if (typeof d.buttonType === "number") {
+                        m.buttonType = d.buttonType;
+                        break;
+                    }
+                    break;
+                case "OPEN_NATIVE":
+                case 11:
+                    m.buttonType = 11;
+                    break;
+                }
+                if (d.title != null) {
+                    m.title = String(d.title);
+                }
+                if (d.actionUrl != null) {
+                    m.actionUrl = String(d.actionUrl);
+                }
+                if (d.nativeUrl != null) {
+                    m.nativeUrl = String(d.nativeUrl);
+                }
+                if (d.ctaType != null) {
+                    m.ctaType = String(d.ctaType);
+                }
+                if (d.actionContentBlob != null) {
+                    m.actionContentBlob = String(d.actionContentBlob);
+                }
+                return m;
+            };
+
+            CTA.toObject = function toObject(m, o, q) {
+                if (!o)
+                    o = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                var d = {};
+                if (m.buttonType != null && Object.hasOwnProperty.call(m, "buttonType")) {
+                    d.buttonType = o.enums === String ? $root.proto.EXTENDED_CONTENT_MESSAGE_CTA_BUTTON_TYPE[m.buttonType] === undefined ? m.buttonType : $root.proto.EXTENDED_CONTENT_MESSAGE_CTA_BUTTON_TYPE[m.buttonType] : m.buttonType;
+                    if (o.oneofs)
+                        d._buttonType = "buttonType";
+                }
+                if (m.title != null && Object.hasOwnProperty.call(m, "title")) {
+                    d.title = m.title;
+                    if (o.oneofs)
+                        d._title = "title";
+                }
+                if (m.actionUrl != null && Object.hasOwnProperty.call(m, "actionUrl")) {
+                    d.actionUrl = m.actionUrl;
+                    if (o.oneofs)
+                        d._actionUrl = "actionUrl";
+                }
+                if (m.nativeUrl != null && Object.hasOwnProperty.call(m, "nativeUrl")) {
+                    d.nativeUrl = m.nativeUrl;
+                    if (o.oneofs)
+                        d._nativeUrl = "nativeUrl";
+                }
+                if (m.ctaType != null && Object.hasOwnProperty.call(m, "ctaType")) {
+                    d.ctaType = m.ctaType;
+                    if (o.oneofs)
+                        d._ctaType = "ctaType";
+                }
+                if (m.actionContentBlob != null && Object.hasOwnProperty.call(m, "actionContentBlob")) {
+                    d.actionContentBlob = m.actionContentBlob;
+                    if (o.oneofs)
+                        d._actionContentBlob = "actionContentBlob";
+                }
+                return d;
+            };
+
+            CTA.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            CTA.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/proto.ExtendedContentMessage.CTA";
+            };
+
+            return CTA;
+        })();
+
+        return ExtendedContentMessage;
+    })();
+
     proto.ExternalBlobReference = (function() {
 
         function ExternalBlobReference(p) {
@@ -40680,6 +47894,14 @@ export const proto = $root.proto = (() => {
         };
 
         return ExternalBlobReference;
+    })();
+
+    proto.FUTURE_PROOF_BEHAVIOR = (function() {
+        const valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "PLACEHOLDER"] = 0;
+        values[valuesById[1] = "NO_PLACEHOLDER"] = 1;
+        values[valuesById[2] = "IGNORE"] = 2;
+        return values;
     })();
 
     proto.Field = (function() {
@@ -41329,6 +48551,511 @@ export const proto = $root.proto = (() => {
         };
 
         return ForwardedAIBotMessageInfo;
+    })();
+
+    proto.GenerateMekInput = (function() {
+
+        function GenerateMekInput(p) {
+            this.epochHeads = [];
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        GenerateMekInput.prototype.epochHeads = $util.emptyArray;
+
+        GenerateMekInput.create = function create(properties) {
+            return new GenerateMekInput(properties);
+        };
+
+        GenerateMekInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.epochHeads != null && m.epochHeads.length) {
+                for (var i = 0; i < m.epochHeads.length; ++i)
+                    w.uint32(10).bytes(m.epochHeads[i]);
+            }
+            return w;
+        };
+
+        GenerateMekInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.GenerateMekInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        if (!(m.epochHeads && m.epochHeads.length))
+                            m.epochHeads = [];
+                        m.epochHeads.push(r.bytes());
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        GenerateMekInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.GenerateMekInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.GenerateMekInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.GenerateMekInput();
+            if (d.epochHeads) {
+                if (!Array.isArray(d.epochHeads))
+                    throw TypeError(".proto.GenerateMekInput.epochHeads: array expected");
+                m.epochHeads = [];
+                for (var i = 0; i < d.epochHeads.length; ++i) {
+                    if (typeof d.epochHeads[i] === "string")
+                        $util.base64.decode(d.epochHeads[i], m.epochHeads[i] = $util.newBuffer($util.base64.length(d.epochHeads[i])), 0);
+                    else if (d.epochHeads[i].length >= 0)
+                        m.epochHeads[i] = d.epochHeads[i];
+                }
+            }
+            return m;
+        };
+
+        GenerateMekInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (o.arrays || o.defaults) {
+                d.epochHeads = [];
+            }
+            if (m.epochHeads && m.epochHeads.length) {
+                d.epochHeads = [];
+                for (var j = 0; j < m.epochHeads.length; ++j) {
+                    d.epochHeads[j] = o.bytes === String ? $util.base64.encode(m.epochHeads[j], 0, m.epochHeads[j].length) : o.bytes === Array ? Array.prototype.slice.call(m.epochHeads[j]) : m.epochHeads[j];
+                }
+            }
+            return d;
+        };
+
+        GenerateMekInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        GenerateMekInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.GenerateMekInput";
+        };
+
+        return GenerateMekInput;
+    })();
+
+    proto.GenerateMekResult = (function() {
+
+        function GenerateMekResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        GenerateMekResult.prototype.mek = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(GenerateMekResult.prototype, "_mek", {
+            get: $util.oneOfGetter($oneOfFields = ["mek"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        GenerateMekResult.create = function create(properties) {
+            return new GenerateMekResult(properties);
+        };
+
+        GenerateMekResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.mek != null && Object.hasOwnProperty.call(m, "mek"))
+                $root.proto.MekBundle.encode(m.mek, w.uint32(10).fork(), q + 1).ldelim();
+            return w;
+        };
+
+        GenerateMekResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.GenerateMekResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.mek = $root.proto.MekBundle.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        GenerateMekResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.GenerateMekResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.GenerateMekResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.GenerateMekResult();
+            if (d.mek != null) {
+                if (!$util.isObject(d.mek))
+                    throw TypeError(".proto.GenerateMekResult.mek: object expected");
+                m.mek = $root.proto.MekBundle.fromObject(d.mek, n + 1);
+            }
+            return m;
+        };
+
+        GenerateMekResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.mek != null && Object.hasOwnProperty.call(m, "mek")) {
+                d.mek = $root.proto.MekBundle.toObject(m.mek, o, q + 1);
+                if (o.oneofs)
+                    d._mek = "mek";
+            }
+            return d;
+        };
+
+        GenerateMekResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        GenerateMekResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.GenerateMekResult";
+        };
+
+        return GenerateMekResult;
+    })();
+
+    proto.GenerateMekRosterHashInput = (function() {
+
+        function GenerateMekRosterHashInput(p) {
+            this.epochHeads = [];
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        GenerateMekRosterHashInput.prototype.epochHeads = $util.emptyArray;
+
+        GenerateMekRosterHashInput.create = function create(properties) {
+            return new GenerateMekRosterHashInput(properties);
+        };
+
+        GenerateMekRosterHashInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.epochHeads != null && m.epochHeads.length) {
+                for (var i = 0; i < m.epochHeads.length; ++i)
+                    w.uint32(10).bytes(m.epochHeads[i]);
+            }
+            return w;
+        };
+
+        GenerateMekRosterHashInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.GenerateMekRosterHashInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        if (!(m.epochHeads && m.epochHeads.length))
+                            m.epochHeads = [];
+                        m.epochHeads.push(r.bytes());
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        GenerateMekRosterHashInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.GenerateMekRosterHashInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.GenerateMekRosterHashInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.GenerateMekRosterHashInput();
+            if (d.epochHeads) {
+                if (!Array.isArray(d.epochHeads))
+                    throw TypeError(".proto.GenerateMekRosterHashInput.epochHeads: array expected");
+                m.epochHeads = [];
+                for (var i = 0; i < d.epochHeads.length; ++i) {
+                    if (typeof d.epochHeads[i] === "string")
+                        $util.base64.decode(d.epochHeads[i], m.epochHeads[i] = $util.newBuffer($util.base64.length(d.epochHeads[i])), 0);
+                    else if (d.epochHeads[i].length >= 0)
+                        m.epochHeads[i] = d.epochHeads[i];
+                }
+            }
+            return m;
+        };
+
+        GenerateMekRosterHashInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (o.arrays || o.defaults) {
+                d.epochHeads = [];
+            }
+            if (m.epochHeads && m.epochHeads.length) {
+                d.epochHeads = [];
+                for (var j = 0; j < m.epochHeads.length; ++j) {
+                    d.epochHeads[j] = o.bytes === String ? $util.base64.encode(m.epochHeads[j], 0, m.epochHeads[j].length) : o.bytes === Array ? Array.prototype.slice.call(m.epochHeads[j]) : m.epochHeads[j];
+                }
+            }
+            return d;
+        };
+
+        GenerateMekRosterHashInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        GenerateMekRosterHashInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.GenerateMekRosterHashInput";
+        };
+
+        return GenerateMekRosterHashInput;
+    })();
+
+    proto.GenerateMekRosterHashResult = (function() {
+
+        function GenerateMekRosterHashResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        GenerateMekRosterHashResult.prototype.rosterHash = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(GenerateMekRosterHashResult.prototype, "_rosterHash", {
+            get: $util.oneOfGetter($oneOfFields = ["rosterHash"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        GenerateMekRosterHashResult.create = function create(properties) {
+            return new GenerateMekRosterHashResult(properties);
+        };
+
+        GenerateMekRosterHashResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.rosterHash != null && Object.hasOwnProperty.call(m, "rosterHash"))
+                w.uint32(10).bytes(m.rosterHash);
+            return w;
+        };
+
+        GenerateMekRosterHashResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.GenerateMekRosterHashResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.rosterHash = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        GenerateMekRosterHashResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.GenerateMekRosterHashResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.GenerateMekRosterHashResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.GenerateMekRosterHashResult();
+            if (d.rosterHash != null) {
+                if (typeof d.rosterHash === "string")
+                    $util.base64.decode(d.rosterHash, m.rosterHash = $util.newBuffer($util.base64.length(d.rosterHash)), 0);
+                else if (d.rosterHash.length >= 0)
+                    m.rosterHash = d.rosterHash;
+            }
+            return m;
+        };
+
+        GenerateMekRosterHashResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.rosterHash != null && Object.hasOwnProperty.call(m, "rosterHash")) {
+                d.rosterHash = o.bytes === String ? $util.base64.encode(m.rosterHash, 0, m.rosterHash.length) : o.bytes === Array ? Array.prototype.slice.call(m.rosterHash) : m.rosterHash;
+                if (o.oneofs)
+                    d._rosterHash = "rosterHash";
+            }
+            return d;
+        };
+
+        GenerateMekRosterHashResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        GenerateMekRosterHashResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.GenerateMekRosterHashResult";
+        };
+
+        return GenerateMekRosterHashResult;
     })();
 
     proto.GlobalSettings = (function() {
@@ -49292,6 +57019,3823 @@ export const proto = $root.proto = (() => {
         return Location;
     })();
 
+    proto.MENTION_MENTION_TYPE = (function() {
+        const valuesById = {}, values = Object.create(valuesById);
+        values[valuesById[0] = "PROFILE"] = 0;
+        return values;
+    })();
+
+    proto.MandrakeDecryptMekInput = (function() {
+
+        function MandrakeDecryptMekInput(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MandrakeDecryptMekInput.prototype.encryptedMek = null;
+        MandrakeDecryptMekInput.prototype.recipientsHash = null;
+        MandrakeDecryptMekInput.prototype.recipientEncSk = null;
+        MandrakeDecryptMekInput.prototype.mekEncryptionVersion = null;
+        MandrakeDecryptMekInput.prototype.conf = null;
+        MandrakeDecryptMekInput.prototype.recipientMmk = null;
+        MandrakeDecryptMekInput.prototype.mekId = null;
+        MandrakeDecryptMekInput.prototype.recipientMembershipProof = null;
+        MandrakeDecryptMekInput.prototype.mmkSender = null;
+        MandrakeDecryptMekInput.prototype.epochSender = null;
+        MandrakeDecryptMekInput.prototype.precomputedEpochSender = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MandrakeDecryptMekInput.prototype, "_encryptedMek", {
+            get: $util.oneOfGetter($oneOfFields = ["encryptedMek"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeDecryptMekInput.prototype, "_recipientsHash", {
+            get: $util.oneOfGetter($oneOfFields = ["recipientsHash"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeDecryptMekInput.prototype, "_recipientEncSk", {
+            get: $util.oneOfGetter($oneOfFields = ["recipientEncSk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeDecryptMekInput.prototype, "_mekEncryptionVersion", {
+            get: $util.oneOfGetter($oneOfFields = ["mekEncryptionVersion"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeDecryptMekInput.prototype, "_conf", {
+            get: $util.oneOfGetter($oneOfFields = ["conf"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeDecryptMekInput.prototype, "_recipientMmk", {
+            get: $util.oneOfGetter($oneOfFields = ["recipientMmk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeDecryptMekInput.prototype, "_mekId", {
+            get: $util.oneOfGetter($oneOfFields = ["mekId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeDecryptMekInput.prototype, "_recipientMembershipProof", {
+            get: $util.oneOfGetter($oneOfFields = ["recipientMembershipProof"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeDecryptMekInput.prototype, "senderPublicData", {
+            get: $util.oneOfGetter($oneOfFields = ["mmkSender", "epochSender", "precomputedEpochSender"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MandrakeDecryptMekInput.create = function create(properties) {
+            return new MandrakeDecryptMekInput(properties);
+        };
+
+        MandrakeDecryptMekInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.encryptedMek != null && Object.hasOwnProperty.call(m, "encryptedMek"))
+                w.uint32(10).bytes(m.encryptedMek);
+            if (m.mmkSender != null && Object.hasOwnProperty.call(m, "mmkSender"))
+                $root.proto.MandrakeDecryptMekInput.MmkSenderPublicData.encode(m.mmkSender, w.uint32(18).fork(), q + 1).ldelim();
+            if (m.epochSender != null && Object.hasOwnProperty.call(m, "epochSender"))
+                $root.proto.MandrakeDecryptMekInput.EpochSenderPublicData.encode(m.epochSender, w.uint32(26).fork(), q + 1).ldelim();
+            if (m.recipientsHash != null && Object.hasOwnProperty.call(m, "recipientsHash"))
+                w.uint32(34).bytes(m.recipientsHash);
+            if (m.recipientEncSk != null && Object.hasOwnProperty.call(m, "recipientEncSk"))
+                w.uint32(42).bytes(m.recipientEncSk);
+            if (m.mekEncryptionVersion != null && Object.hasOwnProperty.call(m, "mekEncryptionVersion"))
+                w.uint32(48).uint64(m.mekEncryptionVersion);
+            if (m.conf != null && Object.hasOwnProperty.call(m, "conf"))
+                $root.proto.MinosClientConfig.encode(m.conf, w.uint32(58).fork(), q + 1).ldelim();
+            if (m.recipientMmk != null && Object.hasOwnProperty.call(m, "recipientMmk"))
+                $root.proto.MessagingMailboxPublicData.encode(m.recipientMmk, w.uint32(66).fork(), q + 1).ldelim();
+            if (m.mekId != null && Object.hasOwnProperty.call(m, "mekId"))
+                w.uint32(74).bytes(m.mekId);
+            if (m.recipientMembershipProof != null && Object.hasOwnProperty.call(m, "recipientMembershipProof"))
+                $root.proto.MerkleMembershipProof.encode(m.recipientMembershipProof, w.uint32(82).fork(), q + 1).ldelim();
+            if (m.precomputedEpochSender != null && Object.hasOwnProperty.call(m, "precomputedEpochSender"))
+                $root.proto.MandrakeDecryptMekInput.PrecomputedEpochSenderPublicData.encode(m.precomputedEpochSender, w.uint32(90).fork(), q + 1).ldelim();
+            return w;
+        };
+
+        MandrakeDecryptMekInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MandrakeDecryptMekInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.encryptedMek = r.bytes();
+                        break;
+                    }
+                case 4: {
+                        m.recipientsHash = r.bytes();
+                        break;
+                    }
+                case 5: {
+                        m.recipientEncSk = r.bytes();
+                        break;
+                    }
+                case 6: {
+                        m.mekEncryptionVersion = r.uint64();
+                        break;
+                    }
+                case 7: {
+                        m.conf = $root.proto.MinosClientConfig.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 8: {
+                        m.recipientMmk = $root.proto.MessagingMailboxPublicData.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 9: {
+                        m.mekId = r.bytes();
+                        break;
+                    }
+                case 10: {
+                        m.recipientMembershipProof = $root.proto.MerkleMembershipProof.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.mmkSender = $root.proto.MandrakeDecryptMekInput.MmkSenderPublicData.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 3: {
+                        m.epochSender = $root.proto.MandrakeDecryptMekInput.EpochSenderPublicData.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 11: {
+                        m.precomputedEpochSender = $root.proto.MandrakeDecryptMekInput.PrecomputedEpochSenderPublicData.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MandrakeDecryptMekInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MandrakeDecryptMekInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MandrakeDecryptMekInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MandrakeDecryptMekInput();
+            if (d.encryptedMek != null) {
+                if (typeof d.encryptedMek === "string")
+                    $util.base64.decode(d.encryptedMek, m.encryptedMek = $util.newBuffer($util.base64.length(d.encryptedMek)), 0);
+                else if (d.encryptedMek.length >= 0)
+                    m.encryptedMek = d.encryptedMek;
+            }
+            if (d.recipientsHash != null) {
+                if (typeof d.recipientsHash === "string")
+                    $util.base64.decode(d.recipientsHash, m.recipientsHash = $util.newBuffer($util.base64.length(d.recipientsHash)), 0);
+                else if (d.recipientsHash.length >= 0)
+                    m.recipientsHash = d.recipientsHash;
+            }
+            if (d.recipientEncSk != null) {
+                if (typeof d.recipientEncSk === "string")
+                    $util.base64.decode(d.recipientEncSk, m.recipientEncSk = $util.newBuffer($util.base64.length(d.recipientEncSk)), 0);
+                else if (d.recipientEncSk.length >= 0)
+                    m.recipientEncSk = d.recipientEncSk;
+            }
+            if (d.mekEncryptionVersion != null) {
+                if ($util.Long)
+                    m.mekEncryptionVersion = $util.Long.fromValue(d.mekEncryptionVersion, true);
+                else if (typeof d.mekEncryptionVersion === "string")
+                    m.mekEncryptionVersion = parseInt(d.mekEncryptionVersion, 10);
+                else if (typeof d.mekEncryptionVersion === "number")
+                    m.mekEncryptionVersion = d.mekEncryptionVersion;
+                else if (typeof d.mekEncryptionVersion === "object")
+                    m.mekEncryptionVersion = new $util.LongBits(d.mekEncryptionVersion.low >>> 0, d.mekEncryptionVersion.high >>> 0).toNumber(true);
+            }
+            if (d.conf != null) {
+                if (!$util.isObject(d.conf))
+                    throw TypeError(".proto.MandrakeDecryptMekInput.conf: object expected");
+                m.conf = $root.proto.MinosClientConfig.fromObject(d.conf, n + 1);
+            }
+            if (d.recipientMmk != null) {
+                if (!$util.isObject(d.recipientMmk))
+                    throw TypeError(".proto.MandrakeDecryptMekInput.recipientMmk: object expected");
+                m.recipientMmk = $root.proto.MessagingMailboxPublicData.fromObject(d.recipientMmk, n + 1);
+            }
+            if (d.mekId != null) {
+                if (typeof d.mekId === "string")
+                    $util.base64.decode(d.mekId, m.mekId = $util.newBuffer($util.base64.length(d.mekId)), 0);
+                else if (d.mekId.length >= 0)
+                    m.mekId = d.mekId;
+            }
+            if (d.recipientMembershipProof != null) {
+                if (!$util.isObject(d.recipientMembershipProof))
+                    throw TypeError(".proto.MandrakeDecryptMekInput.recipientMembershipProof: object expected");
+                m.recipientMembershipProof = $root.proto.MerkleMembershipProof.fromObject(d.recipientMembershipProof, n + 1);
+            }
+            if (d.mmkSender != null) {
+                if (!$util.isObject(d.mmkSender))
+                    throw TypeError(".proto.MandrakeDecryptMekInput.mmkSender: object expected");
+                m.mmkSender = $root.proto.MandrakeDecryptMekInput.MmkSenderPublicData.fromObject(d.mmkSender, n + 1);
+            }
+            if (d.epochSender != null) {
+                if (!$util.isObject(d.epochSender))
+                    throw TypeError(".proto.MandrakeDecryptMekInput.epochSender: object expected");
+                m.epochSender = $root.proto.MandrakeDecryptMekInput.EpochSenderPublicData.fromObject(d.epochSender, n + 1);
+            }
+            if (d.precomputedEpochSender != null) {
+                if (!$util.isObject(d.precomputedEpochSender))
+                    throw TypeError(".proto.MandrakeDecryptMekInput.precomputedEpochSender: object expected");
+                m.precomputedEpochSender = $root.proto.MandrakeDecryptMekInput.PrecomputedEpochSenderPublicData.fromObject(d.precomputedEpochSender, n + 1);
+            }
+            return m;
+        };
+
+        MandrakeDecryptMekInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.encryptedMek != null && Object.hasOwnProperty.call(m, "encryptedMek")) {
+                d.encryptedMek = o.bytes === String ? $util.base64.encode(m.encryptedMek, 0, m.encryptedMek.length) : o.bytes === Array ? Array.prototype.slice.call(m.encryptedMek) : m.encryptedMek;
+                if (o.oneofs)
+                    d._encryptedMek = "encryptedMek";
+            }
+            if (m.mmkSender != null && Object.hasOwnProperty.call(m, "mmkSender")) {
+                d.mmkSender = $root.proto.MandrakeDecryptMekInput.MmkSenderPublicData.toObject(m.mmkSender, o, q + 1);
+                if (o.oneofs)
+                    d.senderPublicData = "mmkSender";
+            }
+            if (m.epochSender != null && Object.hasOwnProperty.call(m, "epochSender")) {
+                d.epochSender = $root.proto.MandrakeDecryptMekInput.EpochSenderPublicData.toObject(m.epochSender, o, q + 1);
+                if (o.oneofs)
+                    d.senderPublicData = "epochSender";
+            }
+            if (m.recipientsHash != null && Object.hasOwnProperty.call(m, "recipientsHash")) {
+                d.recipientsHash = o.bytes === String ? $util.base64.encode(m.recipientsHash, 0, m.recipientsHash.length) : o.bytes === Array ? Array.prototype.slice.call(m.recipientsHash) : m.recipientsHash;
+                if (o.oneofs)
+                    d._recipientsHash = "recipientsHash";
+            }
+            if (m.recipientEncSk != null && Object.hasOwnProperty.call(m, "recipientEncSk")) {
+                d.recipientEncSk = o.bytes === String ? $util.base64.encode(m.recipientEncSk, 0, m.recipientEncSk.length) : o.bytes === Array ? Array.prototype.slice.call(m.recipientEncSk) : m.recipientEncSk;
+                if (o.oneofs)
+                    d._recipientEncSk = "recipientEncSk";
+            }
+            if (m.mekEncryptionVersion != null && Object.hasOwnProperty.call(m, "mekEncryptionVersion")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.mekEncryptionVersion = typeof m.mekEncryptionVersion === "number" ? BigInt(m.mekEncryptionVersion) : $util.Long.fromBits(m.mekEncryptionVersion.low >>> 0, m.mekEncryptionVersion.high >>> 0, true).toBigInt();
+                else if (typeof m.mekEncryptionVersion === "number")
+                    d.mekEncryptionVersion = o.longs === String ? String(m.mekEncryptionVersion) : m.mekEncryptionVersion;
+                else
+                    d.mekEncryptionVersion = o.longs === String ? longToString(m.mekEncryptionVersion, true) : o.longs === Number ? longToNumber(m.mekEncryptionVersion, true) : m.mekEncryptionVersion;
+                if (o.oneofs)
+                    d._mekEncryptionVersion = "mekEncryptionVersion";
+            }
+            if (m.conf != null && Object.hasOwnProperty.call(m, "conf")) {
+                d.conf = $root.proto.MinosClientConfig.toObject(m.conf, o, q + 1);
+                if (o.oneofs)
+                    d._conf = "conf";
+            }
+            if (m.recipientMmk != null && Object.hasOwnProperty.call(m, "recipientMmk")) {
+                d.recipientMmk = $root.proto.MessagingMailboxPublicData.toObject(m.recipientMmk, o, q + 1);
+                if (o.oneofs)
+                    d._recipientMmk = "recipientMmk";
+            }
+            if (m.mekId != null && Object.hasOwnProperty.call(m, "mekId")) {
+                d.mekId = o.bytes === String ? $util.base64.encode(m.mekId, 0, m.mekId.length) : o.bytes === Array ? Array.prototype.slice.call(m.mekId) : m.mekId;
+                if (o.oneofs)
+                    d._mekId = "mekId";
+            }
+            if (m.recipientMembershipProof != null && Object.hasOwnProperty.call(m, "recipientMembershipProof")) {
+                d.recipientMembershipProof = $root.proto.MerkleMembershipProof.toObject(m.recipientMembershipProof, o, q + 1);
+                if (o.oneofs)
+                    d._recipientMembershipProof = "recipientMembershipProof";
+            }
+            if (m.precomputedEpochSender != null && Object.hasOwnProperty.call(m, "precomputedEpochSender")) {
+                d.precomputedEpochSender = $root.proto.MandrakeDecryptMekInput.PrecomputedEpochSenderPublicData.toObject(m.precomputedEpochSender, o, q + 1);
+                if (o.oneofs)
+                    d.senderPublicData = "precomputedEpochSender";
+            }
+            return d;
+        };
+
+        MandrakeDecryptMekInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MandrakeDecryptMekInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MandrakeDecryptMekInput";
+        };
+
+        MandrakeDecryptMekInput.EpochSenderPublicData = (function() {
+
+            function EpochSenderPublicData(p) {
+                if (p)
+                    for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                        if (p[ks[i]] != null && ks[i] !== "__proto__")
+                            this[ks[i]] = p[ks[i]];
+            }
+
+            EpochSenderPublicData.prototype.epochPublicData = null;
+
+            let $oneOfFields;
+
+            Object.defineProperty(EpochSenderPublicData.prototype, "_epochPublicData", {
+                get: $util.oneOfGetter($oneOfFields = ["epochPublicData"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            EpochSenderPublicData.create = function create(properties) {
+                return new EpochSenderPublicData(properties);
+            };
+
+            EpochSenderPublicData.encode = function encode(m, w, q) {
+                if (!w)
+                    w = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                if (m.epochPublicData != null && Object.hasOwnProperty.call(m, "epochPublicData"))
+                    $root.proto.EpochPublicData.encode(m.epochPublicData, w.uint32(10).fork(), q + 1).ldelim();
+                return w;
+            };
+
+            EpochSenderPublicData.decode = function decode(r, l, e, n) {
+                if (!(r instanceof $Reader))
+                    r = $Reader.create(r);
+                if (n === undefined)
+                    n = 0;
+                if (n > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var c, m;
+                if (l === undefined)
+                    c = r.len;
+                else {
+                    c = r.pos + l;
+                    if (c > r.len)
+                        throw RangeError("index out of range");
+                    l = r.len;
+                    r.len = c;
+                }
+                m = new $root.proto.MandrakeDecryptMekInput.EpochSenderPublicData();
+                while (r.pos < c) {
+                    var t = r.uint32();
+                    if (t === e)
+                        break;
+                    switch (t >>> 3) {
+                    case 1: {
+                            m.epochPublicData = $root.proto.EpochPublicData.decode(r, r.uint32(), undefined, n + 1);
+                            break;
+                        }
+                    default:
+                        r.skipType(t & 7, n);
+                        break;
+                    }
+                }
+                if (l !== undefined) {
+                    if (r.pos !== c)
+                        throw RangeError("index out of range");
+                    r.len = l;
+                }
+                return m;
+            };
+
+            EpochSenderPublicData.fromObject = function fromObject(d, n) {
+                if (d instanceof $root.proto.MandrakeDecryptMekInput.EpochSenderPublicData)
+                    return d;
+                if (!$util.isObject(d))
+                    throw TypeError(".proto.MandrakeDecryptMekInput.EpochSenderPublicData: object expected");
+                if (n === undefined)
+                    n = 0;
+                if (n > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var m = new $root.proto.MandrakeDecryptMekInput.EpochSenderPublicData();
+                if (d.epochPublicData != null) {
+                    if (!$util.isObject(d.epochPublicData))
+                        throw TypeError(".proto.MandrakeDecryptMekInput.EpochSenderPublicData.epochPublicData: object expected");
+                    m.epochPublicData = $root.proto.EpochPublicData.fromObject(d.epochPublicData, n + 1);
+                }
+                return m;
+            };
+
+            EpochSenderPublicData.toObject = function toObject(m, o, q) {
+                if (!o)
+                    o = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                var d = {};
+                if (m.epochPublicData != null && Object.hasOwnProperty.call(m, "epochPublicData")) {
+                    d.epochPublicData = $root.proto.EpochPublicData.toObject(m.epochPublicData, o, q + 1);
+                    if (o.oneofs)
+                        d._epochPublicData = "epochPublicData";
+                }
+                return d;
+            };
+
+            EpochSenderPublicData.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            EpochSenderPublicData.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/proto.MandrakeDecryptMekInput.EpochSenderPublicData";
+            };
+
+            return EpochSenderPublicData;
+        })();
+
+        MandrakeDecryptMekInput.MmkSenderPublicData = (function() {
+
+            function MmkSenderPublicData(p) {
+                if (p)
+                    for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                        if (p[ks[i]] != null && ks[i] !== "__proto__")
+                            this[ks[i]] = p[ks[i]];
+            }
+
+            MmkSenderPublicData.prototype.mmkPublicData = null;
+
+            let $oneOfFields;
+
+            Object.defineProperty(MmkSenderPublicData.prototype, "_mmkPublicData", {
+                get: $util.oneOfGetter($oneOfFields = ["mmkPublicData"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            MmkSenderPublicData.create = function create(properties) {
+                return new MmkSenderPublicData(properties);
+            };
+
+            MmkSenderPublicData.encode = function encode(m, w, q) {
+                if (!w)
+                    w = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                if (m.mmkPublicData != null && Object.hasOwnProperty.call(m, "mmkPublicData"))
+                    $root.proto.MessagingMailboxPublicData.encode(m.mmkPublicData, w.uint32(10).fork(), q + 1).ldelim();
+                return w;
+            };
+
+            MmkSenderPublicData.decode = function decode(r, l, e, n) {
+                if (!(r instanceof $Reader))
+                    r = $Reader.create(r);
+                if (n === undefined)
+                    n = 0;
+                if (n > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var c, m;
+                if (l === undefined)
+                    c = r.len;
+                else {
+                    c = r.pos + l;
+                    if (c > r.len)
+                        throw RangeError("index out of range");
+                    l = r.len;
+                    r.len = c;
+                }
+                m = new $root.proto.MandrakeDecryptMekInput.MmkSenderPublicData();
+                while (r.pos < c) {
+                    var t = r.uint32();
+                    if (t === e)
+                        break;
+                    switch (t >>> 3) {
+                    case 1: {
+                            m.mmkPublicData = $root.proto.MessagingMailboxPublicData.decode(r, r.uint32(), undefined, n + 1);
+                            break;
+                        }
+                    default:
+                        r.skipType(t & 7, n);
+                        break;
+                    }
+                }
+                if (l !== undefined) {
+                    if (r.pos !== c)
+                        throw RangeError("index out of range");
+                    r.len = l;
+                }
+                return m;
+            };
+
+            MmkSenderPublicData.fromObject = function fromObject(d, n) {
+                if (d instanceof $root.proto.MandrakeDecryptMekInput.MmkSenderPublicData)
+                    return d;
+                if (!$util.isObject(d))
+                    throw TypeError(".proto.MandrakeDecryptMekInput.MmkSenderPublicData: object expected");
+                if (n === undefined)
+                    n = 0;
+                if (n > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var m = new $root.proto.MandrakeDecryptMekInput.MmkSenderPublicData();
+                if (d.mmkPublicData != null) {
+                    if (!$util.isObject(d.mmkPublicData))
+                        throw TypeError(".proto.MandrakeDecryptMekInput.MmkSenderPublicData.mmkPublicData: object expected");
+                    m.mmkPublicData = $root.proto.MessagingMailboxPublicData.fromObject(d.mmkPublicData, n + 1);
+                }
+                return m;
+            };
+
+            MmkSenderPublicData.toObject = function toObject(m, o, q) {
+                if (!o)
+                    o = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                var d = {};
+                if (m.mmkPublicData != null && Object.hasOwnProperty.call(m, "mmkPublicData")) {
+                    d.mmkPublicData = $root.proto.MessagingMailboxPublicData.toObject(m.mmkPublicData, o, q + 1);
+                    if (o.oneofs)
+                        d._mmkPublicData = "mmkPublicData";
+                }
+                return d;
+            };
+
+            MmkSenderPublicData.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            MmkSenderPublicData.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/proto.MandrakeDecryptMekInput.MmkSenderPublicData";
+            };
+
+            return MmkSenderPublicData;
+        })();
+
+        MandrakeDecryptMekInput.PrecomputedEpochSenderPublicData = (function() {
+
+            function PrecomputedEpochSenderPublicData(p) {
+                if (p)
+                    for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                        if (p[ks[i]] != null && ks[i] !== "__proto__")
+                            this[ks[i]] = p[ks[i]];
+            }
+
+            PrecomputedEpochSenderPublicData.prototype.authPk = null;
+            PrecomputedEpochSenderPublicData.prototype.epochHead = null;
+
+            let $oneOfFields;
+
+            Object.defineProperty(PrecomputedEpochSenderPublicData.prototype, "_authPk", {
+                get: $util.oneOfGetter($oneOfFields = ["authPk"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            Object.defineProperty(PrecomputedEpochSenderPublicData.prototype, "_epochHead", {
+                get: $util.oneOfGetter($oneOfFields = ["epochHead"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            PrecomputedEpochSenderPublicData.create = function create(properties) {
+                return new PrecomputedEpochSenderPublicData(properties);
+            };
+
+            PrecomputedEpochSenderPublicData.encode = function encode(m, w, q) {
+                if (!w)
+                    w = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                if (m.authPk != null && Object.hasOwnProperty.call(m, "authPk"))
+                    w.uint32(10).bytes(m.authPk);
+                if (m.epochHead != null && Object.hasOwnProperty.call(m, "epochHead"))
+                    w.uint32(18).bytes(m.epochHead);
+                return w;
+            };
+
+            PrecomputedEpochSenderPublicData.decode = function decode(r, l, e, n) {
+                if (!(r instanceof $Reader))
+                    r = $Reader.create(r);
+                if (n === undefined)
+                    n = 0;
+                if (n > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var c, m;
+                if (l === undefined)
+                    c = r.len;
+                else {
+                    c = r.pos + l;
+                    if (c > r.len)
+                        throw RangeError("index out of range");
+                    l = r.len;
+                    r.len = c;
+                }
+                m = new $root.proto.MandrakeDecryptMekInput.PrecomputedEpochSenderPublicData();
+                while (r.pos < c) {
+                    var t = r.uint32();
+                    if (t === e)
+                        break;
+                    switch (t >>> 3) {
+                    case 1: {
+                            m.authPk = r.bytes();
+                            break;
+                        }
+                    case 2: {
+                            m.epochHead = r.bytes();
+                            break;
+                        }
+                    default:
+                        r.skipType(t & 7, n);
+                        break;
+                    }
+                }
+                if (l !== undefined) {
+                    if (r.pos !== c)
+                        throw RangeError("index out of range");
+                    r.len = l;
+                }
+                return m;
+            };
+
+            PrecomputedEpochSenderPublicData.fromObject = function fromObject(d, n) {
+                if (d instanceof $root.proto.MandrakeDecryptMekInput.PrecomputedEpochSenderPublicData)
+                    return d;
+                if (!$util.isObject(d))
+                    throw TypeError(".proto.MandrakeDecryptMekInput.PrecomputedEpochSenderPublicData: object expected");
+                if (n === undefined)
+                    n = 0;
+                if (n > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var m = new $root.proto.MandrakeDecryptMekInput.PrecomputedEpochSenderPublicData();
+                if (d.authPk != null) {
+                    if (typeof d.authPk === "string")
+                        $util.base64.decode(d.authPk, m.authPk = $util.newBuffer($util.base64.length(d.authPk)), 0);
+                    else if (d.authPk.length >= 0)
+                        m.authPk = d.authPk;
+                }
+                if (d.epochHead != null) {
+                    if (typeof d.epochHead === "string")
+                        $util.base64.decode(d.epochHead, m.epochHead = $util.newBuffer($util.base64.length(d.epochHead)), 0);
+                    else if (d.epochHead.length >= 0)
+                        m.epochHead = d.epochHead;
+                }
+                return m;
+            };
+
+            PrecomputedEpochSenderPublicData.toObject = function toObject(m, o, q) {
+                if (!o)
+                    o = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                var d = {};
+                if (m.authPk != null && Object.hasOwnProperty.call(m, "authPk")) {
+                    d.authPk = o.bytes === String ? $util.base64.encode(m.authPk, 0, m.authPk.length) : o.bytes === Array ? Array.prototype.slice.call(m.authPk) : m.authPk;
+                    if (o.oneofs)
+                        d._authPk = "authPk";
+                }
+                if (m.epochHead != null && Object.hasOwnProperty.call(m, "epochHead")) {
+                    d.epochHead = o.bytes === String ? $util.base64.encode(m.epochHead, 0, m.epochHead.length) : o.bytes === Array ? Array.prototype.slice.call(m.epochHead) : m.epochHead;
+                    if (o.oneofs)
+                        d._epochHead = "epochHead";
+                }
+                return d;
+            };
+
+            PrecomputedEpochSenderPublicData.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            PrecomputedEpochSenderPublicData.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/proto.MandrakeDecryptMekInput.PrecomputedEpochSenderPublicData";
+            };
+
+            return PrecomputedEpochSenderPublicData;
+        })();
+
+        return MandrakeDecryptMekInput;
+    })();
+
+    proto.MandrakeDecryptMekResult = (function() {
+
+        function MandrakeDecryptMekResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MandrakeDecryptMekResult.prototype.success = null;
+        MandrakeDecryptMekResult.prototype.errorMessage = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MandrakeDecryptMekResult.prototype, "result", {
+            get: $util.oneOfGetter($oneOfFields = ["success", "errorMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MandrakeDecryptMekResult.create = function create(properties) {
+            return new MandrakeDecryptMekResult(properties);
+        };
+
+        MandrakeDecryptMekResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.success != null && Object.hasOwnProperty.call(m, "success"))
+                $root.proto.MandrakeDecryptMekSuccess.encode(m.success, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage"))
+                w.uint32(18).string(m.errorMessage);
+            return w;
+        };
+
+        MandrakeDecryptMekResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MandrakeDecryptMekResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.success = $root.proto.MandrakeDecryptMekSuccess.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.errorMessage = r.string();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MandrakeDecryptMekResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MandrakeDecryptMekResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MandrakeDecryptMekResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MandrakeDecryptMekResult();
+            if (d.success != null) {
+                if (!$util.isObject(d.success))
+                    throw TypeError(".proto.MandrakeDecryptMekResult.success: object expected");
+                m.success = $root.proto.MandrakeDecryptMekSuccess.fromObject(d.success, n + 1);
+            }
+            if (d.errorMessage != null) {
+                m.errorMessage = String(d.errorMessage);
+            }
+            return m;
+        };
+
+        MandrakeDecryptMekResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.success != null && Object.hasOwnProperty.call(m, "success")) {
+                d.success = $root.proto.MandrakeDecryptMekSuccess.toObject(m.success, o, q + 1);
+                if (o.oneofs)
+                    d.result = "success";
+            }
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage")) {
+                d.errorMessage = m.errorMessage;
+                if (o.oneofs)
+                    d.result = "errorMessage";
+            }
+            return d;
+        };
+
+        MandrakeDecryptMekResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MandrakeDecryptMekResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MandrakeDecryptMekResult";
+        };
+
+        return MandrakeDecryptMekResult;
+    })();
+
+    proto.MandrakeDecryptMekSuccess = (function() {
+
+        function MandrakeDecryptMekSuccess(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MandrakeDecryptMekSuccess.prototype.mek = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MandrakeDecryptMekSuccess.prototype, "_mek", {
+            get: $util.oneOfGetter($oneOfFields = ["mek"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MandrakeDecryptMekSuccess.create = function create(properties) {
+            return new MandrakeDecryptMekSuccess(properties);
+        };
+
+        MandrakeDecryptMekSuccess.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.mek != null && Object.hasOwnProperty.call(m, "mek"))
+                w.uint32(10).bytes(m.mek);
+            return w;
+        };
+
+        MandrakeDecryptMekSuccess.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MandrakeDecryptMekSuccess();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.mek = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MandrakeDecryptMekSuccess.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MandrakeDecryptMekSuccess)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MandrakeDecryptMekSuccess: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MandrakeDecryptMekSuccess();
+            if (d.mek != null) {
+                if (typeof d.mek === "string")
+                    $util.base64.decode(d.mek, m.mek = $util.newBuffer($util.base64.length(d.mek)), 0);
+                else if (d.mek.length >= 0)
+                    m.mek = d.mek;
+            }
+            return m;
+        };
+
+        MandrakeDecryptMekSuccess.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.mek != null && Object.hasOwnProperty.call(m, "mek")) {
+                d.mek = o.bytes === String ? $util.base64.encode(m.mek, 0, m.mek.length) : o.bytes === Array ? Array.prototype.slice.call(m.mek) : m.mek;
+                if (o.oneofs)
+                    d._mek = "mek";
+            }
+            return d;
+        };
+
+        MandrakeDecryptMekSuccess.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MandrakeDecryptMekSuccess.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MandrakeDecryptMekSuccess";
+        };
+
+        return MandrakeDecryptMekSuccess;
+    })();
+
+    proto.MandrakeEncryptMekInput = (function() {
+
+        function MandrakeEncryptMekInput(p) {
+            this.recipients = [];
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MandrakeEncryptMekInput.prototype.mek = null;
+        MandrakeEncryptMekInput.prototype.recipients = $util.emptyArray;
+        MandrakeEncryptMekInput.prototype.conf = null;
+        MandrakeEncryptMekInput.prototype.mmkSender = null;
+        MandrakeEncryptMekInput.prototype.epochSender = null;
+        MandrakeEncryptMekInput.prototype.detachedDeviceSender = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MandrakeEncryptMekInput.prototype, "_mek", {
+            get: $util.oneOfGetter($oneOfFields = ["mek"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeEncryptMekInput.prototype, "_conf", {
+            get: $util.oneOfGetter($oneOfFields = ["conf"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeEncryptMekInput.prototype, "sender", {
+            get: $util.oneOfGetter($oneOfFields = ["mmkSender", "epochSender", "detachedDeviceSender"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MandrakeEncryptMekInput.create = function create(properties) {
+            return new MandrakeEncryptMekInput(properties);
+        };
+
+        MandrakeEncryptMekInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.mek != null && Object.hasOwnProperty.call(m, "mek"))
+                $root.proto.MandrakeMekBundle.encode(m.mek, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.recipients != null && m.recipients.length) {
+                for (var i = 0; i < m.recipients.length; ++i)
+                    $root.proto.MessagingMailboxPublicData.encode(m.recipients[i], w.uint32(18).fork(), q + 1).ldelim();
+            }
+            if (m.mmkSender != null && Object.hasOwnProperty.call(m, "mmkSender"))
+                $root.proto.MandrakeEncryptMekInput.MmkSender.encode(m.mmkSender, w.uint32(26).fork(), q + 1).ldelim();
+            if (m.epochSender != null && Object.hasOwnProperty.call(m, "epochSender"))
+                $root.proto.MandrakeEncryptMekInput.EpochSender.encode(m.epochSender, w.uint32(34).fork(), q + 1).ldelim();
+            if (m.conf != null && Object.hasOwnProperty.call(m, "conf"))
+                $root.proto.MinosClientConfig.encode(m.conf, w.uint32(42).fork(), q + 1).ldelim();
+            if (m.detachedDeviceSender != null && Object.hasOwnProperty.call(m, "detachedDeviceSender"))
+                $root.proto.MandrakeEncryptMekInput.DetachedDeviceSender.encode(m.detachedDeviceSender, w.uint32(50).fork(), q + 1).ldelim();
+            return w;
+        };
+
+        MandrakeEncryptMekInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MandrakeEncryptMekInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.mek = $root.proto.MandrakeMekBundle.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        if (!(m.recipients && m.recipients.length))
+                            m.recipients = [];
+                        m.recipients.push($root.proto.MessagingMailboxPublicData.decode(r, r.uint32(), undefined, n + 1));
+                        break;
+                    }
+                case 5: {
+                        m.conf = $root.proto.MinosClientConfig.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 3: {
+                        m.mmkSender = $root.proto.MandrakeEncryptMekInput.MmkSender.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 4: {
+                        m.epochSender = $root.proto.MandrakeEncryptMekInput.EpochSender.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 6: {
+                        m.detachedDeviceSender = $root.proto.MandrakeEncryptMekInput.DetachedDeviceSender.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MandrakeEncryptMekInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MandrakeEncryptMekInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MandrakeEncryptMekInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MandrakeEncryptMekInput();
+            if (d.mek != null) {
+                if (!$util.isObject(d.mek))
+                    throw TypeError(".proto.MandrakeEncryptMekInput.mek: object expected");
+                m.mek = $root.proto.MandrakeMekBundle.fromObject(d.mek, n + 1);
+            }
+            if (d.recipients) {
+                if (!Array.isArray(d.recipients))
+                    throw TypeError(".proto.MandrakeEncryptMekInput.recipients: array expected");
+                m.recipients = [];
+                for (var i = 0; i < d.recipients.length; ++i) {
+                    if (!$util.isObject(d.recipients[i]))
+                        throw TypeError(".proto.MandrakeEncryptMekInput.recipients: object expected");
+                    m.recipients[i] = $root.proto.MessagingMailboxPublicData.fromObject(d.recipients[i], n + 1);
+                }
+            }
+            if (d.conf != null) {
+                if (!$util.isObject(d.conf))
+                    throw TypeError(".proto.MandrakeEncryptMekInput.conf: object expected");
+                m.conf = $root.proto.MinosClientConfig.fromObject(d.conf, n + 1);
+            }
+            if (d.mmkSender != null) {
+                if (!$util.isObject(d.mmkSender))
+                    throw TypeError(".proto.MandrakeEncryptMekInput.mmkSender: object expected");
+                m.mmkSender = $root.proto.MandrakeEncryptMekInput.MmkSender.fromObject(d.mmkSender, n + 1);
+            }
+            if (d.epochSender != null) {
+                if (!$util.isObject(d.epochSender))
+                    throw TypeError(".proto.MandrakeEncryptMekInput.epochSender: object expected");
+                m.epochSender = $root.proto.MandrakeEncryptMekInput.EpochSender.fromObject(d.epochSender, n + 1);
+            }
+            if (d.detachedDeviceSender != null) {
+                if (!$util.isObject(d.detachedDeviceSender))
+                    throw TypeError(".proto.MandrakeEncryptMekInput.detachedDeviceSender: object expected");
+                m.detachedDeviceSender = $root.proto.MandrakeEncryptMekInput.DetachedDeviceSender.fromObject(d.detachedDeviceSender, n + 1);
+            }
+            return m;
+        };
+
+        MandrakeEncryptMekInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (o.arrays || o.defaults) {
+                d.recipients = [];
+            }
+            if (m.mek != null && Object.hasOwnProperty.call(m, "mek")) {
+                d.mek = $root.proto.MandrakeMekBundle.toObject(m.mek, o, q + 1);
+                if (o.oneofs)
+                    d._mek = "mek";
+            }
+            if (m.recipients && m.recipients.length) {
+                d.recipients = [];
+                for (var j = 0; j < m.recipients.length; ++j) {
+                    d.recipients[j] = $root.proto.MessagingMailboxPublicData.toObject(m.recipients[j], o, q + 1);
+                }
+            }
+            if (m.mmkSender != null && Object.hasOwnProperty.call(m, "mmkSender")) {
+                d.mmkSender = $root.proto.MandrakeEncryptMekInput.MmkSender.toObject(m.mmkSender, o, q + 1);
+                if (o.oneofs)
+                    d.sender = "mmkSender";
+            }
+            if (m.epochSender != null && Object.hasOwnProperty.call(m, "epochSender")) {
+                d.epochSender = $root.proto.MandrakeEncryptMekInput.EpochSender.toObject(m.epochSender, o, q + 1);
+                if (o.oneofs)
+                    d.sender = "epochSender";
+            }
+            if (m.conf != null && Object.hasOwnProperty.call(m, "conf")) {
+                d.conf = $root.proto.MinosClientConfig.toObject(m.conf, o, q + 1);
+                if (o.oneofs)
+                    d._conf = "conf";
+            }
+            if (m.detachedDeviceSender != null && Object.hasOwnProperty.call(m, "detachedDeviceSender")) {
+                d.detachedDeviceSender = $root.proto.MandrakeEncryptMekInput.DetachedDeviceSender.toObject(m.detachedDeviceSender, o, q + 1);
+                if (o.oneofs)
+                    d.sender = "detachedDeviceSender";
+            }
+            return d;
+        };
+
+        MandrakeEncryptMekInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MandrakeEncryptMekInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MandrakeEncryptMekInput";
+        };
+
+        MandrakeEncryptMekInput.DetachedDeviceSender = (function() {
+
+            function DetachedDeviceSender(p) {
+                if (p)
+                    for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                        if (p[ks[i]] != null && ks[i] !== "__proto__")
+                            this[ks[i]] = p[ks[i]];
+            }
+
+            DetachedDeviceSender.prototype.detachedDevicePublicData = null;
+            DetachedDeviceSender.prototype.authSk = null;
+            DetachedDeviceSender.prototype.authPk = null;
+
+            let $oneOfFields;
+
+            Object.defineProperty(DetachedDeviceSender.prototype, "_detachedDevicePublicData", {
+                get: $util.oneOfGetter($oneOfFields = ["detachedDevicePublicData"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            Object.defineProperty(DetachedDeviceSender.prototype, "_authSk", {
+                get: $util.oneOfGetter($oneOfFields = ["authSk"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            Object.defineProperty(DetachedDeviceSender.prototype, "_authPk", {
+                get: $util.oneOfGetter($oneOfFields = ["authPk"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            DetachedDeviceSender.create = function create(properties) {
+                return new DetachedDeviceSender(properties);
+            };
+
+            DetachedDeviceSender.encode = function encode(m, w, q) {
+                if (!w)
+                    w = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                if (m.detachedDevicePublicData != null && Object.hasOwnProperty.call(m, "detachedDevicePublicData"))
+                    $root.proto.DetachedDevicePublicData.encode(m.detachedDevicePublicData, w.uint32(10).fork(), q + 1).ldelim();
+                if (m.authSk != null && Object.hasOwnProperty.call(m, "authSk"))
+                    w.uint32(18).bytes(m.authSk);
+                if (m.authPk != null && Object.hasOwnProperty.call(m, "authPk"))
+                    w.uint32(26).bytes(m.authPk);
+                return w;
+            };
+
+            DetachedDeviceSender.decode = function decode(r, l, e, n) {
+                if (!(r instanceof $Reader))
+                    r = $Reader.create(r);
+                if (n === undefined)
+                    n = 0;
+                if (n > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var c, m;
+                if (l === undefined)
+                    c = r.len;
+                else {
+                    c = r.pos + l;
+                    if (c > r.len)
+                        throw RangeError("index out of range");
+                    l = r.len;
+                    r.len = c;
+                }
+                m = new $root.proto.MandrakeEncryptMekInput.DetachedDeviceSender();
+                while (r.pos < c) {
+                    var t = r.uint32();
+                    if (t === e)
+                        break;
+                    switch (t >>> 3) {
+                    case 1: {
+                            m.detachedDevicePublicData = $root.proto.DetachedDevicePublicData.decode(r, r.uint32(), undefined, n + 1);
+                            break;
+                        }
+                    case 2: {
+                            m.authSk = r.bytes();
+                            break;
+                        }
+                    case 3: {
+                            m.authPk = r.bytes();
+                            break;
+                        }
+                    default:
+                        r.skipType(t & 7, n);
+                        break;
+                    }
+                }
+                if (l !== undefined) {
+                    if (r.pos !== c)
+                        throw RangeError("index out of range");
+                    r.len = l;
+                }
+                return m;
+            };
+
+            DetachedDeviceSender.fromObject = function fromObject(d, n) {
+                if (d instanceof $root.proto.MandrakeEncryptMekInput.DetachedDeviceSender)
+                    return d;
+                if (!$util.isObject(d))
+                    throw TypeError(".proto.MandrakeEncryptMekInput.DetachedDeviceSender: object expected");
+                if (n === undefined)
+                    n = 0;
+                if (n > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var m = new $root.proto.MandrakeEncryptMekInput.DetachedDeviceSender();
+                if (d.detachedDevicePublicData != null) {
+                    if (!$util.isObject(d.detachedDevicePublicData))
+                        throw TypeError(".proto.MandrakeEncryptMekInput.DetachedDeviceSender.detachedDevicePublicData: object expected");
+                    m.detachedDevicePublicData = $root.proto.DetachedDevicePublicData.fromObject(d.detachedDevicePublicData, n + 1);
+                }
+                if (d.authSk != null) {
+                    if (typeof d.authSk === "string")
+                        $util.base64.decode(d.authSk, m.authSk = $util.newBuffer($util.base64.length(d.authSk)), 0);
+                    else if (d.authSk.length >= 0)
+                        m.authSk = d.authSk;
+                }
+                if (d.authPk != null) {
+                    if (typeof d.authPk === "string")
+                        $util.base64.decode(d.authPk, m.authPk = $util.newBuffer($util.base64.length(d.authPk)), 0);
+                    else if (d.authPk.length >= 0)
+                        m.authPk = d.authPk;
+                }
+                return m;
+            };
+
+            DetachedDeviceSender.toObject = function toObject(m, o, q) {
+                if (!o)
+                    o = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                var d = {};
+                if (m.detachedDevicePublicData != null && Object.hasOwnProperty.call(m, "detachedDevicePublicData")) {
+                    d.detachedDevicePublicData = $root.proto.DetachedDevicePublicData.toObject(m.detachedDevicePublicData, o, q + 1);
+                    if (o.oneofs)
+                        d._detachedDevicePublicData = "detachedDevicePublicData";
+                }
+                if (m.authSk != null && Object.hasOwnProperty.call(m, "authSk")) {
+                    d.authSk = o.bytes === String ? $util.base64.encode(m.authSk, 0, m.authSk.length) : o.bytes === Array ? Array.prototype.slice.call(m.authSk) : m.authSk;
+                    if (o.oneofs)
+                        d._authSk = "authSk";
+                }
+                if (m.authPk != null && Object.hasOwnProperty.call(m, "authPk")) {
+                    d.authPk = o.bytes === String ? $util.base64.encode(m.authPk, 0, m.authPk.length) : o.bytes === Array ? Array.prototype.slice.call(m.authPk) : m.authPk;
+                    if (o.oneofs)
+                        d._authPk = "authPk";
+                }
+                return d;
+            };
+
+            DetachedDeviceSender.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            DetachedDeviceSender.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/proto.MandrakeEncryptMekInput.DetachedDeviceSender";
+            };
+
+            return DetachedDeviceSender;
+        })();
+
+        MandrakeEncryptMekInput.EpochSender = (function() {
+
+            function EpochSender(p) {
+                if (p)
+                    for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                        if (p[ks[i]] != null && ks[i] !== "__proto__")
+                            this[ks[i]] = p[ks[i]];
+            }
+
+            EpochSender.prototype.epochPublicData = null;
+            EpochSender.prototype.authSk = null;
+            EpochSender.prototype.authPk = null;
+
+            let $oneOfFields;
+
+            Object.defineProperty(EpochSender.prototype, "_epochPublicData", {
+                get: $util.oneOfGetter($oneOfFields = ["epochPublicData"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            Object.defineProperty(EpochSender.prototype, "_authSk", {
+                get: $util.oneOfGetter($oneOfFields = ["authSk"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            Object.defineProperty(EpochSender.prototype, "_authPk", {
+                get: $util.oneOfGetter($oneOfFields = ["authPk"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            EpochSender.create = function create(properties) {
+                return new EpochSender(properties);
+            };
+
+            EpochSender.encode = function encode(m, w, q) {
+                if (!w)
+                    w = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                if (m.epochPublicData != null && Object.hasOwnProperty.call(m, "epochPublicData"))
+                    $root.proto.EpochPublicData.encode(m.epochPublicData, w.uint32(10).fork(), q + 1).ldelim();
+                if (m.authSk != null && Object.hasOwnProperty.call(m, "authSk"))
+                    w.uint32(18).bytes(m.authSk);
+                if (m.authPk != null && Object.hasOwnProperty.call(m, "authPk"))
+                    w.uint32(26).bytes(m.authPk);
+                return w;
+            };
+
+            EpochSender.decode = function decode(r, l, e, n) {
+                if (!(r instanceof $Reader))
+                    r = $Reader.create(r);
+                if (n === undefined)
+                    n = 0;
+                if (n > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var c, m;
+                if (l === undefined)
+                    c = r.len;
+                else {
+                    c = r.pos + l;
+                    if (c > r.len)
+                        throw RangeError("index out of range");
+                    l = r.len;
+                    r.len = c;
+                }
+                m = new $root.proto.MandrakeEncryptMekInput.EpochSender();
+                while (r.pos < c) {
+                    var t = r.uint32();
+                    if (t === e)
+                        break;
+                    switch (t >>> 3) {
+                    case 1: {
+                            m.epochPublicData = $root.proto.EpochPublicData.decode(r, r.uint32(), undefined, n + 1);
+                            break;
+                        }
+                    case 2: {
+                            m.authSk = r.bytes();
+                            break;
+                        }
+                    case 3: {
+                            m.authPk = r.bytes();
+                            break;
+                        }
+                    default:
+                        r.skipType(t & 7, n);
+                        break;
+                    }
+                }
+                if (l !== undefined) {
+                    if (r.pos !== c)
+                        throw RangeError("index out of range");
+                    r.len = l;
+                }
+                return m;
+            };
+
+            EpochSender.fromObject = function fromObject(d, n) {
+                if (d instanceof $root.proto.MandrakeEncryptMekInput.EpochSender)
+                    return d;
+                if (!$util.isObject(d))
+                    throw TypeError(".proto.MandrakeEncryptMekInput.EpochSender: object expected");
+                if (n === undefined)
+                    n = 0;
+                if (n > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var m = new $root.proto.MandrakeEncryptMekInput.EpochSender();
+                if (d.epochPublicData != null) {
+                    if (!$util.isObject(d.epochPublicData))
+                        throw TypeError(".proto.MandrakeEncryptMekInput.EpochSender.epochPublicData: object expected");
+                    m.epochPublicData = $root.proto.EpochPublicData.fromObject(d.epochPublicData, n + 1);
+                }
+                if (d.authSk != null) {
+                    if (typeof d.authSk === "string")
+                        $util.base64.decode(d.authSk, m.authSk = $util.newBuffer($util.base64.length(d.authSk)), 0);
+                    else if (d.authSk.length >= 0)
+                        m.authSk = d.authSk;
+                }
+                if (d.authPk != null) {
+                    if (typeof d.authPk === "string")
+                        $util.base64.decode(d.authPk, m.authPk = $util.newBuffer($util.base64.length(d.authPk)), 0);
+                    else if (d.authPk.length >= 0)
+                        m.authPk = d.authPk;
+                }
+                return m;
+            };
+
+            EpochSender.toObject = function toObject(m, o, q) {
+                if (!o)
+                    o = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                var d = {};
+                if (m.epochPublicData != null && Object.hasOwnProperty.call(m, "epochPublicData")) {
+                    d.epochPublicData = $root.proto.EpochPublicData.toObject(m.epochPublicData, o, q + 1);
+                    if (o.oneofs)
+                        d._epochPublicData = "epochPublicData";
+                }
+                if (m.authSk != null && Object.hasOwnProperty.call(m, "authSk")) {
+                    d.authSk = o.bytes === String ? $util.base64.encode(m.authSk, 0, m.authSk.length) : o.bytes === Array ? Array.prototype.slice.call(m.authSk) : m.authSk;
+                    if (o.oneofs)
+                        d._authSk = "authSk";
+                }
+                if (m.authPk != null && Object.hasOwnProperty.call(m, "authPk")) {
+                    d.authPk = o.bytes === String ? $util.base64.encode(m.authPk, 0, m.authPk.length) : o.bytes === Array ? Array.prototype.slice.call(m.authPk) : m.authPk;
+                    if (o.oneofs)
+                        d._authPk = "authPk";
+                }
+                return d;
+            };
+
+            EpochSender.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            EpochSender.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/proto.MandrakeEncryptMekInput.EpochSender";
+            };
+
+            return EpochSender;
+        })();
+
+        MandrakeEncryptMekInput.MmkSender = (function() {
+
+            function MmkSender(p) {
+                if (p)
+                    for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                        if (p[ks[i]] != null && ks[i] !== "__proto__")
+                            this[ks[i]] = p[ks[i]];
+            }
+
+            MmkSender.prototype.mmkPublicData = null;
+            MmkSender.prototype.authSk = null;
+            MmkSender.prototype.authPk = null;
+
+            let $oneOfFields;
+
+            Object.defineProperty(MmkSender.prototype, "_mmkPublicData", {
+                get: $util.oneOfGetter($oneOfFields = ["mmkPublicData"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            Object.defineProperty(MmkSender.prototype, "_authSk", {
+                get: $util.oneOfGetter($oneOfFields = ["authSk"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            Object.defineProperty(MmkSender.prototype, "_authPk", {
+                get: $util.oneOfGetter($oneOfFields = ["authPk"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            MmkSender.create = function create(properties) {
+                return new MmkSender(properties);
+            };
+
+            MmkSender.encode = function encode(m, w, q) {
+                if (!w)
+                    w = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                if (m.mmkPublicData != null && Object.hasOwnProperty.call(m, "mmkPublicData"))
+                    $root.proto.MessagingMailboxPublicData.encode(m.mmkPublicData, w.uint32(10).fork(), q + 1).ldelim();
+                if (m.authSk != null && Object.hasOwnProperty.call(m, "authSk"))
+                    w.uint32(18).bytes(m.authSk);
+                if (m.authPk != null && Object.hasOwnProperty.call(m, "authPk"))
+                    w.uint32(26).bytes(m.authPk);
+                return w;
+            };
+
+            MmkSender.decode = function decode(r, l, e, n) {
+                if (!(r instanceof $Reader))
+                    r = $Reader.create(r);
+                if (n === undefined)
+                    n = 0;
+                if (n > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var c, m;
+                if (l === undefined)
+                    c = r.len;
+                else {
+                    c = r.pos + l;
+                    if (c > r.len)
+                        throw RangeError("index out of range");
+                    l = r.len;
+                    r.len = c;
+                }
+                m = new $root.proto.MandrakeEncryptMekInput.MmkSender();
+                while (r.pos < c) {
+                    var t = r.uint32();
+                    if (t === e)
+                        break;
+                    switch (t >>> 3) {
+                    case 1: {
+                            m.mmkPublicData = $root.proto.MessagingMailboxPublicData.decode(r, r.uint32(), undefined, n + 1);
+                            break;
+                        }
+                    case 2: {
+                            m.authSk = r.bytes();
+                            break;
+                        }
+                    case 3: {
+                            m.authPk = r.bytes();
+                            break;
+                        }
+                    default:
+                        r.skipType(t & 7, n);
+                        break;
+                    }
+                }
+                if (l !== undefined) {
+                    if (r.pos !== c)
+                        throw RangeError("index out of range");
+                    r.len = l;
+                }
+                return m;
+            };
+
+            MmkSender.fromObject = function fromObject(d, n) {
+                if (d instanceof $root.proto.MandrakeEncryptMekInput.MmkSender)
+                    return d;
+                if (!$util.isObject(d))
+                    throw TypeError(".proto.MandrakeEncryptMekInput.MmkSender: object expected");
+                if (n === undefined)
+                    n = 0;
+                if (n > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var m = new $root.proto.MandrakeEncryptMekInput.MmkSender();
+                if (d.mmkPublicData != null) {
+                    if (!$util.isObject(d.mmkPublicData))
+                        throw TypeError(".proto.MandrakeEncryptMekInput.MmkSender.mmkPublicData: object expected");
+                    m.mmkPublicData = $root.proto.MessagingMailboxPublicData.fromObject(d.mmkPublicData, n + 1);
+                }
+                if (d.authSk != null) {
+                    if (typeof d.authSk === "string")
+                        $util.base64.decode(d.authSk, m.authSk = $util.newBuffer($util.base64.length(d.authSk)), 0);
+                    else if (d.authSk.length >= 0)
+                        m.authSk = d.authSk;
+                }
+                if (d.authPk != null) {
+                    if (typeof d.authPk === "string")
+                        $util.base64.decode(d.authPk, m.authPk = $util.newBuffer($util.base64.length(d.authPk)), 0);
+                    else if (d.authPk.length >= 0)
+                        m.authPk = d.authPk;
+                }
+                return m;
+            };
+
+            MmkSender.toObject = function toObject(m, o, q) {
+                if (!o)
+                    o = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                var d = {};
+                if (m.mmkPublicData != null && Object.hasOwnProperty.call(m, "mmkPublicData")) {
+                    d.mmkPublicData = $root.proto.MessagingMailboxPublicData.toObject(m.mmkPublicData, o, q + 1);
+                    if (o.oneofs)
+                        d._mmkPublicData = "mmkPublicData";
+                }
+                if (m.authSk != null && Object.hasOwnProperty.call(m, "authSk")) {
+                    d.authSk = o.bytes === String ? $util.base64.encode(m.authSk, 0, m.authSk.length) : o.bytes === Array ? Array.prototype.slice.call(m.authSk) : m.authSk;
+                    if (o.oneofs)
+                        d._authSk = "authSk";
+                }
+                if (m.authPk != null && Object.hasOwnProperty.call(m, "authPk")) {
+                    d.authPk = o.bytes === String ? $util.base64.encode(m.authPk, 0, m.authPk.length) : o.bytes === Array ? Array.prototype.slice.call(m.authPk) : m.authPk;
+                    if (o.oneofs)
+                        d._authPk = "authPk";
+                }
+                return d;
+            };
+
+            MmkSender.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            MmkSender.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/proto.MandrakeEncryptMekInput.MmkSender";
+            };
+
+            return MmkSender;
+        })();
+
+        return MandrakeEncryptMekInput;
+    })();
+
+    proto.MandrakeEncryptMekResult = (function() {
+
+        function MandrakeEncryptMekResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MandrakeEncryptMekResult.prototype.success = null;
+        MandrakeEncryptMekResult.prototype.errorMessage = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MandrakeEncryptMekResult.prototype, "result", {
+            get: $util.oneOfGetter($oneOfFields = ["success", "errorMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MandrakeEncryptMekResult.create = function create(properties) {
+            return new MandrakeEncryptMekResult(properties);
+        };
+
+        MandrakeEncryptMekResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.success != null && Object.hasOwnProperty.call(m, "success"))
+                $root.proto.MandrakeEncryptMekSuccess.encode(m.success, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage"))
+                w.uint32(18).string(m.errorMessage);
+            return w;
+        };
+
+        MandrakeEncryptMekResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MandrakeEncryptMekResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.success = $root.proto.MandrakeEncryptMekSuccess.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.errorMessage = r.string();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MandrakeEncryptMekResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MandrakeEncryptMekResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MandrakeEncryptMekResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MandrakeEncryptMekResult();
+            if (d.success != null) {
+                if (!$util.isObject(d.success))
+                    throw TypeError(".proto.MandrakeEncryptMekResult.success: object expected");
+                m.success = $root.proto.MandrakeEncryptMekSuccess.fromObject(d.success, n + 1);
+            }
+            if (d.errorMessage != null) {
+                m.errorMessage = String(d.errorMessage);
+            }
+            return m;
+        };
+
+        MandrakeEncryptMekResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.success != null && Object.hasOwnProperty.call(m, "success")) {
+                d.success = $root.proto.MandrakeEncryptMekSuccess.toObject(m.success, o, q + 1);
+                if (o.oneofs)
+                    d.result = "success";
+            }
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage")) {
+                d.errorMessage = m.errorMessage;
+                if (o.oneofs)
+                    d.result = "errorMessage";
+            }
+            return d;
+        };
+
+        MandrakeEncryptMekResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MandrakeEncryptMekResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MandrakeEncryptMekResult";
+        };
+
+        return MandrakeEncryptMekResult;
+    })();
+
+    proto.MandrakeEncryptMekSuccess = (function() {
+
+        function MandrakeEncryptMekSuccess(p) {
+            this.distributions = [];
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MandrakeEncryptMekSuccess.prototype.distributions = $util.emptyArray;
+        MandrakeEncryptMekSuccess.prototype.recipientsHash = null;
+        MandrakeEncryptMekSuccess.prototype.version = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MandrakeEncryptMekSuccess.prototype, "_recipientsHash", {
+            get: $util.oneOfGetter($oneOfFields = ["recipientsHash"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeEncryptMekSuccess.prototype, "_version", {
+            get: $util.oneOfGetter($oneOfFields = ["version"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MandrakeEncryptMekSuccess.create = function create(properties) {
+            return new MandrakeEncryptMekSuccess(properties);
+        };
+
+        MandrakeEncryptMekSuccess.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.distributions != null && m.distributions.length) {
+                for (var i = 0; i < m.distributions.length; ++i)
+                    $root.proto.MandrakeEncryptMekSuccess.MekDistributionSingleRecipient.encode(m.distributions[i], w.uint32(10).fork(), q + 1).ldelim();
+            }
+            if (m.recipientsHash != null && Object.hasOwnProperty.call(m, "recipientsHash"))
+                w.uint32(18).bytes(m.recipientsHash);
+            if (m.version != null && Object.hasOwnProperty.call(m, "version"))
+                w.uint32(24).uint64(m.version);
+            return w;
+        };
+
+        MandrakeEncryptMekSuccess.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MandrakeEncryptMekSuccess();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        if (!(m.distributions && m.distributions.length))
+                            m.distributions = [];
+                        m.distributions.push($root.proto.MandrakeEncryptMekSuccess.MekDistributionSingleRecipient.decode(r, r.uint32(), undefined, n + 1));
+                        break;
+                    }
+                case 2: {
+                        m.recipientsHash = r.bytes();
+                        break;
+                    }
+                case 3: {
+                        m.version = r.uint64();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MandrakeEncryptMekSuccess.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MandrakeEncryptMekSuccess)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MandrakeEncryptMekSuccess: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MandrakeEncryptMekSuccess();
+            if (d.distributions) {
+                if (!Array.isArray(d.distributions))
+                    throw TypeError(".proto.MandrakeEncryptMekSuccess.distributions: array expected");
+                m.distributions = [];
+                for (var i = 0; i < d.distributions.length; ++i) {
+                    if (!$util.isObject(d.distributions[i]))
+                        throw TypeError(".proto.MandrakeEncryptMekSuccess.distributions: object expected");
+                    m.distributions[i] = $root.proto.MandrakeEncryptMekSuccess.MekDistributionSingleRecipient.fromObject(d.distributions[i], n + 1);
+                }
+            }
+            if (d.recipientsHash != null) {
+                if (typeof d.recipientsHash === "string")
+                    $util.base64.decode(d.recipientsHash, m.recipientsHash = $util.newBuffer($util.base64.length(d.recipientsHash)), 0);
+                else if (d.recipientsHash.length >= 0)
+                    m.recipientsHash = d.recipientsHash;
+            }
+            if (d.version != null) {
+                if ($util.Long)
+                    m.version = $util.Long.fromValue(d.version, true);
+                else if (typeof d.version === "string")
+                    m.version = parseInt(d.version, 10);
+                else if (typeof d.version === "number")
+                    m.version = d.version;
+                else if (typeof d.version === "object")
+                    m.version = new $util.LongBits(d.version.low >>> 0, d.version.high >>> 0).toNumber(true);
+            }
+            return m;
+        };
+
+        MandrakeEncryptMekSuccess.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (o.arrays || o.defaults) {
+                d.distributions = [];
+            }
+            if (m.distributions && m.distributions.length) {
+                d.distributions = [];
+                for (var j = 0; j < m.distributions.length; ++j) {
+                    d.distributions[j] = $root.proto.MandrakeEncryptMekSuccess.MekDistributionSingleRecipient.toObject(m.distributions[j], o, q + 1);
+                }
+            }
+            if (m.recipientsHash != null && Object.hasOwnProperty.call(m, "recipientsHash")) {
+                d.recipientsHash = o.bytes === String ? $util.base64.encode(m.recipientsHash, 0, m.recipientsHash.length) : o.bytes === Array ? Array.prototype.slice.call(m.recipientsHash) : m.recipientsHash;
+                if (o.oneofs)
+                    d._recipientsHash = "recipientsHash";
+            }
+            if (m.version != null && Object.hasOwnProperty.call(m, "version")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.version = typeof m.version === "number" ? BigInt(m.version) : $util.Long.fromBits(m.version.low >>> 0, m.version.high >>> 0, true).toBigInt();
+                else if (typeof m.version === "number")
+                    d.version = o.longs === String ? String(m.version) : m.version;
+                else
+                    d.version = o.longs === String ? longToString(m.version, true) : o.longs === Number ? longToNumber(m.version, true) : m.version;
+                if (o.oneofs)
+                    d._version = "version";
+            }
+            return d;
+        };
+
+        MandrakeEncryptMekSuccess.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MandrakeEncryptMekSuccess.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MandrakeEncryptMekSuccess";
+        };
+
+        MandrakeEncryptMekSuccess.MekDistributionSingleRecipient = (function() {
+
+            function MekDistributionSingleRecipient(p) {
+                if (p)
+                    for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                        if (p[ks[i]] != null && ks[i] !== "__proto__")
+                            this[ks[i]] = p[ks[i]];
+            }
+
+            MekDistributionSingleRecipient.prototype.encryptedMek = null;
+            MekDistributionSingleRecipient.prototype.toMmk = null;
+            MekDistributionSingleRecipient.prototype.recipientMembershipProof = null;
+
+            let $oneOfFields;
+
+            Object.defineProperty(MekDistributionSingleRecipient.prototype, "_encryptedMek", {
+                get: $util.oneOfGetter($oneOfFields = ["encryptedMek"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            Object.defineProperty(MekDistributionSingleRecipient.prototype, "_toMmk", {
+                get: $util.oneOfGetter($oneOfFields = ["toMmk"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            Object.defineProperty(MekDistributionSingleRecipient.prototype, "_recipientMembershipProof", {
+                get: $util.oneOfGetter($oneOfFields = ["recipientMembershipProof"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            MekDistributionSingleRecipient.create = function create(properties) {
+                return new MekDistributionSingleRecipient(properties);
+            };
+
+            MekDistributionSingleRecipient.encode = function encode(m, w, q) {
+                if (!w)
+                    w = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                if (m.encryptedMek != null && Object.hasOwnProperty.call(m, "encryptedMek"))
+                    w.uint32(10).bytes(m.encryptedMek);
+                if (m.toMmk != null && Object.hasOwnProperty.call(m, "toMmk"))
+                    $root.proto.MessagingMailboxPublicData.encode(m.toMmk, w.uint32(18).fork(), q + 1).ldelim();
+                if (m.recipientMembershipProof != null && Object.hasOwnProperty.call(m, "recipientMembershipProof"))
+                    $root.proto.MerkleMembershipProof.encode(m.recipientMembershipProof, w.uint32(26).fork(), q + 1).ldelim();
+                return w;
+            };
+
+            MekDistributionSingleRecipient.decode = function decode(r, l, e, n) {
+                if (!(r instanceof $Reader))
+                    r = $Reader.create(r);
+                if (n === undefined)
+                    n = 0;
+                if (n > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var c, m;
+                if (l === undefined)
+                    c = r.len;
+                else {
+                    c = r.pos + l;
+                    if (c > r.len)
+                        throw RangeError("index out of range");
+                    l = r.len;
+                    r.len = c;
+                }
+                m = new $root.proto.MandrakeEncryptMekSuccess.MekDistributionSingleRecipient();
+                while (r.pos < c) {
+                    var t = r.uint32();
+                    if (t === e)
+                        break;
+                    switch (t >>> 3) {
+                    case 1: {
+                            m.encryptedMek = r.bytes();
+                            break;
+                        }
+                    case 2: {
+                            m.toMmk = $root.proto.MessagingMailboxPublicData.decode(r, r.uint32(), undefined, n + 1);
+                            break;
+                        }
+                    case 3: {
+                            m.recipientMembershipProof = $root.proto.MerkleMembershipProof.decode(r, r.uint32(), undefined, n + 1);
+                            break;
+                        }
+                    default:
+                        r.skipType(t & 7, n);
+                        break;
+                    }
+                }
+                if (l !== undefined) {
+                    if (r.pos !== c)
+                        throw RangeError("index out of range");
+                    r.len = l;
+                }
+                return m;
+            };
+
+            MekDistributionSingleRecipient.fromObject = function fromObject(d, n) {
+                if (d instanceof $root.proto.MandrakeEncryptMekSuccess.MekDistributionSingleRecipient)
+                    return d;
+                if (!$util.isObject(d))
+                    throw TypeError(".proto.MandrakeEncryptMekSuccess.MekDistributionSingleRecipient: object expected");
+                if (n === undefined)
+                    n = 0;
+                if (n > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var m = new $root.proto.MandrakeEncryptMekSuccess.MekDistributionSingleRecipient();
+                if (d.encryptedMek != null) {
+                    if (typeof d.encryptedMek === "string")
+                        $util.base64.decode(d.encryptedMek, m.encryptedMek = $util.newBuffer($util.base64.length(d.encryptedMek)), 0);
+                    else if (d.encryptedMek.length >= 0)
+                        m.encryptedMek = d.encryptedMek;
+                }
+                if (d.toMmk != null) {
+                    if (!$util.isObject(d.toMmk))
+                        throw TypeError(".proto.MandrakeEncryptMekSuccess.MekDistributionSingleRecipient.toMmk: object expected");
+                    m.toMmk = $root.proto.MessagingMailboxPublicData.fromObject(d.toMmk, n + 1);
+                }
+                if (d.recipientMembershipProof != null) {
+                    if (!$util.isObject(d.recipientMembershipProof))
+                        throw TypeError(".proto.MandrakeEncryptMekSuccess.MekDistributionSingleRecipient.recipientMembershipProof: object expected");
+                    m.recipientMembershipProof = $root.proto.MerkleMembershipProof.fromObject(d.recipientMembershipProof, n + 1);
+                }
+                return m;
+            };
+
+            MekDistributionSingleRecipient.toObject = function toObject(m, o, q) {
+                if (!o)
+                    o = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                var d = {};
+                if (m.encryptedMek != null && Object.hasOwnProperty.call(m, "encryptedMek")) {
+                    d.encryptedMek = o.bytes === String ? $util.base64.encode(m.encryptedMek, 0, m.encryptedMek.length) : o.bytes === Array ? Array.prototype.slice.call(m.encryptedMek) : m.encryptedMek;
+                    if (o.oneofs)
+                        d._encryptedMek = "encryptedMek";
+                }
+                if (m.toMmk != null && Object.hasOwnProperty.call(m, "toMmk")) {
+                    d.toMmk = $root.proto.MessagingMailboxPublicData.toObject(m.toMmk, o, q + 1);
+                    if (o.oneofs)
+                        d._toMmk = "toMmk";
+                }
+                if (m.recipientMembershipProof != null && Object.hasOwnProperty.call(m, "recipientMembershipProof")) {
+                    d.recipientMembershipProof = $root.proto.MerkleMembershipProof.toObject(m.recipientMembershipProof, o, q + 1);
+                    if (o.oneofs)
+                        d._recipientMembershipProof = "recipientMembershipProof";
+                }
+                return d;
+            };
+
+            MekDistributionSingleRecipient.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            MekDistributionSingleRecipient.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/proto.MandrakeEncryptMekSuccess.MekDistributionSingleRecipient";
+            };
+
+            return MekDistributionSingleRecipient;
+        })();
+
+        return MandrakeEncryptMekSuccess;
+    })();
+
+    proto.MandrakeMekBundle = (function() {
+
+        function MandrakeMekBundle(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MandrakeMekBundle.prototype.key = null;
+        MandrakeMekBundle.prototype.mekId = null;
+        MandrakeMekBundle.prototype.mailboxHeadHash = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MandrakeMekBundle.prototype, "_key", {
+            get: $util.oneOfGetter($oneOfFields = ["key"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeMekBundle.prototype, "_mekId", {
+            get: $util.oneOfGetter($oneOfFields = ["mekId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeMekBundle.prototype, "_mailboxHeadHash", {
+            get: $util.oneOfGetter($oneOfFields = ["mailboxHeadHash"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MandrakeMekBundle.create = function create(properties) {
+            return new MandrakeMekBundle(properties);
+        };
+
+        MandrakeMekBundle.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.key != null && Object.hasOwnProperty.call(m, "key"))
+                w.uint32(10).bytes(m.key);
+            if (m.mekId != null && Object.hasOwnProperty.call(m, "mekId"))
+                w.uint32(18).bytes(m.mekId);
+            if (m.mailboxHeadHash != null && Object.hasOwnProperty.call(m, "mailboxHeadHash"))
+                w.uint32(26).bytes(m.mailboxHeadHash);
+            return w;
+        };
+
+        MandrakeMekBundle.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MandrakeMekBundle();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.key = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.mekId = r.bytes();
+                        break;
+                    }
+                case 3: {
+                        m.mailboxHeadHash = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MandrakeMekBundle.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MandrakeMekBundle)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MandrakeMekBundle: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MandrakeMekBundle();
+            if (d.key != null) {
+                if (typeof d.key === "string")
+                    $util.base64.decode(d.key, m.key = $util.newBuffer($util.base64.length(d.key)), 0);
+                else if (d.key.length >= 0)
+                    m.key = d.key;
+            }
+            if (d.mekId != null) {
+                if (typeof d.mekId === "string")
+                    $util.base64.decode(d.mekId, m.mekId = $util.newBuffer($util.base64.length(d.mekId)), 0);
+                else if (d.mekId.length >= 0)
+                    m.mekId = d.mekId;
+            }
+            if (d.mailboxHeadHash != null) {
+                if (typeof d.mailboxHeadHash === "string")
+                    $util.base64.decode(d.mailboxHeadHash, m.mailboxHeadHash = $util.newBuffer($util.base64.length(d.mailboxHeadHash)), 0);
+                else if (d.mailboxHeadHash.length >= 0)
+                    m.mailboxHeadHash = d.mailboxHeadHash;
+            }
+            return m;
+        };
+
+        MandrakeMekBundle.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.key != null && Object.hasOwnProperty.call(m, "key")) {
+                d.key = o.bytes === String ? $util.base64.encode(m.key, 0, m.key.length) : o.bytes === Array ? Array.prototype.slice.call(m.key) : m.key;
+                if (o.oneofs)
+                    d._key = "key";
+            }
+            if (m.mekId != null && Object.hasOwnProperty.call(m, "mekId")) {
+                d.mekId = o.bytes === String ? $util.base64.encode(m.mekId, 0, m.mekId.length) : o.bytes === Array ? Array.prototype.slice.call(m.mekId) : m.mekId;
+                if (o.oneofs)
+                    d._mekId = "mekId";
+            }
+            if (m.mailboxHeadHash != null && Object.hasOwnProperty.call(m, "mailboxHeadHash")) {
+                d.mailboxHeadHash = o.bytes === String ? $util.base64.encode(m.mailboxHeadHash, 0, m.mailboxHeadHash.length) : o.bytes === Array ? Array.prototype.slice.call(m.mailboxHeadHash) : m.mailboxHeadHash;
+                if (o.oneofs)
+                    d._mailboxHeadHash = "mailboxHeadHash";
+            }
+            return d;
+        };
+
+        MandrakeMekBundle.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MandrakeMekBundle.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MandrakeMekBundle";
+        };
+
+        return MandrakeMekBundle;
+    })();
+
+    proto.MandrakeOpenEpochInput = (function() {
+
+        function MandrakeOpenEpochInput(p) {
+            this.detachedDevices = [];
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MandrakeOpenEpochInput.prototype.userFbid = null;
+        MandrakeOpenEpochInput.prototype.epochNumber = null;
+        MandrakeOpenEpochInput.prototype.exportRootKey = null;
+        MandrakeOpenEpochInput.prototype.previousExportRootKey = null;
+        MandrakeOpenEpochInput.prototype.previousEpochNumber = null;
+        MandrakeOpenEpochInput.prototype.previousEpochHead = null;
+        MandrakeOpenEpochInput.prototype.previousMmk = null;
+        MandrakeOpenEpochInput.prototype.detachedDevices = $util.emptyArray;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MandrakeOpenEpochInput.prototype, "_userFbid", {
+            get: $util.oneOfGetter($oneOfFields = ["userFbid"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeOpenEpochInput.prototype, "_epochNumber", {
+            get: $util.oneOfGetter($oneOfFields = ["epochNumber"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeOpenEpochInput.prototype, "_exportRootKey", {
+            get: $util.oneOfGetter($oneOfFields = ["exportRootKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeOpenEpochInput.prototype, "_previousExportRootKey", {
+            get: $util.oneOfGetter($oneOfFields = ["previousExportRootKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeOpenEpochInput.prototype, "_previousEpochNumber", {
+            get: $util.oneOfGetter($oneOfFields = ["previousEpochNumber"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeOpenEpochInput.prototype, "_previousEpochHead", {
+            get: $util.oneOfGetter($oneOfFields = ["previousEpochHead"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeOpenEpochInput.prototype, "_previousMmk", {
+            get: $util.oneOfGetter($oneOfFields = ["previousMmk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MandrakeOpenEpochInput.create = function create(properties) {
+            return new MandrakeOpenEpochInput(properties);
+        };
+
+        MandrakeOpenEpochInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.userFbid != null && Object.hasOwnProperty.call(m, "userFbid"))
+                w.uint32(10).string(m.userFbid);
+            if (m.epochNumber != null && Object.hasOwnProperty.call(m, "epochNumber"))
+                w.uint32(16).uint64(m.epochNumber);
+            if (m.exportRootKey != null && Object.hasOwnProperty.call(m, "exportRootKey"))
+                w.uint32(26).bytes(m.exportRootKey);
+            if (m.previousExportRootKey != null && Object.hasOwnProperty.call(m, "previousExportRootKey"))
+                w.uint32(34).bytes(m.previousExportRootKey);
+            if (m.previousEpochNumber != null && Object.hasOwnProperty.call(m, "previousEpochNumber"))
+                w.uint32(40).uint64(m.previousEpochNumber);
+            if (m.previousEpochHead != null && Object.hasOwnProperty.call(m, "previousEpochHead"))
+                w.uint32(50).bytes(m.previousEpochHead);
+            if (m.previousMmk != null && Object.hasOwnProperty.call(m, "previousMmk"))
+                $root.proto.MessagingMailboxPublicData.encode(m.previousMmk, w.uint32(58).fork(), q + 1).ldelim();
+            if (m.detachedDevices != null && m.detachedDevices.length) {
+                for (var i = 0; i < m.detachedDevices.length; ++i)
+                    $root.proto.DetachedDevicePublicData.encode(m.detachedDevices[i], w.uint32(66).fork(), q + 1).ldelim();
+            }
+            return w;
+        };
+
+        MandrakeOpenEpochInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MandrakeOpenEpochInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.userFbid = r.string();
+                        break;
+                    }
+                case 2: {
+                        m.epochNumber = r.uint64();
+                        break;
+                    }
+                case 3: {
+                        m.exportRootKey = r.bytes();
+                        break;
+                    }
+                case 4: {
+                        m.previousExportRootKey = r.bytes();
+                        break;
+                    }
+                case 5: {
+                        m.previousEpochNumber = r.uint64();
+                        break;
+                    }
+                case 6: {
+                        m.previousEpochHead = r.bytes();
+                        break;
+                    }
+                case 7: {
+                        m.previousMmk = $root.proto.MessagingMailboxPublicData.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 8: {
+                        if (!(m.detachedDevices && m.detachedDevices.length))
+                            m.detachedDevices = [];
+                        m.detachedDevices.push($root.proto.DetachedDevicePublicData.decode(r, r.uint32(), undefined, n + 1));
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MandrakeOpenEpochInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MandrakeOpenEpochInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MandrakeOpenEpochInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MandrakeOpenEpochInput();
+            if (d.userFbid != null) {
+                m.userFbid = String(d.userFbid);
+            }
+            if (d.epochNumber != null) {
+                if ($util.Long)
+                    m.epochNumber = $util.Long.fromValue(d.epochNumber, true);
+                else if (typeof d.epochNumber === "string")
+                    m.epochNumber = parseInt(d.epochNumber, 10);
+                else if (typeof d.epochNumber === "number")
+                    m.epochNumber = d.epochNumber;
+                else if (typeof d.epochNumber === "object")
+                    m.epochNumber = new $util.LongBits(d.epochNumber.low >>> 0, d.epochNumber.high >>> 0).toNumber(true);
+            }
+            if (d.exportRootKey != null) {
+                if (typeof d.exportRootKey === "string")
+                    $util.base64.decode(d.exportRootKey, m.exportRootKey = $util.newBuffer($util.base64.length(d.exportRootKey)), 0);
+                else if (d.exportRootKey.length >= 0)
+                    m.exportRootKey = d.exportRootKey;
+            }
+            if (d.previousExportRootKey != null) {
+                if (typeof d.previousExportRootKey === "string")
+                    $util.base64.decode(d.previousExportRootKey, m.previousExportRootKey = $util.newBuffer($util.base64.length(d.previousExportRootKey)), 0);
+                else if (d.previousExportRootKey.length >= 0)
+                    m.previousExportRootKey = d.previousExportRootKey;
+            }
+            if (d.previousEpochNumber != null) {
+                if ($util.Long)
+                    m.previousEpochNumber = $util.Long.fromValue(d.previousEpochNumber, true);
+                else if (typeof d.previousEpochNumber === "string")
+                    m.previousEpochNumber = parseInt(d.previousEpochNumber, 10);
+                else if (typeof d.previousEpochNumber === "number")
+                    m.previousEpochNumber = d.previousEpochNumber;
+                else if (typeof d.previousEpochNumber === "object")
+                    m.previousEpochNumber = new $util.LongBits(d.previousEpochNumber.low >>> 0, d.previousEpochNumber.high >>> 0).toNumber(true);
+            }
+            if (d.previousEpochHead != null) {
+                if (typeof d.previousEpochHead === "string")
+                    $util.base64.decode(d.previousEpochHead, m.previousEpochHead = $util.newBuffer($util.base64.length(d.previousEpochHead)), 0);
+                else if (d.previousEpochHead.length >= 0)
+                    m.previousEpochHead = d.previousEpochHead;
+            }
+            if (d.previousMmk != null) {
+                if (!$util.isObject(d.previousMmk))
+                    throw TypeError(".proto.MandrakeOpenEpochInput.previousMmk: object expected");
+                m.previousMmk = $root.proto.MessagingMailboxPublicData.fromObject(d.previousMmk, n + 1);
+            }
+            if (d.detachedDevices) {
+                if (!Array.isArray(d.detachedDevices))
+                    throw TypeError(".proto.MandrakeOpenEpochInput.detachedDevices: array expected");
+                m.detachedDevices = [];
+                for (var i = 0; i < d.detachedDevices.length; ++i) {
+                    if (!$util.isObject(d.detachedDevices[i]))
+                        throw TypeError(".proto.MandrakeOpenEpochInput.detachedDevices: object expected");
+                    m.detachedDevices[i] = $root.proto.DetachedDevicePublicData.fromObject(d.detachedDevices[i], n + 1);
+                }
+            }
+            return m;
+        };
+
+        MandrakeOpenEpochInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (o.arrays || o.defaults) {
+                d.detachedDevices = [];
+            }
+            if (m.userFbid != null && Object.hasOwnProperty.call(m, "userFbid")) {
+                d.userFbid = m.userFbid;
+                if (o.oneofs)
+                    d._userFbid = "userFbid";
+            }
+            if (m.epochNumber != null && Object.hasOwnProperty.call(m, "epochNumber")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.epochNumber = typeof m.epochNumber === "number" ? BigInt(m.epochNumber) : $util.Long.fromBits(m.epochNumber.low >>> 0, m.epochNumber.high >>> 0, true).toBigInt();
+                else if (typeof m.epochNumber === "number")
+                    d.epochNumber = o.longs === String ? String(m.epochNumber) : m.epochNumber;
+                else
+                    d.epochNumber = o.longs === String ? longToString(m.epochNumber, true) : o.longs === Number ? longToNumber(m.epochNumber, true) : m.epochNumber;
+                if (o.oneofs)
+                    d._epochNumber = "epochNumber";
+            }
+            if (m.exportRootKey != null && Object.hasOwnProperty.call(m, "exportRootKey")) {
+                d.exportRootKey = o.bytes === String ? $util.base64.encode(m.exportRootKey, 0, m.exportRootKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.exportRootKey) : m.exportRootKey;
+                if (o.oneofs)
+                    d._exportRootKey = "exportRootKey";
+            }
+            if (m.previousExportRootKey != null && Object.hasOwnProperty.call(m, "previousExportRootKey")) {
+                d.previousExportRootKey = o.bytes === String ? $util.base64.encode(m.previousExportRootKey, 0, m.previousExportRootKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.previousExportRootKey) : m.previousExportRootKey;
+                if (o.oneofs)
+                    d._previousExportRootKey = "previousExportRootKey";
+            }
+            if (m.previousEpochNumber != null && Object.hasOwnProperty.call(m, "previousEpochNumber")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.previousEpochNumber = typeof m.previousEpochNumber === "number" ? BigInt(m.previousEpochNumber) : $util.Long.fromBits(m.previousEpochNumber.low >>> 0, m.previousEpochNumber.high >>> 0, true).toBigInt();
+                else if (typeof m.previousEpochNumber === "number")
+                    d.previousEpochNumber = o.longs === String ? String(m.previousEpochNumber) : m.previousEpochNumber;
+                else
+                    d.previousEpochNumber = o.longs === String ? longToString(m.previousEpochNumber, true) : o.longs === Number ? longToNumber(m.previousEpochNumber, true) : m.previousEpochNumber;
+                if (o.oneofs)
+                    d._previousEpochNumber = "previousEpochNumber";
+            }
+            if (m.previousEpochHead != null && Object.hasOwnProperty.call(m, "previousEpochHead")) {
+                d.previousEpochHead = o.bytes === String ? $util.base64.encode(m.previousEpochHead, 0, m.previousEpochHead.length) : o.bytes === Array ? Array.prototype.slice.call(m.previousEpochHead) : m.previousEpochHead;
+                if (o.oneofs)
+                    d._previousEpochHead = "previousEpochHead";
+            }
+            if (m.previousMmk != null && Object.hasOwnProperty.call(m, "previousMmk")) {
+                d.previousMmk = $root.proto.MessagingMailboxPublicData.toObject(m.previousMmk, o, q + 1);
+                if (o.oneofs)
+                    d._previousMmk = "previousMmk";
+            }
+            if (m.detachedDevices && m.detachedDevices.length) {
+                d.detachedDevices = [];
+                for (var j = 0; j < m.detachedDevices.length; ++j) {
+                    d.detachedDevices[j] = $root.proto.DetachedDevicePublicData.toObject(m.detachedDevices[j], o, q + 1);
+                }
+            }
+            return d;
+        };
+
+        MandrakeOpenEpochInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MandrakeOpenEpochInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MandrakeOpenEpochInput";
+        };
+
+        return MandrakeOpenEpochInput;
+    })();
+
+    proto.MandrakeOpenEpochResult = (function() {
+
+        function MandrakeOpenEpochResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MandrakeOpenEpochResult.prototype.success = null;
+        MandrakeOpenEpochResult.prototype.errorMessage = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MandrakeOpenEpochResult.prototype, "result", {
+            get: $util.oneOfGetter($oneOfFields = ["success", "errorMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MandrakeOpenEpochResult.create = function create(properties) {
+            return new MandrakeOpenEpochResult(properties);
+        };
+
+        MandrakeOpenEpochResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.success != null && Object.hasOwnProperty.call(m, "success"))
+                $root.proto.MandrakeOpenEpochSuccess.encode(m.success, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage"))
+                w.uint32(18).string(m.errorMessage);
+            return w;
+        };
+
+        MandrakeOpenEpochResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MandrakeOpenEpochResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.success = $root.proto.MandrakeOpenEpochSuccess.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.errorMessage = r.string();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MandrakeOpenEpochResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MandrakeOpenEpochResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MandrakeOpenEpochResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MandrakeOpenEpochResult();
+            if (d.success != null) {
+                if (!$util.isObject(d.success))
+                    throw TypeError(".proto.MandrakeOpenEpochResult.success: object expected");
+                m.success = $root.proto.MandrakeOpenEpochSuccess.fromObject(d.success, n + 1);
+            }
+            if (d.errorMessage != null) {
+                m.errorMessage = String(d.errorMessage);
+            }
+            return m;
+        };
+
+        MandrakeOpenEpochResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.success != null && Object.hasOwnProperty.call(m, "success")) {
+                d.success = $root.proto.MandrakeOpenEpochSuccess.toObject(m.success, o, q + 1);
+                if (o.oneofs)
+                    d.result = "success";
+            }
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage")) {
+                d.errorMessage = m.errorMessage;
+                if (o.oneofs)
+                    d.result = "errorMessage";
+            }
+            return d;
+        };
+
+        MandrakeOpenEpochResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MandrakeOpenEpochResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MandrakeOpenEpochResult";
+        };
+
+        return MandrakeOpenEpochResult;
+    })();
+
+    proto.MandrakeOpenEpochSuccess = (function() {
+
+        function MandrakeOpenEpochSuccess(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MandrakeOpenEpochSuccess.prototype.minosSignedEpoch = null;
+        MandrakeOpenEpochSuccess.prototype.signedMmkDistribution = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MandrakeOpenEpochSuccess.prototype, "_minosSignedEpoch", {
+            get: $util.oneOfGetter($oneOfFields = ["minosSignedEpoch"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeOpenEpochSuccess.prototype, "_signedMmkDistribution", {
+            get: $util.oneOfGetter($oneOfFields = ["signedMmkDistribution"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MandrakeOpenEpochSuccess.create = function create(properties) {
+            return new MandrakeOpenEpochSuccess(properties);
+        };
+
+        MandrakeOpenEpochSuccess.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.minosSignedEpoch != null && Object.hasOwnProperty.call(m, "minosSignedEpoch"))
+                $root.proto.MinosSignedEpoch.encode(m.minosSignedEpoch, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.signedMmkDistribution != null && Object.hasOwnProperty.call(m, "signedMmkDistribution"))
+                $root.proto.SignedMmkDistributionFromMailbox.encode(m.signedMmkDistribution, w.uint32(18).fork(), q + 1).ldelim();
+            return w;
+        };
+
+        MandrakeOpenEpochSuccess.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MandrakeOpenEpochSuccess();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.minosSignedEpoch = $root.proto.MinosSignedEpoch.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.signedMmkDistribution = $root.proto.SignedMmkDistributionFromMailbox.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MandrakeOpenEpochSuccess.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MandrakeOpenEpochSuccess)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MandrakeOpenEpochSuccess: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MandrakeOpenEpochSuccess();
+            if (d.minosSignedEpoch != null) {
+                if (!$util.isObject(d.minosSignedEpoch))
+                    throw TypeError(".proto.MandrakeOpenEpochSuccess.minosSignedEpoch: object expected");
+                m.minosSignedEpoch = $root.proto.MinosSignedEpoch.fromObject(d.minosSignedEpoch, n + 1);
+            }
+            if (d.signedMmkDistribution != null) {
+                if (!$util.isObject(d.signedMmkDistribution))
+                    throw TypeError(".proto.MandrakeOpenEpochSuccess.signedMmkDistribution: object expected");
+                m.signedMmkDistribution = $root.proto.SignedMmkDistributionFromMailbox.fromObject(d.signedMmkDistribution, n + 1);
+            }
+            return m;
+        };
+
+        MandrakeOpenEpochSuccess.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.minosSignedEpoch != null && Object.hasOwnProperty.call(m, "minosSignedEpoch")) {
+                d.minosSignedEpoch = $root.proto.MinosSignedEpoch.toObject(m.minosSignedEpoch, o, q + 1);
+                if (o.oneofs)
+                    d._minosSignedEpoch = "minosSignedEpoch";
+            }
+            if (m.signedMmkDistribution != null && Object.hasOwnProperty.call(m, "signedMmkDistribution")) {
+                d.signedMmkDistribution = $root.proto.SignedMmkDistributionFromMailbox.toObject(m.signedMmkDistribution, o, q + 1);
+                if (o.oneofs)
+                    d._signedMmkDistribution = "signedMmkDistribution";
+            }
+            return d;
+        };
+
+        MandrakeOpenEpochSuccess.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MandrakeOpenEpochSuccess.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MandrakeOpenEpochSuccess";
+        };
+
+        return MandrakeOpenEpochSuccess;
+    })();
+
+    proto.MandrakeOpenInitialEpochInput = (function() {
+
+        function MandrakeOpenInitialEpochInput(p) {
+            this.detachedDevices = [];
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MandrakeOpenInitialEpochInput.prototype.userFbid = null;
+        MandrakeOpenInitialEpochInput.prototype.epochNumber = null;
+        MandrakeOpenInitialEpochInput.prototype.exportRootKey = null;
+        MandrakeOpenInitialEpochInput.prototype.detachedDevices = $util.emptyArray;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MandrakeOpenInitialEpochInput.prototype, "_userFbid", {
+            get: $util.oneOfGetter($oneOfFields = ["userFbid"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeOpenInitialEpochInput.prototype, "_epochNumber", {
+            get: $util.oneOfGetter($oneOfFields = ["epochNumber"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeOpenInitialEpochInput.prototype, "_exportRootKey", {
+            get: $util.oneOfGetter($oneOfFields = ["exportRootKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MandrakeOpenInitialEpochInput.create = function create(properties) {
+            return new MandrakeOpenInitialEpochInput(properties);
+        };
+
+        MandrakeOpenInitialEpochInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.userFbid != null && Object.hasOwnProperty.call(m, "userFbid"))
+                w.uint32(10).string(m.userFbid);
+            if (m.epochNumber != null && Object.hasOwnProperty.call(m, "epochNumber"))
+                w.uint32(16).uint64(m.epochNumber);
+            if (m.exportRootKey != null && Object.hasOwnProperty.call(m, "exportRootKey"))
+                w.uint32(26).bytes(m.exportRootKey);
+            if (m.detachedDevices != null && m.detachedDevices.length) {
+                for (var i = 0; i < m.detachedDevices.length; ++i)
+                    $root.proto.DetachedDevicePublicData.encode(m.detachedDevices[i], w.uint32(34).fork(), q + 1).ldelim();
+            }
+            return w;
+        };
+
+        MandrakeOpenInitialEpochInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MandrakeOpenInitialEpochInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.userFbid = r.string();
+                        break;
+                    }
+                case 2: {
+                        m.epochNumber = r.uint64();
+                        break;
+                    }
+                case 3: {
+                        m.exportRootKey = r.bytes();
+                        break;
+                    }
+                case 4: {
+                        if (!(m.detachedDevices && m.detachedDevices.length))
+                            m.detachedDevices = [];
+                        m.detachedDevices.push($root.proto.DetachedDevicePublicData.decode(r, r.uint32(), undefined, n + 1));
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MandrakeOpenInitialEpochInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MandrakeOpenInitialEpochInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MandrakeOpenInitialEpochInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MandrakeOpenInitialEpochInput();
+            if (d.userFbid != null) {
+                m.userFbid = String(d.userFbid);
+            }
+            if (d.epochNumber != null) {
+                if ($util.Long)
+                    m.epochNumber = $util.Long.fromValue(d.epochNumber, true);
+                else if (typeof d.epochNumber === "string")
+                    m.epochNumber = parseInt(d.epochNumber, 10);
+                else if (typeof d.epochNumber === "number")
+                    m.epochNumber = d.epochNumber;
+                else if (typeof d.epochNumber === "object")
+                    m.epochNumber = new $util.LongBits(d.epochNumber.low >>> 0, d.epochNumber.high >>> 0).toNumber(true);
+            }
+            if (d.exportRootKey != null) {
+                if (typeof d.exportRootKey === "string")
+                    $util.base64.decode(d.exportRootKey, m.exportRootKey = $util.newBuffer($util.base64.length(d.exportRootKey)), 0);
+                else if (d.exportRootKey.length >= 0)
+                    m.exportRootKey = d.exportRootKey;
+            }
+            if (d.detachedDevices) {
+                if (!Array.isArray(d.detachedDevices))
+                    throw TypeError(".proto.MandrakeOpenInitialEpochInput.detachedDevices: array expected");
+                m.detachedDevices = [];
+                for (var i = 0; i < d.detachedDevices.length; ++i) {
+                    if (!$util.isObject(d.detachedDevices[i]))
+                        throw TypeError(".proto.MandrakeOpenInitialEpochInput.detachedDevices: object expected");
+                    m.detachedDevices[i] = $root.proto.DetachedDevicePublicData.fromObject(d.detachedDevices[i], n + 1);
+                }
+            }
+            return m;
+        };
+
+        MandrakeOpenInitialEpochInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (o.arrays || o.defaults) {
+                d.detachedDevices = [];
+            }
+            if (m.userFbid != null && Object.hasOwnProperty.call(m, "userFbid")) {
+                d.userFbid = m.userFbid;
+                if (o.oneofs)
+                    d._userFbid = "userFbid";
+            }
+            if (m.epochNumber != null && Object.hasOwnProperty.call(m, "epochNumber")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.epochNumber = typeof m.epochNumber === "number" ? BigInt(m.epochNumber) : $util.Long.fromBits(m.epochNumber.low >>> 0, m.epochNumber.high >>> 0, true).toBigInt();
+                else if (typeof m.epochNumber === "number")
+                    d.epochNumber = o.longs === String ? String(m.epochNumber) : m.epochNumber;
+                else
+                    d.epochNumber = o.longs === String ? longToString(m.epochNumber, true) : o.longs === Number ? longToNumber(m.epochNumber, true) : m.epochNumber;
+                if (o.oneofs)
+                    d._epochNumber = "epochNumber";
+            }
+            if (m.exportRootKey != null && Object.hasOwnProperty.call(m, "exportRootKey")) {
+                d.exportRootKey = o.bytes === String ? $util.base64.encode(m.exportRootKey, 0, m.exportRootKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.exportRootKey) : m.exportRootKey;
+                if (o.oneofs)
+                    d._exportRootKey = "exportRootKey";
+            }
+            if (m.detachedDevices && m.detachedDevices.length) {
+                d.detachedDevices = [];
+                for (var j = 0; j < m.detachedDevices.length; ++j) {
+                    d.detachedDevices[j] = $root.proto.DetachedDevicePublicData.toObject(m.detachedDevices[j], o, q + 1);
+                }
+            }
+            return d;
+        };
+
+        MandrakeOpenInitialEpochInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MandrakeOpenInitialEpochInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MandrakeOpenInitialEpochInput";
+        };
+
+        return MandrakeOpenInitialEpochInput;
+    })();
+
+    proto.MandrakeOpenInitialEpochResult = (function() {
+
+        function MandrakeOpenInitialEpochResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MandrakeOpenInitialEpochResult.prototype.success = null;
+        MandrakeOpenInitialEpochResult.prototype.errorMessage = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MandrakeOpenInitialEpochResult.prototype, "result", {
+            get: $util.oneOfGetter($oneOfFields = ["success", "errorMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MandrakeOpenInitialEpochResult.create = function create(properties) {
+            return new MandrakeOpenInitialEpochResult(properties);
+        };
+
+        MandrakeOpenInitialEpochResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.success != null && Object.hasOwnProperty.call(m, "success"))
+                $root.proto.MandrakeOpenEpochSuccess.encode(m.success, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage"))
+                w.uint32(18).string(m.errorMessage);
+            return w;
+        };
+
+        MandrakeOpenInitialEpochResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MandrakeOpenInitialEpochResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.success = $root.proto.MandrakeOpenEpochSuccess.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.errorMessage = r.string();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MandrakeOpenInitialEpochResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MandrakeOpenInitialEpochResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MandrakeOpenInitialEpochResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MandrakeOpenInitialEpochResult();
+            if (d.success != null) {
+                if (!$util.isObject(d.success))
+                    throw TypeError(".proto.MandrakeOpenInitialEpochResult.success: object expected");
+                m.success = $root.proto.MandrakeOpenEpochSuccess.fromObject(d.success, n + 1);
+            }
+            if (d.errorMessage != null) {
+                m.errorMessage = String(d.errorMessage);
+            }
+            return m;
+        };
+
+        MandrakeOpenInitialEpochResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.success != null && Object.hasOwnProperty.call(m, "success")) {
+                d.success = $root.proto.MandrakeOpenEpochSuccess.toObject(m.success, o, q + 1);
+                if (o.oneofs)
+                    d.result = "success";
+            }
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage")) {
+                d.errorMessage = m.errorMessage;
+                if (o.oneofs)
+                    d.result = "errorMessage";
+            }
+            return d;
+        };
+
+        MandrakeOpenInitialEpochResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MandrakeOpenInitialEpochResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MandrakeOpenInitialEpochResult";
+        };
+
+        return MandrakeOpenInitialEpochResult;
+    })();
+
+    proto.MandrakeValidateNewMmkFromDetachedDeviceInput = (function() {
+
+        function MandrakeValidateNewMmkFromDetachedDeviceInput(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MandrakeValidateNewMmkFromDetachedDeviceInput.prototype.mmkFromDevice = null;
+        MandrakeValidateNewMmkFromDetachedDeviceInput.prototype.signature = null;
+        MandrakeValidateNewMmkFromDetachedDeviceInput.prototype.prevMmk = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MandrakeValidateNewMmkFromDetachedDeviceInput.prototype, "_mmkFromDevice", {
+            get: $util.oneOfGetter($oneOfFields = ["mmkFromDevice"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeValidateNewMmkFromDetachedDeviceInput.prototype, "_signature", {
+            get: $util.oneOfGetter($oneOfFields = ["signature"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeValidateNewMmkFromDetachedDeviceInput.prototype, "_prevMmk", {
+            get: $util.oneOfGetter($oneOfFields = ["prevMmk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MandrakeValidateNewMmkFromDetachedDeviceInput.create = function create(properties) {
+            return new MandrakeValidateNewMmkFromDetachedDeviceInput(properties);
+        };
+
+        MandrakeValidateNewMmkFromDetachedDeviceInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.mmkFromDevice != null && Object.hasOwnProperty.call(m, "mmkFromDevice"))
+                $root.proto.MmkFromDetachedDevice.encode(m.mmkFromDevice, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.signature != null && Object.hasOwnProperty.call(m, "signature"))
+                w.uint32(18).bytes(m.signature);
+            if (m.prevMmk != null && Object.hasOwnProperty.call(m, "prevMmk"))
+                $root.proto.MessagingMailboxPublicData.encode(m.prevMmk, w.uint32(26).fork(), q + 1).ldelim();
+            return w;
+        };
+
+        MandrakeValidateNewMmkFromDetachedDeviceInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MandrakeValidateNewMmkFromDetachedDeviceInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.mmkFromDevice = $root.proto.MmkFromDetachedDevice.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.signature = r.bytes();
+                        break;
+                    }
+                case 3: {
+                        m.prevMmk = $root.proto.MessagingMailboxPublicData.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MandrakeValidateNewMmkFromDetachedDeviceInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MandrakeValidateNewMmkFromDetachedDeviceInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MandrakeValidateNewMmkFromDetachedDeviceInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MandrakeValidateNewMmkFromDetachedDeviceInput();
+            if (d.mmkFromDevice != null) {
+                if (!$util.isObject(d.mmkFromDevice))
+                    throw TypeError(".proto.MandrakeValidateNewMmkFromDetachedDeviceInput.mmkFromDevice: object expected");
+                m.mmkFromDevice = $root.proto.MmkFromDetachedDevice.fromObject(d.mmkFromDevice, n + 1);
+            }
+            if (d.signature != null) {
+                if (typeof d.signature === "string")
+                    $util.base64.decode(d.signature, m.signature = $util.newBuffer($util.base64.length(d.signature)), 0);
+                else if (d.signature.length >= 0)
+                    m.signature = d.signature;
+            }
+            if (d.prevMmk != null) {
+                if (!$util.isObject(d.prevMmk))
+                    throw TypeError(".proto.MandrakeValidateNewMmkFromDetachedDeviceInput.prevMmk: object expected");
+                m.prevMmk = $root.proto.MessagingMailboxPublicData.fromObject(d.prevMmk, n + 1);
+            }
+            return m;
+        };
+
+        MandrakeValidateNewMmkFromDetachedDeviceInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.mmkFromDevice != null && Object.hasOwnProperty.call(m, "mmkFromDevice")) {
+                d.mmkFromDevice = $root.proto.MmkFromDetachedDevice.toObject(m.mmkFromDevice, o, q + 1);
+                if (o.oneofs)
+                    d._mmkFromDevice = "mmkFromDevice";
+            }
+            if (m.signature != null && Object.hasOwnProperty.call(m, "signature")) {
+                d.signature = o.bytes === String ? $util.base64.encode(m.signature, 0, m.signature.length) : o.bytes === Array ? Array.prototype.slice.call(m.signature) : m.signature;
+                if (o.oneofs)
+                    d._signature = "signature";
+            }
+            if (m.prevMmk != null && Object.hasOwnProperty.call(m, "prevMmk")) {
+                d.prevMmk = $root.proto.MessagingMailboxPublicData.toObject(m.prevMmk, o, q + 1);
+                if (o.oneofs)
+                    d._prevMmk = "prevMmk";
+            }
+            return d;
+        };
+
+        MandrakeValidateNewMmkFromDetachedDeviceInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MandrakeValidateNewMmkFromDetachedDeviceInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MandrakeValidateNewMmkFromDetachedDeviceInput";
+        };
+
+        return MandrakeValidateNewMmkFromDetachedDeviceInput;
+    })();
+
+    proto.MandrakeValidateNewMmkFromMailboxInput = (function() {
+
+        function MandrakeValidateNewMmkFromMailboxInput(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MandrakeValidateNewMmkFromMailboxInput.prototype.newMmk = null;
+        MandrakeValidateNewMmkFromMailboxInput.prototype.signature = null;
+        MandrakeValidateNewMmkFromMailboxInput.prototype.prevMmk = null;
+        MandrakeValidateNewMmkFromMailboxInput.prototype.epochPublicData = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MandrakeValidateNewMmkFromMailboxInput.prototype, "_newMmk", {
+            get: $util.oneOfGetter($oneOfFields = ["newMmk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeValidateNewMmkFromMailboxInput.prototype, "_signature", {
+            get: $util.oneOfGetter($oneOfFields = ["signature"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeValidateNewMmkFromMailboxInput.prototype, "_prevMmk", {
+            get: $util.oneOfGetter($oneOfFields = ["prevMmk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeValidateNewMmkFromMailboxInput.prototype, "_epochPublicData", {
+            get: $util.oneOfGetter($oneOfFields = ["epochPublicData"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MandrakeValidateNewMmkFromMailboxInput.create = function create(properties) {
+            return new MandrakeValidateNewMmkFromMailboxInput(properties);
+        };
+
+        MandrakeValidateNewMmkFromMailboxInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.newMmk != null && Object.hasOwnProperty.call(m, "newMmk"))
+                $root.proto.MessagingMailboxPublicData.encode(m.newMmk, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.signature != null && Object.hasOwnProperty.call(m, "signature"))
+                w.uint32(18).bytes(m.signature);
+            if (m.prevMmk != null && Object.hasOwnProperty.call(m, "prevMmk"))
+                $root.proto.MessagingMailboxPublicData.encode(m.prevMmk, w.uint32(26).fork(), q + 1).ldelim();
+            if (m.epochPublicData != null && Object.hasOwnProperty.call(m, "epochPublicData"))
+                $root.proto.EpochPublicData.encode(m.epochPublicData, w.uint32(34).fork(), q + 1).ldelim();
+            return w;
+        };
+
+        MandrakeValidateNewMmkFromMailboxInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MandrakeValidateNewMmkFromMailboxInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.newMmk = $root.proto.MessagingMailboxPublicData.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.signature = r.bytes();
+                        break;
+                    }
+                case 3: {
+                        m.prevMmk = $root.proto.MessagingMailboxPublicData.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 4: {
+                        m.epochPublicData = $root.proto.EpochPublicData.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MandrakeValidateNewMmkFromMailboxInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MandrakeValidateNewMmkFromMailboxInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MandrakeValidateNewMmkFromMailboxInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MandrakeValidateNewMmkFromMailboxInput();
+            if (d.newMmk != null) {
+                if (!$util.isObject(d.newMmk))
+                    throw TypeError(".proto.MandrakeValidateNewMmkFromMailboxInput.newMmk: object expected");
+                m.newMmk = $root.proto.MessagingMailboxPublicData.fromObject(d.newMmk, n + 1);
+            }
+            if (d.signature != null) {
+                if (typeof d.signature === "string")
+                    $util.base64.decode(d.signature, m.signature = $util.newBuffer($util.base64.length(d.signature)), 0);
+                else if (d.signature.length >= 0)
+                    m.signature = d.signature;
+            }
+            if (d.prevMmk != null) {
+                if (!$util.isObject(d.prevMmk))
+                    throw TypeError(".proto.MandrakeValidateNewMmkFromMailboxInput.prevMmk: object expected");
+                m.prevMmk = $root.proto.MessagingMailboxPublicData.fromObject(d.prevMmk, n + 1);
+            }
+            if (d.epochPublicData != null) {
+                if (!$util.isObject(d.epochPublicData))
+                    throw TypeError(".proto.MandrakeValidateNewMmkFromMailboxInput.epochPublicData: object expected");
+                m.epochPublicData = $root.proto.EpochPublicData.fromObject(d.epochPublicData, n + 1);
+            }
+            return m;
+        };
+
+        MandrakeValidateNewMmkFromMailboxInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.newMmk != null && Object.hasOwnProperty.call(m, "newMmk")) {
+                d.newMmk = $root.proto.MessagingMailboxPublicData.toObject(m.newMmk, o, q + 1);
+                if (o.oneofs)
+                    d._newMmk = "newMmk";
+            }
+            if (m.signature != null && Object.hasOwnProperty.call(m, "signature")) {
+                d.signature = o.bytes === String ? $util.base64.encode(m.signature, 0, m.signature.length) : o.bytes === Array ? Array.prototype.slice.call(m.signature) : m.signature;
+                if (o.oneofs)
+                    d._signature = "signature";
+            }
+            if (m.prevMmk != null && Object.hasOwnProperty.call(m, "prevMmk")) {
+                d.prevMmk = $root.proto.MessagingMailboxPublicData.toObject(m.prevMmk, o, q + 1);
+                if (o.oneofs)
+                    d._prevMmk = "prevMmk";
+            }
+            if (m.epochPublicData != null && Object.hasOwnProperty.call(m, "epochPublicData")) {
+                d.epochPublicData = $root.proto.EpochPublicData.toObject(m.epochPublicData, o, q + 1);
+                if (o.oneofs)
+                    d._epochPublicData = "epochPublicData";
+            }
+            return d;
+        };
+
+        MandrakeValidateNewMmkFromMailboxInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MandrakeValidateNewMmkFromMailboxInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MandrakeValidateNewMmkFromMailboxInput";
+        };
+
+        return MandrakeValidateNewMmkFromMailboxInput;
+    })();
+
+    proto.MandrakeValidateNewMmkResult = (function() {
+
+        function MandrakeValidateNewMmkResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MandrakeValidateNewMmkResult.prototype.valid = null;
+        MandrakeValidateNewMmkResult.prototype.errorMessage = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MandrakeValidateNewMmkResult.prototype, "result", {
+            get: $util.oneOfGetter($oneOfFields = ["valid", "errorMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MandrakeValidateNewMmkResult.create = function create(properties) {
+            return new MandrakeValidateNewMmkResult(properties);
+        };
+
+        MandrakeValidateNewMmkResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.valid != null && Object.hasOwnProperty.call(m, "valid"))
+                w.uint32(8).bool(m.valid);
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage"))
+                w.uint32(18).string(m.errorMessage);
+            return w;
+        };
+
+        MandrakeValidateNewMmkResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MandrakeValidateNewMmkResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.valid = r.bool();
+                        break;
+                    }
+                case 2: {
+                        m.errorMessage = r.string();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MandrakeValidateNewMmkResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MandrakeValidateNewMmkResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MandrakeValidateNewMmkResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MandrakeValidateNewMmkResult();
+            if (d.valid != null) {
+                m.valid = Boolean(d.valid);
+            }
+            if (d.errorMessage != null) {
+                m.errorMessage = String(d.errorMessage);
+            }
+            return m;
+        };
+
+        MandrakeValidateNewMmkResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.valid != null && Object.hasOwnProperty.call(m, "valid")) {
+                d.valid = m.valid;
+                if (o.oneofs)
+                    d.result = "valid";
+            }
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage")) {
+                d.errorMessage = m.errorMessage;
+                if (o.oneofs)
+                    d.result = "errorMessage";
+            }
+            return d;
+        };
+
+        MandrakeValidateNewMmkResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MandrakeValidateNewMmkResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MandrakeValidateNewMmkResult";
+        };
+
+        return MandrakeValidateNewMmkResult;
+    })();
+
     proto.MediaData = (function() {
 
         function MediaData(p) {
@@ -50880,6 +62424,175 @@ export const proto = $root.proto = (() => {
         return values;
     })();
 
+    proto.MekBundle = (function() {
+
+        function MekBundle(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MekBundle.prototype.key = null;
+        MekBundle.prototype.mekId = null;
+        MekBundle.prototype.rosterHash = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MekBundle.prototype, "_key", {
+            get: $util.oneOfGetter($oneOfFields = ["key"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MekBundle.prototype, "_mekId", {
+            get: $util.oneOfGetter($oneOfFields = ["mekId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MekBundle.prototype, "_rosterHash", {
+            get: $util.oneOfGetter($oneOfFields = ["rosterHash"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MekBundle.create = function create(properties) {
+            return new MekBundle(properties);
+        };
+
+        MekBundle.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.key != null && Object.hasOwnProperty.call(m, "key"))
+                w.uint32(10).bytes(m.key);
+            if (m.mekId != null && Object.hasOwnProperty.call(m, "mekId"))
+                w.uint32(18).bytes(m.mekId);
+            if (m.rosterHash != null && Object.hasOwnProperty.call(m, "rosterHash"))
+                w.uint32(26).bytes(m.rosterHash);
+            return w;
+        };
+
+        MekBundle.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MekBundle();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.key = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.mekId = r.bytes();
+                        break;
+                    }
+                case 3: {
+                        m.rosterHash = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MekBundle.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MekBundle)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MekBundle: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MekBundle();
+            if (d.key != null) {
+                if (typeof d.key === "string")
+                    $util.base64.decode(d.key, m.key = $util.newBuffer($util.base64.length(d.key)), 0);
+                else if (d.key.length >= 0)
+                    m.key = d.key;
+            }
+            if (d.mekId != null) {
+                if (typeof d.mekId === "string")
+                    $util.base64.decode(d.mekId, m.mekId = $util.newBuffer($util.base64.length(d.mekId)), 0);
+                else if (d.mekId.length >= 0)
+                    m.mekId = d.mekId;
+            }
+            if (d.rosterHash != null) {
+                if (typeof d.rosterHash === "string")
+                    $util.base64.decode(d.rosterHash, m.rosterHash = $util.newBuffer($util.base64.length(d.rosterHash)), 0);
+                else if (d.rosterHash.length >= 0)
+                    m.rosterHash = d.rosterHash;
+            }
+            return m;
+        };
+
+        MekBundle.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.key != null && Object.hasOwnProperty.call(m, "key")) {
+                d.key = o.bytes === String ? $util.base64.encode(m.key, 0, m.key.length) : o.bytes === Array ? Array.prototype.slice.call(m.key) : m.key;
+                if (o.oneofs)
+                    d._key = "key";
+            }
+            if (m.mekId != null && Object.hasOwnProperty.call(m, "mekId")) {
+                d.mekId = o.bytes === String ? $util.base64.encode(m.mekId, 0, m.mekId.length) : o.bytes === Array ? Array.prototype.slice.call(m.mekId) : m.mekId;
+                if (o.oneofs)
+                    d._mekId = "mekId";
+            }
+            if (m.rosterHash != null && Object.hasOwnProperty.call(m, "rosterHash")) {
+                d.rosterHash = o.bytes === String ? $util.base64.encode(m.rosterHash, 0, m.rosterHash.length) : o.bytes === Array ? Array.prototype.slice.call(m.rosterHash) : m.rosterHash;
+                if (o.oneofs)
+                    d._rosterHash = "rosterHash";
+            }
+            return d;
+        };
+
+        MekBundle.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MekBundle.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MekBundle";
+        };
+
+        return MekBundle;
+    })();
+
     proto.MemberLabel = (function() {
 
         function MemberLabel(p) {
@@ -51030,6 +62743,405 @@ export const proto = $root.proto = (() => {
         };
 
         return MemberLabel;
+    })();
+
+    proto.Mention = (function() {
+
+        function Mention(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        Mention.prototype.mentionType = null;
+        Mention.prototype.mentionedJid = null;
+        Mention.prototype.offset = null;
+        Mention.prototype.length = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(Mention.prototype, "_mentionType", {
+            get: $util.oneOfGetter($oneOfFields = ["mentionType"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(Mention.prototype, "_mentionedJid", {
+            get: $util.oneOfGetter($oneOfFields = ["mentionedJid"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(Mention.prototype, "_offset", {
+            get: $util.oneOfGetter($oneOfFields = ["offset"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(Mention.prototype, "_length", {
+            get: $util.oneOfGetter($oneOfFields = ["length"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Mention.create = function create(properties) {
+            return new Mention(properties);
+        };
+
+        Mention.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.mentionType != null && Object.hasOwnProperty.call(m, "mentionType"))
+                w.uint32(8).int32(m.mentionType);
+            if (m.mentionedJid != null && Object.hasOwnProperty.call(m, "mentionedJid"))
+                w.uint32(18).string(m.mentionedJid);
+            if (m.offset != null && Object.hasOwnProperty.call(m, "offset"))
+                w.uint32(24).uint32(m.offset);
+            if (m.length != null && Object.hasOwnProperty.call(m, "length"))
+                w.uint32(32).uint32(m.length);
+            return w;
+        };
+
+        Mention.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.Mention();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.mentionType = r.int32();
+                        break;
+                    }
+                case 2: {
+                        m.mentionedJid = r.string();
+                        break;
+                    }
+                case 3: {
+                        m.offset = r.uint32();
+                        break;
+                    }
+                case 4: {
+                        m.length = r.uint32();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        Mention.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.Mention)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.Mention: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.Mention();
+            switch (d.mentionType) {
+            default:
+                if (typeof d.mentionType === "number") {
+                    m.mentionType = d.mentionType;
+                    break;
+                }
+                break;
+            case "PROFILE":
+            case 0:
+                m.mentionType = 0;
+                break;
+            }
+            if (d.mentionedJid != null) {
+                m.mentionedJid = String(d.mentionedJid);
+            }
+            if (d.offset != null) {
+                m.offset = d.offset >>> 0;
+            }
+            if (d.length != null) {
+                m.length = d.length >>> 0;
+            }
+            return m;
+        };
+
+        Mention.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.mentionType != null && Object.hasOwnProperty.call(m, "mentionType")) {
+                d.mentionType = o.enums === String ? $root.proto.MENTION_MENTION_TYPE[m.mentionType] === undefined ? m.mentionType : $root.proto.MENTION_MENTION_TYPE[m.mentionType] : m.mentionType;
+                if (o.oneofs)
+                    d._mentionType = "mentionType";
+            }
+            if (m.mentionedJid != null && Object.hasOwnProperty.call(m, "mentionedJid")) {
+                d.mentionedJid = m.mentionedJid;
+                if (o.oneofs)
+                    d._mentionedJid = "mentionedJid";
+            }
+            if (m.offset != null && Object.hasOwnProperty.call(m, "offset")) {
+                d.offset = m.offset;
+                if (o.oneofs)
+                    d._offset = "offset";
+            }
+            if (m.length != null && Object.hasOwnProperty.call(m, "length")) {
+                d.length = m.length;
+                if (o.oneofs)
+                    d._length = "length";
+            }
+            return d;
+        };
+
+        Mention.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        Mention.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.Mention";
+        };
+
+        return Mention;
+    })();
+
+    proto.MerkleMembershipProof = (function() {
+
+        function MerkleMembershipProof(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MerkleMembershipProof.prototype.proof = null;
+        MerkleMembershipProof.prototype.root = null;
+        MerkleMembershipProof.prototype.leafIndex = null;
+        MerkleMembershipProof.prototype.totalLeaves = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MerkleMembershipProof.prototype, "_proof", {
+            get: $util.oneOfGetter($oneOfFields = ["proof"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MerkleMembershipProof.prototype, "_root", {
+            get: $util.oneOfGetter($oneOfFields = ["root"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MerkleMembershipProof.prototype, "_leafIndex", {
+            get: $util.oneOfGetter($oneOfFields = ["leafIndex"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MerkleMembershipProof.prototype, "_totalLeaves", {
+            get: $util.oneOfGetter($oneOfFields = ["totalLeaves"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MerkleMembershipProof.create = function create(properties) {
+            return new MerkleMembershipProof(properties);
+        };
+
+        MerkleMembershipProof.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.proof != null && Object.hasOwnProperty.call(m, "proof"))
+                w.uint32(10).bytes(m.proof);
+            if (m.root != null && Object.hasOwnProperty.call(m, "root"))
+                w.uint32(18).bytes(m.root);
+            if (m.leafIndex != null && Object.hasOwnProperty.call(m, "leafIndex"))
+                w.uint32(24).uint64(m.leafIndex);
+            if (m.totalLeaves != null && Object.hasOwnProperty.call(m, "totalLeaves"))
+                w.uint32(32).uint64(m.totalLeaves);
+            return w;
+        };
+
+        MerkleMembershipProof.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MerkleMembershipProof();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.proof = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.root = r.bytes();
+                        break;
+                    }
+                case 3: {
+                        m.leafIndex = r.uint64();
+                        break;
+                    }
+                case 4: {
+                        m.totalLeaves = r.uint64();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MerkleMembershipProof.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MerkleMembershipProof)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MerkleMembershipProof: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MerkleMembershipProof();
+            if (d.proof != null) {
+                if (typeof d.proof === "string")
+                    $util.base64.decode(d.proof, m.proof = $util.newBuffer($util.base64.length(d.proof)), 0);
+                else if (d.proof.length >= 0)
+                    m.proof = d.proof;
+            }
+            if (d.root != null) {
+                if (typeof d.root === "string")
+                    $util.base64.decode(d.root, m.root = $util.newBuffer($util.base64.length(d.root)), 0);
+                else if (d.root.length >= 0)
+                    m.root = d.root;
+            }
+            if (d.leafIndex != null) {
+                if ($util.Long)
+                    m.leafIndex = $util.Long.fromValue(d.leafIndex, true);
+                else if (typeof d.leafIndex === "string")
+                    m.leafIndex = parseInt(d.leafIndex, 10);
+                else if (typeof d.leafIndex === "number")
+                    m.leafIndex = d.leafIndex;
+                else if (typeof d.leafIndex === "object")
+                    m.leafIndex = new $util.LongBits(d.leafIndex.low >>> 0, d.leafIndex.high >>> 0).toNumber(true);
+            }
+            if (d.totalLeaves != null) {
+                if ($util.Long)
+                    m.totalLeaves = $util.Long.fromValue(d.totalLeaves, true);
+                else if (typeof d.totalLeaves === "string")
+                    m.totalLeaves = parseInt(d.totalLeaves, 10);
+                else if (typeof d.totalLeaves === "number")
+                    m.totalLeaves = d.totalLeaves;
+                else if (typeof d.totalLeaves === "object")
+                    m.totalLeaves = new $util.LongBits(d.totalLeaves.low >>> 0, d.totalLeaves.high >>> 0).toNumber(true);
+            }
+            return m;
+        };
+
+        MerkleMembershipProof.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.proof != null && Object.hasOwnProperty.call(m, "proof")) {
+                d.proof = o.bytes === String ? $util.base64.encode(m.proof, 0, m.proof.length) : o.bytes === Array ? Array.prototype.slice.call(m.proof) : m.proof;
+                if (o.oneofs)
+                    d._proof = "proof";
+            }
+            if (m.root != null && Object.hasOwnProperty.call(m, "root")) {
+                d.root = o.bytes === String ? $util.base64.encode(m.root, 0, m.root.length) : o.bytes === Array ? Array.prototype.slice.call(m.root) : m.root;
+                if (o.oneofs)
+                    d._root = "root";
+            }
+            if (m.leafIndex != null && Object.hasOwnProperty.call(m, "leafIndex")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.leafIndex = typeof m.leafIndex === "number" ? BigInt(m.leafIndex) : $util.Long.fromBits(m.leafIndex.low >>> 0, m.leafIndex.high >>> 0, true).toBigInt();
+                else if (typeof m.leafIndex === "number")
+                    d.leafIndex = o.longs === String ? String(m.leafIndex) : m.leafIndex;
+                else
+                    d.leafIndex = o.longs === String ? longToString(m.leafIndex, true) : o.longs === Number ? longToNumber(m.leafIndex, true) : m.leafIndex;
+                if (o.oneofs)
+                    d._leafIndex = "leafIndex";
+            }
+            if (m.totalLeaves != null && Object.hasOwnProperty.call(m, "totalLeaves")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.totalLeaves = typeof m.totalLeaves === "number" ? BigInt(m.totalLeaves) : $util.Long.fromBits(m.totalLeaves.low >>> 0, m.totalLeaves.high >>> 0, true).toBigInt();
+                else if (typeof m.totalLeaves === "number")
+                    d.totalLeaves = o.longs === String ? String(m.totalLeaves) : m.totalLeaves;
+                else
+                    d.totalLeaves = o.longs === String ? longToString(m.totalLeaves, true) : o.longs === Number ? longToNumber(m.totalLeaves, true) : m.totalLeaves;
+                if (o.oneofs)
+                    d._totalLeaves = "totalLeaves";
+            }
+            return d;
+        };
+
+        MerkleMembershipProof.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MerkleMembershipProof.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MerkleMembershipProof";
+        };
+
+        return MerkleMembershipProof;
     })();
 
     proto.Message = (function() {
@@ -94726,6 +106838,4868 @@ export const proto = $root.proto = (() => {
         return MessageSecretMessage;
     })();
 
+    proto.MessageText = (function() {
+
+        function MessageText(p) {
+            this.mentionedJid = [];
+            this.commands = [];
+            this.mentions = [];
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MessageText.prototype.text = null;
+        MessageText.prototype.mentionedJid = $util.emptyArray;
+        MessageText.prototype.commands = $util.emptyArray;
+        MessageText.prototype.mentions = $util.emptyArray;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MessageText.prototype, "_text", {
+            get: $util.oneOfGetter($oneOfFields = ["text"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MessageText.create = function create(properties) {
+            return new MessageText(properties);
+        };
+
+        MessageText.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.text != null && Object.hasOwnProperty.call(m, "text"))
+                w.uint32(10).string(m.text);
+            if (m.mentionedJid != null && m.mentionedJid.length) {
+                for (var i = 0; i < m.mentionedJid.length; ++i)
+                    w.uint32(18).string(m.mentionedJid[i]);
+            }
+            if (m.commands != null && m.commands.length) {
+                for (var i = 0; i < m.commands.length; ++i)
+                    $root.proto.Command.encode(m.commands[i], w.uint32(26).fork(), q + 1).ldelim();
+            }
+            if (m.mentions != null && m.mentions.length) {
+                for (var i = 0; i < m.mentions.length; ++i)
+                    $root.proto.Mention.encode(m.mentions[i], w.uint32(34).fork(), q + 1).ldelim();
+            }
+            return w;
+        };
+
+        MessageText.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MessageText();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.text = r.string();
+                        break;
+                    }
+                case 2: {
+                        if (!(m.mentionedJid && m.mentionedJid.length))
+                            m.mentionedJid = [];
+                        m.mentionedJid.push(r.string());
+                        break;
+                    }
+                case 3: {
+                        if (!(m.commands && m.commands.length))
+                            m.commands = [];
+                        m.commands.push($root.proto.Command.decode(r, r.uint32(), undefined, n + 1));
+                        break;
+                    }
+                case 4: {
+                        if (!(m.mentions && m.mentions.length))
+                            m.mentions = [];
+                        m.mentions.push($root.proto.Mention.decode(r, r.uint32(), undefined, n + 1));
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MessageText.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MessageText)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MessageText: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MessageText();
+            if (d.text != null) {
+                m.text = String(d.text);
+            }
+            if (d.mentionedJid) {
+                if (!Array.isArray(d.mentionedJid))
+                    throw TypeError(".proto.MessageText.mentionedJid: array expected");
+                m.mentionedJid = [];
+                for (var i = 0; i < d.mentionedJid.length; ++i) {
+                    m.mentionedJid[i] = String(d.mentionedJid[i]);
+                }
+            }
+            if (d.commands) {
+                if (!Array.isArray(d.commands))
+                    throw TypeError(".proto.MessageText.commands: array expected");
+                m.commands = [];
+                for (var i = 0; i < d.commands.length; ++i) {
+                    if (!$util.isObject(d.commands[i]))
+                        throw TypeError(".proto.MessageText.commands: object expected");
+                    m.commands[i] = $root.proto.Command.fromObject(d.commands[i], n + 1);
+                }
+            }
+            if (d.mentions) {
+                if (!Array.isArray(d.mentions))
+                    throw TypeError(".proto.MessageText.mentions: array expected");
+                m.mentions = [];
+                for (var i = 0; i < d.mentions.length; ++i) {
+                    if (!$util.isObject(d.mentions[i]))
+                        throw TypeError(".proto.MessageText.mentions: object expected");
+                    m.mentions[i] = $root.proto.Mention.fromObject(d.mentions[i], n + 1);
+                }
+            }
+            return m;
+        };
+
+        MessageText.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (o.arrays || o.defaults) {
+                d.mentionedJid = [];
+                d.commands = [];
+                d.mentions = [];
+            }
+            if (m.text != null && Object.hasOwnProperty.call(m, "text")) {
+                d.text = m.text;
+                if (o.oneofs)
+                    d._text = "text";
+            }
+            if (m.mentionedJid && m.mentionedJid.length) {
+                d.mentionedJid = [];
+                for (var j = 0; j < m.mentionedJid.length; ++j) {
+                    d.mentionedJid[j] = m.mentionedJid[j];
+                }
+            }
+            if (m.commands && m.commands.length) {
+                d.commands = [];
+                for (var j = 0; j < m.commands.length; ++j) {
+                    d.commands[j] = $root.proto.Command.toObject(m.commands[j], o, q + 1);
+                }
+            }
+            if (m.mentions && m.mentions.length) {
+                d.mentions = [];
+                for (var j = 0; j < m.mentions.length; ++j) {
+                    d.mentions[j] = $root.proto.Mention.toObject(m.mentions[j], o, q + 1);
+                }
+            }
+            return d;
+        };
+
+        MessageText.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MessageText.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MessageText";
+        };
+
+        return MessageText;
+    })();
+
+    proto.MessagingMailboxPublicData = (function() {
+
+        function MessagingMailboxPublicData(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MessagingMailboxPublicData.prototype.epochHead = null;
+        MessagingMailboxPublicData.prototype.deviceRosterHash = null;
+        MessagingMailboxPublicData.prototype.sequenceNumber = null;
+        MessagingMailboxPublicData.prototype.sigPk = null;
+        MessagingMailboxPublicData.prototype.encPk = null;
+        MessagingMailboxPublicData.prototype.authPk = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MessagingMailboxPublicData.prototype, "_epochHead", {
+            get: $util.oneOfGetter($oneOfFields = ["epochHead"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MessagingMailboxPublicData.prototype, "_deviceRosterHash", {
+            get: $util.oneOfGetter($oneOfFields = ["deviceRosterHash"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MessagingMailboxPublicData.prototype, "_sequenceNumber", {
+            get: $util.oneOfGetter($oneOfFields = ["sequenceNumber"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MessagingMailboxPublicData.prototype, "_sigPk", {
+            get: $util.oneOfGetter($oneOfFields = ["sigPk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MessagingMailboxPublicData.prototype, "_encPk", {
+            get: $util.oneOfGetter($oneOfFields = ["encPk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MessagingMailboxPublicData.prototype, "_authPk", {
+            get: $util.oneOfGetter($oneOfFields = ["authPk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MessagingMailboxPublicData.create = function create(properties) {
+            return new MessagingMailboxPublicData(properties);
+        };
+
+        MessagingMailboxPublicData.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.epochHead != null && Object.hasOwnProperty.call(m, "epochHead"))
+                w.uint32(10).bytes(m.epochHead);
+            if (m.deviceRosterHash != null && Object.hasOwnProperty.call(m, "deviceRosterHash"))
+                w.uint32(18).bytes(m.deviceRosterHash);
+            if (m.sequenceNumber != null && Object.hasOwnProperty.call(m, "sequenceNumber"))
+                w.uint32(24).uint64(m.sequenceNumber);
+            if (m.sigPk != null && Object.hasOwnProperty.call(m, "sigPk"))
+                w.uint32(34).bytes(m.sigPk);
+            if (m.encPk != null && Object.hasOwnProperty.call(m, "encPk"))
+                w.uint32(42).bytes(m.encPk);
+            if (m.authPk != null && Object.hasOwnProperty.call(m, "authPk"))
+                w.uint32(50).bytes(m.authPk);
+            return w;
+        };
+
+        MessagingMailboxPublicData.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MessagingMailboxPublicData();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.epochHead = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.deviceRosterHash = r.bytes();
+                        break;
+                    }
+                case 3: {
+                        m.sequenceNumber = r.uint64();
+                        break;
+                    }
+                case 4: {
+                        m.sigPk = r.bytes();
+                        break;
+                    }
+                case 5: {
+                        m.encPk = r.bytes();
+                        break;
+                    }
+                case 6: {
+                        m.authPk = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MessagingMailboxPublicData.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MessagingMailboxPublicData)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MessagingMailboxPublicData: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MessagingMailboxPublicData();
+            if (d.epochHead != null) {
+                if (typeof d.epochHead === "string")
+                    $util.base64.decode(d.epochHead, m.epochHead = $util.newBuffer($util.base64.length(d.epochHead)), 0);
+                else if (d.epochHead.length >= 0)
+                    m.epochHead = d.epochHead;
+            }
+            if (d.deviceRosterHash != null) {
+                if (typeof d.deviceRosterHash === "string")
+                    $util.base64.decode(d.deviceRosterHash, m.deviceRosterHash = $util.newBuffer($util.base64.length(d.deviceRosterHash)), 0);
+                else if (d.deviceRosterHash.length >= 0)
+                    m.deviceRosterHash = d.deviceRosterHash;
+            }
+            if (d.sequenceNumber != null) {
+                if ($util.Long)
+                    m.sequenceNumber = $util.Long.fromValue(d.sequenceNumber, true);
+                else if (typeof d.sequenceNumber === "string")
+                    m.sequenceNumber = parseInt(d.sequenceNumber, 10);
+                else if (typeof d.sequenceNumber === "number")
+                    m.sequenceNumber = d.sequenceNumber;
+                else if (typeof d.sequenceNumber === "object")
+                    m.sequenceNumber = new $util.LongBits(d.sequenceNumber.low >>> 0, d.sequenceNumber.high >>> 0).toNumber(true);
+            }
+            if (d.sigPk != null) {
+                if (typeof d.sigPk === "string")
+                    $util.base64.decode(d.sigPk, m.sigPk = $util.newBuffer($util.base64.length(d.sigPk)), 0);
+                else if (d.sigPk.length >= 0)
+                    m.sigPk = d.sigPk;
+            }
+            if (d.encPk != null) {
+                if (typeof d.encPk === "string")
+                    $util.base64.decode(d.encPk, m.encPk = $util.newBuffer($util.base64.length(d.encPk)), 0);
+                else if (d.encPk.length >= 0)
+                    m.encPk = d.encPk;
+            }
+            if (d.authPk != null) {
+                if (typeof d.authPk === "string")
+                    $util.base64.decode(d.authPk, m.authPk = $util.newBuffer($util.base64.length(d.authPk)), 0);
+                else if (d.authPk.length >= 0)
+                    m.authPk = d.authPk;
+            }
+            return m;
+        };
+
+        MessagingMailboxPublicData.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.epochHead != null && Object.hasOwnProperty.call(m, "epochHead")) {
+                d.epochHead = o.bytes === String ? $util.base64.encode(m.epochHead, 0, m.epochHead.length) : o.bytes === Array ? Array.prototype.slice.call(m.epochHead) : m.epochHead;
+                if (o.oneofs)
+                    d._epochHead = "epochHead";
+            }
+            if (m.deviceRosterHash != null && Object.hasOwnProperty.call(m, "deviceRosterHash")) {
+                d.deviceRosterHash = o.bytes === String ? $util.base64.encode(m.deviceRosterHash, 0, m.deviceRosterHash.length) : o.bytes === Array ? Array.prototype.slice.call(m.deviceRosterHash) : m.deviceRosterHash;
+                if (o.oneofs)
+                    d._deviceRosterHash = "deviceRosterHash";
+            }
+            if (m.sequenceNumber != null && Object.hasOwnProperty.call(m, "sequenceNumber")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.sequenceNumber = typeof m.sequenceNumber === "number" ? BigInt(m.sequenceNumber) : $util.Long.fromBits(m.sequenceNumber.low >>> 0, m.sequenceNumber.high >>> 0, true).toBigInt();
+                else if (typeof m.sequenceNumber === "number")
+                    d.sequenceNumber = o.longs === String ? String(m.sequenceNumber) : m.sequenceNumber;
+                else
+                    d.sequenceNumber = o.longs === String ? longToString(m.sequenceNumber, true) : o.longs === Number ? longToNumber(m.sequenceNumber, true) : m.sequenceNumber;
+                if (o.oneofs)
+                    d._sequenceNumber = "sequenceNumber";
+            }
+            if (m.sigPk != null && Object.hasOwnProperty.call(m, "sigPk")) {
+                d.sigPk = o.bytes === String ? $util.base64.encode(m.sigPk, 0, m.sigPk.length) : o.bytes === Array ? Array.prototype.slice.call(m.sigPk) : m.sigPk;
+                if (o.oneofs)
+                    d._sigPk = "sigPk";
+            }
+            if (m.encPk != null && Object.hasOwnProperty.call(m, "encPk")) {
+                d.encPk = o.bytes === String ? $util.base64.encode(m.encPk, 0, m.encPk.length) : o.bytes === Array ? Array.prototype.slice.call(m.encPk) : m.encPk;
+                if (o.oneofs)
+                    d._encPk = "encPk";
+            }
+            if (m.authPk != null && Object.hasOwnProperty.call(m, "authPk")) {
+                d.authPk = o.bytes === String ? $util.base64.encode(m.authPk, 0, m.authPk.length) : o.bytes === Array ? Array.prototype.slice.call(m.authPk) : m.authPk;
+                if (o.oneofs)
+                    d._authPk = "authPk";
+            }
+            return d;
+        };
+
+        MessagingMailboxPublicData.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MessagingMailboxPublicData.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MessagingMailboxPublicData";
+        };
+
+        return MessagingMailboxPublicData;
+    })();
+
+    proto.MinosClientConfig = (function() {
+
+        function MinosClientConfig(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MinosClientConfig.prototype.preferredMessageEncryptionVersion = null;
+        MinosClientConfig.prototype.preferredMekEncryptionVersion = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MinosClientConfig.prototype, "_preferredMessageEncryptionVersion", {
+            get: $util.oneOfGetter($oneOfFields = ["preferredMessageEncryptionVersion"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosClientConfig.prototype, "_preferredMekEncryptionVersion", {
+            get: $util.oneOfGetter($oneOfFields = ["preferredMekEncryptionVersion"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MinosClientConfig.create = function create(properties) {
+            return new MinosClientConfig(properties);
+        };
+
+        MinosClientConfig.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.preferredMessageEncryptionVersion != null && Object.hasOwnProperty.call(m, "preferredMessageEncryptionVersion"))
+                w.uint32(8).int32(m.preferredMessageEncryptionVersion);
+            if (m.preferredMekEncryptionVersion != null && Object.hasOwnProperty.call(m, "preferredMekEncryptionVersion"))
+                w.uint32(16).int32(m.preferredMekEncryptionVersion);
+            return w;
+        };
+
+        MinosClientConfig.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MinosClientConfig();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.preferredMessageEncryptionVersion = r.int32();
+                        break;
+                    }
+                case 2: {
+                        m.preferredMekEncryptionVersion = r.int32();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MinosClientConfig.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MinosClientConfig)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MinosClientConfig: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MinosClientConfig();
+            if (d.preferredMessageEncryptionVersion != null) {
+                m.preferredMessageEncryptionVersion = d.preferredMessageEncryptionVersion | 0;
+            }
+            if (d.preferredMekEncryptionVersion != null) {
+                m.preferredMekEncryptionVersion = d.preferredMekEncryptionVersion | 0;
+            }
+            return m;
+        };
+
+        MinosClientConfig.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.preferredMessageEncryptionVersion != null && Object.hasOwnProperty.call(m, "preferredMessageEncryptionVersion")) {
+                d.preferredMessageEncryptionVersion = m.preferredMessageEncryptionVersion;
+                if (o.oneofs)
+                    d._preferredMessageEncryptionVersion = "preferredMessageEncryptionVersion";
+            }
+            if (m.preferredMekEncryptionVersion != null && Object.hasOwnProperty.call(m, "preferredMekEncryptionVersion")) {
+                d.preferredMekEncryptionVersion = m.preferredMekEncryptionVersion;
+                if (o.oneofs)
+                    d._preferredMekEncryptionVersion = "preferredMekEncryptionVersion";
+            }
+            return d;
+        };
+
+        MinosClientConfig.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MinosClientConfig.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MinosClientConfig";
+        };
+
+        return MinosClientConfig;
+    })();
+
+    proto.MinosCommand = (function() {
+
+        function MinosCommand(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MinosCommand.prototype.encryptAndSignMessage = null;
+        MinosCommand.prototype.decryptAndVerifyMessage = null;
+        MinosCommand.prototype.generateMek = null;
+        MinosCommand.prototype.generateMekRosterHash = null;
+        MinosCommand.prototype.encryptMekForDistribution = null;
+        MinosCommand.prototype.decryptMekForDistribution = null;
+        MinosCommand.prototype.encryptMeksForDistributionFromTransportSender = null;
+        MinosCommand.prototype.decryptMekForDistributionFromTransportSender = null;
+        MinosCommand.prototype.wrapTransportSigningPublicKey = null;
+        MinosCommand.prototype.wrapTransportSigningSecretKey = null;
+        MinosCommand.prototype.deriveMailboxSigningKeypair = null;
+        MinosCommand.prototype.deriveMailboxEncryptionKeypair = null;
+        MinosCommand.prototype.deriveMailboxAuthKeypair = null;
+        MinosCommand.prototype.deriveAttachmentAccessTokenSecret = null;
+        MinosCommand.prototype.deriveAttachmentPrimaryKeySecret = null;
+        MinosCommand.prototype.minosOpenInitialEpoch = null;
+        MinosCommand.prototype.minosOpenEpoch = null;
+        MinosCommand.prototype.minosValidateEpoch = null;
+        MinosCommand.prototype.minosVerifySingleEpoch = null;
+        MinosCommand.prototype.minosThreadIdFromOneToOneThread = null;
+        MinosCommand.prototype.minosThreadIdFromActThreadId = null;
+        MinosCommand.prototype.mandrakeOpenEpoch = null;
+        MinosCommand.prototype.mandrakeEncryptMek = null;
+        MinosCommand.prototype.mandrakeDecryptMek = null;
+        MinosCommand.prototype.mandrakeOpenInitialEpoch = null;
+        MinosCommand.prototype.mandrakeValidateNewMmkFromMailbox = null;
+        MinosCommand.prototype.mandrakeValidateNewMmkFromDetachedDevice = null;
+        MinosCommand.prototype.deriveMessagingMailboxKeypairs = null;
+        MinosCommand.prototype.decryptSelfMmkDistribution = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MinosCommand.prototype, "commandInput", {
+            get: $util.oneOfGetter($oneOfFields = ["encryptAndSignMessage", "decryptAndVerifyMessage", "generateMek", "generateMekRosterHash", "encryptMekForDistribution", "decryptMekForDistribution", "encryptMeksForDistributionFromTransportSender", "decryptMekForDistributionFromTransportSender", "wrapTransportSigningPublicKey", "wrapTransportSigningSecretKey", "deriveMailboxSigningKeypair", "deriveMailboxEncryptionKeypair", "deriveMailboxAuthKeypair", "deriveAttachmentAccessTokenSecret", "deriveAttachmentPrimaryKeySecret", "minosOpenInitialEpoch", "minosOpenEpoch", "minosValidateEpoch", "minosVerifySingleEpoch", "minosThreadIdFromOneToOneThread", "minosThreadIdFromActThreadId", "mandrakeOpenEpoch", "mandrakeEncryptMek", "mandrakeDecryptMek", "mandrakeOpenInitialEpoch", "mandrakeValidateNewMmkFromMailbox", "mandrakeValidateNewMmkFromDetachedDevice", "deriveMessagingMailboxKeypairs", "decryptSelfMmkDistribution"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MinosCommand.create = function create(properties) {
+            return new MinosCommand(properties);
+        };
+
+        MinosCommand.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.encryptAndSignMessage != null && Object.hasOwnProperty.call(m, "encryptAndSignMessage"))
+                $root.proto.MinosEncryptAndSignMessageInput.encode(m.encryptAndSignMessage, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.decryptAndVerifyMessage != null && Object.hasOwnProperty.call(m, "decryptAndVerifyMessage"))
+                $root.proto.MinosDecryptAndVerifyMessageInput.encode(m.decryptAndVerifyMessage, w.uint32(18).fork(), q + 1).ldelim();
+            if (m.generateMek != null && Object.hasOwnProperty.call(m, "generateMek"))
+                $root.proto.GenerateMekInput.encode(m.generateMek, w.uint32(26).fork(), q + 1).ldelim();
+            if (m.generateMekRosterHash != null && Object.hasOwnProperty.call(m, "generateMekRosterHash"))
+                $root.proto.GenerateMekRosterHashInput.encode(m.generateMekRosterHash, w.uint32(34).fork(), q + 1).ldelim();
+            if (m.encryptMekForDistribution != null && Object.hasOwnProperty.call(m, "encryptMekForDistribution"))
+                $root.proto.EncryptMekForDistributionInput.encode(m.encryptMekForDistribution, w.uint32(42).fork(), q + 1).ldelim();
+            if (m.decryptMekForDistribution != null && Object.hasOwnProperty.call(m, "decryptMekForDistribution"))
+                $root.proto.DecryptMekForDistributionInput.encode(m.decryptMekForDistribution, w.uint32(50).fork(), q + 1).ldelim();
+            if (m.encryptMeksForDistributionFromTransportSender != null && Object.hasOwnProperty.call(m, "encryptMeksForDistributionFromTransportSender"))
+                $root.proto.EncryptMeksForDistributionFromTransportSenderInput.encode(m.encryptMeksForDistributionFromTransportSender, w.uint32(58).fork(), q + 1).ldelim();
+            if (m.decryptMekForDistributionFromTransportSender != null && Object.hasOwnProperty.call(m, "decryptMekForDistributionFromTransportSender"))
+                $root.proto.DecryptMekForDistributionFromTransportSenderInput.encode(m.decryptMekForDistributionFromTransportSender, w.uint32(66).fork(), q + 1).ldelim();
+            if (m.wrapTransportSigningPublicKey != null && Object.hasOwnProperty.call(m, "wrapTransportSigningPublicKey"))
+                $root.proto.WrapTransportSigningPublicKeyInput.encode(m.wrapTransportSigningPublicKey, w.uint32(74).fork(), q + 1).ldelim();
+            if (m.wrapTransportSigningSecretKey != null && Object.hasOwnProperty.call(m, "wrapTransportSigningSecretKey"))
+                $root.proto.WrapTransportSigningSecretKeyInput.encode(m.wrapTransportSigningSecretKey, w.uint32(82).fork(), q + 1).ldelim();
+            if (m.deriveMailboxSigningKeypair != null && Object.hasOwnProperty.call(m, "deriveMailboxSigningKeypair"))
+                $root.proto.DeriveMailboxSigningKeypairInput.encode(m.deriveMailboxSigningKeypair, w.uint32(90).fork(), q + 1).ldelim();
+            if (m.deriveMailboxEncryptionKeypair != null && Object.hasOwnProperty.call(m, "deriveMailboxEncryptionKeypair"))
+                $root.proto.DeriveMailboxEncryptionKeypairInput.encode(m.deriveMailboxEncryptionKeypair, w.uint32(98).fork(), q + 1).ldelim();
+            if (m.deriveMailboxAuthKeypair != null && Object.hasOwnProperty.call(m, "deriveMailboxAuthKeypair"))
+                $root.proto.DeriveMailboxAuthKeypairInput.encode(m.deriveMailboxAuthKeypair, w.uint32(106).fork(), q + 1).ldelim();
+            if (m.deriveAttachmentAccessTokenSecret != null && Object.hasOwnProperty.call(m, "deriveAttachmentAccessTokenSecret"))
+                $root.proto.DeriveAttachmentAccessTokenSecretInput.encode(m.deriveAttachmentAccessTokenSecret, w.uint32(114).fork(), q + 1).ldelim();
+            if (m.deriveAttachmentPrimaryKeySecret != null && Object.hasOwnProperty.call(m, "deriveAttachmentPrimaryKeySecret"))
+                $root.proto.DeriveAttachmentPrimaryKeySecretInput.encode(m.deriveAttachmentPrimaryKeySecret, w.uint32(122).fork(), q + 1).ldelim();
+            if (m.minosOpenInitialEpoch != null && Object.hasOwnProperty.call(m, "minosOpenInitialEpoch"))
+                $root.proto.MinosOpenInitialEpochInput.encode(m.minosOpenInitialEpoch, w.uint32(130).fork(), q + 1).ldelim();
+            if (m.minosOpenEpoch != null && Object.hasOwnProperty.call(m, "minosOpenEpoch"))
+                $root.proto.MinosOpenEpochInput.encode(m.minosOpenEpoch, w.uint32(138).fork(), q + 1).ldelim();
+            if (m.minosValidateEpoch != null && Object.hasOwnProperty.call(m, "minosValidateEpoch"))
+                $root.proto.MinosValidateEpochInput.encode(m.minosValidateEpoch, w.uint32(146).fork(), q + 1).ldelim();
+            if (m.minosVerifySingleEpoch != null && Object.hasOwnProperty.call(m, "minosVerifySingleEpoch"))
+                $root.proto.MinosVerifySingleEpochInput.encode(m.minosVerifySingleEpoch, w.uint32(154).fork(), q + 1).ldelim();
+            if (m.minosThreadIdFromOneToOneThread != null && Object.hasOwnProperty.call(m, "minosThreadIdFromOneToOneThread"))
+                $root.proto.MinosThreadIdFromOneToOneThreadInput.encode(m.minosThreadIdFromOneToOneThread, w.uint32(162).fork(), q + 1).ldelim();
+            if (m.minosThreadIdFromActThreadId != null && Object.hasOwnProperty.call(m, "minosThreadIdFromActThreadId"))
+                $root.proto.MinosThreadIdFromActThreadIdInput.encode(m.minosThreadIdFromActThreadId, w.uint32(170).fork(), q + 1).ldelim();
+            if (m.mandrakeOpenEpoch != null && Object.hasOwnProperty.call(m, "mandrakeOpenEpoch"))
+                $root.proto.MandrakeOpenEpochInput.encode(m.mandrakeOpenEpoch, w.uint32(178).fork(), q + 1).ldelim();
+            if (m.mandrakeEncryptMek != null && Object.hasOwnProperty.call(m, "mandrakeEncryptMek"))
+                $root.proto.MandrakeEncryptMekInput.encode(m.mandrakeEncryptMek, w.uint32(186).fork(), q + 1).ldelim();
+            if (m.mandrakeDecryptMek != null && Object.hasOwnProperty.call(m, "mandrakeDecryptMek"))
+                $root.proto.MandrakeDecryptMekInput.encode(m.mandrakeDecryptMek, w.uint32(194).fork(), q + 1).ldelim();
+            if (m.mandrakeOpenInitialEpoch != null && Object.hasOwnProperty.call(m, "mandrakeOpenInitialEpoch"))
+                $root.proto.MandrakeOpenInitialEpochInput.encode(m.mandrakeOpenInitialEpoch, w.uint32(202).fork(), q + 1).ldelim();
+            if (m.mandrakeValidateNewMmkFromMailbox != null && Object.hasOwnProperty.call(m, "mandrakeValidateNewMmkFromMailbox"))
+                $root.proto.MandrakeValidateNewMmkFromMailboxInput.encode(m.mandrakeValidateNewMmkFromMailbox, w.uint32(218).fork(), q + 1).ldelim();
+            if (m.mandrakeValidateNewMmkFromDetachedDevice != null && Object.hasOwnProperty.call(m, "mandrakeValidateNewMmkFromDetachedDevice"))
+                $root.proto.MandrakeValidateNewMmkFromDetachedDeviceInput.encode(m.mandrakeValidateNewMmkFromDetachedDevice, w.uint32(226).fork(), q + 1).ldelim();
+            if (m.deriveMessagingMailboxKeypairs != null && Object.hasOwnProperty.call(m, "deriveMessagingMailboxKeypairs"))
+                $root.proto.DeriveMessagingMailboxKeypairsInput.encode(m.deriveMessagingMailboxKeypairs, w.uint32(234).fork(), q + 1).ldelim();
+            if (m.decryptSelfMmkDistribution != null && Object.hasOwnProperty.call(m, "decryptSelfMmkDistribution"))
+                $root.proto.DecryptSelfMmkDistributionInput.encode(m.decryptSelfMmkDistribution, w.uint32(242).fork(), q + 1).ldelim();
+            return w;
+        };
+
+        MinosCommand.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MinosCommand();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.encryptAndSignMessage = $root.proto.MinosEncryptAndSignMessageInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.decryptAndVerifyMessage = $root.proto.MinosDecryptAndVerifyMessageInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 3: {
+                        m.generateMek = $root.proto.GenerateMekInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 4: {
+                        m.generateMekRosterHash = $root.proto.GenerateMekRosterHashInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 5: {
+                        m.encryptMekForDistribution = $root.proto.EncryptMekForDistributionInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 6: {
+                        m.decryptMekForDistribution = $root.proto.DecryptMekForDistributionInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 7: {
+                        m.encryptMeksForDistributionFromTransportSender = $root.proto.EncryptMeksForDistributionFromTransportSenderInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 8: {
+                        m.decryptMekForDistributionFromTransportSender = $root.proto.DecryptMekForDistributionFromTransportSenderInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 9: {
+                        m.wrapTransportSigningPublicKey = $root.proto.WrapTransportSigningPublicKeyInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 10: {
+                        m.wrapTransportSigningSecretKey = $root.proto.WrapTransportSigningSecretKeyInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 11: {
+                        m.deriveMailboxSigningKeypair = $root.proto.DeriveMailboxSigningKeypairInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 12: {
+                        m.deriveMailboxEncryptionKeypair = $root.proto.DeriveMailboxEncryptionKeypairInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 13: {
+                        m.deriveMailboxAuthKeypair = $root.proto.DeriveMailboxAuthKeypairInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 14: {
+                        m.deriveAttachmentAccessTokenSecret = $root.proto.DeriveAttachmentAccessTokenSecretInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 15: {
+                        m.deriveAttachmentPrimaryKeySecret = $root.proto.DeriveAttachmentPrimaryKeySecretInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 16: {
+                        m.minosOpenInitialEpoch = $root.proto.MinosOpenInitialEpochInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 17: {
+                        m.minosOpenEpoch = $root.proto.MinosOpenEpochInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 18: {
+                        m.minosValidateEpoch = $root.proto.MinosValidateEpochInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 19: {
+                        m.minosVerifySingleEpoch = $root.proto.MinosVerifySingleEpochInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 20: {
+                        m.minosThreadIdFromOneToOneThread = $root.proto.MinosThreadIdFromOneToOneThreadInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 21: {
+                        m.minosThreadIdFromActThreadId = $root.proto.MinosThreadIdFromActThreadIdInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 22: {
+                        m.mandrakeOpenEpoch = $root.proto.MandrakeOpenEpochInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 23: {
+                        m.mandrakeEncryptMek = $root.proto.MandrakeEncryptMekInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 24: {
+                        m.mandrakeDecryptMek = $root.proto.MandrakeDecryptMekInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 25: {
+                        m.mandrakeOpenInitialEpoch = $root.proto.MandrakeOpenInitialEpochInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 27: {
+                        m.mandrakeValidateNewMmkFromMailbox = $root.proto.MandrakeValidateNewMmkFromMailboxInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 28: {
+                        m.mandrakeValidateNewMmkFromDetachedDevice = $root.proto.MandrakeValidateNewMmkFromDetachedDeviceInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 29: {
+                        m.deriveMessagingMailboxKeypairs = $root.proto.DeriveMessagingMailboxKeypairsInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 30: {
+                        m.decryptSelfMmkDistribution = $root.proto.DecryptSelfMmkDistributionInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MinosCommand.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MinosCommand)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MinosCommand: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MinosCommand();
+            if (d.encryptAndSignMessage != null) {
+                if (!$util.isObject(d.encryptAndSignMessage))
+                    throw TypeError(".proto.MinosCommand.encryptAndSignMessage: object expected");
+                m.encryptAndSignMessage = $root.proto.MinosEncryptAndSignMessageInput.fromObject(d.encryptAndSignMessage, n + 1);
+            }
+            if (d.decryptAndVerifyMessage != null) {
+                if (!$util.isObject(d.decryptAndVerifyMessage))
+                    throw TypeError(".proto.MinosCommand.decryptAndVerifyMessage: object expected");
+                m.decryptAndVerifyMessage = $root.proto.MinosDecryptAndVerifyMessageInput.fromObject(d.decryptAndVerifyMessage, n + 1);
+            }
+            if (d.generateMek != null) {
+                if (!$util.isObject(d.generateMek))
+                    throw TypeError(".proto.MinosCommand.generateMek: object expected");
+                m.generateMek = $root.proto.GenerateMekInput.fromObject(d.generateMek, n + 1);
+            }
+            if (d.generateMekRosterHash != null) {
+                if (!$util.isObject(d.generateMekRosterHash))
+                    throw TypeError(".proto.MinosCommand.generateMekRosterHash: object expected");
+                m.generateMekRosterHash = $root.proto.GenerateMekRosterHashInput.fromObject(d.generateMekRosterHash, n + 1);
+            }
+            if (d.encryptMekForDistribution != null) {
+                if (!$util.isObject(d.encryptMekForDistribution))
+                    throw TypeError(".proto.MinosCommand.encryptMekForDistribution: object expected");
+                m.encryptMekForDistribution = $root.proto.EncryptMekForDistributionInput.fromObject(d.encryptMekForDistribution, n + 1);
+            }
+            if (d.decryptMekForDistribution != null) {
+                if (!$util.isObject(d.decryptMekForDistribution))
+                    throw TypeError(".proto.MinosCommand.decryptMekForDistribution: object expected");
+                m.decryptMekForDistribution = $root.proto.DecryptMekForDistributionInput.fromObject(d.decryptMekForDistribution, n + 1);
+            }
+            if (d.encryptMeksForDistributionFromTransportSender != null) {
+                if (!$util.isObject(d.encryptMeksForDistributionFromTransportSender))
+                    throw TypeError(".proto.MinosCommand.encryptMeksForDistributionFromTransportSender: object expected");
+                m.encryptMeksForDistributionFromTransportSender = $root.proto.EncryptMeksForDistributionFromTransportSenderInput.fromObject(d.encryptMeksForDistributionFromTransportSender, n + 1);
+            }
+            if (d.decryptMekForDistributionFromTransportSender != null) {
+                if (!$util.isObject(d.decryptMekForDistributionFromTransportSender))
+                    throw TypeError(".proto.MinosCommand.decryptMekForDistributionFromTransportSender: object expected");
+                m.decryptMekForDistributionFromTransportSender = $root.proto.DecryptMekForDistributionFromTransportSenderInput.fromObject(d.decryptMekForDistributionFromTransportSender, n + 1);
+            }
+            if (d.wrapTransportSigningPublicKey != null) {
+                if (!$util.isObject(d.wrapTransportSigningPublicKey))
+                    throw TypeError(".proto.MinosCommand.wrapTransportSigningPublicKey: object expected");
+                m.wrapTransportSigningPublicKey = $root.proto.WrapTransportSigningPublicKeyInput.fromObject(d.wrapTransportSigningPublicKey, n + 1);
+            }
+            if (d.wrapTransportSigningSecretKey != null) {
+                if (!$util.isObject(d.wrapTransportSigningSecretKey))
+                    throw TypeError(".proto.MinosCommand.wrapTransportSigningSecretKey: object expected");
+                m.wrapTransportSigningSecretKey = $root.proto.WrapTransportSigningSecretKeyInput.fromObject(d.wrapTransportSigningSecretKey, n + 1);
+            }
+            if (d.deriveMailboxSigningKeypair != null) {
+                if (!$util.isObject(d.deriveMailboxSigningKeypair))
+                    throw TypeError(".proto.MinosCommand.deriveMailboxSigningKeypair: object expected");
+                m.deriveMailboxSigningKeypair = $root.proto.DeriveMailboxSigningKeypairInput.fromObject(d.deriveMailboxSigningKeypair, n + 1);
+            }
+            if (d.deriveMailboxEncryptionKeypair != null) {
+                if (!$util.isObject(d.deriveMailboxEncryptionKeypair))
+                    throw TypeError(".proto.MinosCommand.deriveMailboxEncryptionKeypair: object expected");
+                m.deriveMailboxEncryptionKeypair = $root.proto.DeriveMailboxEncryptionKeypairInput.fromObject(d.deriveMailboxEncryptionKeypair, n + 1);
+            }
+            if (d.deriveMailboxAuthKeypair != null) {
+                if (!$util.isObject(d.deriveMailboxAuthKeypair))
+                    throw TypeError(".proto.MinosCommand.deriveMailboxAuthKeypair: object expected");
+                m.deriveMailboxAuthKeypair = $root.proto.DeriveMailboxAuthKeypairInput.fromObject(d.deriveMailboxAuthKeypair, n + 1);
+            }
+            if (d.deriveAttachmentAccessTokenSecret != null) {
+                if (!$util.isObject(d.deriveAttachmentAccessTokenSecret))
+                    throw TypeError(".proto.MinosCommand.deriveAttachmentAccessTokenSecret: object expected");
+                m.deriveAttachmentAccessTokenSecret = $root.proto.DeriveAttachmentAccessTokenSecretInput.fromObject(d.deriveAttachmentAccessTokenSecret, n + 1);
+            }
+            if (d.deriveAttachmentPrimaryKeySecret != null) {
+                if (!$util.isObject(d.deriveAttachmentPrimaryKeySecret))
+                    throw TypeError(".proto.MinosCommand.deriveAttachmentPrimaryKeySecret: object expected");
+                m.deriveAttachmentPrimaryKeySecret = $root.proto.DeriveAttachmentPrimaryKeySecretInput.fromObject(d.deriveAttachmentPrimaryKeySecret, n + 1);
+            }
+            if (d.minosOpenInitialEpoch != null) {
+                if (!$util.isObject(d.minosOpenInitialEpoch))
+                    throw TypeError(".proto.MinosCommand.minosOpenInitialEpoch: object expected");
+                m.minosOpenInitialEpoch = $root.proto.MinosOpenInitialEpochInput.fromObject(d.minosOpenInitialEpoch, n + 1);
+            }
+            if (d.minosOpenEpoch != null) {
+                if (!$util.isObject(d.minosOpenEpoch))
+                    throw TypeError(".proto.MinosCommand.minosOpenEpoch: object expected");
+                m.minosOpenEpoch = $root.proto.MinosOpenEpochInput.fromObject(d.minosOpenEpoch, n + 1);
+            }
+            if (d.minosValidateEpoch != null) {
+                if (!$util.isObject(d.minosValidateEpoch))
+                    throw TypeError(".proto.MinosCommand.minosValidateEpoch: object expected");
+                m.minosValidateEpoch = $root.proto.MinosValidateEpochInput.fromObject(d.minosValidateEpoch, n + 1);
+            }
+            if (d.minosVerifySingleEpoch != null) {
+                if (!$util.isObject(d.minosVerifySingleEpoch))
+                    throw TypeError(".proto.MinosCommand.minosVerifySingleEpoch: object expected");
+                m.minosVerifySingleEpoch = $root.proto.MinosVerifySingleEpochInput.fromObject(d.minosVerifySingleEpoch, n + 1);
+            }
+            if (d.minosThreadIdFromOneToOneThread != null) {
+                if (!$util.isObject(d.minosThreadIdFromOneToOneThread))
+                    throw TypeError(".proto.MinosCommand.minosThreadIdFromOneToOneThread: object expected");
+                m.minosThreadIdFromOneToOneThread = $root.proto.MinosThreadIdFromOneToOneThreadInput.fromObject(d.minosThreadIdFromOneToOneThread, n + 1);
+            }
+            if (d.minosThreadIdFromActThreadId != null) {
+                if (!$util.isObject(d.minosThreadIdFromActThreadId))
+                    throw TypeError(".proto.MinosCommand.minosThreadIdFromActThreadId: object expected");
+                m.minosThreadIdFromActThreadId = $root.proto.MinosThreadIdFromActThreadIdInput.fromObject(d.minosThreadIdFromActThreadId, n + 1);
+            }
+            if (d.mandrakeOpenEpoch != null) {
+                if (!$util.isObject(d.mandrakeOpenEpoch))
+                    throw TypeError(".proto.MinosCommand.mandrakeOpenEpoch: object expected");
+                m.mandrakeOpenEpoch = $root.proto.MandrakeOpenEpochInput.fromObject(d.mandrakeOpenEpoch, n + 1);
+            }
+            if (d.mandrakeEncryptMek != null) {
+                if (!$util.isObject(d.mandrakeEncryptMek))
+                    throw TypeError(".proto.MinosCommand.mandrakeEncryptMek: object expected");
+                m.mandrakeEncryptMek = $root.proto.MandrakeEncryptMekInput.fromObject(d.mandrakeEncryptMek, n + 1);
+            }
+            if (d.mandrakeDecryptMek != null) {
+                if (!$util.isObject(d.mandrakeDecryptMek))
+                    throw TypeError(".proto.MinosCommand.mandrakeDecryptMek: object expected");
+                m.mandrakeDecryptMek = $root.proto.MandrakeDecryptMekInput.fromObject(d.mandrakeDecryptMek, n + 1);
+            }
+            if (d.mandrakeOpenInitialEpoch != null) {
+                if (!$util.isObject(d.mandrakeOpenInitialEpoch))
+                    throw TypeError(".proto.MinosCommand.mandrakeOpenInitialEpoch: object expected");
+                m.mandrakeOpenInitialEpoch = $root.proto.MandrakeOpenInitialEpochInput.fromObject(d.mandrakeOpenInitialEpoch, n + 1);
+            }
+            if (d.mandrakeValidateNewMmkFromMailbox != null) {
+                if (!$util.isObject(d.mandrakeValidateNewMmkFromMailbox))
+                    throw TypeError(".proto.MinosCommand.mandrakeValidateNewMmkFromMailbox: object expected");
+                m.mandrakeValidateNewMmkFromMailbox = $root.proto.MandrakeValidateNewMmkFromMailboxInput.fromObject(d.mandrakeValidateNewMmkFromMailbox, n + 1);
+            }
+            if (d.mandrakeValidateNewMmkFromDetachedDevice != null) {
+                if (!$util.isObject(d.mandrakeValidateNewMmkFromDetachedDevice))
+                    throw TypeError(".proto.MinosCommand.mandrakeValidateNewMmkFromDetachedDevice: object expected");
+                m.mandrakeValidateNewMmkFromDetachedDevice = $root.proto.MandrakeValidateNewMmkFromDetachedDeviceInput.fromObject(d.mandrakeValidateNewMmkFromDetachedDevice, n + 1);
+            }
+            if (d.deriveMessagingMailboxKeypairs != null) {
+                if (!$util.isObject(d.deriveMessagingMailboxKeypairs))
+                    throw TypeError(".proto.MinosCommand.deriveMessagingMailboxKeypairs: object expected");
+                m.deriveMessagingMailboxKeypairs = $root.proto.DeriveMessagingMailboxKeypairsInput.fromObject(d.deriveMessagingMailboxKeypairs, n + 1);
+            }
+            if (d.decryptSelfMmkDistribution != null) {
+                if (!$util.isObject(d.decryptSelfMmkDistribution))
+                    throw TypeError(".proto.MinosCommand.decryptSelfMmkDistribution: object expected");
+                m.decryptSelfMmkDistribution = $root.proto.DecryptSelfMmkDistributionInput.fromObject(d.decryptSelfMmkDistribution, n + 1);
+            }
+            return m;
+        };
+
+        MinosCommand.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.encryptAndSignMessage != null && Object.hasOwnProperty.call(m, "encryptAndSignMessage")) {
+                d.encryptAndSignMessage = $root.proto.MinosEncryptAndSignMessageInput.toObject(m.encryptAndSignMessage, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "encryptAndSignMessage";
+            }
+            if (m.decryptAndVerifyMessage != null && Object.hasOwnProperty.call(m, "decryptAndVerifyMessage")) {
+                d.decryptAndVerifyMessage = $root.proto.MinosDecryptAndVerifyMessageInput.toObject(m.decryptAndVerifyMessage, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "decryptAndVerifyMessage";
+            }
+            if (m.generateMek != null && Object.hasOwnProperty.call(m, "generateMek")) {
+                d.generateMek = $root.proto.GenerateMekInput.toObject(m.generateMek, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "generateMek";
+            }
+            if (m.generateMekRosterHash != null && Object.hasOwnProperty.call(m, "generateMekRosterHash")) {
+                d.generateMekRosterHash = $root.proto.GenerateMekRosterHashInput.toObject(m.generateMekRosterHash, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "generateMekRosterHash";
+            }
+            if (m.encryptMekForDistribution != null && Object.hasOwnProperty.call(m, "encryptMekForDistribution")) {
+                d.encryptMekForDistribution = $root.proto.EncryptMekForDistributionInput.toObject(m.encryptMekForDistribution, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "encryptMekForDistribution";
+            }
+            if (m.decryptMekForDistribution != null && Object.hasOwnProperty.call(m, "decryptMekForDistribution")) {
+                d.decryptMekForDistribution = $root.proto.DecryptMekForDistributionInput.toObject(m.decryptMekForDistribution, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "decryptMekForDistribution";
+            }
+            if (m.encryptMeksForDistributionFromTransportSender != null && Object.hasOwnProperty.call(m, "encryptMeksForDistributionFromTransportSender")) {
+                d.encryptMeksForDistributionFromTransportSender = $root.proto.EncryptMeksForDistributionFromTransportSenderInput.toObject(m.encryptMeksForDistributionFromTransportSender, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "encryptMeksForDistributionFromTransportSender";
+            }
+            if (m.decryptMekForDistributionFromTransportSender != null && Object.hasOwnProperty.call(m, "decryptMekForDistributionFromTransportSender")) {
+                d.decryptMekForDistributionFromTransportSender = $root.proto.DecryptMekForDistributionFromTransportSenderInput.toObject(m.decryptMekForDistributionFromTransportSender, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "decryptMekForDistributionFromTransportSender";
+            }
+            if (m.wrapTransportSigningPublicKey != null && Object.hasOwnProperty.call(m, "wrapTransportSigningPublicKey")) {
+                d.wrapTransportSigningPublicKey = $root.proto.WrapTransportSigningPublicKeyInput.toObject(m.wrapTransportSigningPublicKey, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "wrapTransportSigningPublicKey";
+            }
+            if (m.wrapTransportSigningSecretKey != null && Object.hasOwnProperty.call(m, "wrapTransportSigningSecretKey")) {
+                d.wrapTransportSigningSecretKey = $root.proto.WrapTransportSigningSecretKeyInput.toObject(m.wrapTransportSigningSecretKey, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "wrapTransportSigningSecretKey";
+            }
+            if (m.deriveMailboxSigningKeypair != null && Object.hasOwnProperty.call(m, "deriveMailboxSigningKeypair")) {
+                d.deriveMailboxSigningKeypair = $root.proto.DeriveMailboxSigningKeypairInput.toObject(m.deriveMailboxSigningKeypair, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "deriveMailboxSigningKeypair";
+            }
+            if (m.deriveMailboxEncryptionKeypair != null && Object.hasOwnProperty.call(m, "deriveMailboxEncryptionKeypair")) {
+                d.deriveMailboxEncryptionKeypair = $root.proto.DeriveMailboxEncryptionKeypairInput.toObject(m.deriveMailboxEncryptionKeypair, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "deriveMailboxEncryptionKeypair";
+            }
+            if (m.deriveMailboxAuthKeypair != null && Object.hasOwnProperty.call(m, "deriveMailboxAuthKeypair")) {
+                d.deriveMailboxAuthKeypair = $root.proto.DeriveMailboxAuthKeypairInput.toObject(m.deriveMailboxAuthKeypair, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "deriveMailboxAuthKeypair";
+            }
+            if (m.deriveAttachmentAccessTokenSecret != null && Object.hasOwnProperty.call(m, "deriveAttachmentAccessTokenSecret")) {
+                d.deriveAttachmentAccessTokenSecret = $root.proto.DeriveAttachmentAccessTokenSecretInput.toObject(m.deriveAttachmentAccessTokenSecret, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "deriveAttachmentAccessTokenSecret";
+            }
+            if (m.deriveAttachmentPrimaryKeySecret != null && Object.hasOwnProperty.call(m, "deriveAttachmentPrimaryKeySecret")) {
+                d.deriveAttachmentPrimaryKeySecret = $root.proto.DeriveAttachmentPrimaryKeySecretInput.toObject(m.deriveAttachmentPrimaryKeySecret, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "deriveAttachmentPrimaryKeySecret";
+            }
+            if (m.minosOpenInitialEpoch != null && Object.hasOwnProperty.call(m, "minosOpenInitialEpoch")) {
+                d.minosOpenInitialEpoch = $root.proto.MinosOpenInitialEpochInput.toObject(m.minosOpenInitialEpoch, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "minosOpenInitialEpoch";
+            }
+            if (m.minosOpenEpoch != null && Object.hasOwnProperty.call(m, "minosOpenEpoch")) {
+                d.minosOpenEpoch = $root.proto.MinosOpenEpochInput.toObject(m.minosOpenEpoch, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "minosOpenEpoch";
+            }
+            if (m.minosValidateEpoch != null && Object.hasOwnProperty.call(m, "minosValidateEpoch")) {
+                d.minosValidateEpoch = $root.proto.MinosValidateEpochInput.toObject(m.minosValidateEpoch, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "minosValidateEpoch";
+            }
+            if (m.minosVerifySingleEpoch != null && Object.hasOwnProperty.call(m, "minosVerifySingleEpoch")) {
+                d.minosVerifySingleEpoch = $root.proto.MinosVerifySingleEpochInput.toObject(m.minosVerifySingleEpoch, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "minosVerifySingleEpoch";
+            }
+            if (m.minosThreadIdFromOneToOneThread != null && Object.hasOwnProperty.call(m, "minosThreadIdFromOneToOneThread")) {
+                d.minosThreadIdFromOneToOneThread = $root.proto.MinosThreadIdFromOneToOneThreadInput.toObject(m.minosThreadIdFromOneToOneThread, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "minosThreadIdFromOneToOneThread";
+            }
+            if (m.minosThreadIdFromActThreadId != null && Object.hasOwnProperty.call(m, "minosThreadIdFromActThreadId")) {
+                d.minosThreadIdFromActThreadId = $root.proto.MinosThreadIdFromActThreadIdInput.toObject(m.minosThreadIdFromActThreadId, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "minosThreadIdFromActThreadId";
+            }
+            if (m.mandrakeOpenEpoch != null && Object.hasOwnProperty.call(m, "mandrakeOpenEpoch")) {
+                d.mandrakeOpenEpoch = $root.proto.MandrakeOpenEpochInput.toObject(m.mandrakeOpenEpoch, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "mandrakeOpenEpoch";
+            }
+            if (m.mandrakeEncryptMek != null && Object.hasOwnProperty.call(m, "mandrakeEncryptMek")) {
+                d.mandrakeEncryptMek = $root.proto.MandrakeEncryptMekInput.toObject(m.mandrakeEncryptMek, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "mandrakeEncryptMek";
+            }
+            if (m.mandrakeDecryptMek != null && Object.hasOwnProperty.call(m, "mandrakeDecryptMek")) {
+                d.mandrakeDecryptMek = $root.proto.MandrakeDecryptMekInput.toObject(m.mandrakeDecryptMek, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "mandrakeDecryptMek";
+            }
+            if (m.mandrakeOpenInitialEpoch != null && Object.hasOwnProperty.call(m, "mandrakeOpenInitialEpoch")) {
+                d.mandrakeOpenInitialEpoch = $root.proto.MandrakeOpenInitialEpochInput.toObject(m.mandrakeOpenInitialEpoch, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "mandrakeOpenInitialEpoch";
+            }
+            if (m.mandrakeValidateNewMmkFromMailbox != null && Object.hasOwnProperty.call(m, "mandrakeValidateNewMmkFromMailbox")) {
+                d.mandrakeValidateNewMmkFromMailbox = $root.proto.MandrakeValidateNewMmkFromMailboxInput.toObject(m.mandrakeValidateNewMmkFromMailbox, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "mandrakeValidateNewMmkFromMailbox";
+            }
+            if (m.mandrakeValidateNewMmkFromDetachedDevice != null && Object.hasOwnProperty.call(m, "mandrakeValidateNewMmkFromDetachedDevice")) {
+                d.mandrakeValidateNewMmkFromDetachedDevice = $root.proto.MandrakeValidateNewMmkFromDetachedDeviceInput.toObject(m.mandrakeValidateNewMmkFromDetachedDevice, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "mandrakeValidateNewMmkFromDetachedDevice";
+            }
+            if (m.deriveMessagingMailboxKeypairs != null && Object.hasOwnProperty.call(m, "deriveMessagingMailboxKeypairs")) {
+                d.deriveMessagingMailboxKeypairs = $root.proto.DeriveMessagingMailboxKeypairsInput.toObject(m.deriveMessagingMailboxKeypairs, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "deriveMessagingMailboxKeypairs";
+            }
+            if (m.decryptSelfMmkDistribution != null && Object.hasOwnProperty.call(m, "decryptSelfMmkDistribution")) {
+                d.decryptSelfMmkDistribution = $root.proto.DecryptSelfMmkDistributionInput.toObject(m.decryptSelfMmkDistribution, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "decryptSelfMmkDistribution";
+            }
+            return d;
+        };
+
+        MinosCommand.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MinosCommand.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MinosCommand";
+        };
+
+        return MinosCommand;
+    })();
+
+    proto.MinosDecryptAndVerifyMessageInput = (function() {
+
+        function MinosDecryptAndVerifyMessageInput(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MinosDecryptAndVerifyMessageInput.prototype.transportSigningPk = null;
+        MinosDecryptAndVerifyMessageInput.prototype.mek = null;
+        MinosDecryptAndVerifyMessageInput.prototype.encryptedMessageCiphertext = null;
+        MinosDecryptAndVerifyMessageInput.prototype.encryptedMessageSignature = null;
+        MinosDecryptAndVerifyMessageInput.prototype.metadata = null;
+        MinosDecryptAndVerifyMessageInput.prototype.messageEncryptionVersion = null;
+        MinosDecryptAndVerifyMessageInput.prototype.conf = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MinosDecryptAndVerifyMessageInput.prototype, "_transportSigningPk", {
+            get: $util.oneOfGetter($oneOfFields = ["transportSigningPk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosDecryptAndVerifyMessageInput.prototype, "_mek", {
+            get: $util.oneOfGetter($oneOfFields = ["mek"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosDecryptAndVerifyMessageInput.prototype, "_encryptedMessageCiphertext", {
+            get: $util.oneOfGetter($oneOfFields = ["encryptedMessageCiphertext"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosDecryptAndVerifyMessageInput.prototype, "_encryptedMessageSignature", {
+            get: $util.oneOfGetter($oneOfFields = ["encryptedMessageSignature"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosDecryptAndVerifyMessageInput.prototype, "_metadata", {
+            get: $util.oneOfGetter($oneOfFields = ["metadata"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosDecryptAndVerifyMessageInput.prototype, "_messageEncryptionVersion", {
+            get: $util.oneOfGetter($oneOfFields = ["messageEncryptionVersion"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosDecryptAndVerifyMessageInput.prototype, "_conf", {
+            get: $util.oneOfGetter($oneOfFields = ["conf"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MinosDecryptAndVerifyMessageInput.create = function create(properties) {
+            return new MinosDecryptAndVerifyMessageInput(properties);
+        };
+
+        MinosDecryptAndVerifyMessageInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.transportSigningPk != null && Object.hasOwnProperty.call(m, "transportSigningPk"))
+                w.uint32(10).bytes(m.transportSigningPk);
+            if (m.mek != null && Object.hasOwnProperty.call(m, "mek"))
+                w.uint32(18).bytes(m.mek);
+            if (m.encryptedMessageCiphertext != null && Object.hasOwnProperty.call(m, "encryptedMessageCiphertext"))
+                w.uint32(26).bytes(m.encryptedMessageCiphertext);
+            if (m.encryptedMessageSignature != null && Object.hasOwnProperty.call(m, "encryptedMessageSignature"))
+                w.uint32(34).bytes(m.encryptedMessageSignature);
+            if (m.metadata != null && Object.hasOwnProperty.call(m, "metadata"))
+                $root.proto.MinosMessageMetadata.encode(m.metadata, w.uint32(42).fork(), q + 1).ldelim();
+            if (m.messageEncryptionVersion != null && Object.hasOwnProperty.call(m, "messageEncryptionVersion"))
+                w.uint32(48).int32(m.messageEncryptionVersion);
+            if (m.conf != null && Object.hasOwnProperty.call(m, "conf"))
+                $root.proto.MinosClientConfig.encode(m.conf, w.uint32(58).fork(), q + 1).ldelim();
+            return w;
+        };
+
+        MinosDecryptAndVerifyMessageInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MinosDecryptAndVerifyMessageInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.transportSigningPk = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.mek = r.bytes();
+                        break;
+                    }
+                case 3: {
+                        m.encryptedMessageCiphertext = r.bytes();
+                        break;
+                    }
+                case 4: {
+                        m.encryptedMessageSignature = r.bytes();
+                        break;
+                    }
+                case 5: {
+                        m.metadata = $root.proto.MinosMessageMetadata.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 6: {
+                        m.messageEncryptionVersion = r.int32();
+                        break;
+                    }
+                case 7: {
+                        m.conf = $root.proto.MinosClientConfig.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MinosDecryptAndVerifyMessageInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MinosDecryptAndVerifyMessageInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MinosDecryptAndVerifyMessageInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MinosDecryptAndVerifyMessageInput();
+            if (d.transportSigningPk != null) {
+                if (typeof d.transportSigningPk === "string")
+                    $util.base64.decode(d.transportSigningPk, m.transportSigningPk = $util.newBuffer($util.base64.length(d.transportSigningPk)), 0);
+                else if (d.transportSigningPk.length >= 0)
+                    m.transportSigningPk = d.transportSigningPk;
+            }
+            if (d.mek != null) {
+                if (typeof d.mek === "string")
+                    $util.base64.decode(d.mek, m.mek = $util.newBuffer($util.base64.length(d.mek)), 0);
+                else if (d.mek.length >= 0)
+                    m.mek = d.mek;
+            }
+            if (d.encryptedMessageCiphertext != null) {
+                if (typeof d.encryptedMessageCiphertext === "string")
+                    $util.base64.decode(d.encryptedMessageCiphertext, m.encryptedMessageCiphertext = $util.newBuffer($util.base64.length(d.encryptedMessageCiphertext)), 0);
+                else if (d.encryptedMessageCiphertext.length >= 0)
+                    m.encryptedMessageCiphertext = d.encryptedMessageCiphertext;
+            }
+            if (d.encryptedMessageSignature != null) {
+                if (typeof d.encryptedMessageSignature === "string")
+                    $util.base64.decode(d.encryptedMessageSignature, m.encryptedMessageSignature = $util.newBuffer($util.base64.length(d.encryptedMessageSignature)), 0);
+                else if (d.encryptedMessageSignature.length >= 0)
+                    m.encryptedMessageSignature = d.encryptedMessageSignature;
+            }
+            if (d.metadata != null) {
+                if (!$util.isObject(d.metadata))
+                    throw TypeError(".proto.MinosDecryptAndVerifyMessageInput.metadata: object expected");
+                m.metadata = $root.proto.MinosMessageMetadata.fromObject(d.metadata, n + 1);
+            }
+            if (d.messageEncryptionVersion != null) {
+                m.messageEncryptionVersion = d.messageEncryptionVersion | 0;
+            }
+            if (d.conf != null) {
+                if (!$util.isObject(d.conf))
+                    throw TypeError(".proto.MinosDecryptAndVerifyMessageInput.conf: object expected");
+                m.conf = $root.proto.MinosClientConfig.fromObject(d.conf, n + 1);
+            }
+            return m;
+        };
+
+        MinosDecryptAndVerifyMessageInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.transportSigningPk != null && Object.hasOwnProperty.call(m, "transportSigningPk")) {
+                d.transportSigningPk = o.bytes === String ? $util.base64.encode(m.transportSigningPk, 0, m.transportSigningPk.length) : o.bytes === Array ? Array.prototype.slice.call(m.transportSigningPk) : m.transportSigningPk;
+                if (o.oneofs)
+                    d._transportSigningPk = "transportSigningPk";
+            }
+            if (m.mek != null && Object.hasOwnProperty.call(m, "mek")) {
+                d.mek = o.bytes === String ? $util.base64.encode(m.mek, 0, m.mek.length) : o.bytes === Array ? Array.prototype.slice.call(m.mek) : m.mek;
+                if (o.oneofs)
+                    d._mek = "mek";
+            }
+            if (m.encryptedMessageCiphertext != null && Object.hasOwnProperty.call(m, "encryptedMessageCiphertext")) {
+                d.encryptedMessageCiphertext = o.bytes === String ? $util.base64.encode(m.encryptedMessageCiphertext, 0, m.encryptedMessageCiphertext.length) : o.bytes === Array ? Array.prototype.slice.call(m.encryptedMessageCiphertext) : m.encryptedMessageCiphertext;
+                if (o.oneofs)
+                    d._encryptedMessageCiphertext = "encryptedMessageCiphertext";
+            }
+            if (m.encryptedMessageSignature != null && Object.hasOwnProperty.call(m, "encryptedMessageSignature")) {
+                d.encryptedMessageSignature = o.bytes === String ? $util.base64.encode(m.encryptedMessageSignature, 0, m.encryptedMessageSignature.length) : o.bytes === Array ? Array.prototype.slice.call(m.encryptedMessageSignature) : m.encryptedMessageSignature;
+                if (o.oneofs)
+                    d._encryptedMessageSignature = "encryptedMessageSignature";
+            }
+            if (m.metadata != null && Object.hasOwnProperty.call(m, "metadata")) {
+                d.metadata = $root.proto.MinosMessageMetadata.toObject(m.metadata, o, q + 1);
+                if (o.oneofs)
+                    d._metadata = "metadata";
+            }
+            if (m.messageEncryptionVersion != null && Object.hasOwnProperty.call(m, "messageEncryptionVersion")) {
+                d.messageEncryptionVersion = m.messageEncryptionVersion;
+                if (o.oneofs)
+                    d._messageEncryptionVersion = "messageEncryptionVersion";
+            }
+            if (m.conf != null && Object.hasOwnProperty.call(m, "conf")) {
+                d.conf = $root.proto.MinosClientConfig.toObject(m.conf, o, q + 1);
+                if (o.oneofs)
+                    d._conf = "conf";
+            }
+            return d;
+        };
+
+        MinosDecryptAndVerifyMessageInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MinosDecryptAndVerifyMessageInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MinosDecryptAndVerifyMessageInput";
+        };
+
+        return MinosDecryptAndVerifyMessageInput;
+    })();
+
+    proto.MinosDecryptAndVerifyMessageResult = (function() {
+
+        function MinosDecryptAndVerifyMessageResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MinosDecryptAndVerifyMessageResult.prototype.success = null;
+        MinosDecryptAndVerifyMessageResult.prototype.errorMessage = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MinosDecryptAndVerifyMessageResult.prototype, "result", {
+            get: $util.oneOfGetter($oneOfFields = ["success", "errorMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MinosDecryptAndVerifyMessageResult.create = function create(properties) {
+            return new MinosDecryptAndVerifyMessageResult(properties);
+        };
+
+        MinosDecryptAndVerifyMessageResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.success != null && Object.hasOwnProperty.call(m, "success"))
+                $root.proto.MinosDecryptAndVerifyMessageSuccess.encode(m.success, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage"))
+                w.uint32(18).string(m.errorMessage);
+            return w;
+        };
+
+        MinosDecryptAndVerifyMessageResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MinosDecryptAndVerifyMessageResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.success = $root.proto.MinosDecryptAndVerifyMessageSuccess.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.errorMessage = r.string();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MinosDecryptAndVerifyMessageResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MinosDecryptAndVerifyMessageResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MinosDecryptAndVerifyMessageResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MinosDecryptAndVerifyMessageResult();
+            if (d.success != null) {
+                if (!$util.isObject(d.success))
+                    throw TypeError(".proto.MinosDecryptAndVerifyMessageResult.success: object expected");
+                m.success = $root.proto.MinosDecryptAndVerifyMessageSuccess.fromObject(d.success, n + 1);
+            }
+            if (d.errorMessage != null) {
+                m.errorMessage = String(d.errorMessage);
+            }
+            return m;
+        };
+
+        MinosDecryptAndVerifyMessageResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.success != null && Object.hasOwnProperty.call(m, "success")) {
+                d.success = $root.proto.MinosDecryptAndVerifyMessageSuccess.toObject(m.success, o, q + 1);
+                if (o.oneofs)
+                    d.result = "success";
+            }
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage")) {
+                d.errorMessage = m.errorMessage;
+                if (o.oneofs)
+                    d.result = "errorMessage";
+            }
+            return d;
+        };
+
+        MinosDecryptAndVerifyMessageResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MinosDecryptAndVerifyMessageResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MinosDecryptAndVerifyMessageResult";
+        };
+
+        return MinosDecryptAndVerifyMessageResult;
+    })();
+
+    proto.MinosDecryptAndVerifyMessageSuccess = (function() {
+
+        function MinosDecryptAndVerifyMessageSuccess(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MinosDecryptAndVerifyMessageSuccess.prototype.plaintext = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MinosDecryptAndVerifyMessageSuccess.prototype, "_plaintext", {
+            get: $util.oneOfGetter($oneOfFields = ["plaintext"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MinosDecryptAndVerifyMessageSuccess.create = function create(properties) {
+            return new MinosDecryptAndVerifyMessageSuccess(properties);
+        };
+
+        MinosDecryptAndVerifyMessageSuccess.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.plaintext != null && Object.hasOwnProperty.call(m, "plaintext"))
+                w.uint32(10).bytes(m.plaintext);
+            return w;
+        };
+
+        MinosDecryptAndVerifyMessageSuccess.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MinosDecryptAndVerifyMessageSuccess();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.plaintext = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MinosDecryptAndVerifyMessageSuccess.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MinosDecryptAndVerifyMessageSuccess)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MinosDecryptAndVerifyMessageSuccess: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MinosDecryptAndVerifyMessageSuccess();
+            if (d.plaintext != null) {
+                if (typeof d.plaintext === "string")
+                    $util.base64.decode(d.plaintext, m.plaintext = $util.newBuffer($util.base64.length(d.plaintext)), 0);
+                else if (d.plaintext.length >= 0)
+                    m.plaintext = d.plaintext;
+            }
+            return m;
+        };
+
+        MinosDecryptAndVerifyMessageSuccess.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.plaintext != null && Object.hasOwnProperty.call(m, "plaintext")) {
+                d.plaintext = o.bytes === String ? $util.base64.encode(m.plaintext, 0, m.plaintext.length) : o.bytes === Array ? Array.prototype.slice.call(m.plaintext) : m.plaintext;
+                if (o.oneofs)
+                    d._plaintext = "plaintext";
+            }
+            return d;
+        };
+
+        MinosDecryptAndVerifyMessageSuccess.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MinosDecryptAndVerifyMessageSuccess.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MinosDecryptAndVerifyMessageSuccess";
+        };
+
+        return MinosDecryptAndVerifyMessageSuccess;
+    })();
+
+    proto.MinosEncryptAndSignMessageInput = (function() {
+
+        function MinosEncryptAndSignMessageInput(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MinosEncryptAndSignMessageInput.prototype.transportSigningSk = null;
+        MinosEncryptAndSignMessageInput.prototype.mek = null;
+        MinosEncryptAndSignMessageInput.prototype.plaintext = null;
+        MinosEncryptAndSignMessageInput.prototype.metadata = null;
+        MinosEncryptAndSignMessageInput.prototype.transportSigningPk = null;
+        MinosEncryptAndSignMessageInput.prototype.conf = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MinosEncryptAndSignMessageInput.prototype, "_transportSigningSk", {
+            get: $util.oneOfGetter($oneOfFields = ["transportSigningSk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosEncryptAndSignMessageInput.prototype, "_mek", {
+            get: $util.oneOfGetter($oneOfFields = ["mek"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosEncryptAndSignMessageInput.prototype, "_plaintext", {
+            get: $util.oneOfGetter($oneOfFields = ["plaintext"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosEncryptAndSignMessageInput.prototype, "_metadata", {
+            get: $util.oneOfGetter($oneOfFields = ["metadata"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosEncryptAndSignMessageInput.prototype, "_transportSigningPk", {
+            get: $util.oneOfGetter($oneOfFields = ["transportSigningPk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosEncryptAndSignMessageInput.prototype, "_conf", {
+            get: $util.oneOfGetter($oneOfFields = ["conf"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MinosEncryptAndSignMessageInput.create = function create(properties) {
+            return new MinosEncryptAndSignMessageInput(properties);
+        };
+
+        MinosEncryptAndSignMessageInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.transportSigningSk != null && Object.hasOwnProperty.call(m, "transportSigningSk"))
+                w.uint32(10).bytes(m.transportSigningSk);
+            if (m.mek != null && Object.hasOwnProperty.call(m, "mek"))
+                w.uint32(18).bytes(m.mek);
+            if (m.plaintext != null && Object.hasOwnProperty.call(m, "plaintext"))
+                w.uint32(26).bytes(m.plaintext);
+            if (m.metadata != null && Object.hasOwnProperty.call(m, "metadata"))
+                $root.proto.MinosMessageMetadata.encode(m.metadata, w.uint32(34).fork(), q + 1).ldelim();
+            if (m.transportSigningPk != null && Object.hasOwnProperty.call(m, "transportSigningPk"))
+                w.uint32(42).bytes(m.transportSigningPk);
+            if (m.conf != null && Object.hasOwnProperty.call(m, "conf"))
+                $root.proto.MinosClientConfig.encode(m.conf, w.uint32(50).fork(), q + 1).ldelim();
+            return w;
+        };
+
+        MinosEncryptAndSignMessageInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MinosEncryptAndSignMessageInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.transportSigningSk = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.mek = r.bytes();
+                        break;
+                    }
+                case 3: {
+                        m.plaintext = r.bytes();
+                        break;
+                    }
+                case 4: {
+                        m.metadata = $root.proto.MinosMessageMetadata.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 5: {
+                        m.transportSigningPk = r.bytes();
+                        break;
+                    }
+                case 6: {
+                        m.conf = $root.proto.MinosClientConfig.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MinosEncryptAndSignMessageInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MinosEncryptAndSignMessageInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MinosEncryptAndSignMessageInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MinosEncryptAndSignMessageInput();
+            if (d.transportSigningSk != null) {
+                if (typeof d.transportSigningSk === "string")
+                    $util.base64.decode(d.transportSigningSk, m.transportSigningSk = $util.newBuffer($util.base64.length(d.transportSigningSk)), 0);
+                else if (d.transportSigningSk.length >= 0)
+                    m.transportSigningSk = d.transportSigningSk;
+            }
+            if (d.mek != null) {
+                if (typeof d.mek === "string")
+                    $util.base64.decode(d.mek, m.mek = $util.newBuffer($util.base64.length(d.mek)), 0);
+                else if (d.mek.length >= 0)
+                    m.mek = d.mek;
+            }
+            if (d.plaintext != null) {
+                if (typeof d.plaintext === "string")
+                    $util.base64.decode(d.plaintext, m.plaintext = $util.newBuffer($util.base64.length(d.plaintext)), 0);
+                else if (d.plaintext.length >= 0)
+                    m.plaintext = d.plaintext;
+            }
+            if (d.metadata != null) {
+                if (!$util.isObject(d.metadata))
+                    throw TypeError(".proto.MinosEncryptAndSignMessageInput.metadata: object expected");
+                m.metadata = $root.proto.MinosMessageMetadata.fromObject(d.metadata, n + 1);
+            }
+            if (d.transportSigningPk != null) {
+                if (typeof d.transportSigningPk === "string")
+                    $util.base64.decode(d.transportSigningPk, m.transportSigningPk = $util.newBuffer($util.base64.length(d.transportSigningPk)), 0);
+                else if (d.transportSigningPk.length >= 0)
+                    m.transportSigningPk = d.transportSigningPk;
+            }
+            if (d.conf != null) {
+                if (!$util.isObject(d.conf))
+                    throw TypeError(".proto.MinosEncryptAndSignMessageInput.conf: object expected");
+                m.conf = $root.proto.MinosClientConfig.fromObject(d.conf, n + 1);
+            }
+            return m;
+        };
+
+        MinosEncryptAndSignMessageInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.transportSigningSk != null && Object.hasOwnProperty.call(m, "transportSigningSk")) {
+                d.transportSigningSk = o.bytes === String ? $util.base64.encode(m.transportSigningSk, 0, m.transportSigningSk.length) : o.bytes === Array ? Array.prototype.slice.call(m.transportSigningSk) : m.transportSigningSk;
+                if (o.oneofs)
+                    d._transportSigningSk = "transportSigningSk";
+            }
+            if (m.mek != null && Object.hasOwnProperty.call(m, "mek")) {
+                d.mek = o.bytes === String ? $util.base64.encode(m.mek, 0, m.mek.length) : o.bytes === Array ? Array.prototype.slice.call(m.mek) : m.mek;
+                if (o.oneofs)
+                    d._mek = "mek";
+            }
+            if (m.plaintext != null && Object.hasOwnProperty.call(m, "plaintext")) {
+                d.plaintext = o.bytes === String ? $util.base64.encode(m.plaintext, 0, m.plaintext.length) : o.bytes === Array ? Array.prototype.slice.call(m.plaintext) : m.plaintext;
+                if (o.oneofs)
+                    d._plaintext = "plaintext";
+            }
+            if (m.metadata != null && Object.hasOwnProperty.call(m, "metadata")) {
+                d.metadata = $root.proto.MinosMessageMetadata.toObject(m.metadata, o, q + 1);
+                if (o.oneofs)
+                    d._metadata = "metadata";
+            }
+            if (m.transportSigningPk != null && Object.hasOwnProperty.call(m, "transportSigningPk")) {
+                d.transportSigningPk = o.bytes === String ? $util.base64.encode(m.transportSigningPk, 0, m.transportSigningPk.length) : o.bytes === Array ? Array.prototype.slice.call(m.transportSigningPk) : m.transportSigningPk;
+                if (o.oneofs)
+                    d._transportSigningPk = "transportSigningPk";
+            }
+            if (m.conf != null && Object.hasOwnProperty.call(m, "conf")) {
+                d.conf = $root.proto.MinosClientConfig.toObject(m.conf, o, q + 1);
+                if (o.oneofs)
+                    d._conf = "conf";
+            }
+            return d;
+        };
+
+        MinosEncryptAndSignMessageInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MinosEncryptAndSignMessageInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MinosEncryptAndSignMessageInput";
+        };
+
+        return MinosEncryptAndSignMessageInput;
+    })();
+
+    proto.MinosEncryptAndSignMessageResult = (function() {
+
+        function MinosEncryptAndSignMessageResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MinosEncryptAndSignMessageResult.prototype.ciphertext = null;
+        MinosEncryptAndSignMessageResult.prototype.signature = null;
+        MinosEncryptAndSignMessageResult.prototype.version = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MinosEncryptAndSignMessageResult.prototype, "_ciphertext", {
+            get: $util.oneOfGetter($oneOfFields = ["ciphertext"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosEncryptAndSignMessageResult.prototype, "_signature", {
+            get: $util.oneOfGetter($oneOfFields = ["signature"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosEncryptAndSignMessageResult.prototype, "_version", {
+            get: $util.oneOfGetter($oneOfFields = ["version"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MinosEncryptAndSignMessageResult.create = function create(properties) {
+            return new MinosEncryptAndSignMessageResult(properties);
+        };
+
+        MinosEncryptAndSignMessageResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.ciphertext != null && Object.hasOwnProperty.call(m, "ciphertext"))
+                w.uint32(10).bytes(m.ciphertext);
+            if (m.signature != null && Object.hasOwnProperty.call(m, "signature"))
+                w.uint32(18).bytes(m.signature);
+            if (m.version != null && Object.hasOwnProperty.call(m, "version"))
+                w.uint32(24).int32(m.version);
+            return w;
+        };
+
+        MinosEncryptAndSignMessageResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MinosEncryptAndSignMessageResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.ciphertext = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.signature = r.bytes();
+                        break;
+                    }
+                case 3: {
+                        m.version = r.int32();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MinosEncryptAndSignMessageResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MinosEncryptAndSignMessageResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MinosEncryptAndSignMessageResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MinosEncryptAndSignMessageResult();
+            if (d.ciphertext != null) {
+                if (typeof d.ciphertext === "string")
+                    $util.base64.decode(d.ciphertext, m.ciphertext = $util.newBuffer($util.base64.length(d.ciphertext)), 0);
+                else if (d.ciphertext.length >= 0)
+                    m.ciphertext = d.ciphertext;
+            }
+            if (d.signature != null) {
+                if (typeof d.signature === "string")
+                    $util.base64.decode(d.signature, m.signature = $util.newBuffer($util.base64.length(d.signature)), 0);
+                else if (d.signature.length >= 0)
+                    m.signature = d.signature;
+            }
+            if (d.version != null) {
+                m.version = d.version | 0;
+            }
+            return m;
+        };
+
+        MinosEncryptAndSignMessageResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.ciphertext != null && Object.hasOwnProperty.call(m, "ciphertext")) {
+                d.ciphertext = o.bytes === String ? $util.base64.encode(m.ciphertext, 0, m.ciphertext.length) : o.bytes === Array ? Array.prototype.slice.call(m.ciphertext) : m.ciphertext;
+                if (o.oneofs)
+                    d._ciphertext = "ciphertext";
+            }
+            if (m.signature != null && Object.hasOwnProperty.call(m, "signature")) {
+                d.signature = o.bytes === String ? $util.base64.encode(m.signature, 0, m.signature.length) : o.bytes === Array ? Array.prototype.slice.call(m.signature) : m.signature;
+                if (o.oneofs)
+                    d._signature = "signature";
+            }
+            if (m.version != null && Object.hasOwnProperty.call(m, "version")) {
+                d.version = m.version;
+                if (o.oneofs)
+                    d._version = "version";
+            }
+            return d;
+        };
+
+        MinosEncryptAndSignMessageResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MinosEncryptAndSignMessageResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MinosEncryptAndSignMessageResult";
+        };
+
+        return MinosEncryptAndSignMessageResult;
+    })();
+
+    proto.MinosMessageMetadata = (function() {
+
+        function MinosMessageMetadata(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MinosMessageMetadata.prototype.mekId = null;
+        MinosMessageMetadata.prototype.timestamp = null;
+        MinosMessageMetadata.prototype.messageId = null;
+        MinosMessageMetadata.prototype.threadId = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MinosMessageMetadata.prototype, "_mekId", {
+            get: $util.oneOfGetter($oneOfFields = ["mekId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosMessageMetadata.prototype, "_timestamp", {
+            get: $util.oneOfGetter($oneOfFields = ["timestamp"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosMessageMetadata.prototype, "_messageId", {
+            get: $util.oneOfGetter($oneOfFields = ["messageId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosMessageMetadata.prototype, "_threadId", {
+            get: $util.oneOfGetter($oneOfFields = ["threadId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MinosMessageMetadata.create = function create(properties) {
+            return new MinosMessageMetadata(properties);
+        };
+
+        MinosMessageMetadata.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.mekId != null && Object.hasOwnProperty.call(m, "mekId"))
+                w.uint32(10).bytes(m.mekId);
+            if (m.timestamp != null && Object.hasOwnProperty.call(m, "timestamp"))
+                w.uint32(16).uint64(m.timestamp);
+            if (m.messageId != null && Object.hasOwnProperty.call(m, "messageId"))
+                w.uint32(26).string(m.messageId);
+            if (m.threadId != null && Object.hasOwnProperty.call(m, "threadId"))
+                w.uint32(34).bytes(m.threadId);
+            return w;
+        };
+
+        MinosMessageMetadata.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MinosMessageMetadata();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.mekId = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.timestamp = r.uint64();
+                        break;
+                    }
+                case 3: {
+                        m.messageId = r.string();
+                        break;
+                    }
+                case 4: {
+                        m.threadId = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MinosMessageMetadata.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MinosMessageMetadata)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MinosMessageMetadata: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MinosMessageMetadata();
+            if (d.mekId != null) {
+                if (typeof d.mekId === "string")
+                    $util.base64.decode(d.mekId, m.mekId = $util.newBuffer($util.base64.length(d.mekId)), 0);
+                else if (d.mekId.length >= 0)
+                    m.mekId = d.mekId;
+            }
+            if (d.timestamp != null) {
+                if ($util.Long)
+                    m.timestamp = $util.Long.fromValue(d.timestamp, true);
+                else if (typeof d.timestamp === "string")
+                    m.timestamp = parseInt(d.timestamp, 10);
+                else if (typeof d.timestamp === "number")
+                    m.timestamp = d.timestamp;
+                else if (typeof d.timestamp === "object")
+                    m.timestamp = new $util.LongBits(d.timestamp.low >>> 0, d.timestamp.high >>> 0).toNumber(true);
+            }
+            if (d.messageId != null) {
+                m.messageId = String(d.messageId);
+            }
+            if (d.threadId != null) {
+                if (typeof d.threadId === "string")
+                    $util.base64.decode(d.threadId, m.threadId = $util.newBuffer($util.base64.length(d.threadId)), 0);
+                else if (d.threadId.length >= 0)
+                    m.threadId = d.threadId;
+            }
+            return m;
+        };
+
+        MinosMessageMetadata.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.mekId != null && Object.hasOwnProperty.call(m, "mekId")) {
+                d.mekId = o.bytes === String ? $util.base64.encode(m.mekId, 0, m.mekId.length) : o.bytes === Array ? Array.prototype.slice.call(m.mekId) : m.mekId;
+                if (o.oneofs)
+                    d._mekId = "mekId";
+            }
+            if (m.timestamp != null && Object.hasOwnProperty.call(m, "timestamp")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.timestamp = typeof m.timestamp === "number" ? BigInt(m.timestamp) : $util.Long.fromBits(m.timestamp.low >>> 0, m.timestamp.high >>> 0, true).toBigInt();
+                else if (typeof m.timestamp === "number")
+                    d.timestamp = o.longs === String ? String(m.timestamp) : m.timestamp;
+                else
+                    d.timestamp = o.longs === String ? longToString(m.timestamp, true) : o.longs === Number ? longToNumber(m.timestamp, true) : m.timestamp;
+                if (o.oneofs)
+                    d._timestamp = "timestamp";
+            }
+            if (m.messageId != null && Object.hasOwnProperty.call(m, "messageId")) {
+                d.messageId = m.messageId;
+                if (o.oneofs)
+                    d._messageId = "messageId";
+            }
+            if (m.threadId != null && Object.hasOwnProperty.call(m, "threadId")) {
+                d.threadId = o.bytes === String ? $util.base64.encode(m.threadId, 0, m.threadId.length) : o.bytes === Array ? Array.prototype.slice.call(m.threadId) : m.threadId;
+                if (o.oneofs)
+                    d._threadId = "threadId";
+            }
+            return d;
+        };
+
+        MinosMessageMetadata.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MinosMessageMetadata.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MinosMessageMetadata";
+        };
+
+        return MinosMessageMetadata;
+    })();
+
+    proto.MinosOpenEpochInput = (function() {
+
+        function MinosOpenEpochInput(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MinosOpenEpochInput.prototype.userFbid = null;
+        MinosOpenEpochInput.prototype.epochNumber = null;
+        MinosOpenEpochInput.prototype.exportRootKey = null;
+        MinosOpenEpochInput.prototype.previousExportRootKey = null;
+        MinosOpenEpochInput.prototype.previousEpochNumber = null;
+        MinosOpenEpochInput.prototype.previousEpochHead = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MinosOpenEpochInput.prototype, "_userFbid", {
+            get: $util.oneOfGetter($oneOfFields = ["userFbid"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosOpenEpochInput.prototype, "_epochNumber", {
+            get: $util.oneOfGetter($oneOfFields = ["epochNumber"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosOpenEpochInput.prototype, "_exportRootKey", {
+            get: $util.oneOfGetter($oneOfFields = ["exportRootKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosOpenEpochInput.prototype, "_previousExportRootKey", {
+            get: $util.oneOfGetter($oneOfFields = ["previousExportRootKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosOpenEpochInput.prototype, "_previousEpochNumber", {
+            get: $util.oneOfGetter($oneOfFields = ["previousEpochNumber"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosOpenEpochInput.prototype, "_previousEpochHead", {
+            get: $util.oneOfGetter($oneOfFields = ["previousEpochHead"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MinosOpenEpochInput.create = function create(properties) {
+            return new MinosOpenEpochInput(properties);
+        };
+
+        MinosOpenEpochInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.userFbid != null && Object.hasOwnProperty.call(m, "userFbid"))
+                w.uint32(10).string(m.userFbid);
+            if (m.epochNumber != null && Object.hasOwnProperty.call(m, "epochNumber"))
+                w.uint32(16).uint64(m.epochNumber);
+            if (m.exportRootKey != null && Object.hasOwnProperty.call(m, "exportRootKey"))
+                w.uint32(26).bytes(m.exportRootKey);
+            if (m.previousExportRootKey != null && Object.hasOwnProperty.call(m, "previousExportRootKey"))
+                w.uint32(34).bytes(m.previousExportRootKey);
+            if (m.previousEpochNumber != null && Object.hasOwnProperty.call(m, "previousEpochNumber"))
+                w.uint32(40).uint64(m.previousEpochNumber);
+            if (m.previousEpochHead != null && Object.hasOwnProperty.call(m, "previousEpochHead"))
+                w.uint32(50).bytes(m.previousEpochHead);
+            return w;
+        };
+
+        MinosOpenEpochInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MinosOpenEpochInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.userFbid = r.string();
+                        break;
+                    }
+                case 2: {
+                        m.epochNumber = r.uint64();
+                        break;
+                    }
+                case 3: {
+                        m.exportRootKey = r.bytes();
+                        break;
+                    }
+                case 4: {
+                        m.previousExportRootKey = r.bytes();
+                        break;
+                    }
+                case 5: {
+                        m.previousEpochNumber = r.uint64();
+                        break;
+                    }
+                case 6: {
+                        m.previousEpochHead = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MinosOpenEpochInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MinosOpenEpochInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MinosOpenEpochInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MinosOpenEpochInput();
+            if (d.userFbid != null) {
+                m.userFbid = String(d.userFbid);
+            }
+            if (d.epochNumber != null) {
+                if ($util.Long)
+                    m.epochNumber = $util.Long.fromValue(d.epochNumber, true);
+                else if (typeof d.epochNumber === "string")
+                    m.epochNumber = parseInt(d.epochNumber, 10);
+                else if (typeof d.epochNumber === "number")
+                    m.epochNumber = d.epochNumber;
+                else if (typeof d.epochNumber === "object")
+                    m.epochNumber = new $util.LongBits(d.epochNumber.low >>> 0, d.epochNumber.high >>> 0).toNumber(true);
+            }
+            if (d.exportRootKey != null) {
+                if (typeof d.exportRootKey === "string")
+                    $util.base64.decode(d.exportRootKey, m.exportRootKey = $util.newBuffer($util.base64.length(d.exportRootKey)), 0);
+                else if (d.exportRootKey.length >= 0)
+                    m.exportRootKey = d.exportRootKey;
+            }
+            if (d.previousExportRootKey != null) {
+                if (typeof d.previousExportRootKey === "string")
+                    $util.base64.decode(d.previousExportRootKey, m.previousExportRootKey = $util.newBuffer($util.base64.length(d.previousExportRootKey)), 0);
+                else if (d.previousExportRootKey.length >= 0)
+                    m.previousExportRootKey = d.previousExportRootKey;
+            }
+            if (d.previousEpochNumber != null) {
+                if ($util.Long)
+                    m.previousEpochNumber = $util.Long.fromValue(d.previousEpochNumber, true);
+                else if (typeof d.previousEpochNumber === "string")
+                    m.previousEpochNumber = parseInt(d.previousEpochNumber, 10);
+                else if (typeof d.previousEpochNumber === "number")
+                    m.previousEpochNumber = d.previousEpochNumber;
+                else if (typeof d.previousEpochNumber === "object")
+                    m.previousEpochNumber = new $util.LongBits(d.previousEpochNumber.low >>> 0, d.previousEpochNumber.high >>> 0).toNumber(true);
+            }
+            if (d.previousEpochHead != null) {
+                if (typeof d.previousEpochHead === "string")
+                    $util.base64.decode(d.previousEpochHead, m.previousEpochHead = $util.newBuffer($util.base64.length(d.previousEpochHead)), 0);
+                else if (d.previousEpochHead.length >= 0)
+                    m.previousEpochHead = d.previousEpochHead;
+            }
+            return m;
+        };
+
+        MinosOpenEpochInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.userFbid != null && Object.hasOwnProperty.call(m, "userFbid")) {
+                d.userFbid = m.userFbid;
+                if (o.oneofs)
+                    d._userFbid = "userFbid";
+            }
+            if (m.epochNumber != null && Object.hasOwnProperty.call(m, "epochNumber")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.epochNumber = typeof m.epochNumber === "number" ? BigInt(m.epochNumber) : $util.Long.fromBits(m.epochNumber.low >>> 0, m.epochNumber.high >>> 0, true).toBigInt();
+                else if (typeof m.epochNumber === "number")
+                    d.epochNumber = o.longs === String ? String(m.epochNumber) : m.epochNumber;
+                else
+                    d.epochNumber = o.longs === String ? longToString(m.epochNumber, true) : o.longs === Number ? longToNumber(m.epochNumber, true) : m.epochNumber;
+                if (o.oneofs)
+                    d._epochNumber = "epochNumber";
+            }
+            if (m.exportRootKey != null && Object.hasOwnProperty.call(m, "exportRootKey")) {
+                d.exportRootKey = o.bytes === String ? $util.base64.encode(m.exportRootKey, 0, m.exportRootKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.exportRootKey) : m.exportRootKey;
+                if (o.oneofs)
+                    d._exportRootKey = "exportRootKey";
+            }
+            if (m.previousExportRootKey != null && Object.hasOwnProperty.call(m, "previousExportRootKey")) {
+                d.previousExportRootKey = o.bytes === String ? $util.base64.encode(m.previousExportRootKey, 0, m.previousExportRootKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.previousExportRootKey) : m.previousExportRootKey;
+                if (o.oneofs)
+                    d._previousExportRootKey = "previousExportRootKey";
+            }
+            if (m.previousEpochNumber != null && Object.hasOwnProperty.call(m, "previousEpochNumber")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.previousEpochNumber = typeof m.previousEpochNumber === "number" ? BigInt(m.previousEpochNumber) : $util.Long.fromBits(m.previousEpochNumber.low >>> 0, m.previousEpochNumber.high >>> 0, true).toBigInt();
+                else if (typeof m.previousEpochNumber === "number")
+                    d.previousEpochNumber = o.longs === String ? String(m.previousEpochNumber) : m.previousEpochNumber;
+                else
+                    d.previousEpochNumber = o.longs === String ? longToString(m.previousEpochNumber, true) : o.longs === Number ? longToNumber(m.previousEpochNumber, true) : m.previousEpochNumber;
+                if (o.oneofs)
+                    d._previousEpochNumber = "previousEpochNumber";
+            }
+            if (m.previousEpochHead != null && Object.hasOwnProperty.call(m, "previousEpochHead")) {
+                d.previousEpochHead = o.bytes === String ? $util.base64.encode(m.previousEpochHead, 0, m.previousEpochHead.length) : o.bytes === Array ? Array.prototype.slice.call(m.previousEpochHead) : m.previousEpochHead;
+                if (o.oneofs)
+                    d._previousEpochHead = "previousEpochHead";
+            }
+            return d;
+        };
+
+        MinosOpenEpochInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MinosOpenEpochInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MinosOpenEpochInput";
+        };
+
+        return MinosOpenEpochInput;
+    })();
+
+    proto.MinosOpenEpochResult = (function() {
+
+        function MinosOpenEpochResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MinosOpenEpochResult.prototype.minosSignedEpoch = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MinosOpenEpochResult.prototype, "_minosSignedEpoch", {
+            get: $util.oneOfGetter($oneOfFields = ["minosSignedEpoch"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MinosOpenEpochResult.create = function create(properties) {
+            return new MinosOpenEpochResult(properties);
+        };
+
+        MinosOpenEpochResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.minosSignedEpoch != null && Object.hasOwnProperty.call(m, "minosSignedEpoch"))
+                $root.proto.MinosSignedEpoch.encode(m.minosSignedEpoch, w.uint32(10).fork(), q + 1).ldelim();
+            return w;
+        };
+
+        MinosOpenEpochResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MinosOpenEpochResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.minosSignedEpoch = $root.proto.MinosSignedEpoch.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MinosOpenEpochResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MinosOpenEpochResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MinosOpenEpochResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MinosOpenEpochResult();
+            if (d.minosSignedEpoch != null) {
+                if (!$util.isObject(d.minosSignedEpoch))
+                    throw TypeError(".proto.MinosOpenEpochResult.minosSignedEpoch: object expected");
+                m.minosSignedEpoch = $root.proto.MinosSignedEpoch.fromObject(d.minosSignedEpoch, n + 1);
+            }
+            return m;
+        };
+
+        MinosOpenEpochResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.minosSignedEpoch != null && Object.hasOwnProperty.call(m, "minosSignedEpoch")) {
+                d.minosSignedEpoch = $root.proto.MinosSignedEpoch.toObject(m.minosSignedEpoch, o, q + 1);
+                if (o.oneofs)
+                    d._minosSignedEpoch = "minosSignedEpoch";
+            }
+            return d;
+        };
+
+        MinosOpenEpochResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MinosOpenEpochResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MinosOpenEpochResult";
+        };
+
+        return MinosOpenEpochResult;
+    })();
+
+    proto.MinosOpenInitialEpochInput = (function() {
+
+        function MinosOpenInitialEpochInput(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MinosOpenInitialEpochInput.prototype.userFbid = null;
+        MinosOpenInitialEpochInput.prototype.epochNumber = null;
+        MinosOpenInitialEpochInput.prototype.exportRootKey = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MinosOpenInitialEpochInput.prototype, "_userFbid", {
+            get: $util.oneOfGetter($oneOfFields = ["userFbid"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosOpenInitialEpochInput.prototype, "_epochNumber", {
+            get: $util.oneOfGetter($oneOfFields = ["epochNumber"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosOpenInitialEpochInput.prototype, "_exportRootKey", {
+            get: $util.oneOfGetter($oneOfFields = ["exportRootKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MinosOpenInitialEpochInput.create = function create(properties) {
+            return new MinosOpenInitialEpochInput(properties);
+        };
+
+        MinosOpenInitialEpochInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.userFbid != null && Object.hasOwnProperty.call(m, "userFbid"))
+                w.uint32(10).string(m.userFbid);
+            if (m.epochNumber != null && Object.hasOwnProperty.call(m, "epochNumber"))
+                w.uint32(16).uint64(m.epochNumber);
+            if (m.exportRootKey != null && Object.hasOwnProperty.call(m, "exportRootKey"))
+                w.uint32(26).bytes(m.exportRootKey);
+            return w;
+        };
+
+        MinosOpenInitialEpochInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MinosOpenInitialEpochInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.userFbid = r.string();
+                        break;
+                    }
+                case 2: {
+                        m.epochNumber = r.uint64();
+                        break;
+                    }
+                case 3: {
+                        m.exportRootKey = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MinosOpenInitialEpochInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MinosOpenInitialEpochInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MinosOpenInitialEpochInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MinosOpenInitialEpochInput();
+            if (d.userFbid != null) {
+                m.userFbid = String(d.userFbid);
+            }
+            if (d.epochNumber != null) {
+                if ($util.Long)
+                    m.epochNumber = $util.Long.fromValue(d.epochNumber, true);
+                else if (typeof d.epochNumber === "string")
+                    m.epochNumber = parseInt(d.epochNumber, 10);
+                else if (typeof d.epochNumber === "number")
+                    m.epochNumber = d.epochNumber;
+                else if (typeof d.epochNumber === "object")
+                    m.epochNumber = new $util.LongBits(d.epochNumber.low >>> 0, d.epochNumber.high >>> 0).toNumber(true);
+            }
+            if (d.exportRootKey != null) {
+                if (typeof d.exportRootKey === "string")
+                    $util.base64.decode(d.exportRootKey, m.exportRootKey = $util.newBuffer($util.base64.length(d.exportRootKey)), 0);
+                else if (d.exportRootKey.length >= 0)
+                    m.exportRootKey = d.exportRootKey;
+            }
+            return m;
+        };
+
+        MinosOpenInitialEpochInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.userFbid != null && Object.hasOwnProperty.call(m, "userFbid")) {
+                d.userFbid = m.userFbid;
+                if (o.oneofs)
+                    d._userFbid = "userFbid";
+            }
+            if (m.epochNumber != null && Object.hasOwnProperty.call(m, "epochNumber")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.epochNumber = typeof m.epochNumber === "number" ? BigInt(m.epochNumber) : $util.Long.fromBits(m.epochNumber.low >>> 0, m.epochNumber.high >>> 0, true).toBigInt();
+                else if (typeof m.epochNumber === "number")
+                    d.epochNumber = o.longs === String ? String(m.epochNumber) : m.epochNumber;
+                else
+                    d.epochNumber = o.longs === String ? longToString(m.epochNumber, true) : o.longs === Number ? longToNumber(m.epochNumber, true) : m.epochNumber;
+                if (o.oneofs)
+                    d._epochNumber = "epochNumber";
+            }
+            if (m.exportRootKey != null && Object.hasOwnProperty.call(m, "exportRootKey")) {
+                d.exportRootKey = o.bytes === String ? $util.base64.encode(m.exportRootKey, 0, m.exportRootKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.exportRootKey) : m.exportRootKey;
+                if (o.oneofs)
+                    d._exportRootKey = "exportRootKey";
+            }
+            return d;
+        };
+
+        MinosOpenInitialEpochInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MinosOpenInitialEpochInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MinosOpenInitialEpochInput";
+        };
+
+        return MinosOpenInitialEpochInput;
+    })();
+
+    proto.MinosOpenInitialEpochResult = (function() {
+
+        function MinosOpenInitialEpochResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MinosOpenInitialEpochResult.prototype.minosSignedEpoch = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MinosOpenInitialEpochResult.prototype, "_minosSignedEpoch", {
+            get: $util.oneOfGetter($oneOfFields = ["minosSignedEpoch"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MinosOpenInitialEpochResult.create = function create(properties) {
+            return new MinosOpenInitialEpochResult(properties);
+        };
+
+        MinosOpenInitialEpochResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.minosSignedEpoch != null && Object.hasOwnProperty.call(m, "minosSignedEpoch"))
+                $root.proto.MinosSignedEpoch.encode(m.minosSignedEpoch, w.uint32(10).fork(), q + 1).ldelim();
+            return w;
+        };
+
+        MinosOpenInitialEpochResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MinosOpenInitialEpochResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.minosSignedEpoch = $root.proto.MinosSignedEpoch.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MinosOpenInitialEpochResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MinosOpenInitialEpochResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MinosOpenInitialEpochResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MinosOpenInitialEpochResult();
+            if (d.minosSignedEpoch != null) {
+                if (!$util.isObject(d.minosSignedEpoch))
+                    throw TypeError(".proto.MinosOpenInitialEpochResult.minosSignedEpoch: object expected");
+                m.minosSignedEpoch = $root.proto.MinosSignedEpoch.fromObject(d.minosSignedEpoch, n + 1);
+            }
+            return m;
+        };
+
+        MinosOpenInitialEpochResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.minosSignedEpoch != null && Object.hasOwnProperty.call(m, "minosSignedEpoch")) {
+                d.minosSignedEpoch = $root.proto.MinosSignedEpoch.toObject(m.minosSignedEpoch, o, q + 1);
+                if (o.oneofs)
+                    d._minosSignedEpoch = "minosSignedEpoch";
+            }
+            return d;
+        };
+
+        MinosOpenInitialEpochResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MinosOpenInitialEpochResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MinosOpenInitialEpochResult";
+        };
+
+        return MinosOpenInitialEpochResult;
+    })();
+
+    proto.MinosSignedEpoch = (function() {
+
+        function MinosSignedEpoch(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MinosSignedEpoch.prototype.epochPublicData = null;
+        MinosSignedEpoch.prototype.signatures = null;
+        MinosSignedEpoch.prototype.epochHead = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MinosSignedEpoch.prototype, "_epochPublicData", {
+            get: $util.oneOfGetter($oneOfFields = ["epochPublicData"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosSignedEpoch.prototype, "_signatures", {
+            get: $util.oneOfGetter($oneOfFields = ["signatures"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosSignedEpoch.prototype, "_epochHead", {
+            get: $util.oneOfGetter($oneOfFields = ["epochHead"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MinosSignedEpoch.create = function create(properties) {
+            return new MinosSignedEpoch(properties);
+        };
+
+        MinosSignedEpoch.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.epochPublicData != null && Object.hasOwnProperty.call(m, "epochPublicData"))
+                $root.proto.EpochPublicData.encode(m.epochPublicData, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.signatures != null && Object.hasOwnProperty.call(m, "signatures"))
+                $root.proto.EpochSignatures.encode(m.signatures, w.uint32(18).fork(), q + 1).ldelim();
+            if (m.epochHead != null && Object.hasOwnProperty.call(m, "epochHead"))
+                w.uint32(26).bytes(m.epochHead);
+            return w;
+        };
+
+        MinosSignedEpoch.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MinosSignedEpoch();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.epochPublicData = $root.proto.EpochPublicData.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.signatures = $root.proto.EpochSignatures.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 3: {
+                        m.epochHead = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MinosSignedEpoch.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MinosSignedEpoch)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MinosSignedEpoch: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MinosSignedEpoch();
+            if (d.epochPublicData != null) {
+                if (!$util.isObject(d.epochPublicData))
+                    throw TypeError(".proto.MinosSignedEpoch.epochPublicData: object expected");
+                m.epochPublicData = $root.proto.EpochPublicData.fromObject(d.epochPublicData, n + 1);
+            }
+            if (d.signatures != null) {
+                if (!$util.isObject(d.signatures))
+                    throw TypeError(".proto.MinosSignedEpoch.signatures: object expected");
+                m.signatures = $root.proto.EpochSignatures.fromObject(d.signatures, n + 1);
+            }
+            if (d.epochHead != null) {
+                if (typeof d.epochHead === "string")
+                    $util.base64.decode(d.epochHead, m.epochHead = $util.newBuffer($util.base64.length(d.epochHead)), 0);
+                else if (d.epochHead.length >= 0)
+                    m.epochHead = d.epochHead;
+            }
+            return m;
+        };
+
+        MinosSignedEpoch.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.epochPublicData != null && Object.hasOwnProperty.call(m, "epochPublicData")) {
+                d.epochPublicData = $root.proto.EpochPublicData.toObject(m.epochPublicData, o, q + 1);
+                if (o.oneofs)
+                    d._epochPublicData = "epochPublicData";
+            }
+            if (m.signatures != null && Object.hasOwnProperty.call(m, "signatures")) {
+                d.signatures = $root.proto.EpochSignatures.toObject(m.signatures, o, q + 1);
+                if (o.oneofs)
+                    d._signatures = "signatures";
+            }
+            if (m.epochHead != null && Object.hasOwnProperty.call(m, "epochHead")) {
+                d.epochHead = o.bytes === String ? $util.base64.encode(m.epochHead, 0, m.epochHead.length) : o.bytes === Array ? Array.prototype.slice.call(m.epochHead) : m.epochHead;
+                if (o.oneofs)
+                    d._epochHead = "epochHead";
+            }
+            return d;
+        };
+
+        MinosSignedEpoch.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MinosSignedEpoch.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MinosSignedEpoch";
+        };
+
+        return MinosSignedEpoch;
+    })();
+
+    proto.MinosThreadIdFromActThreadIdInput = (function() {
+
+        function MinosThreadIdFromActThreadIdInput(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MinosThreadIdFromActThreadIdInput.prototype.actThreadId = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MinosThreadIdFromActThreadIdInput.prototype, "_actThreadId", {
+            get: $util.oneOfGetter($oneOfFields = ["actThreadId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MinosThreadIdFromActThreadIdInput.create = function create(properties) {
+            return new MinosThreadIdFromActThreadIdInput(properties);
+        };
+
+        MinosThreadIdFromActThreadIdInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.actThreadId != null && Object.hasOwnProperty.call(m, "actThreadId"))
+                w.uint32(10).string(m.actThreadId);
+            return w;
+        };
+
+        MinosThreadIdFromActThreadIdInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MinosThreadIdFromActThreadIdInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.actThreadId = r.string();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MinosThreadIdFromActThreadIdInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MinosThreadIdFromActThreadIdInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MinosThreadIdFromActThreadIdInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MinosThreadIdFromActThreadIdInput();
+            if (d.actThreadId != null) {
+                m.actThreadId = String(d.actThreadId);
+            }
+            return m;
+        };
+
+        MinosThreadIdFromActThreadIdInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.actThreadId != null && Object.hasOwnProperty.call(m, "actThreadId")) {
+                d.actThreadId = m.actThreadId;
+                if (o.oneofs)
+                    d._actThreadId = "actThreadId";
+            }
+            return d;
+        };
+
+        MinosThreadIdFromActThreadIdInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MinosThreadIdFromActThreadIdInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MinosThreadIdFromActThreadIdInput";
+        };
+
+        return MinosThreadIdFromActThreadIdInput;
+    })();
+
+    proto.MinosThreadIdFromActThreadIdResult = (function() {
+
+        function MinosThreadIdFromActThreadIdResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MinosThreadIdFromActThreadIdResult.prototype.threadId = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MinosThreadIdFromActThreadIdResult.prototype, "_threadId", {
+            get: $util.oneOfGetter($oneOfFields = ["threadId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MinosThreadIdFromActThreadIdResult.create = function create(properties) {
+            return new MinosThreadIdFromActThreadIdResult(properties);
+        };
+
+        MinosThreadIdFromActThreadIdResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.threadId != null && Object.hasOwnProperty.call(m, "threadId"))
+                w.uint32(10).bytes(m.threadId);
+            return w;
+        };
+
+        MinosThreadIdFromActThreadIdResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MinosThreadIdFromActThreadIdResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.threadId = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MinosThreadIdFromActThreadIdResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MinosThreadIdFromActThreadIdResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MinosThreadIdFromActThreadIdResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MinosThreadIdFromActThreadIdResult();
+            if (d.threadId != null) {
+                if (typeof d.threadId === "string")
+                    $util.base64.decode(d.threadId, m.threadId = $util.newBuffer($util.base64.length(d.threadId)), 0);
+                else if (d.threadId.length >= 0)
+                    m.threadId = d.threadId;
+            }
+            return m;
+        };
+
+        MinosThreadIdFromActThreadIdResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.threadId != null && Object.hasOwnProperty.call(m, "threadId")) {
+                d.threadId = o.bytes === String ? $util.base64.encode(m.threadId, 0, m.threadId.length) : o.bytes === Array ? Array.prototype.slice.call(m.threadId) : m.threadId;
+                if (o.oneofs)
+                    d._threadId = "threadId";
+            }
+            return d;
+        };
+
+        MinosThreadIdFromActThreadIdResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MinosThreadIdFromActThreadIdResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MinosThreadIdFromActThreadIdResult";
+        };
+
+        return MinosThreadIdFromActThreadIdResult;
+    })();
+
+    proto.MinosThreadIdFromOneToOneThreadInput = (function() {
+
+        function MinosThreadIdFromOneToOneThreadInput(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MinosThreadIdFromOneToOneThreadInput.prototype.actThreadId = null;
+        MinosThreadIdFromOneToOneThreadInput.prototype.selfFbid = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MinosThreadIdFromOneToOneThreadInput.prototype, "_actThreadId", {
+            get: $util.oneOfGetter($oneOfFields = ["actThreadId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosThreadIdFromOneToOneThreadInput.prototype, "_selfFbid", {
+            get: $util.oneOfGetter($oneOfFields = ["selfFbid"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MinosThreadIdFromOneToOneThreadInput.create = function create(properties) {
+            return new MinosThreadIdFromOneToOneThreadInput(properties);
+        };
+
+        MinosThreadIdFromOneToOneThreadInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.actThreadId != null && Object.hasOwnProperty.call(m, "actThreadId"))
+                w.uint32(10).string(m.actThreadId);
+            if (m.selfFbid != null && Object.hasOwnProperty.call(m, "selfFbid"))
+                w.uint32(18).string(m.selfFbid);
+            return w;
+        };
+
+        MinosThreadIdFromOneToOneThreadInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MinosThreadIdFromOneToOneThreadInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.actThreadId = r.string();
+                        break;
+                    }
+                case 2: {
+                        m.selfFbid = r.string();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MinosThreadIdFromOneToOneThreadInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MinosThreadIdFromOneToOneThreadInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MinosThreadIdFromOneToOneThreadInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MinosThreadIdFromOneToOneThreadInput();
+            if (d.actThreadId != null) {
+                m.actThreadId = String(d.actThreadId);
+            }
+            if (d.selfFbid != null) {
+                m.selfFbid = String(d.selfFbid);
+            }
+            return m;
+        };
+
+        MinosThreadIdFromOneToOneThreadInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.actThreadId != null && Object.hasOwnProperty.call(m, "actThreadId")) {
+                d.actThreadId = m.actThreadId;
+                if (o.oneofs)
+                    d._actThreadId = "actThreadId";
+            }
+            if (m.selfFbid != null && Object.hasOwnProperty.call(m, "selfFbid")) {
+                d.selfFbid = m.selfFbid;
+                if (o.oneofs)
+                    d._selfFbid = "selfFbid";
+            }
+            return d;
+        };
+
+        MinosThreadIdFromOneToOneThreadInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MinosThreadIdFromOneToOneThreadInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MinosThreadIdFromOneToOneThreadInput";
+        };
+
+        return MinosThreadIdFromOneToOneThreadInput;
+    })();
+
+    proto.MinosThreadIdFromOneToOneThreadResult = (function() {
+
+        function MinosThreadIdFromOneToOneThreadResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MinosThreadIdFromOneToOneThreadResult.prototype.threadId = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MinosThreadIdFromOneToOneThreadResult.prototype, "_threadId", {
+            get: $util.oneOfGetter($oneOfFields = ["threadId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MinosThreadIdFromOneToOneThreadResult.create = function create(properties) {
+            return new MinosThreadIdFromOneToOneThreadResult(properties);
+        };
+
+        MinosThreadIdFromOneToOneThreadResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.threadId != null && Object.hasOwnProperty.call(m, "threadId"))
+                w.uint32(10).bytes(m.threadId);
+            return w;
+        };
+
+        MinosThreadIdFromOneToOneThreadResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MinosThreadIdFromOneToOneThreadResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.threadId = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MinosThreadIdFromOneToOneThreadResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MinosThreadIdFromOneToOneThreadResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MinosThreadIdFromOneToOneThreadResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MinosThreadIdFromOneToOneThreadResult();
+            if (d.threadId != null) {
+                if (typeof d.threadId === "string")
+                    $util.base64.decode(d.threadId, m.threadId = $util.newBuffer($util.base64.length(d.threadId)), 0);
+                else if (d.threadId.length >= 0)
+                    m.threadId = d.threadId;
+            }
+            return m;
+        };
+
+        MinosThreadIdFromOneToOneThreadResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.threadId != null && Object.hasOwnProperty.call(m, "threadId")) {
+                d.threadId = o.bytes === String ? $util.base64.encode(m.threadId, 0, m.threadId.length) : o.bytes === Array ? Array.prototype.slice.call(m.threadId) : m.threadId;
+                if (o.oneofs)
+                    d._threadId = "threadId";
+            }
+            return d;
+        };
+
+        MinosThreadIdFromOneToOneThreadResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MinosThreadIdFromOneToOneThreadResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MinosThreadIdFromOneToOneThreadResult";
+        };
+
+        return MinosThreadIdFromOneToOneThreadResult;
+    })();
+
+    proto.MinosValidateEpochInput = (function() {
+
+        function MinosValidateEpochInput(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MinosValidateEpochInput.prototype.epochPublicData = null;
+        MinosValidateEpochInput.prototype.previousEpochPublicData = null;
+        MinosValidateEpochInput.prototype.signatures = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MinosValidateEpochInput.prototype, "_epochPublicData", {
+            get: $util.oneOfGetter($oneOfFields = ["epochPublicData"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosValidateEpochInput.prototype, "_previousEpochPublicData", {
+            get: $util.oneOfGetter($oneOfFields = ["previousEpochPublicData"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosValidateEpochInput.prototype, "_signatures", {
+            get: $util.oneOfGetter($oneOfFields = ["signatures"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MinosValidateEpochInput.create = function create(properties) {
+            return new MinosValidateEpochInput(properties);
+        };
+
+        MinosValidateEpochInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.epochPublicData != null && Object.hasOwnProperty.call(m, "epochPublicData"))
+                $root.proto.EpochPublicData.encode(m.epochPublicData, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.previousEpochPublicData != null && Object.hasOwnProperty.call(m, "previousEpochPublicData"))
+                $root.proto.EpochPublicData.encode(m.previousEpochPublicData, w.uint32(18).fork(), q + 1).ldelim();
+            if (m.signatures != null && Object.hasOwnProperty.call(m, "signatures"))
+                $root.proto.EpochSignatures.encode(m.signatures, w.uint32(26).fork(), q + 1).ldelim();
+            return w;
+        };
+
+        MinosValidateEpochInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MinosValidateEpochInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.epochPublicData = $root.proto.EpochPublicData.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.previousEpochPublicData = $root.proto.EpochPublicData.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 3: {
+                        m.signatures = $root.proto.EpochSignatures.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MinosValidateEpochInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MinosValidateEpochInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MinosValidateEpochInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MinosValidateEpochInput();
+            if (d.epochPublicData != null) {
+                if (!$util.isObject(d.epochPublicData))
+                    throw TypeError(".proto.MinosValidateEpochInput.epochPublicData: object expected");
+                m.epochPublicData = $root.proto.EpochPublicData.fromObject(d.epochPublicData, n + 1);
+            }
+            if (d.previousEpochPublicData != null) {
+                if (!$util.isObject(d.previousEpochPublicData))
+                    throw TypeError(".proto.MinosValidateEpochInput.previousEpochPublicData: object expected");
+                m.previousEpochPublicData = $root.proto.EpochPublicData.fromObject(d.previousEpochPublicData, n + 1);
+            }
+            if (d.signatures != null) {
+                if (!$util.isObject(d.signatures))
+                    throw TypeError(".proto.MinosValidateEpochInput.signatures: object expected");
+                m.signatures = $root.proto.EpochSignatures.fromObject(d.signatures, n + 1);
+            }
+            return m;
+        };
+
+        MinosValidateEpochInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.epochPublicData != null && Object.hasOwnProperty.call(m, "epochPublicData")) {
+                d.epochPublicData = $root.proto.EpochPublicData.toObject(m.epochPublicData, o, q + 1);
+                if (o.oneofs)
+                    d._epochPublicData = "epochPublicData";
+            }
+            if (m.previousEpochPublicData != null && Object.hasOwnProperty.call(m, "previousEpochPublicData")) {
+                d.previousEpochPublicData = $root.proto.EpochPublicData.toObject(m.previousEpochPublicData, o, q + 1);
+                if (o.oneofs)
+                    d._previousEpochPublicData = "previousEpochPublicData";
+            }
+            if (m.signatures != null && Object.hasOwnProperty.call(m, "signatures")) {
+                d.signatures = $root.proto.EpochSignatures.toObject(m.signatures, o, q + 1);
+                if (o.oneofs)
+                    d._signatures = "signatures";
+            }
+            return d;
+        };
+
+        MinosValidateEpochInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MinosValidateEpochInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MinosValidateEpochInput";
+        };
+
+        return MinosValidateEpochInput;
+    })();
+
+    proto.MinosValidateEpochResult = (function() {
+
+        function MinosValidateEpochResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MinosValidateEpochResult.prototype.valid = null;
+        MinosValidateEpochResult.prototype.errorMessage = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MinosValidateEpochResult.prototype, "result", {
+            get: $util.oneOfGetter($oneOfFields = ["valid", "errorMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MinosValidateEpochResult.create = function create(properties) {
+            return new MinosValidateEpochResult(properties);
+        };
+
+        MinosValidateEpochResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.valid != null && Object.hasOwnProperty.call(m, "valid"))
+                w.uint32(8).bool(m.valid);
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage"))
+                w.uint32(18).string(m.errorMessage);
+            return w;
+        };
+
+        MinosValidateEpochResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MinosValidateEpochResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.valid = r.bool();
+                        break;
+                    }
+                case 2: {
+                        m.errorMessage = r.string();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MinosValidateEpochResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MinosValidateEpochResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MinosValidateEpochResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MinosValidateEpochResult();
+            if (d.valid != null) {
+                m.valid = Boolean(d.valid);
+            }
+            if (d.errorMessage != null) {
+                m.errorMessage = String(d.errorMessage);
+            }
+            return m;
+        };
+
+        MinosValidateEpochResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.valid != null && Object.hasOwnProperty.call(m, "valid")) {
+                d.valid = m.valid;
+                if (o.oneofs)
+                    d.result = "valid";
+            }
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage")) {
+                d.errorMessage = m.errorMessage;
+                if (o.oneofs)
+                    d.result = "errorMessage";
+            }
+            return d;
+        };
+
+        MinosValidateEpochResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MinosValidateEpochResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MinosValidateEpochResult";
+        };
+
+        return MinosValidateEpochResult;
+    })();
+
+    proto.MinosVerifySingleEpochInput = (function() {
+
+        function MinosVerifySingleEpochInput(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MinosVerifySingleEpochInput.prototype.epochPublicData = null;
+        MinosVerifySingleEpochInput.prototype.signature = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MinosVerifySingleEpochInput.prototype, "_epochPublicData", {
+            get: $util.oneOfGetter($oneOfFields = ["epochPublicData"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MinosVerifySingleEpochInput.prototype, "_signature", {
+            get: $util.oneOfGetter($oneOfFields = ["signature"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MinosVerifySingleEpochInput.create = function create(properties) {
+            return new MinosVerifySingleEpochInput(properties);
+        };
+
+        MinosVerifySingleEpochInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.epochPublicData != null && Object.hasOwnProperty.call(m, "epochPublicData"))
+                $root.proto.EpochPublicData.encode(m.epochPublicData, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.signature != null && Object.hasOwnProperty.call(m, "signature"))
+                w.uint32(18).bytes(m.signature);
+            return w;
+        };
+
+        MinosVerifySingleEpochInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MinosVerifySingleEpochInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.epochPublicData = $root.proto.EpochPublicData.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.signature = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MinosVerifySingleEpochInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MinosVerifySingleEpochInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MinosVerifySingleEpochInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MinosVerifySingleEpochInput();
+            if (d.epochPublicData != null) {
+                if (!$util.isObject(d.epochPublicData))
+                    throw TypeError(".proto.MinosVerifySingleEpochInput.epochPublicData: object expected");
+                m.epochPublicData = $root.proto.EpochPublicData.fromObject(d.epochPublicData, n + 1);
+            }
+            if (d.signature != null) {
+                if (typeof d.signature === "string")
+                    $util.base64.decode(d.signature, m.signature = $util.newBuffer($util.base64.length(d.signature)), 0);
+                else if (d.signature.length >= 0)
+                    m.signature = d.signature;
+            }
+            return m;
+        };
+
+        MinosVerifySingleEpochInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.epochPublicData != null && Object.hasOwnProperty.call(m, "epochPublicData")) {
+                d.epochPublicData = $root.proto.EpochPublicData.toObject(m.epochPublicData, o, q + 1);
+                if (o.oneofs)
+                    d._epochPublicData = "epochPublicData";
+            }
+            if (m.signature != null && Object.hasOwnProperty.call(m, "signature")) {
+                d.signature = o.bytes === String ? $util.base64.encode(m.signature, 0, m.signature.length) : o.bytes === Array ? Array.prototype.slice.call(m.signature) : m.signature;
+                if (o.oneofs)
+                    d._signature = "signature";
+            }
+            return d;
+        };
+
+        MinosVerifySingleEpochInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MinosVerifySingleEpochInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MinosVerifySingleEpochInput";
+        };
+
+        return MinosVerifySingleEpochInput;
+    })();
+
+    proto.MinosVerifySingleEpochResult = (function() {
+
+        function MinosVerifySingleEpochResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MinosVerifySingleEpochResult.prototype.valid = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MinosVerifySingleEpochResult.prototype, "_valid", {
+            get: $util.oneOfGetter($oneOfFields = ["valid"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MinosVerifySingleEpochResult.create = function create(properties) {
+            return new MinosVerifySingleEpochResult(properties);
+        };
+
+        MinosVerifySingleEpochResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.valid != null && Object.hasOwnProperty.call(m, "valid"))
+                w.uint32(8).bool(m.valid);
+            return w;
+        };
+
+        MinosVerifySingleEpochResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MinosVerifySingleEpochResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.valid = r.bool();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MinosVerifySingleEpochResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MinosVerifySingleEpochResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MinosVerifySingleEpochResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MinosVerifySingleEpochResult();
+            if (d.valid != null) {
+                m.valid = Boolean(d.valid);
+            }
+            return m;
+        };
+
+        MinosVerifySingleEpochResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.valid != null && Object.hasOwnProperty.call(m, "valid")) {
+                d.valid = m.valid;
+                if (o.oneofs)
+                    d._valid = "valid";
+            }
+            return d;
+        };
+
+        MinosVerifySingleEpochResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MinosVerifySingleEpochResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MinosVerifySingleEpochResult";
+        };
+
+        return MinosVerifySingleEpochResult;
+    })();
+
+    proto.MmkDistribution = (function() {
+
+        function MmkDistribution(p) {
+            this.toDetachedDevices = [];
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MmkDistribution.prototype.toDetachedDevices = $util.emptyArray;
+        MmkDistribution.prototype.toMailbox = null;
+        MmkDistribution.prototype.version = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MmkDistribution.prototype, "_toMailbox", {
+            get: $util.oneOfGetter($oneOfFields = ["toMailbox"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MmkDistribution.prototype, "_version", {
+            get: $util.oneOfGetter($oneOfFields = ["version"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MmkDistribution.create = function create(properties) {
+            return new MmkDistribution(properties);
+        };
+
+        MmkDistribution.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.toDetachedDevices != null && m.toDetachedDevices.length) {
+                for (var i = 0; i < m.toDetachedDevices.length; ++i)
+                    $root.proto.MmkDistributionToDetachedDevice.encode(m.toDetachedDevices[i], w.uint32(10).fork(), q + 1).ldelim();
+            }
+            if (m.toMailbox != null && Object.hasOwnProperty.call(m, "toMailbox"))
+                $root.proto.MmkDistributionToMailbox.encode(m.toMailbox, w.uint32(18).fork(), q + 1).ldelim();
+            if (m.version != null && Object.hasOwnProperty.call(m, "version"))
+                w.uint32(24).uint64(m.version);
+            return w;
+        };
+
+        MmkDistribution.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MmkDistribution();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        if (!(m.toDetachedDevices && m.toDetachedDevices.length))
+                            m.toDetachedDevices = [];
+                        m.toDetachedDevices.push($root.proto.MmkDistributionToDetachedDevice.decode(r, r.uint32(), undefined, n + 1));
+                        break;
+                    }
+                case 2: {
+                        m.toMailbox = $root.proto.MmkDistributionToMailbox.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 3: {
+                        m.version = r.uint64();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MmkDistribution.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MmkDistribution)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MmkDistribution: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MmkDistribution();
+            if (d.toDetachedDevices) {
+                if (!Array.isArray(d.toDetachedDevices))
+                    throw TypeError(".proto.MmkDistribution.toDetachedDevices: array expected");
+                m.toDetachedDevices = [];
+                for (var i = 0; i < d.toDetachedDevices.length; ++i) {
+                    if (!$util.isObject(d.toDetachedDevices[i]))
+                        throw TypeError(".proto.MmkDistribution.toDetachedDevices: object expected");
+                    m.toDetachedDevices[i] = $root.proto.MmkDistributionToDetachedDevice.fromObject(d.toDetachedDevices[i], n + 1);
+                }
+            }
+            if (d.toMailbox != null) {
+                if (!$util.isObject(d.toMailbox))
+                    throw TypeError(".proto.MmkDistribution.toMailbox: object expected");
+                m.toMailbox = $root.proto.MmkDistributionToMailbox.fromObject(d.toMailbox, n + 1);
+            }
+            if (d.version != null) {
+                if ($util.Long)
+                    m.version = $util.Long.fromValue(d.version, true);
+                else if (typeof d.version === "string")
+                    m.version = parseInt(d.version, 10);
+                else if (typeof d.version === "number")
+                    m.version = d.version;
+                else if (typeof d.version === "object")
+                    m.version = new $util.LongBits(d.version.low >>> 0, d.version.high >>> 0).toNumber(true);
+            }
+            return m;
+        };
+
+        MmkDistribution.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (o.arrays || o.defaults) {
+                d.toDetachedDevices = [];
+            }
+            if (m.toDetachedDevices && m.toDetachedDevices.length) {
+                d.toDetachedDevices = [];
+                for (var j = 0; j < m.toDetachedDevices.length; ++j) {
+                    d.toDetachedDevices[j] = $root.proto.MmkDistributionToDetachedDevice.toObject(m.toDetachedDevices[j], o, q + 1);
+                }
+            }
+            if (m.toMailbox != null && Object.hasOwnProperty.call(m, "toMailbox")) {
+                d.toMailbox = $root.proto.MmkDistributionToMailbox.toObject(m.toMailbox, o, q + 1);
+                if (o.oneofs)
+                    d._toMailbox = "toMailbox";
+            }
+            if (m.version != null && Object.hasOwnProperty.call(m, "version")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.version = typeof m.version === "number" ? BigInt(m.version) : $util.Long.fromBits(m.version.low >>> 0, m.version.high >>> 0, true).toBigInt();
+                else if (typeof m.version === "number")
+                    d.version = o.longs === String ? String(m.version) : m.version;
+                else
+                    d.version = o.longs === String ? longToString(m.version, true) : o.longs === Number ? longToNumber(m.version, true) : m.version;
+                if (o.oneofs)
+                    d._version = "version";
+            }
+            return d;
+        };
+
+        MmkDistribution.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MmkDistribution.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MmkDistribution";
+        };
+
+        return MmkDistribution;
+    })();
+
+    proto.MmkDistributionToDetachedDevice = (function() {
+
+        function MmkDistributionToDetachedDevice(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MmkDistributionToDetachedDevice.prototype.encryptedMmk = null;
+        MmkDistributionToDetachedDevice.prototype.recipDeviceHash = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MmkDistributionToDetachedDevice.prototype, "_encryptedMmk", {
+            get: $util.oneOfGetter($oneOfFields = ["encryptedMmk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MmkDistributionToDetachedDevice.prototype, "_recipDeviceHash", {
+            get: $util.oneOfGetter($oneOfFields = ["recipDeviceHash"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MmkDistributionToDetachedDevice.create = function create(properties) {
+            return new MmkDistributionToDetachedDevice(properties);
+        };
+
+        MmkDistributionToDetachedDevice.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.encryptedMmk != null && Object.hasOwnProperty.call(m, "encryptedMmk"))
+                w.uint32(10).bytes(m.encryptedMmk);
+            if (m.recipDeviceHash != null && Object.hasOwnProperty.call(m, "recipDeviceHash"))
+                w.uint32(18).bytes(m.recipDeviceHash);
+            return w;
+        };
+
+        MmkDistributionToDetachedDevice.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MmkDistributionToDetachedDevice();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.encryptedMmk = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.recipDeviceHash = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MmkDistributionToDetachedDevice.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MmkDistributionToDetachedDevice)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MmkDistributionToDetachedDevice: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MmkDistributionToDetachedDevice();
+            if (d.encryptedMmk != null) {
+                if (typeof d.encryptedMmk === "string")
+                    $util.base64.decode(d.encryptedMmk, m.encryptedMmk = $util.newBuffer($util.base64.length(d.encryptedMmk)), 0);
+                else if (d.encryptedMmk.length >= 0)
+                    m.encryptedMmk = d.encryptedMmk;
+            }
+            if (d.recipDeviceHash != null) {
+                if (typeof d.recipDeviceHash === "string")
+                    $util.base64.decode(d.recipDeviceHash, m.recipDeviceHash = $util.newBuffer($util.base64.length(d.recipDeviceHash)), 0);
+                else if (d.recipDeviceHash.length >= 0)
+                    m.recipDeviceHash = d.recipDeviceHash;
+            }
+            return m;
+        };
+
+        MmkDistributionToDetachedDevice.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.encryptedMmk != null && Object.hasOwnProperty.call(m, "encryptedMmk")) {
+                d.encryptedMmk = o.bytes === String ? $util.base64.encode(m.encryptedMmk, 0, m.encryptedMmk.length) : o.bytes === Array ? Array.prototype.slice.call(m.encryptedMmk) : m.encryptedMmk;
+                if (o.oneofs)
+                    d._encryptedMmk = "encryptedMmk";
+            }
+            if (m.recipDeviceHash != null && Object.hasOwnProperty.call(m, "recipDeviceHash")) {
+                d.recipDeviceHash = o.bytes === String ? $util.base64.encode(m.recipDeviceHash, 0, m.recipDeviceHash.length) : o.bytes === Array ? Array.prototype.slice.call(m.recipDeviceHash) : m.recipDeviceHash;
+                if (o.oneofs)
+                    d._recipDeviceHash = "recipDeviceHash";
+            }
+            return d;
+        };
+
+        MmkDistributionToDetachedDevice.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MmkDistributionToDetachedDevice.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MmkDistributionToDetachedDevice";
+        };
+
+        return MmkDistributionToDetachedDevice;
+    })();
+
+    proto.MmkDistributionToMailbox = (function() {
+
+        function MmkDistributionToMailbox(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MmkDistributionToMailbox.prototype.encryptedMmk = null;
+        MmkDistributionToMailbox.prototype.recipMailboxHeadHash = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MmkDistributionToMailbox.prototype, "_encryptedMmk", {
+            get: $util.oneOfGetter($oneOfFields = ["encryptedMmk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MmkDistributionToMailbox.prototype, "_recipMailboxHeadHash", {
+            get: $util.oneOfGetter($oneOfFields = ["recipMailboxHeadHash"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MmkDistributionToMailbox.create = function create(properties) {
+            return new MmkDistributionToMailbox(properties);
+        };
+
+        MmkDistributionToMailbox.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.encryptedMmk != null && Object.hasOwnProperty.call(m, "encryptedMmk"))
+                w.uint32(10).bytes(m.encryptedMmk);
+            if (m.recipMailboxHeadHash != null && Object.hasOwnProperty.call(m, "recipMailboxHeadHash"))
+                w.uint32(18).bytes(m.recipMailboxHeadHash);
+            return w;
+        };
+
+        MmkDistributionToMailbox.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MmkDistributionToMailbox();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.encryptedMmk = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.recipMailboxHeadHash = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MmkDistributionToMailbox.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MmkDistributionToMailbox)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MmkDistributionToMailbox: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MmkDistributionToMailbox();
+            if (d.encryptedMmk != null) {
+                if (typeof d.encryptedMmk === "string")
+                    $util.base64.decode(d.encryptedMmk, m.encryptedMmk = $util.newBuffer($util.base64.length(d.encryptedMmk)), 0);
+                else if (d.encryptedMmk.length >= 0)
+                    m.encryptedMmk = d.encryptedMmk;
+            }
+            if (d.recipMailboxHeadHash != null) {
+                if (typeof d.recipMailboxHeadHash === "string")
+                    $util.base64.decode(d.recipMailboxHeadHash, m.recipMailboxHeadHash = $util.newBuffer($util.base64.length(d.recipMailboxHeadHash)), 0);
+                else if (d.recipMailboxHeadHash.length >= 0)
+                    m.recipMailboxHeadHash = d.recipMailboxHeadHash;
+            }
+            return m;
+        };
+
+        MmkDistributionToMailbox.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.encryptedMmk != null && Object.hasOwnProperty.call(m, "encryptedMmk")) {
+                d.encryptedMmk = o.bytes === String ? $util.base64.encode(m.encryptedMmk, 0, m.encryptedMmk.length) : o.bytes === Array ? Array.prototype.slice.call(m.encryptedMmk) : m.encryptedMmk;
+                if (o.oneofs)
+                    d._encryptedMmk = "encryptedMmk";
+            }
+            if (m.recipMailboxHeadHash != null && Object.hasOwnProperty.call(m, "recipMailboxHeadHash")) {
+                d.recipMailboxHeadHash = o.bytes === String ? $util.base64.encode(m.recipMailboxHeadHash, 0, m.recipMailboxHeadHash.length) : o.bytes === Array ? Array.prototype.slice.call(m.recipMailboxHeadHash) : m.recipMailboxHeadHash;
+                if (o.oneofs)
+                    d._recipMailboxHeadHash = "recipMailboxHeadHash";
+            }
+            return d;
+        };
+
+        MmkDistributionToMailbox.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MmkDistributionToMailbox.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MmkDistributionToMailbox";
+        };
+
+        return MmkDistributionToMailbox;
+    })();
+
+    proto.MmkFromDetachedDevice = (function() {
+
+        function MmkFromDetachedDevice(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MmkFromDetachedDevice.prototype.mmk = null;
+        MmkFromDetachedDevice.prototype.fromDetachedDevice = null;
+        MmkFromDetachedDevice.prototype.membershipProof = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MmkFromDetachedDevice.prototype, "_mmk", {
+            get: $util.oneOfGetter($oneOfFields = ["mmk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MmkFromDetachedDevice.prototype, "_fromDetachedDevice", {
+            get: $util.oneOfGetter($oneOfFields = ["fromDetachedDevice"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MmkFromDetachedDevice.prototype, "_membershipProof", {
+            get: $util.oneOfGetter($oneOfFields = ["membershipProof"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MmkFromDetachedDevice.create = function create(properties) {
+            return new MmkFromDetachedDevice(properties);
+        };
+
+        MmkFromDetachedDevice.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.mmk != null && Object.hasOwnProperty.call(m, "mmk"))
+                $root.proto.MessagingMailboxPublicData.encode(m.mmk, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.fromDetachedDevice != null && Object.hasOwnProperty.call(m, "fromDetachedDevice"))
+                $root.proto.DetachedDevicePublicData.encode(m.fromDetachedDevice, w.uint32(18).fork(), q + 1).ldelim();
+            if (m.membershipProof != null && Object.hasOwnProperty.call(m, "membershipProof"))
+                $root.proto.MerkleMembershipProof.encode(m.membershipProof, w.uint32(26).fork(), q + 1).ldelim();
+            return w;
+        };
+
+        MmkFromDetachedDevice.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MmkFromDetachedDevice();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.mmk = $root.proto.MessagingMailboxPublicData.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.fromDetachedDevice = $root.proto.DetachedDevicePublicData.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 3: {
+                        m.membershipProof = $root.proto.MerkleMembershipProof.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MmkFromDetachedDevice.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MmkFromDetachedDevice)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MmkFromDetachedDevice: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MmkFromDetachedDevice();
+            if (d.mmk != null) {
+                if (!$util.isObject(d.mmk))
+                    throw TypeError(".proto.MmkFromDetachedDevice.mmk: object expected");
+                m.mmk = $root.proto.MessagingMailboxPublicData.fromObject(d.mmk, n + 1);
+            }
+            if (d.fromDetachedDevice != null) {
+                if (!$util.isObject(d.fromDetachedDevice))
+                    throw TypeError(".proto.MmkFromDetachedDevice.fromDetachedDevice: object expected");
+                m.fromDetachedDevice = $root.proto.DetachedDevicePublicData.fromObject(d.fromDetachedDevice, n + 1);
+            }
+            if (d.membershipProof != null) {
+                if (!$util.isObject(d.membershipProof))
+                    throw TypeError(".proto.MmkFromDetachedDevice.membershipProof: object expected");
+                m.membershipProof = $root.proto.MerkleMembershipProof.fromObject(d.membershipProof, n + 1);
+            }
+            return m;
+        };
+
+        MmkFromDetachedDevice.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.mmk != null && Object.hasOwnProperty.call(m, "mmk")) {
+                d.mmk = $root.proto.MessagingMailboxPublicData.toObject(m.mmk, o, q + 1);
+                if (o.oneofs)
+                    d._mmk = "mmk";
+            }
+            if (m.fromDetachedDevice != null && Object.hasOwnProperty.call(m, "fromDetachedDevice")) {
+                d.fromDetachedDevice = $root.proto.DetachedDevicePublicData.toObject(m.fromDetachedDevice, o, q + 1);
+                if (o.oneofs)
+                    d._fromDetachedDevice = "fromDetachedDevice";
+            }
+            if (m.membershipProof != null && Object.hasOwnProperty.call(m, "membershipProof")) {
+                d.membershipProof = $root.proto.MerkleMembershipProof.toObject(m.membershipProof, o, q + 1);
+                if (o.oneofs)
+                    d._membershipProof = "membershipProof";
+            }
+            return d;
+        };
+
+        MmkFromDetachedDevice.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MmkFromDetachedDevice.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MmkFromDetachedDevice";
+        };
+
+        return MmkFromDetachedDevice;
+    })();
+
     proto.Money = (function() {
 
         function Money(p) {
@@ -108057,6 +125031,173 @@ export const proto = $root.proto = (() => {
         return SignalMessage;
     })();
 
+    proto.SignedMmkDistributionFromMailbox = (function() {
+
+        function SignedMmkDistributionFromMailbox(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        SignedMmkDistributionFromMailbox.prototype.mmkDistribution = null;
+        SignedMmkDistributionFromMailbox.prototype.signature = null;
+        SignedMmkDistributionFromMailbox.prototype.fromMailbox = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(SignedMmkDistributionFromMailbox.prototype, "_mmkDistribution", {
+            get: $util.oneOfGetter($oneOfFields = ["mmkDistribution"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(SignedMmkDistributionFromMailbox.prototype, "_signature", {
+            get: $util.oneOfGetter($oneOfFields = ["signature"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(SignedMmkDistributionFromMailbox.prototype, "_fromMailbox", {
+            get: $util.oneOfGetter($oneOfFields = ["fromMailbox"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        SignedMmkDistributionFromMailbox.create = function create(properties) {
+            return new SignedMmkDistributionFromMailbox(properties);
+        };
+
+        SignedMmkDistributionFromMailbox.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.mmkDistribution != null && Object.hasOwnProperty.call(m, "mmkDistribution"))
+                $root.proto.MmkDistribution.encode(m.mmkDistribution, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.signature != null && Object.hasOwnProperty.call(m, "signature"))
+                w.uint32(18).bytes(m.signature);
+            if (m.fromMailbox != null && Object.hasOwnProperty.call(m, "fromMailbox"))
+                $root.proto.MessagingMailboxPublicData.encode(m.fromMailbox, w.uint32(26).fork(), q + 1).ldelim();
+            return w;
+        };
+
+        SignedMmkDistributionFromMailbox.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.SignedMmkDistributionFromMailbox();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.mmkDistribution = $root.proto.MmkDistribution.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.signature = r.bytes();
+                        break;
+                    }
+                case 3: {
+                        m.fromMailbox = $root.proto.MessagingMailboxPublicData.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        SignedMmkDistributionFromMailbox.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.SignedMmkDistributionFromMailbox)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.SignedMmkDistributionFromMailbox: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.SignedMmkDistributionFromMailbox();
+            if (d.mmkDistribution != null) {
+                if (!$util.isObject(d.mmkDistribution))
+                    throw TypeError(".proto.SignedMmkDistributionFromMailbox.mmkDistribution: object expected");
+                m.mmkDistribution = $root.proto.MmkDistribution.fromObject(d.mmkDistribution, n + 1);
+            }
+            if (d.signature != null) {
+                if (typeof d.signature === "string")
+                    $util.base64.decode(d.signature, m.signature = $util.newBuffer($util.base64.length(d.signature)), 0);
+                else if (d.signature.length >= 0)
+                    m.signature = d.signature;
+            }
+            if (d.fromMailbox != null) {
+                if (!$util.isObject(d.fromMailbox))
+                    throw TypeError(".proto.SignedMmkDistributionFromMailbox.fromMailbox: object expected");
+                m.fromMailbox = $root.proto.MessagingMailboxPublicData.fromObject(d.fromMailbox, n + 1);
+            }
+            return m;
+        };
+
+        SignedMmkDistributionFromMailbox.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.mmkDistribution != null && Object.hasOwnProperty.call(m, "mmkDistribution")) {
+                d.mmkDistribution = $root.proto.MmkDistribution.toObject(m.mmkDistribution, o, q + 1);
+                if (o.oneofs)
+                    d._mmkDistribution = "mmkDistribution";
+            }
+            if (m.signature != null && Object.hasOwnProperty.call(m, "signature")) {
+                d.signature = o.bytes === String ? $util.base64.encode(m.signature, 0, m.signature.length) : o.bytes === Array ? Array.prototype.slice.call(m.signature) : m.signature;
+                if (o.oneofs)
+                    d._signature = "signature";
+            }
+            if (m.fromMailbox != null && Object.hasOwnProperty.call(m, "fromMailbox")) {
+                d.fromMailbox = $root.proto.MessagingMailboxPublicData.toObject(m.fromMailbox, o, q + 1);
+                if (o.oneofs)
+                    d._fromMailbox = "fromMailbox";
+            }
+            return d;
+        };
+
+        SignedMmkDistributionFromMailbox.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        SignedMmkDistributionFromMailbox.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.SignedMmkDistributionFromMailbox";
+        };
+
+        return SignedMmkDistributionFromMailbox;
+    })();
+
     proto.SignedPreKeyRecordStructure = (function() {
 
         function SignedPreKeyRecordStructure(p) {
@@ -110544,6 +127685,149 @@ export const proto = $root.proto = (() => {
         };
 
         return StickerMetadata;
+    })();
+
+    proto.SubProtocol = (function() {
+
+        function SubProtocol(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        SubProtocol.prototype.payload = null;
+        SubProtocol.prototype.version = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(SubProtocol.prototype, "_payload", {
+            get: $util.oneOfGetter($oneOfFields = ["payload"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(SubProtocol.prototype, "_version", {
+            get: $util.oneOfGetter($oneOfFields = ["version"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        SubProtocol.create = function create(properties) {
+            return new SubProtocol(properties);
+        };
+
+        SubProtocol.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.payload != null && Object.hasOwnProperty.call(m, "payload"))
+                w.uint32(10).bytes(m.payload);
+            if (m.version != null && Object.hasOwnProperty.call(m, "version"))
+                w.uint32(16).int32(m.version);
+            return w;
+        };
+
+        SubProtocol.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.SubProtocol();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.payload = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.version = r.int32();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        SubProtocol.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.SubProtocol)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.SubProtocol: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.SubProtocol();
+            if (d.payload != null) {
+                if (typeof d.payload === "string")
+                    $util.base64.decode(d.payload, m.payload = $util.newBuffer($util.base64.length(d.payload)), 0);
+                else if (d.payload.length >= 0)
+                    m.payload = d.payload;
+            }
+            if (d.version != null) {
+                m.version = d.version | 0;
+            }
+            return m;
+        };
+
+        SubProtocol.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.payload != null && Object.hasOwnProperty.call(m, "payload")) {
+                d.payload = o.bytes === String ? $util.base64.encode(m.payload, 0, m.payload.length) : o.bytes === Array ? Array.prototype.slice.call(m.payload) : m.payload;
+                if (o.oneofs)
+                    d._payload = "payload";
+            }
+            if (m.version != null && Object.hasOwnProperty.call(m, "version")) {
+                d.version = m.version;
+                if (o.oneofs)
+                    d._version = "version";
+            }
+            return d;
+        };
+
+        SubProtocol.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        SubProtocol.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.SubProtocol";
+        };
+
+        return SubProtocol;
     })();
 
     proto.SyncActionData = (function() {
@@ -138847,6 +156131,498 @@ export const proto = $root.proto = (() => {
         };
 
         return WebNotificationsInfo;
+    })();
+
+    proto.WrapTransportSigningPublicKeyInput = (function() {
+
+        function WrapTransportSigningPublicKeyInput(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        WrapTransportSigningPublicKeyInput.prototype.keyBytes = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(WrapTransportSigningPublicKeyInput.prototype, "_keyBytes", {
+            get: $util.oneOfGetter($oneOfFields = ["keyBytes"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        WrapTransportSigningPublicKeyInput.create = function create(properties) {
+            return new WrapTransportSigningPublicKeyInput(properties);
+        };
+
+        WrapTransportSigningPublicKeyInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.keyBytes != null && Object.hasOwnProperty.call(m, "keyBytes"))
+                w.uint32(10).bytes(m.keyBytes);
+            return w;
+        };
+
+        WrapTransportSigningPublicKeyInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.WrapTransportSigningPublicKeyInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.keyBytes = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        WrapTransportSigningPublicKeyInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.WrapTransportSigningPublicKeyInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.WrapTransportSigningPublicKeyInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.WrapTransportSigningPublicKeyInput();
+            if (d.keyBytes != null) {
+                if (typeof d.keyBytes === "string")
+                    $util.base64.decode(d.keyBytes, m.keyBytes = $util.newBuffer($util.base64.length(d.keyBytes)), 0);
+                else if (d.keyBytes.length >= 0)
+                    m.keyBytes = d.keyBytes;
+            }
+            return m;
+        };
+
+        WrapTransportSigningPublicKeyInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.keyBytes != null && Object.hasOwnProperty.call(m, "keyBytes")) {
+                d.keyBytes = o.bytes === String ? $util.base64.encode(m.keyBytes, 0, m.keyBytes.length) : o.bytes === Array ? Array.prototype.slice.call(m.keyBytes) : m.keyBytes;
+                if (o.oneofs)
+                    d._keyBytes = "keyBytes";
+            }
+            return d;
+        };
+
+        WrapTransportSigningPublicKeyInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        WrapTransportSigningPublicKeyInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.WrapTransportSigningPublicKeyInput";
+        };
+
+        return WrapTransportSigningPublicKeyInput;
+    })();
+
+    proto.WrapTransportSigningPublicKeyResult = (function() {
+
+        function WrapTransportSigningPublicKeyResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        WrapTransportSigningPublicKeyResult.prototype.prefixedKey = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(WrapTransportSigningPublicKeyResult.prototype, "_prefixedKey", {
+            get: $util.oneOfGetter($oneOfFields = ["prefixedKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        WrapTransportSigningPublicKeyResult.create = function create(properties) {
+            return new WrapTransportSigningPublicKeyResult(properties);
+        };
+
+        WrapTransportSigningPublicKeyResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.prefixedKey != null && Object.hasOwnProperty.call(m, "prefixedKey"))
+                w.uint32(10).bytes(m.prefixedKey);
+            return w;
+        };
+
+        WrapTransportSigningPublicKeyResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.WrapTransportSigningPublicKeyResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.prefixedKey = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        WrapTransportSigningPublicKeyResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.WrapTransportSigningPublicKeyResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.WrapTransportSigningPublicKeyResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.WrapTransportSigningPublicKeyResult();
+            if (d.prefixedKey != null) {
+                if (typeof d.prefixedKey === "string")
+                    $util.base64.decode(d.prefixedKey, m.prefixedKey = $util.newBuffer($util.base64.length(d.prefixedKey)), 0);
+                else if (d.prefixedKey.length >= 0)
+                    m.prefixedKey = d.prefixedKey;
+            }
+            return m;
+        };
+
+        WrapTransportSigningPublicKeyResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.prefixedKey != null && Object.hasOwnProperty.call(m, "prefixedKey")) {
+                d.prefixedKey = o.bytes === String ? $util.base64.encode(m.prefixedKey, 0, m.prefixedKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.prefixedKey) : m.prefixedKey;
+                if (o.oneofs)
+                    d._prefixedKey = "prefixedKey";
+            }
+            return d;
+        };
+
+        WrapTransportSigningPublicKeyResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        WrapTransportSigningPublicKeyResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.WrapTransportSigningPublicKeyResult";
+        };
+
+        return WrapTransportSigningPublicKeyResult;
+    })();
+
+    proto.WrapTransportSigningSecretKeyInput = (function() {
+
+        function WrapTransportSigningSecretKeyInput(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        WrapTransportSigningSecretKeyInput.prototype.keyBytes = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(WrapTransportSigningSecretKeyInput.prototype, "_keyBytes", {
+            get: $util.oneOfGetter($oneOfFields = ["keyBytes"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        WrapTransportSigningSecretKeyInput.create = function create(properties) {
+            return new WrapTransportSigningSecretKeyInput(properties);
+        };
+
+        WrapTransportSigningSecretKeyInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.keyBytes != null && Object.hasOwnProperty.call(m, "keyBytes"))
+                w.uint32(10).bytes(m.keyBytes);
+            return w;
+        };
+
+        WrapTransportSigningSecretKeyInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.WrapTransportSigningSecretKeyInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.keyBytes = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        WrapTransportSigningSecretKeyInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.WrapTransportSigningSecretKeyInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.WrapTransportSigningSecretKeyInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.WrapTransportSigningSecretKeyInput();
+            if (d.keyBytes != null) {
+                if (typeof d.keyBytes === "string")
+                    $util.base64.decode(d.keyBytes, m.keyBytes = $util.newBuffer($util.base64.length(d.keyBytes)), 0);
+                else if (d.keyBytes.length >= 0)
+                    m.keyBytes = d.keyBytes;
+            }
+            return m;
+        };
+
+        WrapTransportSigningSecretKeyInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.keyBytes != null && Object.hasOwnProperty.call(m, "keyBytes")) {
+                d.keyBytes = o.bytes === String ? $util.base64.encode(m.keyBytes, 0, m.keyBytes.length) : o.bytes === Array ? Array.prototype.slice.call(m.keyBytes) : m.keyBytes;
+                if (o.oneofs)
+                    d._keyBytes = "keyBytes";
+            }
+            return d;
+        };
+
+        WrapTransportSigningSecretKeyInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        WrapTransportSigningSecretKeyInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.WrapTransportSigningSecretKeyInput";
+        };
+
+        return WrapTransportSigningSecretKeyInput;
+    })();
+
+    proto.WrapTransportSigningSecretKeyResult = (function() {
+
+        function WrapTransportSigningSecretKeyResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        WrapTransportSigningSecretKeyResult.prototype.prefixedKey = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(WrapTransportSigningSecretKeyResult.prototype, "_prefixedKey", {
+            get: $util.oneOfGetter($oneOfFields = ["prefixedKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        WrapTransportSigningSecretKeyResult.create = function create(properties) {
+            return new WrapTransportSigningSecretKeyResult(properties);
+        };
+
+        WrapTransportSigningSecretKeyResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.prefixedKey != null && Object.hasOwnProperty.call(m, "prefixedKey"))
+                w.uint32(10).bytes(m.prefixedKey);
+            return w;
+        };
+
+        WrapTransportSigningSecretKeyResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.WrapTransportSigningSecretKeyResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.prefixedKey = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        WrapTransportSigningSecretKeyResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.WrapTransportSigningSecretKeyResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.WrapTransportSigningSecretKeyResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.WrapTransportSigningSecretKeyResult();
+            if (d.prefixedKey != null) {
+                if (typeof d.prefixedKey === "string")
+                    $util.base64.decode(d.prefixedKey, m.prefixedKey = $util.newBuffer($util.base64.length(d.prefixedKey)), 0);
+                else if (d.prefixedKey.length >= 0)
+                    m.prefixedKey = d.prefixedKey;
+            }
+            return m;
+        };
+
+        WrapTransportSigningSecretKeyResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.prefixedKey != null && Object.hasOwnProperty.call(m, "prefixedKey")) {
+                d.prefixedKey = o.bytes === String ? $util.base64.encode(m.prefixedKey, 0, m.prefixedKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.prefixedKey) : m.prefixedKey;
+                if (o.oneofs)
+                    d._prefixedKey = "prefixedKey";
+            }
+            return d;
+        };
+
+        WrapTransportSigningSecretKeyResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        WrapTransportSigningSecretKeyResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.WrapTransportSigningSecretKeyResult";
+        };
+
+        return WrapTransportSigningSecretKeyResult;
     })();
 
     return proto;
