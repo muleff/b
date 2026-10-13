@@ -9751,6 +9751,10 @@ export const proto = $root.proto = (() => {
                     case 80:
                         m.capabilities[i] = 80;
                         break;
+                    case "AI_MUSE_JARVIS_SCHEMA_ENABLED":
+                    case 81:
+                        m.capabilities[i] = 81;
+                        break;
                     }
                 }
             }
@@ -9871,6 +9875,7 @@ export const proto = $root.proto = (() => {
             values[valuesById[78] = "HATCH_BROWSER_TASK_CARD_ENABLED"] = 78;
             values[valuesById[79] = "HATCH_ARTIFACT_CARD_ENABLED"] = 79;
             values[valuesById[80] = "AI_STUDY_CENTER_ENABLED"] = 80;
+            values[valuesById[81] = "AI_MUSE_JARVIS_SCHEMA_ENABLED"] = 81;
             return values;
         })();
 

@@ -57899,6 +57899,403 @@ export const proto = $root.proto = (() => {
         return values;
     })();
 
+    proto.MandrakeCreateMmkInput = (function() {
+
+        function MandrakeCreateMmkInput(p) {
+            this.currentPeers = [];
+            this.newPeers = [];
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MandrakeCreateMmkInput.prototype.exportRootKey = null;
+        MandrakeCreateMmkInput.prototype.epochNumber = null;
+        MandrakeCreateMmkInput.prototype.epochHead = null;
+        MandrakeCreateMmkInput.prototype.prevMmk = null;
+        MandrakeCreateMmkInput.prototype.currentPeers = $util.emptyArray;
+        MandrakeCreateMmkInput.prototype.newPeers = $util.emptyArray;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MandrakeCreateMmkInput.prototype, "_exportRootKey", {
+            get: $util.oneOfGetter($oneOfFields = ["exportRootKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeCreateMmkInput.prototype, "_epochNumber", {
+            get: $util.oneOfGetter($oneOfFields = ["epochNumber"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeCreateMmkInput.prototype, "_epochHead", {
+            get: $util.oneOfGetter($oneOfFields = ["epochHead"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MandrakeCreateMmkInput.prototype, "_prevMmk", {
+            get: $util.oneOfGetter($oneOfFields = ["prevMmk"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MandrakeCreateMmkInput.create = function create(properties) {
+            return new MandrakeCreateMmkInput(properties);
+        };
+
+        MandrakeCreateMmkInput.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.exportRootKey != null && Object.hasOwnProperty.call(m, "exportRootKey"))
+                w.uint32(10).bytes(m.exportRootKey);
+            if (m.epochNumber != null && Object.hasOwnProperty.call(m, "epochNumber"))
+                w.uint32(16).uint64(m.epochNumber);
+            if (m.epochHead != null && Object.hasOwnProperty.call(m, "epochHead"))
+                w.uint32(26).bytes(m.epochHead);
+            if (m.prevMmk != null && Object.hasOwnProperty.call(m, "prevMmk"))
+                $root.proto.MessagingMailboxPublicData.encode(m.prevMmk, w.uint32(34).fork(), q + 1).ldelim();
+            if (m.currentPeers != null && m.currentPeers.length) {
+                for (var i = 0; i < m.currentPeers.length; ++i)
+                    $root.proto.DetachedDevicePublicData.encode(m.currentPeers[i], w.uint32(42).fork(), q + 1).ldelim();
+            }
+            if (m.newPeers != null && m.newPeers.length) {
+                for (var i = 0; i < m.newPeers.length; ++i)
+                    $root.proto.DetachedDevicePublicData.encode(m.newPeers[i], w.uint32(50).fork(), q + 1).ldelim();
+            }
+            return w;
+        };
+
+        MandrakeCreateMmkInput.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MandrakeCreateMmkInput();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.exportRootKey = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.epochNumber = r.uint64();
+                        break;
+                    }
+                case 3: {
+                        m.epochHead = r.bytes();
+                        break;
+                    }
+                case 4: {
+                        m.prevMmk = $root.proto.MessagingMailboxPublicData.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 5: {
+                        if (!(m.currentPeers && m.currentPeers.length))
+                            m.currentPeers = [];
+                        m.currentPeers.push($root.proto.DetachedDevicePublicData.decode(r, r.uint32(), undefined, n + 1));
+                        break;
+                    }
+                case 6: {
+                        if (!(m.newPeers && m.newPeers.length))
+                            m.newPeers = [];
+                        m.newPeers.push($root.proto.DetachedDevicePublicData.decode(r, r.uint32(), undefined, n + 1));
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MandrakeCreateMmkInput.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MandrakeCreateMmkInput)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MandrakeCreateMmkInput: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MandrakeCreateMmkInput();
+            if (d.exportRootKey != null) {
+                if (typeof d.exportRootKey === "string")
+                    $util.base64.decode(d.exportRootKey, m.exportRootKey = $util.newBuffer($util.base64.length(d.exportRootKey)), 0);
+                else if (d.exportRootKey.length >= 0)
+                    m.exportRootKey = d.exportRootKey;
+            }
+            if (d.epochNumber != null) {
+                if ($util.Long)
+                    m.epochNumber = $util.Long.fromValue(d.epochNumber, true);
+                else if (typeof d.epochNumber === "string")
+                    m.epochNumber = parseInt(d.epochNumber, 10);
+                else if (typeof d.epochNumber === "number")
+                    m.epochNumber = d.epochNumber;
+                else if (typeof d.epochNumber === "object")
+                    m.epochNumber = new $util.LongBits(d.epochNumber.low >>> 0, d.epochNumber.high >>> 0).toNumber(true);
+            }
+            if (d.epochHead != null) {
+                if (typeof d.epochHead === "string")
+                    $util.base64.decode(d.epochHead, m.epochHead = $util.newBuffer($util.base64.length(d.epochHead)), 0);
+                else if (d.epochHead.length >= 0)
+                    m.epochHead = d.epochHead;
+            }
+            if (d.prevMmk != null) {
+                if (!$util.isObject(d.prevMmk))
+                    throw TypeError(".proto.MandrakeCreateMmkInput.prevMmk: object expected");
+                m.prevMmk = $root.proto.MessagingMailboxPublicData.fromObject(d.prevMmk, n + 1);
+            }
+            if (d.currentPeers) {
+                if (!Array.isArray(d.currentPeers))
+                    throw TypeError(".proto.MandrakeCreateMmkInput.currentPeers: array expected");
+                m.currentPeers = [];
+                for (var i = 0; i < d.currentPeers.length; ++i) {
+                    if (!$util.isObject(d.currentPeers[i]))
+                        throw TypeError(".proto.MandrakeCreateMmkInput.currentPeers: object expected");
+                    m.currentPeers[i] = $root.proto.DetachedDevicePublicData.fromObject(d.currentPeers[i], n + 1);
+                }
+            }
+            if (d.newPeers) {
+                if (!Array.isArray(d.newPeers))
+                    throw TypeError(".proto.MandrakeCreateMmkInput.newPeers: array expected");
+                m.newPeers = [];
+                for (var i = 0; i < d.newPeers.length; ++i) {
+                    if (!$util.isObject(d.newPeers[i]))
+                        throw TypeError(".proto.MandrakeCreateMmkInput.newPeers: object expected");
+                    m.newPeers[i] = $root.proto.DetachedDevicePublicData.fromObject(d.newPeers[i], n + 1);
+                }
+            }
+            return m;
+        };
+
+        MandrakeCreateMmkInput.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (o.arrays || o.defaults) {
+                d.currentPeers = [];
+                d.newPeers = [];
+            }
+            if (m.exportRootKey != null && Object.hasOwnProperty.call(m, "exportRootKey")) {
+                d.exportRootKey = o.bytes === String ? $util.base64.encode(m.exportRootKey, 0, m.exportRootKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.exportRootKey) : m.exportRootKey;
+                if (o.oneofs)
+                    d._exportRootKey = "exportRootKey";
+            }
+            if (m.epochNumber != null && Object.hasOwnProperty.call(m, "epochNumber")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.epochNumber = typeof m.epochNumber === "number" ? BigInt(m.epochNumber) : $util.Long.fromBits(m.epochNumber.low >>> 0, m.epochNumber.high >>> 0, true).toBigInt();
+                else if (typeof m.epochNumber === "number")
+                    d.epochNumber = o.longs === String ? String(m.epochNumber) : m.epochNumber;
+                else
+                    d.epochNumber = o.longs === String ? longToString(m.epochNumber, true) : o.longs === Number ? longToNumber(m.epochNumber, true) : m.epochNumber;
+                if (o.oneofs)
+                    d._epochNumber = "epochNumber";
+            }
+            if (m.epochHead != null && Object.hasOwnProperty.call(m, "epochHead")) {
+                d.epochHead = o.bytes === String ? $util.base64.encode(m.epochHead, 0, m.epochHead.length) : o.bytes === Array ? Array.prototype.slice.call(m.epochHead) : m.epochHead;
+                if (o.oneofs)
+                    d._epochHead = "epochHead";
+            }
+            if (m.prevMmk != null && Object.hasOwnProperty.call(m, "prevMmk")) {
+                d.prevMmk = $root.proto.MessagingMailboxPublicData.toObject(m.prevMmk, o, q + 1);
+                if (o.oneofs)
+                    d._prevMmk = "prevMmk";
+            }
+            if (m.currentPeers && m.currentPeers.length) {
+                d.currentPeers = [];
+                for (var j = 0; j < m.currentPeers.length; ++j) {
+                    d.currentPeers[j] = $root.proto.DetachedDevicePublicData.toObject(m.currentPeers[j], o, q + 1);
+                }
+            }
+            if (m.newPeers && m.newPeers.length) {
+                d.newPeers = [];
+                for (var j = 0; j < m.newPeers.length; ++j) {
+                    d.newPeers[j] = $root.proto.DetachedDevicePublicData.toObject(m.newPeers[j], o, q + 1);
+                }
+            }
+            return d;
+        };
+
+        MandrakeCreateMmkInput.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MandrakeCreateMmkInput.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MandrakeCreateMmkInput";
+        };
+
+        return MandrakeCreateMmkInput;
+    })();
+
+    proto.MandrakeCreateMmkResult = (function() {
+
+        function MandrakeCreateMmkResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MandrakeCreateMmkResult.prototype.success = null;
+        MandrakeCreateMmkResult.prototype.errorMessage = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MandrakeCreateMmkResult.prototype, "result", {
+            get: $util.oneOfGetter($oneOfFields = ["success", "errorMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MandrakeCreateMmkResult.create = function create(properties) {
+            return new MandrakeCreateMmkResult(properties);
+        };
+
+        MandrakeCreateMmkResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.success != null && Object.hasOwnProperty.call(m, "success"))
+                $root.proto.SignedMmkDistributionFromMailbox.encode(m.success, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage"))
+                w.uint32(18).string(m.errorMessage);
+            return w;
+        };
+
+        MandrakeCreateMmkResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MandrakeCreateMmkResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.success = $root.proto.SignedMmkDistributionFromMailbox.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.errorMessage = r.string();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MandrakeCreateMmkResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MandrakeCreateMmkResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MandrakeCreateMmkResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MandrakeCreateMmkResult();
+            if (d.success != null) {
+                if (!$util.isObject(d.success))
+                    throw TypeError(".proto.MandrakeCreateMmkResult.success: object expected");
+                m.success = $root.proto.SignedMmkDistributionFromMailbox.fromObject(d.success, n + 1);
+            }
+            if (d.errorMessage != null) {
+                m.errorMessage = String(d.errorMessage);
+            }
+            return m;
+        };
+
+        MandrakeCreateMmkResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.success != null && Object.hasOwnProperty.call(m, "success")) {
+                d.success = $root.proto.SignedMmkDistributionFromMailbox.toObject(m.success, o, q + 1);
+                if (o.oneofs)
+                    d.result = "success";
+            }
+            if (m.errorMessage != null && Object.hasOwnProperty.call(m, "errorMessage")) {
+                d.errorMessage = m.errorMessage;
+                if (o.oneofs)
+                    d.result = "errorMessage";
+            }
+            return d;
+        };
+
+        MandrakeCreateMmkResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MandrakeCreateMmkResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MandrakeCreateMmkResult";
+        };
+
+        return MandrakeCreateMmkResult;
+    })();
+
     proto.MandrakeDecryptMekInput = (function() {
 
         function MandrakeDecryptMekInput(p) {
@@ -87607,6 +88004,8 @@ export const proto = $root.proto = (() => {
                 const valuesById = {}, values = Object.create(valuesById);
                 values[valuesById[0] = "UNKNOWN"] = 0;
                 values[valuesById[1] = "VINYL"] = 1;
+                values[valuesById[2] = "MESSAGE_BUBBLE"] = 2;
+                values[valuesById[3] = "LYRICS"] = 3;
                 return values;
             })();
 
@@ -109727,11 +110126,12 @@ export const proto = $root.proto = (() => {
         MinosCommand.prototype.deriveMessagingMailboxKeypairs = null;
         MinosCommand.prototype.decryptSelfMmkDistribution = null;
         MinosCommand.prototype.mandrakeValidateAndDecryptSelfMmk = null;
+        MinosCommand.prototype.mandrakeCreateMmk = null;
 
         let $oneOfFields;
 
         Object.defineProperty(MinosCommand.prototype, "commandInput", {
-            get: $util.oneOfGetter($oneOfFields = ["encryptAndSignMessage", "decryptAndVerifyMessage", "generateMek", "generateMekRosterHash", "encryptMekForDistribution", "decryptMekForDistribution", "encryptMeksForDistributionFromTransportSender", "decryptMekForDistributionFromTransportSender", "wrapTransportSigningPublicKey", "wrapTransportSigningSecretKey", "deriveMailboxSigningKeypair", "deriveMailboxEncryptionKeypair", "deriveMailboxAuthKeypair", "deriveAttachmentAccessTokenSecret", "deriveAttachmentPrimaryKeySecret", "minosOpenInitialEpoch", "minosOpenEpoch", "minosValidateEpoch", "minosVerifySingleEpoch", "minosThreadIdFromOneToOneThread", "minosThreadIdFromActThreadId", "mandrakeOpenEpoch", "mandrakeEncryptMek", "mandrakeDecryptMek", "mandrakeOpenInitialEpoch", "mandrakeValidateNewMmkFromMailbox", "mandrakeValidateNewMmkFromDetachedDevice", "deriveMessagingMailboxKeypairs", "decryptSelfMmkDistribution", "mandrakeValidateAndDecryptSelfMmk"]),
+            get: $util.oneOfGetter($oneOfFields = ["encryptAndSignMessage", "decryptAndVerifyMessage", "generateMek", "generateMekRosterHash", "encryptMekForDistribution", "decryptMekForDistribution", "encryptMeksForDistributionFromTransportSender", "decryptMekForDistributionFromTransportSender", "wrapTransportSigningPublicKey", "wrapTransportSigningSecretKey", "deriveMailboxSigningKeypair", "deriveMailboxEncryptionKeypair", "deriveMailboxAuthKeypair", "deriveAttachmentAccessTokenSecret", "deriveAttachmentPrimaryKeySecret", "minosOpenInitialEpoch", "minosOpenEpoch", "minosValidateEpoch", "minosVerifySingleEpoch", "minosThreadIdFromOneToOneThread", "minosThreadIdFromActThreadId", "mandrakeOpenEpoch", "mandrakeEncryptMek", "mandrakeDecryptMek", "mandrakeOpenInitialEpoch", "mandrakeValidateNewMmkFromMailbox", "mandrakeValidateNewMmkFromDetachedDevice", "deriveMessagingMailboxKeypairs", "decryptSelfMmkDistribution", "mandrakeValidateAndDecryptSelfMmk", "mandrakeCreateMmk"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
@@ -109806,6 +110206,8 @@ export const proto = $root.proto = (() => {
                 $root.proto.DecryptSelfMmkDistributionInput.encode(m.decryptSelfMmkDistribution, w.uint32(242).fork(), q + 1).ldelim();
             if (m.mandrakeValidateAndDecryptSelfMmk != null && Object.hasOwnProperty.call(m, "mandrakeValidateAndDecryptSelfMmk"))
                 $root.proto.MandrakeValidateAndDecryptSelfMmkInput.encode(m.mandrakeValidateAndDecryptSelfMmk, w.uint32(250).fork(), q + 1).ldelim();
+            if (m.mandrakeCreateMmk != null && Object.hasOwnProperty.call(m, "mandrakeCreateMmk"))
+                $root.proto.MandrakeCreateMmkInput.encode(m.mandrakeCreateMmk, w.uint32(258).fork(), q + 1).ldelim();
             return w;
         };
 
@@ -109950,6 +110352,10 @@ export const proto = $root.proto = (() => {
                     }
                 case 31: {
                         m.mandrakeValidateAndDecryptSelfMmk = $root.proto.MandrakeValidateAndDecryptSelfMmkInput.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 32: {
+                        m.mandrakeCreateMmk = $root.proto.MandrakeCreateMmkInput.decode(r, r.uint32(), undefined, n + 1);
                         break;
                     }
                 default:
@@ -110125,6 +110531,11 @@ export const proto = $root.proto = (() => {
                     throw TypeError(".proto.MinosCommand.mandrakeValidateAndDecryptSelfMmk: object expected");
                 m.mandrakeValidateAndDecryptSelfMmk = $root.proto.MandrakeValidateAndDecryptSelfMmkInput.fromObject(d.mandrakeValidateAndDecryptSelfMmk, n + 1);
             }
+            if (d.mandrakeCreateMmk != null) {
+                if (!$util.isObject(d.mandrakeCreateMmk))
+                    throw TypeError(".proto.MinosCommand.mandrakeCreateMmk: object expected");
+                m.mandrakeCreateMmk = $root.proto.MandrakeCreateMmkInput.fromObject(d.mandrakeCreateMmk, n + 1);
+            }
             return m;
         };
 
@@ -110285,6 +110696,11 @@ export const proto = $root.proto = (() => {
                 d.mandrakeValidateAndDecryptSelfMmk = $root.proto.MandrakeValidateAndDecryptSelfMmkInput.toObject(m.mandrakeValidateAndDecryptSelfMmk, o, q + 1);
                 if (o.oneofs)
                     d.commandInput = "mandrakeValidateAndDecryptSelfMmk";
+            }
+            if (m.mandrakeCreateMmk != null && Object.hasOwnProperty.call(m, "mandrakeCreateMmk")) {
+                d.mandrakeCreateMmk = $root.proto.MandrakeCreateMmkInput.toObject(m.mandrakeCreateMmk, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "mandrakeCreateMmk";
             }
             return d;
         };
@@ -157482,6 +157898,22 @@ export const proto = $root.proto = (() => {
             case 271:
                 m.messageStubType = 271;
                 break;
+            case "CHAT_WITH_BUSINESS_IN_DIRECTORY":
+            case 283:
+                m.messageStubType = 283;
+                break;
+            case "META_AI_THREAD_CREATED":
+            case 284:
+                m.messageStubType = 284;
+                break;
+            case "META_AI_CONNECTOR_LINKED":
+            case 285:
+                m.messageStubType = 285;
+                break;
+            case "SPLIT_PAYMENT_MARKED_AS_PAID":
+            case 289:
+                m.messageStubType = 289;
+                break;
             }
             if (d.clearMedia != null) {
                 m.clearMedia = Boolean(d.clearMedia);
@@ -158544,6 +158976,10 @@ export const proto = $root.proto = (() => {
             values[valuesById[267] = "CAMEO_CHAT_EXPIRED"] = 267;
             values[valuesById[270] = "GROUP_PUSHNAME_SHARED"] = 270;
             values[valuesById[271] = "BIZ_POST_SEND_OPT_OUT"] = 271;
+            values[valuesById[283] = "CHAT_WITH_BUSINESS_IN_DIRECTORY"] = 283;
+            values[valuesById[284] = "META_AI_THREAD_CREATED"] = 284;
+            values[valuesById[285] = "META_AI_CONNECTOR_LINKED"] = 285;
+            values[valuesById[289] = "SPLIT_PAYMENT_MARKED_AS_PAID"] = 289;
             return values;
         })();
 
