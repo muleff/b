@@ -28774,6 +28774,10 @@ export const proto = $root.proto = (() => {
             case 29:
                 m.deviceType = 29;
                 break;
+            case "AUTOMOTIVE":
+            case 30:
+                m.deviceType = 30;
+                break;
             }
             if (d.ref != null) {
                 m.ref = String(d.ref);
@@ -42599,6 +42603,10 @@ export const proto = $root.proto = (() => {
             case 29:
                 m.platformType = 29;
                 break;
+            case "AUTOMOTIVE":
+            case 30:
+                m.platformType = 30;
+                break;
             }
             if (d.requireFullSync != null) {
                 m.requireFullSync = Boolean(d.requireFullSync);
@@ -43539,6 +43547,7 @@ export const proto = $root.proto = (() => {
             values[valuesById[27] = "BUSINESS_BACK_OFFICE"] = 27;
             values[valuesById[28] = "WAIL_WAI"] = 28;
             values[valuesById[29] = "WAIL_ALEXA"] = 29;
+            values[valuesById[30] = "AUTOMOTIVE"] = 30;
             return values;
         })();
 
@@ -43838,6 +43847,10 @@ export const proto = $root.proto = (() => {
         values[valuesById[1013] = "FB_PROFILE_DIRECTORY_ITEM"] = 1013;
         values[valuesById[1014] = "FB_FEED_POST_REACTION_REPLY"] = 1014;
         values[valuesById[1015] = "FB_QUICKSNAP_REPLY"] = 1015;
+        values[valuesById[1016] = "MSG_STATUS_REPLY"] = 1016;
+        values[valuesById[1017] = "FB_GROUP_POST"] = 1017;
+        values[valuesById[1018] = "FB_DAILY_GAME_CHALLENGE"] = 1018;
+        values[valuesById[1019] = "FB_QUICKSNAP_REACTION_REPLY"] = 1019;
         values[valuesById[2000] = "MSG_EXTERNAL_LINK_SHARE"] = 2000;
         values[valuesById[2001] = "MSG_P2P_PAYMENT"] = 2001;
         values[valuesById[2002] = "MSG_LOCATION_SHARING"] = 2002;
@@ -43874,6 +43887,10 @@ export const proto = $root.proto = (() => {
         values[valuesById[2061] = "MSG_MOMENT_LINK"] = 2061;
         values[valuesById[2062] = "MSG_HORIZON_WEEL"] = 2062;
         values[valuesById[2063] = "MSG_MOMENT_ADDED"] = 2063;
+        values[valuesById[2067] = "MSG_STORYTELLING_PROMPT"] = 2067;
+        values[valuesById[2068] = "MSG_SUPERVISION_INVITE"] = 2068;
+        values[valuesById[2069] = "MSG_SOCIAL_CUE_MLE"] = 2069;
+        values[valuesById[2070] = "MSG_SOCIAL_CUE_POST"] = 2070;
         values[valuesById[3000] = "RTC_AUDIO_CALL"] = 3000;
         values[valuesById[3001] = "RTC_VIDEO_CALL"] = 3001;
         values[valuesById[3002] = "RTC_MISSED_AUDIO_CALL"] = 3002;
@@ -47623,6 +47640,22 @@ export const proto = $root.proto = (() => {
             case 1015:
                 m.targetType = 1015;
                 break;
+            case "MSG_STATUS_REPLY":
+            case 1016:
+                m.targetType = 1016;
+                break;
+            case "FB_GROUP_POST":
+            case 1017:
+                m.targetType = 1017;
+                break;
+            case "FB_DAILY_GAME_CHALLENGE":
+            case 1018:
+                m.targetType = 1018;
+                break;
+            case "FB_QUICKSNAP_REACTION_REPLY":
+            case 1019:
+                m.targetType = 1019;
+                break;
             case "MSG_EXTERNAL_LINK_SHARE":
             case 2000:
                 m.targetType = 2000;
@@ -47766,6 +47799,22 @@ export const proto = $root.proto = (() => {
             case "MSG_MOMENT_ADDED":
             case 2063:
                 m.targetType = 2063;
+                break;
+            case "MSG_STORYTELLING_PROMPT":
+            case 2067:
+                m.targetType = 2067;
+                break;
+            case "MSG_SUPERVISION_INVITE":
+            case 2068:
+                m.targetType = 2068;
+                break;
+            case "MSG_SOCIAL_CUE_MLE":
+            case 2069:
+                m.targetType = 2069;
+                break;
+            case "MSG_SOCIAL_CUE_POST":
+            case 2070:
+                m.targetType = 2070;
                 break;
             case "RTC_AUDIO_CALL":
             case 3000:
@@ -157898,6 +157947,10 @@ export const proto = $root.proto = (() => {
             case 271:
                 m.messageStubType = 271;
                 break;
+            case "BB_PRO_BROADCAST_CHAT_CARD":
+            case 272:
+                m.messageStubType = 272;
+                break;
             case "CHAT_WITH_BUSINESS_IN_DIRECTORY":
             case 283:
                 m.messageStubType = 283;
@@ -158976,6 +159029,7 @@ export const proto = $root.proto = (() => {
             values[valuesById[267] = "CAMEO_CHAT_EXPIRED"] = 267;
             values[valuesById[270] = "GROUP_PUSHNAME_SHARED"] = 270;
             values[valuesById[271] = "BIZ_POST_SEND_OPT_OUT"] = 271;
+            values[valuesById[272] = "BB_PRO_BROADCAST_CHAT_CARD"] = 272;
             values[valuesById[283] = "CHAT_WITH_BUSINESS_IN_DIRECTORY"] = 283;
             values[valuesById[284] = "META_AI_THREAD_CREATED"] = 284;
             values[valuesById[285] = "META_AI_CONNECTOR_LINKED"] = 285;

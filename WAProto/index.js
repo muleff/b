@@ -9755,6 +9755,10 @@ export const proto = $root.proto = (() => {
                     case 81:
                         m.capabilities[i] = 81;
                         break;
+                    case "AI_STUDY_QUIZ_ENABLED":
+                    case 82:
+                        m.capabilities[i] = 82;
+                        break;
                     }
                 }
             }
@@ -9876,6 +9880,7 @@ export const proto = $root.proto = (() => {
             values[valuesById[79] = "HATCH_ARTIFACT_CARD_ENABLED"] = 79;
             values[valuesById[80] = "AI_STUDY_CENTER_ENABLED"] = 80;
             values[valuesById[81] = "AI_MUSE_JARVIS_SCHEMA_ENABLED"] = 81;
+            values[valuesById[82] = "AI_STUDY_QUIZ_ENABLED"] = 82;
             return values;
         })();
 
@@ -14256,6 +14261,10 @@ export const proto = $root.proto = (() => {
             case 58:
                 m.botEntryPointOrigin = 58;
                 break;
+            case "SHARE":
+            case 59:
+                m.botEntryPointOrigin = 59;
+                break;
             }
             if (d.forwardScore != null) {
                 m.forwardScore = d.forwardScore >>> 0;
@@ -15406,6 +15415,7 @@ export const proto = $root.proto = (() => {
         values[valuesById[56] = "NEW_CHAT_LIST"] = 56;
         values[valuesById[57] = "CONTACTS_TAB"] = 57;
         values[valuesById[58] = "NEW_3P_AGENT_CREATION"] = 58;
+        values[valuesById[59] = "SHARE"] = 59;
         return values;
     })();
 
@@ -15726,6 +15736,10 @@ export const proto = $root.proto = (() => {
             case "NEW_3P_AGENT_CREATION":
             case 58:
                 m.destinationEntryPoint = 58;
+                break;
+            case "SHARE":
+            case 59:
+                m.destinationEntryPoint = 59;
                 break;
             }
             switch (d.threadOrigin) {
@@ -157951,6 +157965,26 @@ export const proto = $root.proto = (() => {
             case 272:
                 m.messageStubType = 272;
                 break;
+            case "BOT_PROACTIVE_MESSAGE_ENABLED":
+            case 273:
+                m.messageStubType = 273;
+                break;
+            case "BOT_PROACTIVE_MESSAGE_DISABLED":
+            case 274:
+                m.messageStubType = 274;
+                break;
+            case "BOT_PROACTIVE_MESSAGE_FIRST_TIME":
+            case 275:
+                m.messageStubType = 275;
+                break;
+            case "DYNAMIC_AUDIENCE_LIST_CREATE":
+            case 276:
+                m.messageStubType = 276;
+                break;
+            case "DYNAMIC_AUDIENCE_LIST_UPDATE_LINK":
+            case 277:
+                m.messageStubType = 277;
+                break;
             case "CHAT_WITH_BUSINESS_IN_DIRECTORY":
             case 283:
                 m.messageStubType = 283;
@@ -159030,6 +159064,11 @@ export const proto = $root.proto = (() => {
             values[valuesById[270] = "GROUP_PUSHNAME_SHARED"] = 270;
             values[valuesById[271] = "BIZ_POST_SEND_OPT_OUT"] = 271;
             values[valuesById[272] = "BB_PRO_BROADCAST_CHAT_CARD"] = 272;
+            values[valuesById[273] = "BOT_PROACTIVE_MESSAGE_ENABLED"] = 273;
+            values[valuesById[274] = "BOT_PROACTIVE_MESSAGE_DISABLED"] = 274;
+            values[valuesById[275] = "BOT_PROACTIVE_MESSAGE_FIRST_TIME"] = 275;
+            values[valuesById[276] = "DYNAMIC_AUDIENCE_LIST_CREATE"] = 276;
+            values[valuesById[277] = "DYNAMIC_AUDIENCE_LIST_UPDATE_LINK"] = 277;
             values[valuesById[283] = "CHAT_WITH_BUSINESS_IN_DIRECTORY"] = 283;
             values[valuesById[284] = "META_AI_THREAD_CREATED"] = 284;
             values[valuesById[285] = "META_AI_CONNECTOR_LINKED"] = 285;
