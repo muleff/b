@@ -40141,6 +40141,7 @@ export const proto = $root.proto = (() => {
         DeviceCapabilities.prototype.contactRefresh = null;
         DeviceCapabilities.prototype.reverseHistorySync = null;
         DeviceCapabilities.prototype.newsletterChatsMigration = null;
+        DeviceCapabilities.prototype.hostWriteMutationSupport = null;
 
         let $oneOfFields;
 
@@ -40199,6 +40200,11 @@ export const proto = $root.proto = (() => {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        Object.defineProperty(DeviceCapabilities.prototype, "_hostWriteMutationSupport", {
+            get: $util.oneOfGetter($oneOfFields = ["hostWriteMutationSupport"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         DeviceCapabilities.create = function create(properties) {
             return new DeviceCapabilities(properties);
         };
@@ -40232,6 +40238,8 @@ export const proto = $root.proto = (() => {
                 $root.proto.DeviceCapabilities.ReverseHistorySync.encode(m.reverseHistorySync, w.uint32(82).fork(), q + 1).ldelim();
             if (m.newsletterChatsMigration != null && Object.hasOwnProperty.call(m, "newsletterChatsMigration"))
                 $root.proto.DeviceCapabilities.NewsletterChatsMigration.encode(m.newsletterChatsMigration, w.uint32(90).fork(), q + 1).ldelim();
+            if (m.hostWriteMutationSupport != null && Object.hasOwnProperty.call(m, "hostWriteMutationSupport"))
+                $root.proto.DeviceCapabilities.HostWriteMutationSupport.encode(m.hostWriteMutationSupport, w.uint32(98).fork(), q + 1).ldelim();
             return w;
         };
 
@@ -40300,6 +40308,10 @@ export const proto = $root.proto = (() => {
                     }
                 case 11: {
                         m.newsletterChatsMigration = $root.proto.DeviceCapabilities.NewsletterChatsMigration.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 12: {
+                        m.hostWriteMutationSupport = $root.proto.DeviceCapabilities.HostWriteMutationSupport.decode(r, r.uint32(), undefined, n + 1);
                         break;
                     }
                 default:
@@ -40410,6 +40422,11 @@ export const proto = $root.proto = (() => {
                     throw TypeError(".proto.DeviceCapabilities.newsletterChatsMigration: object expected");
                 m.newsletterChatsMigration = $root.proto.DeviceCapabilities.NewsletterChatsMigration.fromObject(d.newsletterChatsMigration, n + 1);
             }
+            if (d.hostWriteMutationSupport != null) {
+                if (!$util.isObject(d.hostWriteMutationSupport))
+                    throw TypeError(".proto.DeviceCapabilities.hostWriteMutationSupport: object expected");
+                m.hostWriteMutationSupport = $root.proto.DeviceCapabilities.HostWriteMutationSupport.fromObject(d.hostWriteMutationSupport, n + 1);
+            }
             return m;
         };
 
@@ -40475,6 +40492,11 @@ export const proto = $root.proto = (() => {
                 d.newsletterChatsMigration = $root.proto.DeviceCapabilities.NewsletterChatsMigration.toObject(m.newsletterChatsMigration, o, q + 1);
                 if (o.oneofs)
                     d._newsletterChatsMigration = "newsletterChatsMigration";
+            }
+            if (m.hostWriteMutationSupport != null && Object.hasOwnProperty.call(m, "hostWriteMutationSupport")) {
+                d.hostWriteMutationSupport = $root.proto.DeviceCapabilities.HostWriteMutationSupport.toObject(m.hostWriteMutationSupport, o, q + 1);
+                if (o.oneofs)
+                    d._hostWriteMutationSupport = "hostWriteMutationSupport";
             }
             return d;
         };
@@ -41253,6 +41275,133 @@ export const proto = $root.proto = (() => {
             };
 
             return ContactRefresh;
+        })();
+
+        DeviceCapabilities.HostWriteMutationSupport = (function() {
+
+            function HostWriteMutationSupport(p) {
+                this.mutationNames = [];
+                if (p)
+                    for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                        if (p[ks[i]] != null && ks[i] !== "__proto__")
+                            this[ks[i]] = p[ks[i]];
+            }
+
+            HostWriteMutationSupport.prototype.mutationNames = $util.emptyArray;
+
+            HostWriteMutationSupport.create = function create(properties) {
+                return new HostWriteMutationSupport(properties);
+            };
+
+            HostWriteMutationSupport.encode = function encode(m, w, q) {
+                if (!w)
+                    w = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                if (m.mutationNames != null && m.mutationNames.length) {
+                    for (var i = 0; i < m.mutationNames.length; ++i)
+                        w.uint32(10).string(m.mutationNames[i]);
+                }
+                return w;
+            };
+
+            HostWriteMutationSupport.decode = function decode(r, l, e, n) {
+                if (!(r instanceof $Reader))
+                    r = $Reader.create(r);
+                if (n === undefined)
+                    n = 0;
+                if (n > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var c, m;
+                if (l === undefined)
+                    c = r.len;
+                else {
+                    c = r.pos + l;
+                    if (c > r.len)
+                        throw RangeError("index out of range");
+                    l = r.len;
+                    r.len = c;
+                }
+                m = new $root.proto.DeviceCapabilities.HostWriteMutationSupport();
+                while (r.pos < c) {
+                    var t = r.uint32();
+                    if (t === e)
+                        break;
+                    switch (t >>> 3) {
+                    case 1: {
+                            if (!(m.mutationNames && m.mutationNames.length))
+                                m.mutationNames = [];
+                            m.mutationNames.push(r.string());
+                            break;
+                        }
+                    default:
+                        r.skipType(t & 7, n);
+                        break;
+                    }
+                }
+                if (l !== undefined) {
+                    if (r.pos !== c)
+                        throw RangeError("index out of range");
+                    r.len = l;
+                }
+                return m;
+            };
+
+            HostWriteMutationSupport.fromObject = function fromObject(d, n) {
+                if (d instanceof $root.proto.DeviceCapabilities.HostWriteMutationSupport)
+                    return d;
+                if (!$util.isObject(d))
+                    throw TypeError(".proto.DeviceCapabilities.HostWriteMutationSupport: object expected");
+                if (n === undefined)
+                    n = 0;
+                if (n > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var m = new $root.proto.DeviceCapabilities.HostWriteMutationSupport();
+                if (d.mutationNames) {
+                    if (!Array.isArray(d.mutationNames))
+                        throw TypeError(".proto.DeviceCapabilities.HostWriteMutationSupport.mutationNames: array expected");
+                    m.mutationNames = [];
+                    for (var i = 0; i < d.mutationNames.length; ++i) {
+                        m.mutationNames[i] = String(d.mutationNames[i]);
+                    }
+                }
+                return m;
+            };
+
+            HostWriteMutationSupport.toObject = function toObject(m, o, q) {
+                if (!o)
+                    o = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                var d = {};
+                if (o.arrays || o.defaults) {
+                    d.mutationNames = [];
+                }
+                if (m.mutationNames && m.mutationNames.length) {
+                    d.mutationNames = [];
+                    for (var j = 0; j < m.mutationNames.length; ++j) {
+                        d.mutationNames[j] = m.mutationNames[j];
+                    }
+                }
+                return d;
+            };
+
+            HostWriteMutationSupport.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            HostWriteMutationSupport.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/proto.DeviceCapabilities.HostWriteMutationSupport";
+            };
+
+            return HostWriteMutationSupport;
         })();
 
         DeviceCapabilities.LIDMigration = (function() {

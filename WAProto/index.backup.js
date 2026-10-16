@@ -13789,6 +13789,10 @@ export const proto = $root.proto = (() => {
             case 0:
                 m.type = 0;
                 break;
+            case "BOT_MESSAGE_ORIGIN_TYPE_META_AI_THREAD_WELCOME":
+            case 1:
+                m.type = 1;
+                break;
             }
             return m;
         };
@@ -13823,6 +13827,7 @@ export const proto = $root.proto = (() => {
         BotMessageOrigin.BotMessageOriginType = (function() {
             const valuesById = {}, values = Object.create(valuesById);
             values[valuesById[0] = "BOT_MESSAGE_ORIGIN_TYPE_AI_INITIATED"] = 0;
+            values[valuesById[1] = "BOT_MESSAGE_ORIGIN_TYPE_META_AI_THREAD_WELCOME"] = 1;
             return values;
         })();
 
@@ -26324,6 +26329,10 @@ export const proto = $root.proto = (() => {
                 case 40:
                     m.platform = 40;
                     break;
+                case "AUTOMOTIVE":
+                case 41:
+                    m.platform = 41;
+                    break;
                 }
                 if (d.appVersion != null) {
                     if (!$util.isObject(d.appVersion))
@@ -26814,6 +26823,7 @@ export const proto = $root.proto = (() => {
                 values[valuesById[38] = "WAIL"] = 38;
                 values[valuesById[39] = "WORK_ANDROID"] = 39;
                 values[valuesById[40] = "WORK_IOS"] = 40;
+                values[valuesById[41] = "AUTOMOTIVE"] = 41;
                 return values;
             })();
 
