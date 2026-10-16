@@ -117583,6 +117583,7 @@ export const proto = $root.proto = (() => {
         values[valuesById[97] = "GROUP_HISTORY_TOGGLE_ACTION"] = 97;
         values[valuesById[98] = "BB_PRO_PENDING_CUSTOMER_BASE_ACTION"] = 98;
         values[valuesById[99] = "COMMUNITY_NESTING_STATE_ACTION"] = 99;
+        values[valuesById[100] = "SHARED_DEVICE_SECRET_ACTION"] = 100;
         values[valuesById[10001] = "SHARE_OWN_PN"] = 10001;
         values[valuesById[10002] = "BUSINESS_BROADCAST_ACTION"] = 10002;
         values[valuesById[10003] = "AI_THREAD_DELETE_ACTION"] = 10003;
@@ -131704,6 +131705,7 @@ export const proto = $root.proto = (() => {
         SyncActionValue.prototype.groupHistoryToggleAction = null;
         SyncActionValue.prototype.bbProPendingCustomerBaseAction = null;
         SyncActionValue.prototype.communityNestingStateAction = null;
+        SyncActionValue.prototype.sharedDeviceSecretAction = null;
 
         let $oneOfFields;
 
@@ -132157,6 +132159,11 @@ export const proto = $root.proto = (() => {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        Object.defineProperty(SyncActionValue.prototype, "_sharedDeviceSecretAction", {
+            get: $util.oneOfGetter($oneOfFields = ["sharedDeviceSecretAction"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         SyncActionValue.create = function create(properties) {
             return new SyncActionValue(properties);
         };
@@ -132348,6 +132355,8 @@ export const proto = $root.proto = (() => {
                 $root.proto.SyncActionValue.BBProPendingCustomerBaseAction.encode(m.bbProPendingCustomerBaseAction, w.uint32(786).fork(), q + 1).ldelim();
             if (m.communityNestingStateAction != null && Object.hasOwnProperty.call(m, "communityNestingStateAction"))
                 $root.proto.SyncActionValue.CommunityNestingStateAction.encode(m.communityNestingStateAction, w.uint32(794).fork(), q + 1).ldelim();
+            if (m.sharedDeviceSecretAction != null && Object.hasOwnProperty.call(m, "sharedDeviceSecretAction"))
+                $root.proto.SyncActionValue.SharedDeviceSecretAction.encode(m.sharedDeviceSecretAction, w.uint32(802).fork(), q + 1).ldelim();
             return w;
         };
 
@@ -132732,6 +132741,10 @@ export const proto = $root.proto = (() => {
                     }
                 case 99: {
                         m.communityNestingStateAction = $root.proto.SyncActionValue.CommunityNestingStateAction.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 100: {
+                        m.sharedDeviceSecretAction = $root.proto.SyncActionValue.SharedDeviceSecretAction.decode(r, r.uint32(), undefined, n + 1);
                         break;
                     }
                 default:
@@ -133212,6 +133225,11 @@ export const proto = $root.proto = (() => {
                     throw TypeError(".proto.SyncActionValue.communityNestingStateAction: object expected");
                 m.communityNestingStateAction = $root.proto.SyncActionValue.CommunityNestingStateAction.fromObject(d.communityNestingStateAction, n + 1);
             }
+            if (d.sharedDeviceSecretAction != null) {
+                if (!$util.isObject(d.sharedDeviceSecretAction))
+                    throw TypeError(".proto.SyncActionValue.sharedDeviceSecretAction: object expected");
+                m.sharedDeviceSecretAction = $root.proto.SyncActionValue.SharedDeviceSecretAction.fromObject(d.sharedDeviceSecretAction, n + 1);
+            }
             return m;
         };
 
@@ -133677,6 +133695,11 @@ export const proto = $root.proto = (() => {
                 d.communityNestingStateAction = $root.proto.SyncActionValue.CommunityNestingStateAction.toObject(m.communityNestingStateAction, o, q + 1);
                 if (o.oneofs)
                     d._communityNestingStateAction = "communityNestingStateAction";
+            }
+            if (m.sharedDeviceSecretAction != null && Object.hasOwnProperty.call(m, "sharedDeviceSecretAction")) {
+                d.sharedDeviceSecretAction = $root.proto.SyncActionValue.SharedDeviceSecretAction.toObject(m.sharedDeviceSecretAction, o, q + 1);
+                if (o.oneofs)
+                    d._sharedDeviceSecretAction = "sharedDeviceSecretAction";
             }
             return d;
         };
@@ -146223,6 +146246,161 @@ export const proto = $root.proto = (() => {
             };
 
             return SharedDeviceAllowlistAction;
+        })();
+
+        SyncActionValue.SharedDeviceSecretAction = (function() {
+
+            function SharedDeviceSecretAction(p) {
+                if (p)
+                    for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                        if (p[ks[i]] != null && ks[i] !== "__proto__")
+                            this[ks[i]] = p[ks[i]];
+            }
+
+            SharedDeviceSecretAction.prototype.secret = null;
+            SharedDeviceSecretAction.prototype.ttlMs = null;
+
+            let $oneOfFields;
+
+            Object.defineProperty(SharedDeviceSecretAction.prototype, "_secret", {
+                get: $util.oneOfGetter($oneOfFields = ["secret"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            Object.defineProperty(SharedDeviceSecretAction.prototype, "_ttlMs", {
+                get: $util.oneOfGetter($oneOfFields = ["ttlMs"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            SharedDeviceSecretAction.create = function create(properties) {
+                return new SharedDeviceSecretAction(properties);
+            };
+
+            SharedDeviceSecretAction.encode = function encode(m, w, q) {
+                if (!w)
+                    w = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                if (m.secret != null && Object.hasOwnProperty.call(m, "secret"))
+                    w.uint32(10).bytes(m.secret);
+                if (m.ttlMs != null && Object.hasOwnProperty.call(m, "ttlMs"))
+                    w.uint32(16).int64(m.ttlMs);
+                return w;
+            };
+
+            SharedDeviceSecretAction.decode = function decode(r, l, e, n) {
+                if (!(r instanceof $Reader))
+                    r = $Reader.create(r);
+                if (n === undefined)
+                    n = 0;
+                if (n > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var c, m;
+                if (l === undefined)
+                    c = r.len;
+                else {
+                    c = r.pos + l;
+                    if (c > r.len)
+                        throw RangeError("index out of range");
+                    l = r.len;
+                    r.len = c;
+                }
+                m = new $root.proto.SyncActionValue.SharedDeviceSecretAction();
+                while (r.pos < c) {
+                    var t = r.uint32();
+                    if (t === e)
+                        break;
+                    switch (t >>> 3) {
+                    case 1: {
+                            m.secret = r.bytes();
+                            break;
+                        }
+                    case 2: {
+                            m.ttlMs = r.int64();
+                            break;
+                        }
+                    default:
+                        r.skipType(t & 7, n);
+                        break;
+                    }
+                }
+                if (l !== undefined) {
+                    if (r.pos !== c)
+                        throw RangeError("index out of range");
+                    r.len = l;
+                }
+                return m;
+            };
+
+            SharedDeviceSecretAction.fromObject = function fromObject(d, n) {
+                if (d instanceof $root.proto.SyncActionValue.SharedDeviceSecretAction)
+                    return d;
+                if (!$util.isObject(d))
+                    throw TypeError(".proto.SyncActionValue.SharedDeviceSecretAction: object expected");
+                if (n === undefined)
+                    n = 0;
+                if (n > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var m = new $root.proto.SyncActionValue.SharedDeviceSecretAction();
+                if (d.secret != null) {
+                    if (typeof d.secret === "string")
+                        $util.base64.decode(d.secret, m.secret = $util.newBuffer($util.base64.length(d.secret)), 0);
+                    else if (d.secret.length >= 0)
+                        m.secret = d.secret;
+                }
+                if (d.ttlMs != null) {
+                    if ($util.Long)
+                        m.ttlMs = $util.Long.fromValue(d.ttlMs, false);
+                    else if (typeof d.ttlMs === "string")
+                        m.ttlMs = parseInt(d.ttlMs, 10);
+                    else if (typeof d.ttlMs === "number")
+                        m.ttlMs = d.ttlMs;
+                    else if (typeof d.ttlMs === "object")
+                        m.ttlMs = new $util.LongBits(d.ttlMs.low >>> 0, d.ttlMs.high >>> 0).toNumber();
+                }
+                return m;
+            };
+
+            SharedDeviceSecretAction.toObject = function toObject(m, o, q) {
+                if (!o)
+                    o = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                var d = {};
+                if (m.secret != null && Object.hasOwnProperty.call(m, "secret")) {
+                    d.secret = o.bytes === String ? $util.base64.encode(m.secret, 0, m.secret.length) : o.bytes === Array ? Array.prototype.slice.call(m.secret) : m.secret;
+                    if (o.oneofs)
+                        d._secret = "secret";
+                }
+                if (m.ttlMs != null && Object.hasOwnProperty.call(m, "ttlMs")) {
+                    if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                        d.ttlMs = typeof m.ttlMs === "number" ? BigInt(m.ttlMs) : $util.Long.fromBits(m.ttlMs.low >>> 0, m.ttlMs.high >>> 0, false).toBigInt();
+                    else if (typeof m.ttlMs === "number")
+                        d.ttlMs = o.longs === String ? String(m.ttlMs) : m.ttlMs;
+                    else
+                        d.ttlMs = o.longs === String ? longToString(m.ttlMs) : o.longs === Number ? longToNumber(m.ttlMs) : m.ttlMs;
+                    if (o.oneofs)
+                        d._ttlMs = "ttlMs";
+                }
+                return d;
+            };
+
+            SharedDeviceSecretAction.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            SharedDeviceSecretAction.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/proto.SyncActionValue.SharedDeviceSecretAction";
+            };
+
+            return SharedDeviceSecretAction;
         })();
 
         SyncActionValue.StarAction = (function() {
