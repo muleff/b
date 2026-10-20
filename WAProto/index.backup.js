@@ -28899,6 +28899,7 @@ export const proto = $root.proto = (() => {
         ContextInfo.prototype.aiProvenance = null;
         ContextInfo.prototype.experienceIds = $util.emptyArray;
         ContextInfo.prototype.partnerDeepLinkToken = null;
+        ContextInfo.prototype.sourceExperienceId = null;
 
         let $oneOfFields;
 
@@ -29212,6 +29213,11 @@ export const proto = $root.proto = (() => {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        Object.defineProperty(ContextInfo.prototype, "_sourceExperienceId", {
+            get: $util.oneOfGetter($oneOfFields = ["sourceExperienceId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         ContextInfo.create = function create(properties) {
             return new ContextInfo(properties);
         };
@@ -29365,6 +29371,8 @@ export const proto = $root.proto = (() => {
             }
             if (m.partnerDeepLinkToken != null && Object.hasOwnProperty.call(m, "partnerDeepLinkToken"))
                 w.uint32(666).string(m.partnerDeepLinkToken);
+            if (m.sourceExperienceId != null && Object.hasOwnProperty.call(m, "sourceExperienceId"))
+                w.uint32(672).uint32(m.sourceExperienceId);
             return w;
         };
 
@@ -29672,6 +29680,10 @@ export const proto = $root.proto = (() => {
                     }
                 case 83: {
                         m.partnerDeepLinkToken = r.string();
+                        break;
+                    }
+                case 84: {
+                        m.sourceExperienceId = r.uint32();
                         break;
                     }
                 default:
@@ -30149,6 +30161,9 @@ export const proto = $root.proto = (() => {
             if (d.partnerDeepLinkToken != null) {
                 m.partnerDeepLinkToken = String(d.partnerDeepLinkToken);
             }
+            if (d.sourceExperienceId != null) {
+                m.sourceExperienceId = d.sourceExperienceId >>> 0;
+            }
             return m;
         };
 
@@ -30504,6 +30519,11 @@ export const proto = $root.proto = (() => {
                 d.partnerDeepLinkToken = m.partnerDeepLinkToken;
                 if (o.oneofs)
                     d._partnerDeepLinkToken = "partnerDeepLinkToken";
+            }
+            if (m.sourceExperienceId != null && Object.hasOwnProperty.call(m, "sourceExperienceId")) {
+                d.sourceExperienceId = m.sourceExperienceId;
+                if (o.oneofs)
+                    d._sourceExperienceId = "sourceExperienceId";
             }
             return d;
         };
@@ -33990,6 +34010,7 @@ export const proto = $root.proto = (() => {
             StatusAudienceMetadata.prototype.audienceType = null;
             StatusAudienceMetadata.prototype.listName = null;
             StatusAudienceMetadata.prototype.listEmoji = null;
+            StatusAudienceMetadata.prototype.networkId = null;
 
             let $oneOfFields;
 
@@ -34005,6 +34026,11 @@ export const proto = $root.proto = (() => {
 
             Object.defineProperty(StatusAudienceMetadata.prototype, "_listEmoji", {
                 get: $util.oneOfGetter($oneOfFields = ["listEmoji"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            Object.defineProperty(StatusAudienceMetadata.prototype, "_networkId", {
+                get: $util.oneOfGetter($oneOfFields = ["networkId"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
 
@@ -34025,6 +34051,8 @@ export const proto = $root.proto = (() => {
                     w.uint32(18).string(m.listName);
                 if (m.listEmoji != null && Object.hasOwnProperty.call(m, "listEmoji"))
                     w.uint32(26).string(m.listEmoji);
+                if (m.networkId != null && Object.hasOwnProperty.call(m, "networkId"))
+                    w.uint32(34).string(m.networkId);
                 return w;
             };
 
@@ -34061,6 +34089,10 @@ export const proto = $root.proto = (() => {
                         }
                     case 3: {
                             m.listEmoji = r.string();
+                            break;
+                        }
+                    case 4: {
+                            m.networkId = r.string();
                             break;
                         }
                     default:
@@ -34101,12 +34133,23 @@ export const proto = $root.proto = (() => {
                 case 1:
                     m.audienceType = 1;
                     break;
+                case "CUSTOM_LIST":
+                case 2:
+                    m.audienceType = 2;
+                    break;
+                case "NETWORK":
+                case 3:
+                    m.audienceType = 3;
+                    break;
                 }
                 if (d.listName != null) {
                     m.listName = String(d.listName);
                 }
                 if (d.listEmoji != null) {
                     m.listEmoji = String(d.listEmoji);
+                }
+                if (d.networkId != null) {
+                    m.networkId = String(d.networkId);
                 }
                 return m;
             };
@@ -34134,6 +34177,11 @@ export const proto = $root.proto = (() => {
                     if (o.oneofs)
                         d._listEmoji = "listEmoji";
                 }
+                if (m.networkId != null && Object.hasOwnProperty.call(m, "networkId")) {
+                    d.networkId = m.networkId;
+                    if (o.oneofs)
+                        d._networkId = "networkId";
+                }
                 return d;
             };
 
@@ -34152,6 +34200,8 @@ export const proto = $root.proto = (() => {
                 const valuesById = {}, values = Object.create(valuesById);
                 values[valuesById[0] = "UNKNOWN"] = 0;
                 values[valuesById[1] = "CLOSE_FRIENDS"] = 1;
+                values[valuesById[2] = "CUSTOM_LIST"] = 2;
+                values[valuesById[3] = "NETWORK"] = 3;
                 return values;
             })();
 
@@ -45888,6 +45938,10 @@ export const proto = $root.proto = (() => {
             case 6:
                 m.syncType = 6;
                 break;
+            case "RECENT_CONVERSATIONS_ON_DEMAND":
+            case 9:
+                m.syncType = 9;
+                break;
             }
             if (d.conversations) {
                 if (!Array.isArray(d.conversations))
@@ -46236,6 +46290,7 @@ export const proto = $root.proto = (() => {
             values[valuesById[4] = "PUSH_NAME"] = 4;
             values[valuesById[5] = "NON_BLOCKING_DATA"] = 5;
             values[valuesById[6] = "ON_DEMAND"] = 6;
+            values[valuesById[9] = "RECENT_CONVERSATIONS_ON_DEMAND"] = 9;
             return values;
         })();
 
@@ -49538,6 +49593,162 @@ export const proto = $root.proto = (() => {
         };
 
         return KeyId;
+    })();
+
+    proto.KeyTransparencyCommand = (function() {
+
+        function KeyTransparencyCommand(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        KeyTransparencyCommand.prototype.verifyKtForUserSignal = null;
+        KeyTransparencyCommand.prototype.verifyKtForUserMinos = null;
+        KeyTransparencyCommand.prototype.verifyKtForUserMandrake = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(KeyTransparencyCommand.prototype, "commandInput", {
+            get: $util.oneOfGetter($oneOfFields = ["verifyKtForUserSignal", "verifyKtForUserMinos", "verifyKtForUserMandrake"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        KeyTransparencyCommand.create = function create(properties) {
+            return new KeyTransparencyCommand(properties);
+        };
+
+        KeyTransparencyCommand.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.verifyKtForUserSignal != null && Object.hasOwnProperty.call(m, "verifyKtForUserSignal"))
+                $root.proto.VerifyKeyTransparencyForUserSignalCommand.encode(m.verifyKtForUserSignal, w.uint32(42).fork(), q + 1).ldelim();
+            if (m.verifyKtForUserMinos != null && Object.hasOwnProperty.call(m, "verifyKtForUserMinos"))
+                $root.proto.VerifyKeyTransparencyForUserMinosCommand.encode(m.verifyKtForUserMinos, w.uint32(50).fork(), q + 1).ldelim();
+            if (m.verifyKtForUserMandrake != null && Object.hasOwnProperty.call(m, "verifyKtForUserMandrake"))
+                $root.proto.VerifyKeyTransparencyForUserMandrakeCommand.encode(m.verifyKtForUserMandrake, w.uint32(58).fork(), q + 1).ldelim();
+            return w;
+        };
+
+        KeyTransparencyCommand.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.KeyTransparencyCommand();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 5: {
+                        m.verifyKtForUserSignal = $root.proto.VerifyKeyTransparencyForUserSignalCommand.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 6: {
+                        m.verifyKtForUserMinos = $root.proto.VerifyKeyTransparencyForUserMinosCommand.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 7: {
+                        m.verifyKtForUserMandrake = $root.proto.VerifyKeyTransparencyForUserMandrakeCommand.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        KeyTransparencyCommand.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.KeyTransparencyCommand)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.KeyTransparencyCommand: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.KeyTransparencyCommand();
+            if (d.verifyKtForUserSignal != null) {
+                if (!$util.isObject(d.verifyKtForUserSignal))
+                    throw TypeError(".proto.KeyTransparencyCommand.verifyKtForUserSignal: object expected");
+                m.verifyKtForUserSignal = $root.proto.VerifyKeyTransparencyForUserSignalCommand.fromObject(d.verifyKtForUserSignal, n + 1);
+            }
+            if (d.verifyKtForUserMinos != null) {
+                if (!$util.isObject(d.verifyKtForUserMinos))
+                    throw TypeError(".proto.KeyTransparencyCommand.verifyKtForUserMinos: object expected");
+                m.verifyKtForUserMinos = $root.proto.VerifyKeyTransparencyForUserMinosCommand.fromObject(d.verifyKtForUserMinos, n + 1);
+            }
+            if (d.verifyKtForUserMandrake != null) {
+                if (!$util.isObject(d.verifyKtForUserMandrake))
+                    throw TypeError(".proto.KeyTransparencyCommand.verifyKtForUserMandrake: object expected");
+                m.verifyKtForUserMandrake = $root.proto.VerifyKeyTransparencyForUserMandrakeCommand.fromObject(d.verifyKtForUserMandrake, n + 1);
+            }
+            return m;
+        };
+
+        KeyTransparencyCommand.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.verifyKtForUserSignal != null && Object.hasOwnProperty.call(m, "verifyKtForUserSignal")) {
+                d.verifyKtForUserSignal = $root.proto.VerifyKeyTransparencyForUserSignalCommand.toObject(m.verifyKtForUserSignal, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "verifyKtForUserSignal";
+            }
+            if (m.verifyKtForUserMinos != null && Object.hasOwnProperty.call(m, "verifyKtForUserMinos")) {
+                d.verifyKtForUserMinos = $root.proto.VerifyKeyTransparencyForUserMinosCommand.toObject(m.verifyKtForUserMinos, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "verifyKtForUserMinos";
+            }
+            if (m.verifyKtForUserMandrake != null && Object.hasOwnProperty.call(m, "verifyKtForUserMandrake")) {
+                d.verifyKtForUserMandrake = $root.proto.VerifyKeyTransparencyForUserMandrakeCommand.toObject(m.verifyKtForUserMandrake, o, q + 1);
+                if (o.oneofs)
+                    d.commandInput = "verifyKtForUserMandrake";
+            }
+            return d;
+        };
+
+        KeyTransparencyCommand.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        KeyTransparencyCommand.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.KeyTransparencyCommand";
+        };
+
+        return KeyTransparencyCommand;
     })();
 
     proto.LIDMigrationMappingSyncMessage = (function() {
@@ -67099,6 +67310,10 @@ export const proto = $root.proto = (() => {
                 case 8:
                     m.syncType = 8;
                     break;
+                case "RECENT_CONVERSATIONS_ON_DEMAND":
+                case 9:
+                    m.syncType = 9;
+                    break;
                 }
                 if (d.chunkOrder != null) {
                     m.chunkOrder = d.chunkOrder >>> 0;
@@ -67265,6 +67480,7 @@ export const proto = $root.proto = (() => {
             values[valuesById[6] = "ON_DEMAND"] = 6;
             values[valuesById[7] = "NO_HISTORY"] = 7;
             values[valuesById[8] = "MESSAGE_ACCESS_STATUS"] = 8;
+            values[valuesById[9] = "RECENT_CONVERSATIONS_ON_DEMAND"] = 9;
             return values;
         })();
 
@@ -77336,6 +77552,7 @@ export const proto = $root.proto = (() => {
             PeerDataOperationRequestMessage.prototype.companionCanonicalUserNonceFetchRequest = null;
             PeerDataOperationRequestMessage.prototype.bizBroadcastInsightsContactListRequest = null;
             PeerDataOperationRequestMessage.prototype.bizBroadcastInsightsRefreshRequest = null;
+            PeerDataOperationRequestMessage.prototype.recentConversationsOnDemandRequest = null;
 
             let $oneOfFields;
 
@@ -77384,6 +77601,11 @@ export const proto = $root.proto = (() => {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            Object.defineProperty(PeerDataOperationRequestMessage.prototype, "_recentConversationsOnDemandRequest", {
+                get: $util.oneOfGetter($oneOfFields = ["recentConversationsOnDemandRequest"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             PeerDataOperationRequestMessage.create = function create(properties) {
                 return new PeerDataOperationRequestMessage(properties);
             };
@@ -77425,6 +77647,8 @@ export const proto = $root.proto = (() => {
                     $root.proto.Message.PeerDataOperationRequestMessage.BizBroadcastInsightsContactListRequest.encode(m.bizBroadcastInsightsContactListRequest, w.uint32(90).fork(), q + 1).ldelim();
                 if (m.bizBroadcastInsightsRefreshRequest != null && Object.hasOwnProperty.call(m, "bizBroadcastInsightsRefreshRequest"))
                     $root.proto.Message.PeerDataOperationRequestMessage.BizBroadcastInsightsRefreshRequest.encode(m.bizBroadcastInsightsRefreshRequest, w.uint32(98).fork(), q + 1).ldelim();
+                if (m.recentConversationsOnDemandRequest != null && Object.hasOwnProperty.call(m, "recentConversationsOnDemandRequest"))
+                    $root.proto.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest.encode(m.recentConversationsOnDemandRequest, w.uint32(106).fork(), q + 1).ldelim();
                 return w;
             };
 
@@ -77503,6 +77727,10 @@ export const proto = $root.proto = (() => {
                         }
                     case 12: {
                             m.bizBroadcastInsightsRefreshRequest = $root.proto.Message.PeerDataOperationRequestMessage.BizBroadcastInsightsRefreshRequest.decode(r, r.uint32(), undefined, n + 1);
+                            break;
+                        }
+                    case 13: {
+                            m.recentConversationsOnDemandRequest = $root.proto.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest.decode(r, r.uint32(), undefined, n + 1);
                             break;
                         }
                     default:
@@ -77595,6 +77823,10 @@ export const proto = $root.proto = (() => {
                 case 14:
                     m.peerDataOperationRequestType = 14;
                     break;
+                case "RECENT_CONVERSATIONS_ON_DEMAND_REQUEST":
+                case 15:
+                    m.peerDataOperationRequestType = 15;
+                    break;
                 }
                 if (d.requestStickerReupload) {
                     if (!Array.isArray(d.requestStickerReupload))
@@ -77665,6 +77897,11 @@ export const proto = $root.proto = (() => {
                     if (!$util.isObject(d.bizBroadcastInsightsRefreshRequest))
                         throw TypeError(".proto.Message.PeerDataOperationRequestMessage.bizBroadcastInsightsRefreshRequest: object expected");
                     m.bizBroadcastInsightsRefreshRequest = $root.proto.Message.PeerDataOperationRequestMessage.BizBroadcastInsightsRefreshRequest.fromObject(d.bizBroadcastInsightsRefreshRequest, n + 1);
+                }
+                if (d.recentConversationsOnDemandRequest != null) {
+                    if (!$util.isObject(d.recentConversationsOnDemandRequest))
+                        throw TypeError(".proto.Message.PeerDataOperationRequestMessage.recentConversationsOnDemandRequest: object expected");
+                    m.recentConversationsOnDemandRequest = $root.proto.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest.fromObject(d.recentConversationsOnDemandRequest, n + 1);
                 }
                 return m;
             };
@@ -77744,6 +77981,11 @@ export const proto = $root.proto = (() => {
                     d.bizBroadcastInsightsRefreshRequest = $root.proto.Message.PeerDataOperationRequestMessage.BizBroadcastInsightsRefreshRequest.toObject(m.bizBroadcastInsightsRefreshRequest, o, q + 1);
                     if (o.oneofs)
                         d._bizBroadcastInsightsRefreshRequest = "bizBroadcastInsightsRefreshRequest";
+                }
+                if (m.recentConversationsOnDemandRequest != null && Object.hasOwnProperty.call(m, "recentConversationsOnDemandRequest")) {
+                    d.recentConversationsOnDemandRequest = $root.proto.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest.toObject(m.recentConversationsOnDemandRequest, o, q + 1);
+                    if (o.oneofs)
+                        d._recentConversationsOnDemandRequest = "recentConversationsOnDemandRequest";
                 }
                 return d;
             };
@@ -78668,6 +78910,10 @@ export const proto = $root.proto = (() => {
                     case 8:
                         m.syncType = 8;
                         break;
+                    case "RECENT_CONVERSATIONS_ON_DEMAND":
+                    case 9:
+                        m.syncType = 9;
+                        break;
                     }
                     if (d.chunkOrder != null) {
                         m.chunkOrder = d.chunkOrder >>> 0;
@@ -79098,6 +79344,146 @@ export const proto = $root.proto = (() => {
                 };
 
                 return PlaceholderMessageResendRequest;
+            })();
+
+            PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest = (function() {
+
+                function RecentConversationsOnDemandRequest(p) {
+                    if (p)
+                        for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                            if (p[ks[i]] != null && ks[i] !== "__proto__")
+                                this[ks[i]] = p[ks[i]];
+                }
+
+                RecentConversationsOnDemandRequest.prototype.conversationCount = null;
+                RecentConversationsOnDemandRequest.prototype.messagesPerConversation = null;
+
+                let $oneOfFields;
+
+                Object.defineProperty(RecentConversationsOnDemandRequest.prototype, "_conversationCount", {
+                    get: $util.oneOfGetter($oneOfFields = ["conversationCount"]),
+                    set: $util.oneOfSetter($oneOfFields)
+                });
+
+                Object.defineProperty(RecentConversationsOnDemandRequest.prototype, "_messagesPerConversation", {
+                    get: $util.oneOfGetter($oneOfFields = ["messagesPerConversation"]),
+                    set: $util.oneOfSetter($oneOfFields)
+                });
+
+                RecentConversationsOnDemandRequest.create = function create(properties) {
+                    return new RecentConversationsOnDemandRequest(properties);
+                };
+
+                RecentConversationsOnDemandRequest.encode = function encode(m, w, q) {
+                    if (!w)
+                        w = $Writer.create();
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
+                    if (m.conversationCount != null && Object.hasOwnProperty.call(m, "conversationCount"))
+                        w.uint32(8).uint32(m.conversationCount);
+                    if (m.messagesPerConversation != null && Object.hasOwnProperty.call(m, "messagesPerConversation"))
+                        w.uint32(16).uint32(m.messagesPerConversation);
+                    return w;
+                };
+
+                RecentConversationsOnDemandRequest.decode = function decode(r, l, e, n) {
+                    if (!(r instanceof $Reader))
+                        r = $Reader.create(r);
+                    if (n === undefined)
+                        n = 0;
+                    if (n > $Reader.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var c, m;
+                    if (l === undefined)
+                        c = r.len;
+                    else {
+                        c = r.pos + l;
+                        if (c > r.len)
+                            throw RangeError("index out of range");
+                        l = r.len;
+                        r.len = c;
+                    }
+                    m = new $root.proto.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest();
+                    while (r.pos < c) {
+                        var t = r.uint32();
+                        if (t === e)
+                            break;
+                        switch (t >>> 3) {
+                        case 1: {
+                                m.conversationCount = r.uint32();
+                                break;
+                            }
+                        case 2: {
+                                m.messagesPerConversation = r.uint32();
+                                break;
+                            }
+                        default:
+                            r.skipType(t & 7, n);
+                            break;
+                        }
+                    }
+                    if (l !== undefined) {
+                        if (r.pos !== c)
+                            throw RangeError("index out of range");
+                        r.len = l;
+                    }
+                    return m;
+                };
+
+                RecentConversationsOnDemandRequest.fromObject = function fromObject(d, n) {
+                    if (d instanceof $root.proto.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest)
+                        return d;
+                    if (!$util.isObject(d))
+                        throw TypeError(".proto.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest: object expected");
+                    if (n === undefined)
+                        n = 0;
+                    if (n > $util.recursionLimit)
+                        throw Error("maximum nesting depth exceeded");
+                    var m = new $root.proto.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest();
+                    if (d.conversationCount != null) {
+                        m.conversationCount = d.conversationCount >>> 0;
+                    }
+                    if (d.messagesPerConversation != null) {
+                        m.messagesPerConversation = d.messagesPerConversation >>> 0;
+                    }
+                    return m;
+                };
+
+                RecentConversationsOnDemandRequest.toObject = function toObject(m, o, q) {
+                    if (!o)
+                        o = {};
+                    if (q === undefined)
+                        q = 0;
+                    if (q > $util.recursionLimit)
+                        throw Error("max depth exceeded");
+                    var d = {};
+                    if (m.conversationCount != null && Object.hasOwnProperty.call(m, "conversationCount")) {
+                        d.conversationCount = m.conversationCount;
+                        if (o.oneofs)
+                            d._conversationCount = "conversationCount";
+                    }
+                    if (m.messagesPerConversation != null && Object.hasOwnProperty.call(m, "messagesPerConversation")) {
+                        d.messagesPerConversation = m.messagesPerConversation;
+                        if (o.oneofs)
+                            d._messagesPerConversation = "messagesPerConversation";
+                    }
+                    return d;
+                };
+
+                RecentConversationsOnDemandRequest.prototype.toJSON = function toJSON() {
+                    return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                };
+
+                RecentConversationsOnDemandRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                    if (typeUrlPrefix === undefined) {
+                        typeUrlPrefix = "type.googleapis.com";
+                    }
+                    return typeUrlPrefix + "/proto.Message.PeerDataOperationRequestMessage.RecentConversationsOnDemandRequest";
+                };
+
+                return RecentConversationsOnDemandRequest;
             })();
 
             PeerDataOperationRequestMessage.RequestStickerReupload = (function() {
@@ -79689,6 +80075,10 @@ export const proto = $root.proto = (() => {
                 case "CONTACT_REFRESH_REQUEST":
                 case 14:
                     m.peerDataOperationRequestType = 14;
+                    break;
+                case "RECENT_CONVERSATIONS_ON_DEMAND_REQUEST":
+                case 15:
+                    m.peerDataOperationRequestType = 15;
                     break;
                 }
                 if (d.stanzaId != null) {
@@ -81691,6 +82081,10 @@ export const proto = $root.proto = (() => {
                         case 8:
                             m.syncType = 8;
                             break;
+                        case "RECENT_CONVERSATIONS_ON_DEMAND":
+                        case 9:
+                            m.syncType = 9;
+                            break;
                         }
                         if (d.chunkOrder != null) {
                             m.chunkOrder = d.chunkOrder >>> 0;
@@ -82948,6 +83342,7 @@ export const proto = $root.proto = (() => {
             values[valuesById[12] = "BUSINESS_BROADCAST_INSIGHTS_DELIVERED_TO"] = 12;
             values[valuesById[13] = "BUSINESS_BROADCAST_INSIGHTS_REFRESH"] = 13;
             values[valuesById[14] = "CONTACT_REFRESH_REQUEST"] = 14;
+            values[valuesById[15] = "RECENT_CONVERSATIONS_ON_DEMAND_REQUEST"] = 15;
             return values;
         })();
 
@@ -95654,6 +96049,7 @@ export const proto = $root.proto = (() => {
         MessageContextInfo.prototype.associatedPrimaryIdentityKey = null;
         MessageContextInfo.prototype.teeContextAnchorMessageId = null;
         MessageContextInfo.prototype.acp2Setting = null;
+        MessageContextInfo.prototype.lightE2Ee = null;
 
         let $oneOfFields;
 
@@ -95757,6 +96153,11 @@ export const proto = $root.proto = (() => {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        Object.defineProperty(MessageContextInfo.prototype, "_lightE2Ee", {
+            get: $util.oneOfGetter($oneOfFields = ["lightE2Ee"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         MessageContextInfo.create = function create(properties) {
             return new MessageContextInfo(properties);
         };
@@ -95812,6 +96213,8 @@ export const proto = $root.proto = (() => {
                 w.uint32(162).string(m.teeContextAnchorMessageId);
             if (m.acp2Setting != null && Object.hasOwnProperty.call(m, "acp2Setting"))
                 $root.proto.ACP2Setting.encode(m.acp2Setting, w.uint32(170).fork(), q + 1).ldelim();
+            if (m.lightE2Ee != null && Object.hasOwnProperty.call(m, "lightE2Ee"))
+                w.uint32(176).bool(m.lightE2Ee);
             return w;
         };
 
@@ -95922,6 +96325,10 @@ export const proto = $root.proto = (() => {
                     }
                 case 21: {
                         m.acp2Setting = $root.proto.ACP2Setting.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 22: {
+                        m.lightE2Ee = r.bool();
                         break;
                     }
                 default:
@@ -96072,6 +96479,9 @@ export const proto = $root.proto = (() => {
                     throw TypeError(".proto.MessageContextInfo.acp2Setting: object expected");
                 m.acp2Setting = $root.proto.ACP2Setting.fromObject(d.acp2Setting, n + 1);
             }
+            if (d.lightE2Ee != null) {
+                m.lightE2Ee = Boolean(d.lightE2Ee);
+            }
             return m;
         };
 
@@ -96191,6 +96601,11 @@ export const proto = $root.proto = (() => {
                 d.acp2Setting = $root.proto.ACP2Setting.toObject(m.acp2Setting, o, q + 1);
                 if (o.oneofs)
                     d._acp2Setting = "acp2Setting";
+            }
+            if (m.lightE2Ee != null && Object.hasOwnProperty.call(m, "lightE2Ee")) {
+                d.lightE2Ee = m.lightE2Ee;
+                if (o.oneofs)
+                    d._lightE2Ee = "lightE2Ee";
             }
             return d;
         };
@@ -136257,6 +136672,1339 @@ export const proto = $root.proto = (() => {
         return VerifiedNameCertificate;
     })();
 
+    proto.VerifyKeyTransparencyForUserMandrakeCommand = (function() {
+
+        function VerifyKeyTransparencyForUserMandrakeCommand(p) {
+            this.requestedAuditorList = [];
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        VerifyKeyTransparencyForUserMandrakeCommand.prototype.lookupResponse = null;
+        VerifyKeyTransparencyForUserMandrakeCommand.prototype.userFbid = null;
+        VerifyKeyTransparencyForUserMandrakeCommand.prototype.auditorSignatureTtlSecs = null;
+        VerifyKeyTransparencyForUserMandrakeCommand.prototype.requestedAuditorList = $util.emptyArray;
+        VerifyKeyTransparencyForUserMandrakeCommand.prototype.isProductionBuild = null;
+        VerifyKeyTransparencyForUserMandrakeCommand.prototype.localMailboxHead = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(VerifyKeyTransparencyForUserMandrakeCommand.prototype, "_lookupResponse", {
+            get: $util.oneOfGetter($oneOfFields = ["lookupResponse"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(VerifyKeyTransparencyForUserMandrakeCommand.prototype, "_userFbid", {
+            get: $util.oneOfGetter($oneOfFields = ["userFbid"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(VerifyKeyTransparencyForUserMandrakeCommand.prototype, "_auditorSignatureTtlSecs", {
+            get: $util.oneOfGetter($oneOfFields = ["auditorSignatureTtlSecs"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(VerifyKeyTransparencyForUserMandrakeCommand.prototype, "_isProductionBuild", {
+            get: $util.oneOfGetter($oneOfFields = ["isProductionBuild"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(VerifyKeyTransparencyForUserMandrakeCommand.prototype, "_localMailboxHead", {
+            get: $util.oneOfGetter($oneOfFields = ["localMailboxHead"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        VerifyKeyTransparencyForUserMandrakeCommand.create = function create(properties) {
+            return new VerifyKeyTransparencyForUserMandrakeCommand(properties);
+        };
+
+        VerifyKeyTransparencyForUserMandrakeCommand.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.lookupResponse != null && Object.hasOwnProperty.call(m, "lookupResponse"))
+                w.uint32(10).bytes(m.lookupResponse);
+            if (m.userFbid != null && Object.hasOwnProperty.call(m, "userFbid"))
+                w.uint32(16).int64(m.userFbid);
+            if (m.auditorSignatureTtlSecs != null && Object.hasOwnProperty.call(m, "auditorSignatureTtlSecs"))
+                w.uint32(24).uint64(m.auditorSignatureTtlSecs);
+            if (m.requestedAuditorList != null && m.requestedAuditorList.length) {
+                for (var i = 0; i < m.requestedAuditorList.length; ++i)
+                    w.uint32(34).string(m.requestedAuditorList[i]);
+            }
+            if (m.isProductionBuild != null && Object.hasOwnProperty.call(m, "isProductionBuild"))
+                w.uint32(40).bool(m.isProductionBuild);
+            if (m.localMailboxHead != null && Object.hasOwnProperty.call(m, "localMailboxHead"))
+                w.uint32(50).bytes(m.localMailboxHead);
+            return w;
+        };
+
+        VerifyKeyTransparencyForUserMandrakeCommand.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.VerifyKeyTransparencyForUserMandrakeCommand();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.lookupResponse = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.userFbid = r.int64();
+                        break;
+                    }
+                case 3: {
+                        m.auditorSignatureTtlSecs = r.uint64();
+                        break;
+                    }
+                case 4: {
+                        if (!(m.requestedAuditorList && m.requestedAuditorList.length))
+                            m.requestedAuditorList = [];
+                        m.requestedAuditorList.push(r.string());
+                        break;
+                    }
+                case 5: {
+                        m.isProductionBuild = r.bool();
+                        break;
+                    }
+                case 6: {
+                        m.localMailboxHead = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        VerifyKeyTransparencyForUserMandrakeCommand.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.VerifyKeyTransparencyForUserMandrakeCommand)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.VerifyKeyTransparencyForUserMandrakeCommand: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.VerifyKeyTransparencyForUserMandrakeCommand();
+            if (d.lookupResponse != null) {
+                if (typeof d.lookupResponse === "string")
+                    $util.base64.decode(d.lookupResponse, m.lookupResponse = $util.newBuffer($util.base64.length(d.lookupResponse)), 0);
+                else if (d.lookupResponse.length >= 0)
+                    m.lookupResponse = d.lookupResponse;
+            }
+            if (d.userFbid != null) {
+                if ($util.Long)
+                    m.userFbid = $util.Long.fromValue(d.userFbid, false);
+                else if (typeof d.userFbid === "string")
+                    m.userFbid = parseInt(d.userFbid, 10);
+                else if (typeof d.userFbid === "number")
+                    m.userFbid = d.userFbid;
+                else if (typeof d.userFbid === "object")
+                    m.userFbid = new $util.LongBits(d.userFbid.low >>> 0, d.userFbid.high >>> 0).toNumber();
+            }
+            if (d.auditorSignatureTtlSecs != null) {
+                if ($util.Long)
+                    m.auditorSignatureTtlSecs = $util.Long.fromValue(d.auditorSignatureTtlSecs, true);
+                else if (typeof d.auditorSignatureTtlSecs === "string")
+                    m.auditorSignatureTtlSecs = parseInt(d.auditorSignatureTtlSecs, 10);
+                else if (typeof d.auditorSignatureTtlSecs === "number")
+                    m.auditorSignatureTtlSecs = d.auditorSignatureTtlSecs;
+                else if (typeof d.auditorSignatureTtlSecs === "object")
+                    m.auditorSignatureTtlSecs = new $util.LongBits(d.auditorSignatureTtlSecs.low >>> 0, d.auditorSignatureTtlSecs.high >>> 0).toNumber(true);
+            }
+            if (d.requestedAuditorList) {
+                if (!Array.isArray(d.requestedAuditorList))
+                    throw TypeError(".proto.VerifyKeyTransparencyForUserMandrakeCommand.requestedAuditorList: array expected");
+                m.requestedAuditorList = [];
+                for (var i = 0; i < d.requestedAuditorList.length; ++i) {
+                    m.requestedAuditorList[i] = String(d.requestedAuditorList[i]);
+                }
+            }
+            if (d.isProductionBuild != null) {
+                m.isProductionBuild = Boolean(d.isProductionBuild);
+            }
+            if (d.localMailboxHead != null) {
+                if (typeof d.localMailboxHead === "string")
+                    $util.base64.decode(d.localMailboxHead, m.localMailboxHead = $util.newBuffer($util.base64.length(d.localMailboxHead)), 0);
+                else if (d.localMailboxHead.length >= 0)
+                    m.localMailboxHead = d.localMailboxHead;
+            }
+            return m;
+        };
+
+        VerifyKeyTransparencyForUserMandrakeCommand.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (o.arrays || o.defaults) {
+                d.requestedAuditorList = [];
+            }
+            if (m.lookupResponse != null && Object.hasOwnProperty.call(m, "lookupResponse")) {
+                d.lookupResponse = o.bytes === String ? $util.base64.encode(m.lookupResponse, 0, m.lookupResponse.length) : o.bytes === Array ? Array.prototype.slice.call(m.lookupResponse) : m.lookupResponse;
+                if (o.oneofs)
+                    d._lookupResponse = "lookupResponse";
+            }
+            if (m.userFbid != null && Object.hasOwnProperty.call(m, "userFbid")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.userFbid = typeof m.userFbid === "number" ? BigInt(m.userFbid) : $util.Long.fromBits(m.userFbid.low >>> 0, m.userFbid.high >>> 0, false).toBigInt();
+                else if (typeof m.userFbid === "number")
+                    d.userFbid = o.longs === String ? String(m.userFbid) : m.userFbid;
+                else
+                    d.userFbid = o.longs === String ? longToString(m.userFbid) : o.longs === Number ? longToNumber(m.userFbid) : m.userFbid;
+                if (o.oneofs)
+                    d._userFbid = "userFbid";
+            }
+            if (m.auditorSignatureTtlSecs != null && Object.hasOwnProperty.call(m, "auditorSignatureTtlSecs")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.auditorSignatureTtlSecs = typeof m.auditorSignatureTtlSecs === "number" ? BigInt(m.auditorSignatureTtlSecs) : $util.Long.fromBits(m.auditorSignatureTtlSecs.low >>> 0, m.auditorSignatureTtlSecs.high >>> 0, true).toBigInt();
+                else if (typeof m.auditorSignatureTtlSecs === "number")
+                    d.auditorSignatureTtlSecs = o.longs === String ? String(m.auditorSignatureTtlSecs) : m.auditorSignatureTtlSecs;
+                else
+                    d.auditorSignatureTtlSecs = o.longs === String ? longToString(m.auditorSignatureTtlSecs, true) : o.longs === Number ? longToNumber(m.auditorSignatureTtlSecs, true) : m.auditorSignatureTtlSecs;
+                if (o.oneofs)
+                    d._auditorSignatureTtlSecs = "auditorSignatureTtlSecs";
+            }
+            if (m.requestedAuditorList && m.requestedAuditorList.length) {
+                d.requestedAuditorList = [];
+                for (var j = 0; j < m.requestedAuditorList.length; ++j) {
+                    d.requestedAuditorList[j] = m.requestedAuditorList[j];
+                }
+            }
+            if (m.isProductionBuild != null && Object.hasOwnProperty.call(m, "isProductionBuild")) {
+                d.isProductionBuild = m.isProductionBuild;
+                if (o.oneofs)
+                    d._isProductionBuild = "isProductionBuild";
+            }
+            if (m.localMailboxHead != null && Object.hasOwnProperty.call(m, "localMailboxHead")) {
+                d.localMailboxHead = o.bytes === String ? $util.base64.encode(m.localMailboxHead, 0, m.localMailboxHead.length) : o.bytes === Array ? Array.prototype.slice.call(m.localMailboxHead) : m.localMailboxHead;
+                if (o.oneofs)
+                    d._localMailboxHead = "localMailboxHead";
+            }
+            return d;
+        };
+
+        VerifyKeyTransparencyForUserMandrakeCommand.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        VerifyKeyTransparencyForUserMandrakeCommand.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.VerifyKeyTransparencyForUserMandrakeCommand";
+        };
+
+        return VerifyKeyTransparencyForUserMandrakeCommand;
+    })();
+
+    proto.VerifyKeyTransparencyForUserMandrakeResult = (function() {
+
+        function VerifyKeyTransparencyForUserMandrakeResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        VerifyKeyTransparencyForUserMandrakeResult.prototype.success = null;
+        VerifyKeyTransparencyForUserMandrakeResult.prototype.error = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(VerifyKeyTransparencyForUserMandrakeResult.prototype, "_success", {
+            get: $util.oneOfGetter($oneOfFields = ["success"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(VerifyKeyTransparencyForUserMandrakeResult.prototype, "_error", {
+            get: $util.oneOfGetter($oneOfFields = ["error"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        VerifyKeyTransparencyForUserMandrakeResult.create = function create(properties) {
+            return new VerifyKeyTransparencyForUserMandrakeResult(properties);
+        };
+
+        VerifyKeyTransparencyForUserMandrakeResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.success != null && Object.hasOwnProperty.call(m, "success"))
+                w.uint32(8).bool(m.success);
+            if (m.error != null && Object.hasOwnProperty.call(m, "error"))
+                w.uint32(18).string(m.error);
+            return w;
+        };
+
+        VerifyKeyTransparencyForUserMandrakeResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.VerifyKeyTransparencyForUserMandrakeResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.success = r.bool();
+                        break;
+                    }
+                case 2: {
+                        m.error = r.string();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        VerifyKeyTransparencyForUserMandrakeResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.VerifyKeyTransparencyForUserMandrakeResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.VerifyKeyTransparencyForUserMandrakeResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.VerifyKeyTransparencyForUserMandrakeResult();
+            if (d.success != null) {
+                m.success = Boolean(d.success);
+            }
+            if (d.error != null) {
+                m.error = String(d.error);
+            }
+            return m;
+        };
+
+        VerifyKeyTransparencyForUserMandrakeResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.success != null && Object.hasOwnProperty.call(m, "success")) {
+                d.success = m.success;
+                if (o.oneofs)
+                    d._success = "success";
+            }
+            if (m.error != null && Object.hasOwnProperty.call(m, "error")) {
+                d.error = m.error;
+                if (o.oneofs)
+                    d._error = "error";
+            }
+            return d;
+        };
+
+        VerifyKeyTransparencyForUserMandrakeResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        VerifyKeyTransparencyForUserMandrakeResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.VerifyKeyTransparencyForUserMandrakeResult";
+        };
+
+        return VerifyKeyTransparencyForUserMandrakeResult;
+    })();
+
+    proto.VerifyKeyTransparencyForUserMinosCommand = (function() {
+
+        function VerifyKeyTransparencyForUserMinosCommand(p) {
+            this.requestedAuditorList = [];
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        VerifyKeyTransparencyForUserMinosCommand.prototype.lookupResponse = null;
+        VerifyKeyTransparencyForUserMinosCommand.prototype.userFbid = null;
+        VerifyKeyTransparencyForUserMinosCommand.prototype.auditorSignatureTtlSecs = null;
+        VerifyKeyTransparencyForUserMinosCommand.prototype.requestedAuditorList = $util.emptyArray;
+        VerifyKeyTransparencyForUserMinosCommand.prototype.isProductionBuild = null;
+        VerifyKeyTransparencyForUserMinosCommand.prototype.localEpochHead = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(VerifyKeyTransparencyForUserMinosCommand.prototype, "_lookupResponse", {
+            get: $util.oneOfGetter($oneOfFields = ["lookupResponse"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(VerifyKeyTransparencyForUserMinosCommand.prototype, "_userFbid", {
+            get: $util.oneOfGetter($oneOfFields = ["userFbid"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(VerifyKeyTransparencyForUserMinosCommand.prototype, "_auditorSignatureTtlSecs", {
+            get: $util.oneOfGetter($oneOfFields = ["auditorSignatureTtlSecs"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(VerifyKeyTransparencyForUserMinosCommand.prototype, "_isProductionBuild", {
+            get: $util.oneOfGetter($oneOfFields = ["isProductionBuild"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(VerifyKeyTransparencyForUserMinosCommand.prototype, "_localEpochHead", {
+            get: $util.oneOfGetter($oneOfFields = ["localEpochHead"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        VerifyKeyTransparencyForUserMinosCommand.create = function create(properties) {
+            return new VerifyKeyTransparencyForUserMinosCommand(properties);
+        };
+
+        VerifyKeyTransparencyForUserMinosCommand.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.lookupResponse != null && Object.hasOwnProperty.call(m, "lookupResponse"))
+                w.uint32(10).bytes(m.lookupResponse);
+            if (m.userFbid != null && Object.hasOwnProperty.call(m, "userFbid"))
+                w.uint32(16).int64(m.userFbid);
+            if (m.auditorSignatureTtlSecs != null && Object.hasOwnProperty.call(m, "auditorSignatureTtlSecs"))
+                w.uint32(24).uint64(m.auditorSignatureTtlSecs);
+            if (m.requestedAuditorList != null && m.requestedAuditorList.length) {
+                for (var i = 0; i < m.requestedAuditorList.length; ++i)
+                    w.uint32(34).string(m.requestedAuditorList[i]);
+            }
+            if (m.isProductionBuild != null && Object.hasOwnProperty.call(m, "isProductionBuild"))
+                w.uint32(40).bool(m.isProductionBuild);
+            if (m.localEpochHead != null && Object.hasOwnProperty.call(m, "localEpochHead"))
+                w.uint32(50).bytes(m.localEpochHead);
+            return w;
+        };
+
+        VerifyKeyTransparencyForUserMinosCommand.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.VerifyKeyTransparencyForUserMinosCommand();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.lookupResponse = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.userFbid = r.int64();
+                        break;
+                    }
+                case 3: {
+                        m.auditorSignatureTtlSecs = r.uint64();
+                        break;
+                    }
+                case 4: {
+                        if (!(m.requestedAuditorList && m.requestedAuditorList.length))
+                            m.requestedAuditorList = [];
+                        m.requestedAuditorList.push(r.string());
+                        break;
+                    }
+                case 5: {
+                        m.isProductionBuild = r.bool();
+                        break;
+                    }
+                case 6: {
+                        m.localEpochHead = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        VerifyKeyTransparencyForUserMinosCommand.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.VerifyKeyTransparencyForUserMinosCommand)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.VerifyKeyTransparencyForUserMinosCommand: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.VerifyKeyTransparencyForUserMinosCommand();
+            if (d.lookupResponse != null) {
+                if (typeof d.lookupResponse === "string")
+                    $util.base64.decode(d.lookupResponse, m.lookupResponse = $util.newBuffer($util.base64.length(d.lookupResponse)), 0);
+                else if (d.lookupResponse.length >= 0)
+                    m.lookupResponse = d.lookupResponse;
+            }
+            if (d.userFbid != null) {
+                if ($util.Long)
+                    m.userFbid = $util.Long.fromValue(d.userFbid, false);
+                else if (typeof d.userFbid === "string")
+                    m.userFbid = parseInt(d.userFbid, 10);
+                else if (typeof d.userFbid === "number")
+                    m.userFbid = d.userFbid;
+                else if (typeof d.userFbid === "object")
+                    m.userFbid = new $util.LongBits(d.userFbid.low >>> 0, d.userFbid.high >>> 0).toNumber();
+            }
+            if (d.auditorSignatureTtlSecs != null) {
+                if ($util.Long)
+                    m.auditorSignatureTtlSecs = $util.Long.fromValue(d.auditorSignatureTtlSecs, true);
+                else if (typeof d.auditorSignatureTtlSecs === "string")
+                    m.auditorSignatureTtlSecs = parseInt(d.auditorSignatureTtlSecs, 10);
+                else if (typeof d.auditorSignatureTtlSecs === "number")
+                    m.auditorSignatureTtlSecs = d.auditorSignatureTtlSecs;
+                else if (typeof d.auditorSignatureTtlSecs === "object")
+                    m.auditorSignatureTtlSecs = new $util.LongBits(d.auditorSignatureTtlSecs.low >>> 0, d.auditorSignatureTtlSecs.high >>> 0).toNumber(true);
+            }
+            if (d.requestedAuditorList) {
+                if (!Array.isArray(d.requestedAuditorList))
+                    throw TypeError(".proto.VerifyKeyTransparencyForUserMinosCommand.requestedAuditorList: array expected");
+                m.requestedAuditorList = [];
+                for (var i = 0; i < d.requestedAuditorList.length; ++i) {
+                    m.requestedAuditorList[i] = String(d.requestedAuditorList[i]);
+                }
+            }
+            if (d.isProductionBuild != null) {
+                m.isProductionBuild = Boolean(d.isProductionBuild);
+            }
+            if (d.localEpochHead != null) {
+                if (typeof d.localEpochHead === "string")
+                    $util.base64.decode(d.localEpochHead, m.localEpochHead = $util.newBuffer($util.base64.length(d.localEpochHead)), 0);
+                else if (d.localEpochHead.length >= 0)
+                    m.localEpochHead = d.localEpochHead;
+            }
+            return m;
+        };
+
+        VerifyKeyTransparencyForUserMinosCommand.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (o.arrays || o.defaults) {
+                d.requestedAuditorList = [];
+            }
+            if (m.lookupResponse != null && Object.hasOwnProperty.call(m, "lookupResponse")) {
+                d.lookupResponse = o.bytes === String ? $util.base64.encode(m.lookupResponse, 0, m.lookupResponse.length) : o.bytes === Array ? Array.prototype.slice.call(m.lookupResponse) : m.lookupResponse;
+                if (o.oneofs)
+                    d._lookupResponse = "lookupResponse";
+            }
+            if (m.userFbid != null && Object.hasOwnProperty.call(m, "userFbid")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.userFbid = typeof m.userFbid === "number" ? BigInt(m.userFbid) : $util.Long.fromBits(m.userFbid.low >>> 0, m.userFbid.high >>> 0, false).toBigInt();
+                else if (typeof m.userFbid === "number")
+                    d.userFbid = o.longs === String ? String(m.userFbid) : m.userFbid;
+                else
+                    d.userFbid = o.longs === String ? longToString(m.userFbid) : o.longs === Number ? longToNumber(m.userFbid) : m.userFbid;
+                if (o.oneofs)
+                    d._userFbid = "userFbid";
+            }
+            if (m.auditorSignatureTtlSecs != null && Object.hasOwnProperty.call(m, "auditorSignatureTtlSecs")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.auditorSignatureTtlSecs = typeof m.auditorSignatureTtlSecs === "number" ? BigInt(m.auditorSignatureTtlSecs) : $util.Long.fromBits(m.auditorSignatureTtlSecs.low >>> 0, m.auditorSignatureTtlSecs.high >>> 0, true).toBigInt();
+                else if (typeof m.auditorSignatureTtlSecs === "number")
+                    d.auditorSignatureTtlSecs = o.longs === String ? String(m.auditorSignatureTtlSecs) : m.auditorSignatureTtlSecs;
+                else
+                    d.auditorSignatureTtlSecs = o.longs === String ? longToString(m.auditorSignatureTtlSecs, true) : o.longs === Number ? longToNumber(m.auditorSignatureTtlSecs, true) : m.auditorSignatureTtlSecs;
+                if (o.oneofs)
+                    d._auditorSignatureTtlSecs = "auditorSignatureTtlSecs";
+            }
+            if (m.requestedAuditorList && m.requestedAuditorList.length) {
+                d.requestedAuditorList = [];
+                for (var j = 0; j < m.requestedAuditorList.length; ++j) {
+                    d.requestedAuditorList[j] = m.requestedAuditorList[j];
+                }
+            }
+            if (m.isProductionBuild != null && Object.hasOwnProperty.call(m, "isProductionBuild")) {
+                d.isProductionBuild = m.isProductionBuild;
+                if (o.oneofs)
+                    d._isProductionBuild = "isProductionBuild";
+            }
+            if (m.localEpochHead != null && Object.hasOwnProperty.call(m, "localEpochHead")) {
+                d.localEpochHead = o.bytes === String ? $util.base64.encode(m.localEpochHead, 0, m.localEpochHead.length) : o.bytes === Array ? Array.prototype.slice.call(m.localEpochHead) : m.localEpochHead;
+                if (o.oneofs)
+                    d._localEpochHead = "localEpochHead";
+            }
+            return d;
+        };
+
+        VerifyKeyTransparencyForUserMinosCommand.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        VerifyKeyTransparencyForUserMinosCommand.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.VerifyKeyTransparencyForUserMinosCommand";
+        };
+
+        return VerifyKeyTransparencyForUserMinosCommand;
+    })();
+
+    proto.VerifyKeyTransparencyForUserMinosResult = (function() {
+
+        function VerifyKeyTransparencyForUserMinosResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        VerifyKeyTransparencyForUserMinosResult.prototype.success = null;
+        VerifyKeyTransparencyForUserMinosResult.prototype.error = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(VerifyKeyTransparencyForUserMinosResult.prototype, "_success", {
+            get: $util.oneOfGetter($oneOfFields = ["success"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(VerifyKeyTransparencyForUserMinosResult.prototype, "_error", {
+            get: $util.oneOfGetter($oneOfFields = ["error"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        VerifyKeyTransparencyForUserMinosResult.create = function create(properties) {
+            return new VerifyKeyTransparencyForUserMinosResult(properties);
+        };
+
+        VerifyKeyTransparencyForUserMinosResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.success != null && Object.hasOwnProperty.call(m, "success"))
+                w.uint32(8).bool(m.success);
+            if (m.error != null && Object.hasOwnProperty.call(m, "error"))
+                w.uint32(18).string(m.error);
+            return w;
+        };
+
+        VerifyKeyTransparencyForUserMinosResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.VerifyKeyTransparencyForUserMinosResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.success = r.bool();
+                        break;
+                    }
+                case 2: {
+                        m.error = r.string();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        VerifyKeyTransparencyForUserMinosResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.VerifyKeyTransparencyForUserMinosResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.VerifyKeyTransparencyForUserMinosResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.VerifyKeyTransparencyForUserMinosResult();
+            if (d.success != null) {
+                m.success = Boolean(d.success);
+            }
+            if (d.error != null) {
+                m.error = String(d.error);
+            }
+            return m;
+        };
+
+        VerifyKeyTransparencyForUserMinosResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.success != null && Object.hasOwnProperty.call(m, "success")) {
+                d.success = m.success;
+                if (o.oneofs)
+                    d._success = "success";
+            }
+            if (m.error != null && Object.hasOwnProperty.call(m, "error")) {
+                d.error = m.error;
+                if (o.oneofs)
+                    d._error = "error";
+            }
+            return d;
+        };
+
+        VerifyKeyTransparencyForUserMinosResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        VerifyKeyTransparencyForUserMinosResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.VerifyKeyTransparencyForUserMinosResult";
+        };
+
+        return VerifyKeyTransparencyForUserMinosResult;
+    })();
+
+    proto.VerifyKeyTransparencyForUserSignalCommand = (function() {
+
+        function VerifyKeyTransparencyForUserSignalCommand(p) {
+            this.localDeviceKeys = {};
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        VerifyKeyTransparencyForUserSignalCommand.prototype.rootHash = null;
+        VerifyKeyTransparencyForUserSignalCommand.prototype.currentEpoch = null;
+        VerifyKeyTransparencyForUserSignalCommand.prototype.userFbid = null;
+        VerifyKeyTransparencyForUserSignalCommand.prototype.historyProof = null;
+        VerifyKeyTransparencyForUserSignalCommand.prototype.metaSignature = null;
+        VerifyKeyTransparencyForUserSignalCommand.prototype.cloudflareSignature = null;
+        VerifyKeyTransparencyForUserSignalCommand.prototype.cloudflareMessage = null;
+        VerifyKeyTransparencyForUserSignalCommand.prototype.cloudflarePubKey = null;
+        VerifyKeyTransparencyForUserSignalCommand.prototype.auditorSignatureTtlSecs = null;
+        VerifyKeyTransparencyForUserSignalCommand.prototype.localDeviceKeys = $util.emptyObject;
+
+        let $oneOfFields;
+
+        Object.defineProperty(VerifyKeyTransparencyForUserSignalCommand.prototype, "_rootHash", {
+            get: $util.oneOfGetter($oneOfFields = ["rootHash"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(VerifyKeyTransparencyForUserSignalCommand.prototype, "_currentEpoch", {
+            get: $util.oneOfGetter($oneOfFields = ["currentEpoch"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(VerifyKeyTransparencyForUserSignalCommand.prototype, "_userFbid", {
+            get: $util.oneOfGetter($oneOfFields = ["userFbid"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(VerifyKeyTransparencyForUserSignalCommand.prototype, "_historyProof", {
+            get: $util.oneOfGetter($oneOfFields = ["historyProof"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(VerifyKeyTransparencyForUserSignalCommand.prototype, "_metaSignature", {
+            get: $util.oneOfGetter($oneOfFields = ["metaSignature"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(VerifyKeyTransparencyForUserSignalCommand.prototype, "_cloudflareSignature", {
+            get: $util.oneOfGetter($oneOfFields = ["cloudflareSignature"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(VerifyKeyTransparencyForUserSignalCommand.prototype, "_cloudflareMessage", {
+            get: $util.oneOfGetter($oneOfFields = ["cloudflareMessage"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(VerifyKeyTransparencyForUserSignalCommand.prototype, "_cloudflarePubKey", {
+            get: $util.oneOfGetter($oneOfFields = ["cloudflarePubKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(VerifyKeyTransparencyForUserSignalCommand.prototype, "_auditorSignatureTtlSecs", {
+            get: $util.oneOfGetter($oneOfFields = ["auditorSignatureTtlSecs"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        VerifyKeyTransparencyForUserSignalCommand.create = function create(properties) {
+            return new VerifyKeyTransparencyForUserSignalCommand(properties);
+        };
+
+        VerifyKeyTransparencyForUserSignalCommand.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.rootHash != null && Object.hasOwnProperty.call(m, "rootHash"))
+                w.uint32(10).bytes(m.rootHash);
+            if (m.currentEpoch != null && Object.hasOwnProperty.call(m, "currentEpoch"))
+                w.uint32(16).uint64(m.currentEpoch);
+            if (m.userFbid != null && Object.hasOwnProperty.call(m, "userFbid"))
+                w.uint32(24).int64(m.userFbid);
+            if (m.historyProof != null && Object.hasOwnProperty.call(m, "historyProof"))
+                w.uint32(34).bytes(m.historyProof);
+            if (m.metaSignature != null && Object.hasOwnProperty.call(m, "metaSignature"))
+                w.uint32(42).bytes(m.metaSignature);
+            if (m.cloudflareSignature != null && Object.hasOwnProperty.call(m, "cloudflareSignature"))
+                w.uint32(50).bytes(m.cloudflareSignature);
+            if (m.cloudflareMessage != null && Object.hasOwnProperty.call(m, "cloudflareMessage"))
+                w.uint32(58).bytes(m.cloudflareMessage);
+            if (m.cloudflarePubKey != null && Object.hasOwnProperty.call(m, "cloudflarePubKey"))
+                w.uint32(66).bytes(m.cloudflarePubKey);
+            if (m.auditorSignatureTtlSecs != null && Object.hasOwnProperty.call(m, "auditorSignatureTtlSecs"))
+                w.uint32(72).uint64(m.auditorSignatureTtlSecs);
+            if (m.localDeviceKeys != null && Object.hasOwnProperty.call(m, "localDeviceKeys")) {
+                for (var ks = Object.keys(m.localDeviceKeys), i = 0; i < ks.length; ++i) {
+                    w.uint32(82).fork().uint32(8).uint64(ks[i]).uint32(18).bytes(m.localDeviceKeys[ks[i]]).ldelim();
+                }
+            }
+            return w;
+        };
+
+        VerifyKeyTransparencyForUserSignalCommand.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m, k, value;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.VerifyKeyTransparencyForUserSignalCommand();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.rootHash = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.currentEpoch = r.uint64();
+                        break;
+                    }
+                case 3: {
+                        m.userFbid = r.int64();
+                        break;
+                    }
+                case 4: {
+                        m.historyProof = r.bytes();
+                        break;
+                    }
+                case 5: {
+                        m.metaSignature = r.bytes();
+                        break;
+                    }
+                case 6: {
+                        m.cloudflareSignature = r.bytes();
+                        break;
+                    }
+                case 7: {
+                        m.cloudflareMessage = r.bytes();
+                        break;
+                    }
+                case 8: {
+                        m.cloudflarePubKey = r.bytes();
+                        break;
+                    }
+                case 9: {
+                        m.auditorSignatureTtlSecs = r.uint64();
+                        break;
+                    }
+                case 10: {
+                        if (m.localDeviceKeys === $util.emptyObject)
+                            m.localDeviceKeys = {};
+                        var c2 = r.uint32() + r.pos;
+                        if (c2 > r.len)
+                            throw RangeError("index out of range");
+                        r.len = c2;
+                        k = 0;
+                        value = [];
+                        while (r.pos < c2) {
+                            var tag2 = r.uint32();
+                            switch (tag2 >>> 3) {
+                            case 1:
+                                k = r.uint64();
+                                break;
+                            case 2:
+                                value = r.bytes();
+                                break;
+                            default:
+                                r.skipType(tag2 & 7, n);
+                                break;
+                            }
+                        }
+                        if (r.pos !== c2)
+                            throw RangeError("index out of range");
+                        r.len = c;
+                        m.localDeviceKeys[typeof k === "object" ? $util.longToHash(k) : k] = value;
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        VerifyKeyTransparencyForUserSignalCommand.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.VerifyKeyTransparencyForUserSignalCommand)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.VerifyKeyTransparencyForUserSignalCommand: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.VerifyKeyTransparencyForUserSignalCommand();
+            if (d.rootHash != null) {
+                if (typeof d.rootHash === "string")
+                    $util.base64.decode(d.rootHash, m.rootHash = $util.newBuffer($util.base64.length(d.rootHash)), 0);
+                else if (d.rootHash.length >= 0)
+                    m.rootHash = d.rootHash;
+            }
+            if (d.currentEpoch != null) {
+                if ($util.Long)
+                    m.currentEpoch = $util.Long.fromValue(d.currentEpoch, true);
+                else if (typeof d.currentEpoch === "string")
+                    m.currentEpoch = parseInt(d.currentEpoch, 10);
+                else if (typeof d.currentEpoch === "number")
+                    m.currentEpoch = d.currentEpoch;
+                else if (typeof d.currentEpoch === "object")
+                    m.currentEpoch = new $util.LongBits(d.currentEpoch.low >>> 0, d.currentEpoch.high >>> 0).toNumber(true);
+            }
+            if (d.userFbid != null) {
+                if ($util.Long)
+                    m.userFbid = $util.Long.fromValue(d.userFbid, false);
+                else if (typeof d.userFbid === "string")
+                    m.userFbid = parseInt(d.userFbid, 10);
+                else if (typeof d.userFbid === "number")
+                    m.userFbid = d.userFbid;
+                else if (typeof d.userFbid === "object")
+                    m.userFbid = new $util.LongBits(d.userFbid.low >>> 0, d.userFbid.high >>> 0).toNumber();
+            }
+            if (d.historyProof != null) {
+                if (typeof d.historyProof === "string")
+                    $util.base64.decode(d.historyProof, m.historyProof = $util.newBuffer($util.base64.length(d.historyProof)), 0);
+                else if (d.historyProof.length >= 0)
+                    m.historyProof = d.historyProof;
+            }
+            if (d.metaSignature != null) {
+                if (typeof d.metaSignature === "string")
+                    $util.base64.decode(d.metaSignature, m.metaSignature = $util.newBuffer($util.base64.length(d.metaSignature)), 0);
+                else if (d.metaSignature.length >= 0)
+                    m.metaSignature = d.metaSignature;
+            }
+            if (d.cloudflareSignature != null) {
+                if (typeof d.cloudflareSignature === "string")
+                    $util.base64.decode(d.cloudflareSignature, m.cloudflareSignature = $util.newBuffer($util.base64.length(d.cloudflareSignature)), 0);
+                else if (d.cloudflareSignature.length >= 0)
+                    m.cloudflareSignature = d.cloudflareSignature;
+            }
+            if (d.cloudflareMessage != null) {
+                if (typeof d.cloudflareMessage === "string")
+                    $util.base64.decode(d.cloudflareMessage, m.cloudflareMessage = $util.newBuffer($util.base64.length(d.cloudflareMessage)), 0);
+                else if (d.cloudflareMessage.length >= 0)
+                    m.cloudflareMessage = d.cloudflareMessage;
+            }
+            if (d.cloudflarePubKey != null) {
+                if (typeof d.cloudflarePubKey === "string")
+                    $util.base64.decode(d.cloudflarePubKey, m.cloudflarePubKey = $util.newBuffer($util.base64.length(d.cloudflarePubKey)), 0);
+                else if (d.cloudflarePubKey.length >= 0)
+                    m.cloudflarePubKey = d.cloudflarePubKey;
+            }
+            if (d.auditorSignatureTtlSecs != null) {
+                if ($util.Long)
+                    m.auditorSignatureTtlSecs = $util.Long.fromValue(d.auditorSignatureTtlSecs, true);
+                else if (typeof d.auditorSignatureTtlSecs === "string")
+                    m.auditorSignatureTtlSecs = parseInt(d.auditorSignatureTtlSecs, 10);
+                else if (typeof d.auditorSignatureTtlSecs === "number")
+                    m.auditorSignatureTtlSecs = d.auditorSignatureTtlSecs;
+                else if (typeof d.auditorSignatureTtlSecs === "object")
+                    m.auditorSignatureTtlSecs = new $util.LongBits(d.auditorSignatureTtlSecs.low >>> 0, d.auditorSignatureTtlSecs.high >>> 0).toNumber(true);
+            }
+            if (d.localDeviceKeys) {
+                if (!$util.isObject(d.localDeviceKeys))
+                    throw TypeError(".proto.VerifyKeyTransparencyForUserSignalCommand.localDeviceKeys: object expected");
+                m.localDeviceKeys = {};
+                for (var ks = Object.keys(d.localDeviceKeys), i = 0; i < ks.length; ++i) {
+                    if (ks[i] === "__proto__")
+                        $util.makeProp(m.localDeviceKeys, ks[i]);
+                    if (typeof d.localDeviceKeys[ks[i]] === "string")
+                        $util.base64.decode(d.localDeviceKeys[ks[i]], m.localDeviceKeys[ks[i]] = $util.newBuffer($util.base64.length(d.localDeviceKeys[ks[i]])), 0);
+                    else if (d.localDeviceKeys[ks[i]].length >= 0)
+                        m.localDeviceKeys[ks[i]] = d.localDeviceKeys[ks[i]];
+                }
+            }
+            return m;
+        };
+
+        VerifyKeyTransparencyForUserSignalCommand.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (o.objects || o.defaults) {
+                d.localDeviceKeys = {};
+            }
+            if (m.rootHash != null && Object.hasOwnProperty.call(m, "rootHash")) {
+                d.rootHash = o.bytes === String ? $util.base64.encode(m.rootHash, 0, m.rootHash.length) : o.bytes === Array ? Array.prototype.slice.call(m.rootHash) : m.rootHash;
+                if (o.oneofs)
+                    d._rootHash = "rootHash";
+            }
+            if (m.currentEpoch != null && Object.hasOwnProperty.call(m, "currentEpoch")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.currentEpoch = typeof m.currentEpoch === "number" ? BigInt(m.currentEpoch) : $util.Long.fromBits(m.currentEpoch.low >>> 0, m.currentEpoch.high >>> 0, true).toBigInt();
+                else if (typeof m.currentEpoch === "number")
+                    d.currentEpoch = o.longs === String ? String(m.currentEpoch) : m.currentEpoch;
+                else
+                    d.currentEpoch = o.longs === String ? longToString(m.currentEpoch, true) : o.longs === Number ? longToNumber(m.currentEpoch, true) : m.currentEpoch;
+                if (o.oneofs)
+                    d._currentEpoch = "currentEpoch";
+            }
+            if (m.userFbid != null && Object.hasOwnProperty.call(m, "userFbid")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.userFbid = typeof m.userFbid === "number" ? BigInt(m.userFbid) : $util.Long.fromBits(m.userFbid.low >>> 0, m.userFbid.high >>> 0, false).toBigInt();
+                else if (typeof m.userFbid === "number")
+                    d.userFbid = o.longs === String ? String(m.userFbid) : m.userFbid;
+                else
+                    d.userFbid = o.longs === String ? longToString(m.userFbid) : o.longs === Number ? longToNumber(m.userFbid) : m.userFbid;
+                if (o.oneofs)
+                    d._userFbid = "userFbid";
+            }
+            if (m.historyProof != null && Object.hasOwnProperty.call(m, "historyProof")) {
+                d.historyProof = o.bytes === String ? $util.base64.encode(m.historyProof, 0, m.historyProof.length) : o.bytes === Array ? Array.prototype.slice.call(m.historyProof) : m.historyProof;
+                if (o.oneofs)
+                    d._historyProof = "historyProof";
+            }
+            if (m.metaSignature != null && Object.hasOwnProperty.call(m, "metaSignature")) {
+                d.metaSignature = o.bytes === String ? $util.base64.encode(m.metaSignature, 0, m.metaSignature.length) : o.bytes === Array ? Array.prototype.slice.call(m.metaSignature) : m.metaSignature;
+                if (o.oneofs)
+                    d._metaSignature = "metaSignature";
+            }
+            if (m.cloudflareSignature != null && Object.hasOwnProperty.call(m, "cloudflareSignature")) {
+                d.cloudflareSignature = o.bytes === String ? $util.base64.encode(m.cloudflareSignature, 0, m.cloudflareSignature.length) : o.bytes === Array ? Array.prototype.slice.call(m.cloudflareSignature) : m.cloudflareSignature;
+                if (o.oneofs)
+                    d._cloudflareSignature = "cloudflareSignature";
+            }
+            if (m.cloudflareMessage != null && Object.hasOwnProperty.call(m, "cloudflareMessage")) {
+                d.cloudflareMessage = o.bytes === String ? $util.base64.encode(m.cloudflareMessage, 0, m.cloudflareMessage.length) : o.bytes === Array ? Array.prototype.slice.call(m.cloudflareMessage) : m.cloudflareMessage;
+                if (o.oneofs)
+                    d._cloudflareMessage = "cloudflareMessage";
+            }
+            if (m.cloudflarePubKey != null && Object.hasOwnProperty.call(m, "cloudflarePubKey")) {
+                d.cloudflarePubKey = o.bytes === String ? $util.base64.encode(m.cloudflarePubKey, 0, m.cloudflarePubKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.cloudflarePubKey) : m.cloudflarePubKey;
+                if (o.oneofs)
+                    d._cloudflarePubKey = "cloudflarePubKey";
+            }
+            if (m.auditorSignatureTtlSecs != null && Object.hasOwnProperty.call(m, "auditorSignatureTtlSecs")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.auditorSignatureTtlSecs = typeof m.auditorSignatureTtlSecs === "number" ? BigInt(m.auditorSignatureTtlSecs) : $util.Long.fromBits(m.auditorSignatureTtlSecs.low >>> 0, m.auditorSignatureTtlSecs.high >>> 0, true).toBigInt();
+                else if (typeof m.auditorSignatureTtlSecs === "number")
+                    d.auditorSignatureTtlSecs = o.longs === String ? String(m.auditorSignatureTtlSecs) : m.auditorSignatureTtlSecs;
+                else
+                    d.auditorSignatureTtlSecs = o.longs === String ? longToString(m.auditorSignatureTtlSecs, true) : o.longs === Number ? longToNumber(m.auditorSignatureTtlSecs, true) : m.auditorSignatureTtlSecs;
+                if (o.oneofs)
+                    d._auditorSignatureTtlSecs = "auditorSignatureTtlSecs";
+            }
+            var ks2;
+            if (m.localDeviceKeys && (ks2 = Object.keys(m.localDeviceKeys)).length) {
+                d.localDeviceKeys = {};
+                for (var j = 0; j < ks2.length; ++j) {
+                    if (ks2[j] === "__proto__")
+                        $util.makeProp(d.localDeviceKeys, ks2[j]);
+                    d.localDeviceKeys[ks2[j]] = o.bytes === String ? $util.base64.encode(m.localDeviceKeys[ks2[j]], 0, m.localDeviceKeys[ks2[j]].length) : o.bytes === Array ? Array.prototype.slice.call(m.localDeviceKeys[ks2[j]]) : m.localDeviceKeys[ks2[j]];
+                }
+            }
+            return d;
+        };
+
+        VerifyKeyTransparencyForUserSignalCommand.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        VerifyKeyTransparencyForUserSignalCommand.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.VerifyKeyTransparencyForUserSignalCommand";
+        };
+
+        return VerifyKeyTransparencyForUserSignalCommand;
+    })();
+
+    proto.VerifyKeyTransparencyForUserSignalResult = (function() {
+
+        function VerifyKeyTransparencyForUserSignalResult(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        VerifyKeyTransparencyForUserSignalResult.prototype.success = null;
+        VerifyKeyTransparencyForUserSignalResult.prototype.error = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(VerifyKeyTransparencyForUserSignalResult.prototype, "_success", {
+            get: $util.oneOfGetter($oneOfFields = ["success"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(VerifyKeyTransparencyForUserSignalResult.prototype, "_error", {
+            get: $util.oneOfGetter($oneOfFields = ["error"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        VerifyKeyTransparencyForUserSignalResult.create = function create(properties) {
+            return new VerifyKeyTransparencyForUserSignalResult(properties);
+        };
+
+        VerifyKeyTransparencyForUserSignalResult.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.success != null && Object.hasOwnProperty.call(m, "success"))
+                w.uint32(8).bool(m.success);
+            if (m.error != null && Object.hasOwnProperty.call(m, "error"))
+                w.uint32(18).string(m.error);
+            return w;
+        };
+
+        VerifyKeyTransparencyForUserSignalResult.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.VerifyKeyTransparencyForUserSignalResult();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.success = r.bool();
+                        break;
+                    }
+                case 2: {
+                        m.error = r.string();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        VerifyKeyTransparencyForUserSignalResult.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.VerifyKeyTransparencyForUserSignalResult)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.VerifyKeyTransparencyForUserSignalResult: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.VerifyKeyTransparencyForUserSignalResult();
+            if (d.success != null) {
+                m.success = Boolean(d.success);
+            }
+            if (d.error != null) {
+                m.error = String(d.error);
+            }
+            return m;
+        };
+
+        VerifyKeyTransparencyForUserSignalResult.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.success != null && Object.hasOwnProperty.call(m, "success")) {
+                d.success = m.success;
+                if (o.oneofs)
+                    d._success = "success";
+            }
+            if (m.error != null && Object.hasOwnProperty.call(m, "error")) {
+                d.error = m.error;
+                if (o.oneofs)
+                    d._error = "error";
+            }
+            return d;
+        };
+
+        VerifyKeyTransparencyForUserSignalResult.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        VerifyKeyTransparencyForUserSignalResult.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.VerifyKeyTransparencyForUserSignalResult";
+        };
+
+        return VerifyKeyTransparencyForUserSignalResult;
+    })();
+
     proto.WallpaperSettings = (function() {
 
         function WallpaperSettings(p) {
@@ -140485,6 +142233,14 @@ export const proto = $root.proto = (() => {
             case 289:
                 m.messageStubType = 289;
                 break;
+            case "POLL_OPTIONS_REMOVED":
+            case 290:
+                m.messageStubType = 290;
+                break;
+            case "POLL_ADDED_OPTION_REMOVED":
+            case 291:
+                m.messageStubType = 291;
+                break;
             }
             if (d.clearMedia != null) {
                 m.clearMedia = Boolean(d.clearMedia);
@@ -141557,6 +143313,8 @@ export const proto = $root.proto = (() => {
             values[valuesById[284] = "META_AI_THREAD_CREATED"] = 284;
             values[valuesById[285] = "META_AI_CONNECTOR_LINKED"] = 285;
             values[valuesById[289] = "SPLIT_PAYMENT_MARKED_AS_PAID"] = 289;
+            values[valuesById[290] = "POLL_OPTIONS_REMOVED"] = 290;
+            values[valuesById[291] = "POLL_ADDED_OPTION_REMOVED"] = 291;
             return values;
         })();
 
