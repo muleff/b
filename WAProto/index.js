@@ -8135,6 +8135,7 @@ export const proto = $root.proto = (() => {
         BizAccountLinkInfo.prototype.issueTime = null;
         BizAccountLinkInfo.prototype.hostStorage = null;
         BizAccountLinkInfo.prototype.accountType = null;
+        BizAccountLinkInfo.prototype.whatsappAcctEmail = null;
 
         let $oneOfFields;
 
@@ -8163,6 +8164,11 @@ export const proto = $root.proto = (() => {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        Object.defineProperty(BizAccountLinkInfo.prototype, "_whatsappAcctEmail", {
+            get: $util.oneOfGetter($oneOfFields = ["whatsappAcctEmail"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         BizAccountLinkInfo.create = function create(properties) {
             return new BizAccountLinkInfo(properties);
         };
@@ -8184,6 +8190,8 @@ export const proto = $root.proto = (() => {
                 w.uint32(32).int32(m.hostStorage);
             if (m.accountType != null && Object.hasOwnProperty.call(m, "accountType"))
                 w.uint32(40).int32(m.accountType);
+            if (m.whatsappAcctEmail != null && Object.hasOwnProperty.call(m, "whatsappAcctEmail"))
+                w.uint32(50).string(m.whatsappAcctEmail);
             return w;
         };
 
@@ -8228,6 +8236,10 @@ export const proto = $root.proto = (() => {
                     }
                 case 5: {
                         m.accountType = r.int32();
+                        break;
+                    }
+                case 6: {
+                        m.whatsappAcctEmail = r.string();
                         break;
                     }
                 default:
@@ -8304,6 +8316,9 @@ export const proto = $root.proto = (() => {
                 m.accountType = 0;
                 break;
             }
+            if (d.whatsappAcctEmail != null) {
+                m.whatsappAcctEmail = String(d.whatsappAcctEmail);
+            }
             return m;
         };
 
@@ -8349,6 +8364,11 @@ export const proto = $root.proto = (() => {
                 d.accountType = o.enums === String ? $root.proto.BizAccountLinkInfo.AccountType[m.accountType] === undefined ? m.accountType : $root.proto.BizAccountLinkInfo.AccountType[m.accountType] : m.accountType;
                 if (o.oneofs)
                     d._accountType = "accountType";
+            }
+            if (m.whatsappAcctEmail != null && Object.hasOwnProperty.call(m, "whatsappAcctEmail")) {
+                d.whatsappAcctEmail = m.whatsappAcctEmail;
+                if (o.oneofs)
+                    d._whatsappAcctEmail = "whatsappAcctEmail";
             }
             return d;
         };
@@ -13704,11 +13724,17 @@ export const proto = $root.proto = (() => {
         }
 
         BotMessageOrigin.prototype.type = null;
+        BotMessageOrigin.prototype.proactiveMessageCampaignId = null;
 
         let $oneOfFields;
 
         Object.defineProperty(BotMessageOrigin.prototype, "_type", {
             get: $util.oneOfGetter($oneOfFields = ["type"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(BotMessageOrigin.prototype, "_proactiveMessageCampaignId", {
+            get: $util.oneOfGetter($oneOfFields = ["proactiveMessageCampaignId"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
@@ -13725,6 +13751,8 @@ export const proto = $root.proto = (() => {
                 throw Error("max depth exceeded");
             if (m.type != null && Object.hasOwnProperty.call(m, "type"))
                 w.uint32(8).int32(m.type);
+            if (m.proactiveMessageCampaignId != null && Object.hasOwnProperty.call(m, "proactiveMessageCampaignId"))
+                w.uint32(18).string(m.proactiveMessageCampaignId);
             return w;
         };
 
@@ -13753,6 +13781,10 @@ export const proto = $root.proto = (() => {
                 switch (t >>> 3) {
                 case 1: {
                         m.type = r.int32();
+                        break;
+                    }
+                case 2: {
+                        m.proactiveMessageCampaignId = r.string();
                         break;
                     }
                 default:
@@ -13794,6 +13826,9 @@ export const proto = $root.proto = (() => {
                 m.type = 1;
                 break;
             }
+            if (d.proactiveMessageCampaignId != null) {
+                m.proactiveMessageCampaignId = String(d.proactiveMessageCampaignId);
+            }
             return m;
         };
 
@@ -13809,6 +13844,11 @@ export const proto = $root.proto = (() => {
                 d.type = o.enums === String ? $root.proto.BotMessageOrigin.BotMessageOriginType[m.type] === undefined ? m.type : $root.proto.BotMessageOrigin.BotMessageOriginType[m.type] : m.type;
                 if (o.oneofs)
                     d._type = "type";
+            }
+            if (m.proactiveMessageCampaignId != null && Object.hasOwnProperty.call(m, "proactiveMessageCampaignId")) {
+                d.proactiveMessageCampaignId = m.proactiveMessageCampaignId;
+                if (o.oneofs)
+                    d._proactiveMessageCampaignId = "proactiveMessageCampaignId";
             }
             return d;
         };
@@ -36040,6 +36080,7 @@ export const proto = $root.proto = (() => {
         DeviceCapabilities.prototype.reverseHistorySync = null;
         DeviceCapabilities.prototype.newsletterChatsMigration = null;
         DeviceCapabilities.prototype.hostWriteMutationSupport = null;
+        DeviceCapabilities.prototype.bizAiWebOnboarding = null;
 
         let $oneOfFields;
 
@@ -36103,6 +36144,11 @@ export const proto = $root.proto = (() => {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        Object.defineProperty(DeviceCapabilities.prototype, "_bizAiWebOnboarding", {
+            get: $util.oneOfGetter($oneOfFields = ["bizAiWebOnboarding"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         DeviceCapabilities.create = function create(properties) {
             return new DeviceCapabilities(properties);
         };
@@ -36138,6 +36184,8 @@ export const proto = $root.proto = (() => {
                 $root.proto.DeviceCapabilities.NewsletterChatsMigration.encode(m.newsletterChatsMigration, w.uint32(90).fork(), q + 1).ldelim();
             if (m.hostWriteMutationSupport != null && Object.hasOwnProperty.call(m, "hostWriteMutationSupport"))
                 $root.proto.DeviceCapabilities.HostWriteMutationSupport.encode(m.hostWriteMutationSupport, w.uint32(98).fork(), q + 1).ldelim();
+            if (m.bizAiWebOnboarding != null && Object.hasOwnProperty.call(m, "bizAiWebOnboarding"))
+                $root.proto.DeviceCapabilities.BizAiWebOnboarding.encode(m.bizAiWebOnboarding, w.uint32(106).fork(), q + 1).ldelim();
             return w;
         };
 
@@ -36210,6 +36258,10 @@ export const proto = $root.proto = (() => {
                     }
                 case 12: {
                         m.hostWriteMutationSupport = $root.proto.DeviceCapabilities.HostWriteMutationSupport.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 13: {
+                        m.bizAiWebOnboarding = $root.proto.DeviceCapabilities.BizAiWebOnboarding.decode(r, r.uint32(), undefined, n + 1);
                         break;
                     }
                 default:
@@ -36325,6 +36377,11 @@ export const proto = $root.proto = (() => {
                     throw TypeError(".proto.DeviceCapabilities.hostWriteMutationSupport: object expected");
                 m.hostWriteMutationSupport = $root.proto.DeviceCapabilities.HostWriteMutationSupport.fromObject(d.hostWriteMutationSupport, n + 1);
             }
+            if (d.bizAiWebOnboarding != null) {
+                if (!$util.isObject(d.bizAiWebOnboarding))
+                    throw TypeError(".proto.DeviceCapabilities.bizAiWebOnboarding: object expected");
+                m.bizAiWebOnboarding = $root.proto.DeviceCapabilities.BizAiWebOnboarding.fromObject(d.bizAiWebOnboarding, n + 1);
+            }
             return m;
         };
 
@@ -36395,6 +36452,11 @@ export const proto = $root.proto = (() => {
                 d.hostWriteMutationSupport = $root.proto.DeviceCapabilities.HostWriteMutationSupport.toObject(m.hostWriteMutationSupport, o, q + 1);
                 if (o.oneofs)
                     d._hostWriteMutationSupport = "hostWriteMutationSupport";
+            }
+            if (m.bizAiWebOnboarding != null && Object.hasOwnProperty.call(m, "bizAiWebOnboarding")) {
+                d.bizAiWebOnboarding = $root.proto.DeviceCapabilities.BizAiWebOnboarding.toObject(m.bizAiWebOnboarding, o, q + 1);
+                if (o.oneofs)
+                    d._bizAiWebOnboarding = "bizAiWebOnboarding";
             }
             return d;
         };
@@ -36825,6 +36887,126 @@ export const proto = $root.proto = (() => {
             };
 
             return BizAiSettingsSync;
+        })();
+
+        DeviceCapabilities.BizAiWebOnboarding = (function() {
+
+            function BizAiWebOnboarding(p) {
+                if (p)
+                    for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                        if (p[ks[i]] != null && ks[i] !== "__proto__")
+                            this[ks[i]] = p[ks[i]];
+            }
+
+            BizAiWebOnboarding.prototype.version = null;
+
+            let $oneOfFields;
+
+            Object.defineProperty(BizAiWebOnboarding.prototype, "_version", {
+                get: $util.oneOfGetter($oneOfFields = ["version"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            BizAiWebOnboarding.create = function create(properties) {
+                return new BizAiWebOnboarding(properties);
+            };
+
+            BizAiWebOnboarding.encode = function encode(m, w, q) {
+                if (!w)
+                    w = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                if (m.version != null && Object.hasOwnProperty.call(m, "version"))
+                    w.uint32(8).uint32(m.version);
+                return w;
+            };
+
+            BizAiWebOnboarding.decode = function decode(r, l, e, n) {
+                if (!(r instanceof $Reader))
+                    r = $Reader.create(r);
+                if (n === undefined)
+                    n = 0;
+                if (n > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var c, m;
+                if (l === undefined)
+                    c = r.len;
+                else {
+                    c = r.pos + l;
+                    if (c > r.len)
+                        throw RangeError("index out of range");
+                    l = r.len;
+                    r.len = c;
+                }
+                m = new $root.proto.DeviceCapabilities.BizAiWebOnboarding();
+                while (r.pos < c) {
+                    var t = r.uint32();
+                    if (t === e)
+                        break;
+                    switch (t >>> 3) {
+                    case 1: {
+                            m.version = r.uint32();
+                            break;
+                        }
+                    default:
+                        r.skipType(t & 7, n);
+                        break;
+                    }
+                }
+                if (l !== undefined) {
+                    if (r.pos !== c)
+                        throw RangeError("index out of range");
+                    r.len = l;
+                }
+                return m;
+            };
+
+            BizAiWebOnboarding.fromObject = function fromObject(d, n) {
+                if (d instanceof $root.proto.DeviceCapabilities.BizAiWebOnboarding)
+                    return d;
+                if (!$util.isObject(d))
+                    throw TypeError(".proto.DeviceCapabilities.BizAiWebOnboarding: object expected");
+                if (n === undefined)
+                    n = 0;
+                if (n > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var m = new $root.proto.DeviceCapabilities.BizAiWebOnboarding();
+                if (d.version != null) {
+                    m.version = d.version >>> 0;
+                }
+                return m;
+            };
+
+            BizAiWebOnboarding.toObject = function toObject(m, o, q) {
+                if (!o)
+                    o = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                var d = {};
+                if (m.version != null && Object.hasOwnProperty.call(m, "version")) {
+                    d.version = m.version;
+                    if (o.oneofs)
+                        d._version = "version";
+                }
+                return d;
+            };
+
+            BizAiWebOnboarding.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            BizAiWebOnboarding.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/proto.DeviceCapabilities.BizAiWebOnboarding";
+            };
+
+            return BizAiWebOnboarding;
         })();
 
         DeviceCapabilities.BusinessBroadcast = (function() {
