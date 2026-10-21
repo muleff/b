@@ -97061,6 +97061,7 @@ export const proto = $root.proto = (() => {
         MsgOpaqueData.prototype.mediaPngThumbnail = null;
         MsgOpaqueData.prototype.qrUrl = null;
         MsgOpaqueData.prototype.musicData = null;
+        MsgOpaqueData.prototype.pollAddedOptionName = null;
 
         let $oneOfFields;
 
@@ -97349,6 +97350,11 @@ export const proto = $root.proto = (() => {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        Object.defineProperty(MsgOpaqueData.prototype, "_pollAddedOptionName", {
+            get: $util.oneOfGetter($oneOfFields = ["pollAddedOptionName"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         MsgOpaqueData.create = function create(properties) {
             return new MsgOpaqueData(properties);
         };
@@ -97478,6 +97484,8 @@ export const proto = $root.proto = (() => {
                 w.uint32(498).string(m.qrUrl);
             if (m.musicData != null && Object.hasOwnProperty.call(m, "musicData"))
                 $root.proto.MsgOpaqueData.MusicData.encode(m.musicData, w.uint32(506).fork(), q + 1).ldelim();
+            if (m.pollAddedOptionName != null && Object.hasOwnProperty.call(m, "pollAddedOptionName"))
+                w.uint32(514).string(m.pollAddedOptionName);
             return w;
         };
 
@@ -97736,6 +97744,10 @@ export const proto = $root.proto = (() => {
                     }
                 case 63: {
                         m.musicData = $root.proto.MsgOpaqueData.MusicData.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 64: {
+                        m.pollAddedOptionName = r.string();
                         break;
                     }
                 default:
@@ -98048,6 +98060,9 @@ export const proto = $root.proto = (() => {
                 if (!$util.isObject(d.musicData))
                     throw TypeError(".proto.MsgOpaqueData.musicData: object expected");
                 m.musicData = $root.proto.MsgOpaqueData.MusicData.fromObject(d.musicData, n + 1);
+            }
+            if (d.pollAddedOptionName != null) {
+                m.pollAddedOptionName = String(d.pollAddedOptionName);
             }
             return m;
         };
@@ -98383,6 +98398,11 @@ export const proto = $root.proto = (() => {
                 d.musicData = $root.proto.MsgOpaqueData.MusicData.toObject(m.musicData, o, q + 1);
                 if (o.oneofs)
                     d._musicData = "musicData";
+            }
+            if (m.pollAddedOptionName != null && Object.hasOwnProperty.call(m, "pollAddedOptionName")) {
+                d.pollAddedOptionName = m.pollAddedOptionName;
+                if (o.oneofs)
+                    d._pollAddedOptionName = "pollAddedOptionName";
             }
             return d;
         };
