@@ -34050,7 +34050,7 @@ export const proto = $root.proto = (() => {
             StatusAudienceMetadata.prototype.audienceType = null;
             StatusAudienceMetadata.prototype.listName = null;
             StatusAudienceMetadata.prototype.listEmoji = null;
-            StatusAudienceMetadata.prototype.networkId = null;
+            StatusAudienceMetadata.prototype.orgId = null;
 
             let $oneOfFields;
 
@@ -34069,8 +34069,8 @@ export const proto = $root.proto = (() => {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
-            Object.defineProperty(StatusAudienceMetadata.prototype, "_networkId", {
-                get: $util.oneOfGetter($oneOfFields = ["networkId"]),
+            Object.defineProperty(StatusAudienceMetadata.prototype, "_orgId", {
+                get: $util.oneOfGetter($oneOfFields = ["orgId"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
 
@@ -34091,8 +34091,8 @@ export const proto = $root.proto = (() => {
                     w.uint32(18).string(m.listName);
                 if (m.listEmoji != null && Object.hasOwnProperty.call(m, "listEmoji"))
                     w.uint32(26).string(m.listEmoji);
-                if (m.networkId != null && Object.hasOwnProperty.call(m, "networkId"))
-                    w.uint32(34).string(m.networkId);
+                if (m.orgId != null && Object.hasOwnProperty.call(m, "orgId"))
+                    w.uint32(34).string(m.orgId);
                 return w;
             };
 
@@ -34132,7 +34132,7 @@ export const proto = $root.proto = (() => {
                             break;
                         }
                     case 4: {
-                            m.networkId = r.string();
+                            m.orgId = r.string();
                             break;
                         }
                     default:
@@ -34177,7 +34177,7 @@ export const proto = $root.proto = (() => {
                 case 2:
                     m.audienceType = 2;
                     break;
-                case "NETWORK":
+                case "ORG":
                 case 3:
                     m.audienceType = 3;
                     break;
@@ -34188,8 +34188,8 @@ export const proto = $root.proto = (() => {
                 if (d.listEmoji != null) {
                     m.listEmoji = String(d.listEmoji);
                 }
-                if (d.networkId != null) {
-                    m.networkId = String(d.networkId);
+                if (d.orgId != null) {
+                    m.orgId = String(d.orgId);
                 }
                 return m;
             };
@@ -34217,10 +34217,10 @@ export const proto = $root.proto = (() => {
                     if (o.oneofs)
                         d._listEmoji = "listEmoji";
                 }
-                if (m.networkId != null && Object.hasOwnProperty.call(m, "networkId")) {
-                    d.networkId = m.networkId;
+                if (m.orgId != null && Object.hasOwnProperty.call(m, "orgId")) {
+                    d.orgId = m.orgId;
                     if (o.oneofs)
-                        d._networkId = "networkId";
+                        d._orgId = "orgId";
                 }
                 return d;
             };
@@ -34241,7 +34241,7 @@ export const proto = $root.proto = (() => {
                 values[valuesById[0] = "UNKNOWN"] = 0;
                 values[valuesById[1] = "CLOSE_FRIENDS"] = 1;
                 values[valuesById[2] = "CUSTOM_LIST"] = 2;
-                values[valuesById[3] = "NETWORK"] = 3;
+                values[valuesById[3] = "ORG"] = 3;
                 return values;
             })();
 
