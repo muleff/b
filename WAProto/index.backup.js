@@ -23908,6 +23908,7 @@ export const proto = $root.proto = (() => {
         ClientPairingProps.prototype.isHsThumbnailSyncEnabled = null;
         ClientPairingProps.prototype.subscriptionSyncPayload = null;
         ClientPairingProps.prototype.isBotJidDbMigrated = null;
+        ClientPairingProps.prototype.companionAddPeerPayload = null;
 
         let $oneOfFields;
 
@@ -23941,6 +23942,11 @@ export const proto = $root.proto = (() => {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        Object.defineProperty(ClientPairingProps.prototype, "_companionAddPeerPayload", {
+            get: $util.oneOfGetter($oneOfFields = ["companionAddPeerPayload"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         ClientPairingProps.create = function create(properties) {
             return new ClientPairingProps(properties);
         };
@@ -23964,6 +23970,8 @@ export const proto = $root.proto = (() => {
                 w.uint32(42).bytes(m.subscriptionSyncPayload);
             if (m.isBotJidDbMigrated != null && Object.hasOwnProperty.call(m, "isBotJidDbMigrated"))
                 w.uint32(48).bool(m.isBotJidDbMigrated);
+            if (m.companionAddPeerPayload != null && Object.hasOwnProperty.call(m, "companionAddPeerPayload"))
+                w.uint32(58).bytes(m.companionAddPeerPayload);
             return w;
         };
 
@@ -24014,6 +24022,10 @@ export const proto = $root.proto = (() => {
                         m.isBotJidDbMigrated = r.bool();
                         break;
                     }
+                case 7: {
+                        m.companionAddPeerPayload = r.bytes();
+                        break;
+                    }
                 default:
                     r.skipType(t & 7, n);
                     break;
@@ -24058,6 +24070,12 @@ export const proto = $root.proto = (() => {
             if (d.isBotJidDbMigrated != null) {
                 m.isBotJidDbMigrated = Boolean(d.isBotJidDbMigrated);
             }
+            if (d.companionAddPeerPayload != null) {
+                if (typeof d.companionAddPeerPayload === "string")
+                    $util.base64.decode(d.companionAddPeerPayload, m.companionAddPeerPayload = $util.newBuffer($util.base64.length(d.companionAddPeerPayload)), 0);
+                else if (d.companionAddPeerPayload.length >= 0)
+                    m.companionAddPeerPayload = d.companionAddPeerPayload;
+            }
             return m;
         };
 
@@ -24098,6 +24116,11 @@ export const proto = $root.proto = (() => {
                 d.isBotJidDbMigrated = m.isBotJidDbMigrated;
                 if (o.oneofs)
                     d._isBotJidDbMigrated = "isBotJidDbMigrated";
+            }
+            if (m.companionAddPeerPayload != null && Object.hasOwnProperty.call(m, "companionAddPeerPayload")) {
+                d.companionAddPeerPayload = o.bytes === String ? $util.base64.encode(m.companionAddPeerPayload, 0, m.companionAddPeerPayload.length) : o.bytes === Array ? Array.prototype.slice.call(m.companionAddPeerPayload) : m.companionAddPeerPayload;
+                if (o.oneofs)
+                    d._companionAddPeerPayload = "companionAddPeerPayload";
             }
             return d;
         };
@@ -117705,6 +117728,7 @@ export const proto = $root.proto = (() => {
             PollOption.prototype.hash = null;
             PollOption.prototype.addOptionMsgKey = null;
             PollOption.prototype.localId = null;
+            PollOption.prototype.addOptionMsgT = null;
 
             let $oneOfFields;
 
@@ -117728,6 +117752,11 @@ export const proto = $root.proto = (() => {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            Object.defineProperty(PollOption.prototype, "_addOptionMsgT", {
+                get: $util.oneOfGetter($oneOfFields = ["addOptionMsgT"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             PollOption.create = function create(properties) {
                 return new PollOption(properties);
             };
@@ -117747,6 +117776,8 @@ export const proto = $root.proto = (() => {
                     w.uint32(26).string(m.addOptionMsgKey);
                 if (m.localId != null && Object.hasOwnProperty.call(m, "localId"))
                     w.uint32(32).uint32(m.localId);
+                if (m.addOptionMsgT != null && Object.hasOwnProperty.call(m, "addOptionMsgT"))
+                    w.uint32(40).uint32(m.addOptionMsgT);
                 return w;
             };
 
@@ -117789,6 +117820,10 @@ export const proto = $root.proto = (() => {
                             m.localId = r.uint32();
                             break;
                         }
+                    case 5: {
+                            m.addOptionMsgT = r.uint32();
+                            break;
+                        }
                     default:
                         r.skipType(t & 7, n);
                         break;
@@ -117824,6 +117859,9 @@ export const proto = $root.proto = (() => {
                 if (d.localId != null) {
                     m.localId = d.localId >>> 0;
                 }
+                if (d.addOptionMsgT != null) {
+                    m.addOptionMsgT = d.addOptionMsgT >>> 0;
+                }
                 return m;
             };
 
@@ -117854,6 +117892,11 @@ export const proto = $root.proto = (() => {
                     d.localId = m.localId;
                     if (o.oneofs)
                         d._localId = "localId";
+                }
+                if (m.addOptionMsgT != null && Object.hasOwnProperty.call(m, "addOptionMsgT")) {
+                    d.addOptionMsgT = m.addOptionMsgT;
+                    if (o.oneofs)
+                        d._addOptionMsgT = "addOptionMsgT";
                 }
                 return d;
             };
