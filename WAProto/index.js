@@ -117704,6 +117704,7 @@ export const proto = $root.proto = (() => {
             PollOption.prototype.name = null;
             PollOption.prototype.hash = null;
             PollOption.prototype.addOptionMsgKey = null;
+            PollOption.prototype.localId = null;
 
             let $oneOfFields;
 
@@ -117719,6 +117720,11 @@ export const proto = $root.proto = (() => {
 
             Object.defineProperty(PollOption.prototype, "_addOptionMsgKey", {
                 get: $util.oneOfGetter($oneOfFields = ["addOptionMsgKey"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            Object.defineProperty(PollOption.prototype, "_localId", {
+                get: $util.oneOfGetter($oneOfFields = ["localId"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
 
@@ -117739,6 +117745,8 @@ export const proto = $root.proto = (() => {
                     w.uint32(18).string(m.hash);
                 if (m.addOptionMsgKey != null && Object.hasOwnProperty.call(m, "addOptionMsgKey"))
                     w.uint32(26).string(m.addOptionMsgKey);
+                if (m.localId != null && Object.hasOwnProperty.call(m, "localId"))
+                    w.uint32(32).uint32(m.localId);
                 return w;
             };
 
@@ -117777,6 +117785,10 @@ export const proto = $root.proto = (() => {
                             m.addOptionMsgKey = r.string();
                             break;
                         }
+                    case 4: {
+                            m.localId = r.uint32();
+                            break;
+                        }
                     default:
                         r.skipType(t & 7, n);
                         break;
@@ -117809,6 +117821,9 @@ export const proto = $root.proto = (() => {
                 if (d.addOptionMsgKey != null) {
                     m.addOptionMsgKey = String(d.addOptionMsgKey);
                 }
+                if (d.localId != null) {
+                    m.localId = d.localId >>> 0;
+                }
                 return m;
             };
 
@@ -117834,6 +117849,11 @@ export const proto = $root.proto = (() => {
                     d.addOptionMsgKey = m.addOptionMsgKey;
                     if (o.oneofs)
                         d._addOptionMsgKey = "addOptionMsgKey";
+                }
+                if (m.localId != null && Object.hasOwnProperty.call(m, "localId")) {
+                    d.localId = m.localId;
+                    if (o.oneofs)
+                        d._localId = "localId";
                 }
                 return d;
             };
