@@ -9779,6 +9779,10 @@ export const proto = $root.proto = (() => {
                     case 82:
                         m.capabilities[i] = 82;
                         break;
+                    case "HATCH_CVM_ENABLED":
+                    case 83:
+                        m.capabilities[i] = 83;
+                        break;
                     }
                 }
             }
@@ -9901,6 +9905,7 @@ export const proto = $root.proto = (() => {
             values[valuesById[80] = "AI_STUDY_CENTER_ENABLED"] = 80;
             values[valuesById[81] = "AI_MUSE_JARVIS_SCHEMA_ENABLED"] = 81;
             values[valuesById[82] = "AI_STUDY_QUIZ_ENABLED"] = 82;
+            values[valuesById[83] = "HATCH_CVM_ENABLED"] = 83;
             return values;
         })();
 
@@ -12679,6 +12684,155 @@ export const proto = $root.proto = (() => {
         return BotInfrastructureDiagnostics;
     })();
 
+    proto.BotInterjectionMetadata = (function() {
+
+        function BotInterjectionMetadata(p) {
+            this.foldedPromptMessageIds = [];
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        BotInterjectionMetadata.prototype.targetPromptMessageId = null;
+        BotInterjectionMetadata.prototype.foldedPromptMessageIds = $util.emptyArray;
+
+        let $oneOfFields;
+
+        Object.defineProperty(BotInterjectionMetadata.prototype, "_targetPromptMessageId", {
+            get: $util.oneOfGetter($oneOfFields = ["targetPromptMessageId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        BotInterjectionMetadata.create = function create(properties) {
+            return new BotInterjectionMetadata(properties);
+        };
+
+        BotInterjectionMetadata.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.targetPromptMessageId != null && Object.hasOwnProperty.call(m, "targetPromptMessageId"))
+                w.uint32(10).string(m.targetPromptMessageId);
+            if (m.foldedPromptMessageIds != null && m.foldedPromptMessageIds.length) {
+                for (var i = 0; i < m.foldedPromptMessageIds.length; ++i)
+                    w.uint32(18).string(m.foldedPromptMessageIds[i]);
+            }
+            return w;
+        };
+
+        BotInterjectionMetadata.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.BotInterjectionMetadata();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.targetPromptMessageId = r.string();
+                        break;
+                    }
+                case 2: {
+                        if (!(m.foldedPromptMessageIds && m.foldedPromptMessageIds.length))
+                            m.foldedPromptMessageIds = [];
+                        m.foldedPromptMessageIds.push(r.string());
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        BotInterjectionMetadata.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.BotInterjectionMetadata)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.BotInterjectionMetadata: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.BotInterjectionMetadata();
+            if (d.targetPromptMessageId != null) {
+                m.targetPromptMessageId = String(d.targetPromptMessageId);
+            }
+            if (d.foldedPromptMessageIds) {
+                if (!Array.isArray(d.foldedPromptMessageIds))
+                    throw TypeError(".proto.BotInterjectionMetadata.foldedPromptMessageIds: array expected");
+                m.foldedPromptMessageIds = [];
+                for (var i = 0; i < d.foldedPromptMessageIds.length; ++i) {
+                    m.foldedPromptMessageIds[i] = String(d.foldedPromptMessageIds[i]);
+                }
+            }
+            return m;
+        };
+
+        BotInterjectionMetadata.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (o.arrays || o.defaults) {
+                d.foldedPromptMessageIds = [];
+            }
+            if (m.targetPromptMessageId != null && Object.hasOwnProperty.call(m, "targetPromptMessageId")) {
+                d.targetPromptMessageId = m.targetPromptMessageId;
+                if (o.oneofs)
+                    d._targetPromptMessageId = "targetPromptMessageId";
+            }
+            if (m.foldedPromptMessageIds && m.foldedPromptMessageIds.length) {
+                d.foldedPromptMessageIds = [];
+                for (var j = 0; j < m.foldedPromptMessageIds.length; ++j) {
+                    d.foldedPromptMessageIds[j] = m.foldedPromptMessageIds[j];
+                }
+            }
+            return d;
+        };
+
+        BotInterjectionMetadata.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        BotInterjectionMetadata.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.BotInterjectionMetadata";
+        };
+
+        return BotInterjectionMetadata;
+    })();
+
     proto.BotLinkedAccount = (function() {
 
         function BotLinkedAccount(p) {
@@ -14404,6 +14558,7 @@ export const proto = $root.proto = (() => {
         BotMetadata.prototype.pttPromptMetadata = null;
         BotMetadata.prototype.botHistoryShareMetadata = null;
         BotMetadata.prototype.responseStoppedByUser = null;
+        BotMetadata.prototype.interjectionMetadata = null;
         BotMetadata.prototype.internalMetadata = null;
 
         let $oneOfFields;
@@ -14623,6 +14778,11 @@ export const proto = $root.proto = (() => {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        Object.defineProperty(BotMetadata.prototype, "_interjectionMetadata", {
+            get: $util.oneOfGetter($oneOfFields = ["interjectionMetadata"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         Object.defineProperty(BotMetadata.prototype, "_internalMetadata", {
             get: $util.oneOfGetter($oneOfFields = ["internalMetadata"]),
             set: $util.oneOfSetter($oneOfFields)
@@ -14725,6 +14885,8 @@ export const proto = $root.proto = (() => {
                 $root.proto.BotHistoryShareMetadata.encode(m.botHistoryShareMetadata, w.uint32(346).fork(), q + 1).ldelim();
             if (m.responseStoppedByUser != null && Object.hasOwnProperty.call(m, "responseStoppedByUser"))
                 w.uint32(352).bool(m.responseStoppedByUser);
+            if (m.interjectionMetadata != null && Object.hasOwnProperty.call(m, "interjectionMetadata"))
+                $root.proto.BotInterjectionMetadata.encode(m.interjectionMetadata, w.uint32(362).fork(), q + 1).ldelim();
             if (m.internalMetadata != null && Object.hasOwnProperty.call(m, "internalMetadata"))
                 w.uint32(7994).bytes(m.internalMetadata);
             return w;
@@ -14923,6 +15085,10 @@ export const proto = $root.proto = (() => {
                     }
                 case 44: {
                         m.responseStoppedByUser = r.bool();
+                        break;
+                    }
+                case 45: {
+                        m.interjectionMetadata = $root.proto.BotInterjectionMetadata.decode(r, r.uint32(), undefined, n + 1);
                         break;
                     }
                 case 999: {
@@ -15153,6 +15319,11 @@ export const proto = $root.proto = (() => {
             }
             if (d.responseStoppedByUser != null) {
                 m.responseStoppedByUser = Boolean(d.responseStoppedByUser);
+            }
+            if (d.interjectionMetadata != null) {
+                if (!$util.isObject(d.interjectionMetadata))
+                    throw TypeError(".proto.BotMetadata.interjectionMetadata: object expected");
+                m.interjectionMetadata = $root.proto.BotInterjectionMetadata.fromObject(d.interjectionMetadata, n + 1);
             }
             if (d.internalMetadata != null) {
                 if (typeof d.internalMetadata === "string")
@@ -15385,6 +15556,11 @@ export const proto = $root.proto = (() => {
                 d.responseStoppedByUser = m.responseStoppedByUser;
                 if (o.oneofs)
                     d._responseStoppedByUser = "responseStoppedByUser";
+            }
+            if (m.interjectionMetadata != null && Object.hasOwnProperty.call(m, "interjectionMetadata")) {
+                d.interjectionMetadata = $root.proto.BotInterjectionMetadata.toObject(m.interjectionMetadata, o, q + 1);
+                if (o.oneofs)
+                    d._interjectionMetadata = "interjectionMetadata";
             }
             if (m.internalMetadata != null && Object.hasOwnProperty.call(m, "internalMetadata")) {
                 d.internalMetadata = o.bytes === String ? $util.base64.encode(m.internalMetadata, 0, m.internalMetadata.length) : o.bytes === Array ? Array.prototype.slice.call(m.internalMetadata) : m.internalMetadata;

@@ -28890,6 +28890,7 @@ export const proto = $root.proto = (() => {
             this.groupMentions = [];
             this.statusAttributions = [];
             this.experienceIds = [];
+            this.sourceExperienceIds = [];
             if (p)
                 for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
                     if (p[ks[i]] != null && ks[i] !== "__proto__")
@@ -28963,6 +28964,7 @@ export const proto = $root.proto = (() => {
         ContextInfo.prototype.experienceIds = $util.emptyArray;
         ContextInfo.prototype.partnerDeepLinkToken = null;
         ContextInfo.prototype.sourceExperienceId = null;
+        ContextInfo.prototype.sourceExperienceIds = $util.emptyArray;
 
         let $oneOfFields;
 
@@ -29436,6 +29438,12 @@ export const proto = $root.proto = (() => {
                 w.uint32(666).string(m.partnerDeepLinkToken);
             if (m.sourceExperienceId != null && Object.hasOwnProperty.call(m, "sourceExperienceId"))
                 w.uint32(672).uint32(m.sourceExperienceId);
+            if (m.sourceExperienceIds != null && m.sourceExperienceIds.length) {
+                w.uint32(682).fork();
+                for (var i = 0; i < m.sourceExperienceIds.length; ++i)
+                    w.uint32(m.sourceExperienceIds[i]);
+                w.ldelim();
+            }
             return w;
         };
 
@@ -29747,6 +29755,23 @@ export const proto = $root.proto = (() => {
                     }
                 case 84: {
                         m.sourceExperienceId = r.uint32();
+                        break;
+                    }
+                case 85: {
+                        if (!(m.sourceExperienceIds && m.sourceExperienceIds.length))
+                            m.sourceExperienceIds = [];
+                        if ((t & 7) === 2) {
+                            var c2 = r.uint32() + r.pos;
+                            if (c2 > r.len)
+                                throw RangeError("index out of range");
+                            r.len = c2;
+                            while (r.pos < c2)
+                                m.sourceExperienceIds.push(r.uint32());
+                            if (r.pos !== c2)
+                                throw RangeError("index out of range");
+                            r.len = c;
+                        } else
+                            m.sourceExperienceIds.push(r.uint32());
                         break;
                     }
                 default:
@@ -30227,6 +30252,14 @@ export const proto = $root.proto = (() => {
             if (d.sourceExperienceId != null) {
                 m.sourceExperienceId = d.sourceExperienceId >>> 0;
             }
+            if (d.sourceExperienceIds) {
+                if (!Array.isArray(d.sourceExperienceIds))
+                    throw TypeError(".proto.ContextInfo.sourceExperienceIds: array expected");
+                m.sourceExperienceIds = [];
+                for (var i = 0; i < d.sourceExperienceIds.length; ++i) {
+                    m.sourceExperienceIds[i] = d.sourceExperienceIds[i] >>> 0;
+                }
+            }
             return m;
         };
 
@@ -30243,6 +30276,7 @@ export const proto = $root.proto = (() => {
                 d.groupMentions = [];
                 d.statusAttributions = [];
                 d.experienceIds = [];
+                d.sourceExperienceIds = [];
             }
             if (m.stanzaId != null && Object.hasOwnProperty.call(m, "stanzaId")) {
                 d.stanzaId = m.stanzaId;
@@ -30587,6 +30621,12 @@ export const proto = $root.proto = (() => {
                 d.sourceExperienceId = m.sourceExperienceId;
                 if (o.oneofs)
                     d._sourceExperienceId = "sourceExperienceId";
+            }
+            if (m.sourceExperienceIds && m.sourceExperienceIds.length) {
+                d.sourceExperienceIds = [];
+                for (var j = 0; j < m.sourceExperienceIds.length; ++j) {
+                    d.sourceExperienceIds[j] = m.sourceExperienceIds[j];
+                }
             }
             return d;
         };
@@ -75478,6 +75518,7 @@ export const proto = $root.proto = (() => {
                 Lyrics.Line = (function() {
 
                     function Line(p) {
+                        this.wordOffsets = [];
                         if (p)
                             for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
                                 if (p[ks[i]] != null && ks[i] !== "__proto__")
@@ -75487,6 +75528,7 @@ export const proto = $root.proto = (() => {
                     Line.prototype.startTimeInMs = null;
                     Line.prototype.endTimeInMs = null;
                     Line.prototype.text = null;
+                    Line.prototype.wordOffsets = $util.emptyArray;
 
                     let $oneOfFields;
 
@@ -75522,6 +75564,10 @@ export const proto = $root.proto = (() => {
                             w.uint32(16).int64(m.endTimeInMs);
                         if (m.text != null && Object.hasOwnProperty.call(m, "text"))
                             w.uint32(26).string(m.text);
+                        if (m.wordOffsets != null && m.wordOffsets.length) {
+                            for (var i = 0; i < m.wordOffsets.length; ++i)
+                                $root.proto.Message.MusicMessage.Lyrics.Line.WordOffset.encode(m.wordOffsets[i], w.uint32(34).fork(), q + 1).ldelim();
+                        }
                         return w;
                     };
 
@@ -75558,6 +75604,12 @@ export const proto = $root.proto = (() => {
                                 }
                             case 3: {
                                     m.text = r.string();
+                                    break;
+                                }
+                            case 4: {
+                                    if (!(m.wordOffsets && m.wordOffsets.length))
+                                        m.wordOffsets = [];
+                                    m.wordOffsets.push($root.proto.Message.MusicMessage.Lyrics.Line.WordOffset.decode(r, r.uint32(), undefined, n + 1));
                                     break;
                                 }
                             default:
@@ -75606,6 +75658,16 @@ export const proto = $root.proto = (() => {
                         if (d.text != null) {
                             m.text = String(d.text);
                         }
+                        if (d.wordOffsets) {
+                            if (!Array.isArray(d.wordOffsets))
+                                throw TypeError(".proto.Message.MusicMessage.Lyrics.Line.wordOffsets: array expected");
+                            m.wordOffsets = [];
+                            for (var i = 0; i < d.wordOffsets.length; ++i) {
+                                if (!$util.isObject(d.wordOffsets[i]))
+                                    throw TypeError(".proto.Message.MusicMessage.Lyrics.Line.wordOffsets: object expected");
+                                m.wordOffsets[i] = $root.proto.Message.MusicMessage.Lyrics.Line.WordOffset.fromObject(d.wordOffsets[i], n + 1);
+                            }
+                        }
                         return m;
                     };
 
@@ -75617,6 +75679,9 @@ export const proto = $root.proto = (() => {
                         if (q > $util.recursionLimit)
                             throw Error("max depth exceeded");
                         var d = {};
+                        if (o.arrays || o.defaults) {
+                            d.wordOffsets = [];
+                        }
                         if (m.startTimeInMs != null && Object.hasOwnProperty.call(m, "startTimeInMs")) {
                             if (typeof BigInt !== "undefined" && o.longs === BigInt)
                                 d.startTimeInMs = typeof m.startTimeInMs === "number" ? BigInt(m.startTimeInMs) : $util.Long.fromBits(m.startTimeInMs.low >>> 0, m.startTimeInMs.high >>> 0, false).toBigInt();
@@ -75642,6 +75707,12 @@ export const proto = $root.proto = (() => {
                             if (o.oneofs)
                                 d._text = "text";
                         }
+                        if (m.wordOffsets && m.wordOffsets.length) {
+                            d.wordOffsets = [];
+                            for (var j = 0; j < m.wordOffsets.length; ++j) {
+                                d.wordOffsets[j] = $root.proto.Message.MusicMessage.Lyrics.Line.WordOffset.toObject(m.wordOffsets[j], o, q + 1);
+                            }
+                        }
                         return d;
                     };
 
@@ -75655,6 +75726,210 @@ export const proto = $root.proto = (() => {
                         }
                         return typeUrlPrefix + "/proto.Message.MusicMessage.Lyrics.Line";
                     };
+
+                    Line.WordOffset = (function() {
+
+                        function WordOffset(p) {
+                            if (p)
+                                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                                        this[ks[i]] = p[ks[i]];
+                        }
+
+                        WordOffset.prototype.startIndex = null;
+                        WordOffset.prototype.endIndex = null;
+                        WordOffset.prototype.startOffsetMs = null;
+                        WordOffset.prototype.endOffsetMs = null;
+
+                        let $oneOfFields;
+
+                        Object.defineProperty(WordOffset.prototype, "_startIndex", {
+                            get: $util.oneOfGetter($oneOfFields = ["startIndex"]),
+                            set: $util.oneOfSetter($oneOfFields)
+                        });
+
+                        Object.defineProperty(WordOffset.prototype, "_endIndex", {
+                            get: $util.oneOfGetter($oneOfFields = ["endIndex"]),
+                            set: $util.oneOfSetter($oneOfFields)
+                        });
+
+                        Object.defineProperty(WordOffset.prototype, "_startOffsetMs", {
+                            get: $util.oneOfGetter($oneOfFields = ["startOffsetMs"]),
+                            set: $util.oneOfSetter($oneOfFields)
+                        });
+
+                        Object.defineProperty(WordOffset.prototype, "_endOffsetMs", {
+                            get: $util.oneOfGetter($oneOfFields = ["endOffsetMs"]),
+                            set: $util.oneOfSetter($oneOfFields)
+                        });
+
+                        WordOffset.create = function create(properties) {
+                            return new WordOffset(properties);
+                        };
+
+                        WordOffset.encode = function encode(m, w, q) {
+                            if (!w)
+                                w = $Writer.create();
+                            if (q === undefined)
+                                q = 0;
+                            if (q > $util.recursionLimit)
+                                throw Error("max depth exceeded");
+                            if (m.startIndex != null && Object.hasOwnProperty.call(m, "startIndex"))
+                                w.uint32(8).int32(m.startIndex);
+                            if (m.endIndex != null && Object.hasOwnProperty.call(m, "endIndex"))
+                                w.uint32(16).int32(m.endIndex);
+                            if (m.startOffsetMs != null && Object.hasOwnProperty.call(m, "startOffsetMs"))
+                                w.uint32(24).int64(m.startOffsetMs);
+                            if (m.endOffsetMs != null && Object.hasOwnProperty.call(m, "endOffsetMs"))
+                                w.uint32(32).int64(m.endOffsetMs);
+                            return w;
+                        };
+
+                        WordOffset.decode = function decode(r, l, e, n) {
+                            if (!(r instanceof $Reader))
+                                r = $Reader.create(r);
+                            if (n === undefined)
+                                n = 0;
+                            if (n > $Reader.recursionLimit)
+                                throw Error("maximum nesting depth exceeded");
+                            var c, m;
+                            if (l === undefined)
+                                c = r.len;
+                            else {
+                                c = r.pos + l;
+                                if (c > r.len)
+                                    throw RangeError("index out of range");
+                                l = r.len;
+                                r.len = c;
+                            }
+                            m = new $root.proto.Message.MusicMessage.Lyrics.Line.WordOffset();
+                            while (r.pos < c) {
+                                var t = r.uint32();
+                                if (t === e)
+                                    break;
+                                switch (t >>> 3) {
+                                case 1: {
+                                        m.startIndex = r.int32();
+                                        break;
+                                    }
+                                case 2: {
+                                        m.endIndex = r.int32();
+                                        break;
+                                    }
+                                case 3: {
+                                        m.startOffsetMs = r.int64();
+                                        break;
+                                    }
+                                case 4: {
+                                        m.endOffsetMs = r.int64();
+                                        break;
+                                    }
+                                default:
+                                    r.skipType(t & 7, n);
+                                    break;
+                                }
+                            }
+                            if (l !== undefined) {
+                                if (r.pos !== c)
+                                    throw RangeError("index out of range");
+                                r.len = l;
+                            }
+                            return m;
+                        };
+
+                        WordOffset.fromObject = function fromObject(d, n) {
+                            if (d instanceof $root.proto.Message.MusicMessage.Lyrics.Line.WordOffset)
+                                return d;
+                            if (!$util.isObject(d))
+                                throw TypeError(".proto.Message.MusicMessage.Lyrics.Line.WordOffset: object expected");
+                            if (n === undefined)
+                                n = 0;
+                            if (n > $util.recursionLimit)
+                                throw Error("maximum nesting depth exceeded");
+                            var m = new $root.proto.Message.MusicMessage.Lyrics.Line.WordOffset();
+                            if (d.startIndex != null) {
+                                m.startIndex = d.startIndex | 0;
+                            }
+                            if (d.endIndex != null) {
+                                m.endIndex = d.endIndex | 0;
+                            }
+                            if (d.startOffsetMs != null) {
+                                if ($util.Long)
+                                    m.startOffsetMs = $util.Long.fromValue(d.startOffsetMs, false);
+                                else if (typeof d.startOffsetMs === "string")
+                                    m.startOffsetMs = parseInt(d.startOffsetMs, 10);
+                                else if (typeof d.startOffsetMs === "number")
+                                    m.startOffsetMs = d.startOffsetMs;
+                                else if (typeof d.startOffsetMs === "object")
+                                    m.startOffsetMs = new $util.LongBits(d.startOffsetMs.low >>> 0, d.startOffsetMs.high >>> 0).toNumber();
+                            }
+                            if (d.endOffsetMs != null) {
+                                if ($util.Long)
+                                    m.endOffsetMs = $util.Long.fromValue(d.endOffsetMs, false);
+                                else if (typeof d.endOffsetMs === "string")
+                                    m.endOffsetMs = parseInt(d.endOffsetMs, 10);
+                                else if (typeof d.endOffsetMs === "number")
+                                    m.endOffsetMs = d.endOffsetMs;
+                                else if (typeof d.endOffsetMs === "object")
+                                    m.endOffsetMs = new $util.LongBits(d.endOffsetMs.low >>> 0, d.endOffsetMs.high >>> 0).toNumber();
+                            }
+                            return m;
+                        };
+
+                        WordOffset.toObject = function toObject(m, o, q) {
+                            if (!o)
+                                o = {};
+                            if (q === undefined)
+                                q = 0;
+                            if (q > $util.recursionLimit)
+                                throw Error("max depth exceeded");
+                            var d = {};
+                            if (m.startIndex != null && Object.hasOwnProperty.call(m, "startIndex")) {
+                                d.startIndex = m.startIndex;
+                                if (o.oneofs)
+                                    d._startIndex = "startIndex";
+                            }
+                            if (m.endIndex != null && Object.hasOwnProperty.call(m, "endIndex")) {
+                                d.endIndex = m.endIndex;
+                                if (o.oneofs)
+                                    d._endIndex = "endIndex";
+                            }
+                            if (m.startOffsetMs != null && Object.hasOwnProperty.call(m, "startOffsetMs")) {
+                                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                                    d.startOffsetMs = typeof m.startOffsetMs === "number" ? BigInt(m.startOffsetMs) : $util.Long.fromBits(m.startOffsetMs.low >>> 0, m.startOffsetMs.high >>> 0, false).toBigInt();
+                                else if (typeof m.startOffsetMs === "number")
+                                    d.startOffsetMs = o.longs === String ? String(m.startOffsetMs) : m.startOffsetMs;
+                                else
+                                    d.startOffsetMs = o.longs === String ? longToString(m.startOffsetMs) : o.longs === Number ? longToNumber(m.startOffsetMs) : m.startOffsetMs;
+                                if (o.oneofs)
+                                    d._startOffsetMs = "startOffsetMs";
+                            }
+                            if (m.endOffsetMs != null && Object.hasOwnProperty.call(m, "endOffsetMs")) {
+                                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                                    d.endOffsetMs = typeof m.endOffsetMs === "number" ? BigInt(m.endOffsetMs) : $util.Long.fromBits(m.endOffsetMs.low >>> 0, m.endOffsetMs.high >>> 0, false).toBigInt();
+                                else if (typeof m.endOffsetMs === "number")
+                                    d.endOffsetMs = o.longs === String ? String(m.endOffsetMs) : m.endOffsetMs;
+                                else
+                                    d.endOffsetMs = o.longs === String ? longToString(m.endOffsetMs) : o.longs === Number ? longToNumber(m.endOffsetMs) : m.endOffsetMs;
+                                if (o.oneofs)
+                                    d._endOffsetMs = "endOffsetMs";
+                            }
+                            return d;
+                        };
+
+                        WordOffset.prototype.toJSON = function toJSON() {
+                            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+                        };
+
+                        WordOffset.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                            if (typeUrlPrefix === undefined) {
+                                typeUrlPrefix = "type.googleapis.com";
+                            }
+                            return typeUrlPrefix + "/proto.Message.MusicMessage.Lyrics.Line.WordOffset";
+                        };
+
+                        return WordOffset;
+                    })();
 
                     return Line;
                 })();
@@ -79365,6 +79640,7 @@ export const proto = $root.proto = (() => {
                 HistorySyncOnDemandRequest.prototype.oldestMsgTimestampMs = null;
                 HistorySyncOnDemandRequest.prototype.accountLid = null;
                 HistorySyncOnDemandRequest.prototype.supportInlineResponse = null;
+                HistorySyncOnDemandRequest.prototype.mode = null;
 
                 let $oneOfFields;
 
@@ -79403,6 +79679,11 @@ export const proto = $root.proto = (() => {
                     set: $util.oneOfSetter($oneOfFields)
                 });
 
+                Object.defineProperty(HistorySyncOnDemandRequest.prototype, "_mode", {
+                    get: $util.oneOfGetter($oneOfFields = ["mode"]),
+                    set: $util.oneOfSetter($oneOfFields)
+                });
+
                 HistorySyncOnDemandRequest.create = function create(properties) {
                     return new HistorySyncOnDemandRequest(properties);
                 };
@@ -79428,6 +79709,8 @@ export const proto = $root.proto = (() => {
                         w.uint32(50).string(m.accountLid);
                     if (m.supportInlineResponse != null && Object.hasOwnProperty.call(m, "supportInlineResponse"))
                         w.uint32(56).bool(m.supportInlineResponse);
+                    if (m.mode != null && Object.hasOwnProperty.call(m, "mode"))
+                        w.uint32(64).int32(m.mode);
                     return w;
                 };
 
@@ -79482,6 +79765,10 @@ export const proto = $root.proto = (() => {
                                 m.supportInlineResponse = r.bool();
                                 break;
                             }
+                        case 8: {
+                                m.mode = r.int32();
+                                break;
+                            }
                         default:
                             r.skipType(t & 7, n);
                             break;
@@ -79532,6 +79819,22 @@ export const proto = $root.proto = (() => {
                     }
                     if (d.supportInlineResponse != null) {
                         m.supportInlineResponse = Boolean(d.supportInlineResponse);
+                    }
+                    switch (d.mode) {
+                    default:
+                        if (typeof d.mode === "number") {
+                            m.mode = d.mode;
+                            break;
+                        }
+                        break;
+                    case "MODE_UNSPECIFIED":
+                    case 0:
+                        m.mode = 0;
+                        break;
+                    case "INITIAL_REVERSE_HISTORY":
+                    case 1:
+                        m.mode = 1;
+                        break;
                     }
                     return m;
                 };
@@ -79584,6 +79887,11 @@ export const proto = $root.proto = (() => {
                         if (o.oneofs)
                             d._supportInlineResponse = "supportInlineResponse";
                     }
+                    if (m.mode != null && Object.hasOwnProperty.call(m, "mode")) {
+                        d.mode = o.enums === String ? $root.proto.Message.PeerDataOperationRequestMessage.HistorySyncOnDemandRequest.Mode[m.mode] === undefined ? m.mode : $root.proto.Message.PeerDataOperationRequestMessage.HistorySyncOnDemandRequest.Mode[m.mode] : m.mode;
+                        if (o.oneofs)
+                            d._mode = "mode";
+                    }
                     return d;
                 };
 
@@ -79597,6 +79905,13 @@ export const proto = $root.proto = (() => {
                     }
                     return typeUrlPrefix + "/proto.Message.PeerDataOperationRequestMessage.HistorySyncOnDemandRequest";
                 };
+
+                HistorySyncOnDemandRequest.Mode = (function() {
+                    const valuesById = {}, values = Object.create(valuesById);
+                    values[valuesById[0] = "MODE_UNSPECIFIED"] = 0;
+                    values[valuesById[1] = "INITIAL_REVERSE_HISTORY"] = 1;
+                    return values;
+                })();
 
                 return HistorySyncOnDemandRequest;
             })();
