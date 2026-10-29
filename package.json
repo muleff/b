@@ -27,7 +27,7 @@
     "lint": "node --check lib/index.js",
     "update:version": "node update-version.js",
     "update:proto": "node update-proto.mjs",
-    "test": "node --check lib/index.js && node --check update-proto.mjs && node --check update-version.js"
+    "test": "node --check lib/index.js && node --check update-proto.mjs && node --check update-version.js && node --test test/*.test.js"
   },
   "dependencies": {
     "@cacheable/node-cache": "^1.4.0",
