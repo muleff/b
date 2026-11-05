@@ -28904,14 +28904,6 @@ export const proto = $root.proto = (() => {
         }
 
         Config.prototype.field = $util.emptyObject;
-        Config.prototype.version = null;
-
-        let $oneOfFields;
-
-        Object.defineProperty(Config.prototype, "_version", {
-            get: $util.oneOfGetter($oneOfFields = ["version"]),
-            set: $util.oneOfSetter($oneOfFields)
-        });
 
         Config.create = function create(properties) {
             return new Config(properties);
@@ -28930,8 +28922,6 @@ export const proto = $root.proto = (() => {
                     $root.proto.Field.encode(m.field[ks[i]], w.uint32(18).fork(), q + 1).ldelim().ldelim();
                 }
             }
-            if (m.version != null && Object.hasOwnProperty.call(m, "version"))
-                w.uint32(16).uint32(m.version);
             return w;
         };
 
@@ -28987,10 +28977,6 @@ export const proto = $root.proto = (() => {
                         m.field[k] = value;
                         break;
                     }
-                case 2: {
-                        m.version = r.uint32();
-                        break;
-                    }
                 default:
                     r.skipType(t & 7, n);
                     break;
@@ -29026,9 +29012,6 @@ export const proto = $root.proto = (() => {
                     m.field[ks[i]] = $root.proto.Field.fromObject(d.field[ks[i]], n + 1);
                 }
             }
-            if (d.version != null) {
-                m.version = d.version >>> 0;
-            }
             return m;
         };
 
@@ -29051,11 +29034,6 @@ export const proto = $root.proto = (() => {
                         $util.makeProp(d.field, ks2[j]);
                     d.field[ks2[j]] = $root.proto.Field.toObject(m.field[ks2[j]], o, q + 1);
                 }
-            }
-            if (m.version != null && Object.hasOwnProperty.call(m, "version")) {
-                d.version = m.version;
-                if (o.oneofs)
-                    d._version = "version";
             }
             return d;
         };
@@ -42159,7 +42137,6 @@ export const proto = $root.proto = (() => {
 
         Field.prototype.minVersion = null;
         Field.prototype.maxVersion = null;
-        Field.prototype.notReportableMinVersion = null;
         Field.prototype.isMessage = null;
         Field.prototype.subfield = $util.emptyObject;
 
@@ -42172,11 +42149,6 @@ export const proto = $root.proto = (() => {
 
         Object.defineProperty(Field.prototype, "_maxVersion", {
             get: $util.oneOfGetter($oneOfFields = ["maxVersion"]),
-            set: $util.oneOfSetter($oneOfFields)
-        });
-
-        Object.defineProperty(Field.prototype, "_notReportableMinVersion", {
-            get: $util.oneOfGetter($oneOfFields = ["notReportableMinVersion"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
@@ -42200,8 +42172,6 @@ export const proto = $root.proto = (() => {
                 w.uint32(8).uint32(m.minVersion);
             if (m.maxVersion != null && Object.hasOwnProperty.call(m, "maxVersion"))
                 w.uint32(16).uint32(m.maxVersion);
-            if (m.notReportableMinVersion != null && Object.hasOwnProperty.call(m, "notReportableMinVersion"))
-                w.uint32(24).uint32(m.notReportableMinVersion);
             if (m.isMessage != null && Object.hasOwnProperty.call(m, "isMessage"))
                 w.uint32(32).bool(m.isMessage);
             if (m.subfield != null && Object.hasOwnProperty.call(m, "subfield")) {
@@ -42242,10 +42212,6 @@ export const proto = $root.proto = (() => {
                     }
                 case 2: {
                         m.maxVersion = r.uint32();
-                        break;
-                    }
-                case 3: {
-                        m.notReportableMinVersion = r.uint32();
                         break;
                     }
                 case 4: {
@@ -42310,9 +42276,6 @@ export const proto = $root.proto = (() => {
             if (d.maxVersion != null) {
                 m.maxVersion = d.maxVersion >>> 0;
             }
-            if (d.notReportableMinVersion != null) {
-                m.notReportableMinVersion = d.notReportableMinVersion >>> 0;
-            }
             if (d.isMessage != null) {
                 m.isMessage = Boolean(d.isMessage);
             }
@@ -42351,11 +42314,6 @@ export const proto = $root.proto = (() => {
                 d.maxVersion = m.maxVersion;
                 if (o.oneofs)
                     d._maxVersion = "maxVersion";
-            }
-            if (m.notReportableMinVersion != null && Object.hasOwnProperty.call(m, "notReportableMinVersion")) {
-                d.notReportableMinVersion = m.notReportableMinVersion;
-                if (o.oneofs)
-                    d._notReportableMinVersion = "notReportableMinVersion";
             }
             if (m.isMessage != null && Object.hasOwnProperty.call(m, "isMessage")) {
                 d.isMessage = m.isMessage;
@@ -108809,186 +108767,6 @@ export const proto = $root.proto = (() => {
         };
 
         return RecordStructure;
-    })();
-
-    proto.Reportable = (function() {
-
-        function Reportable(p) {
-            if (p)
-                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
-                    if (p[ks[i]] != null && ks[i] !== "__proto__")
-                        this[ks[i]] = p[ks[i]];
-        }
-
-        Reportable.prototype.minVersion = null;
-        Reportable.prototype.maxVersion = null;
-        Reportable.prototype.notReportableMinVersion = null;
-        Reportable.prototype.never = null;
-
-        let $oneOfFields;
-
-        Object.defineProperty(Reportable.prototype, "_minVersion", {
-            get: $util.oneOfGetter($oneOfFields = ["minVersion"]),
-            set: $util.oneOfSetter($oneOfFields)
-        });
-
-        Object.defineProperty(Reportable.prototype, "_maxVersion", {
-            get: $util.oneOfGetter($oneOfFields = ["maxVersion"]),
-            set: $util.oneOfSetter($oneOfFields)
-        });
-
-        Object.defineProperty(Reportable.prototype, "_notReportableMinVersion", {
-            get: $util.oneOfGetter($oneOfFields = ["notReportableMinVersion"]),
-            set: $util.oneOfSetter($oneOfFields)
-        });
-
-        Object.defineProperty(Reportable.prototype, "_never", {
-            get: $util.oneOfGetter($oneOfFields = ["never"]),
-            set: $util.oneOfSetter($oneOfFields)
-        });
-
-        Reportable.create = function create(properties) {
-            return new Reportable(properties);
-        };
-
-        Reportable.encode = function encode(m, w, q) {
-            if (!w)
-                w = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (m.minVersion != null && Object.hasOwnProperty.call(m, "minVersion"))
-                w.uint32(8).uint32(m.minVersion);
-            if (m.maxVersion != null && Object.hasOwnProperty.call(m, "maxVersion"))
-                w.uint32(16).uint32(m.maxVersion);
-            if (m.notReportableMinVersion != null && Object.hasOwnProperty.call(m, "notReportableMinVersion"))
-                w.uint32(24).uint32(m.notReportableMinVersion);
-            if (m.never != null && Object.hasOwnProperty.call(m, "never"))
-                w.uint32(32).bool(m.never);
-            return w;
-        };
-
-        Reportable.decode = function decode(r, l, e, n) {
-            if (!(r instanceof $Reader))
-                r = $Reader.create(r);
-            if (n === undefined)
-                n = 0;
-            if (n > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
-            var c, m;
-            if (l === undefined)
-                c = r.len;
-            else {
-                c = r.pos + l;
-                if (c > r.len)
-                    throw RangeError("index out of range");
-                l = r.len;
-                r.len = c;
-            }
-            m = new $root.proto.Reportable();
-            while (r.pos < c) {
-                var t = r.uint32();
-                if (t === e)
-                    break;
-                switch (t >>> 3) {
-                case 1: {
-                        m.minVersion = r.uint32();
-                        break;
-                    }
-                case 2: {
-                        m.maxVersion = r.uint32();
-                        break;
-                    }
-                case 3: {
-                        m.notReportableMinVersion = r.uint32();
-                        break;
-                    }
-                case 4: {
-                        m.never = r.bool();
-                        break;
-                    }
-                default:
-                    r.skipType(t & 7, n);
-                    break;
-                }
-            }
-            if (l !== undefined) {
-                if (r.pos !== c)
-                    throw RangeError("index out of range");
-                r.len = l;
-            }
-            return m;
-        };
-
-        Reportable.fromObject = function fromObject(d, n) {
-            if (d instanceof $root.proto.Reportable)
-                return d;
-            if (!$util.isObject(d))
-                throw TypeError(".proto.Reportable: object expected");
-            if (n === undefined)
-                n = 0;
-            if (n > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
-            var m = new $root.proto.Reportable();
-            if (d.minVersion != null) {
-                m.minVersion = d.minVersion >>> 0;
-            }
-            if (d.maxVersion != null) {
-                m.maxVersion = d.maxVersion >>> 0;
-            }
-            if (d.notReportableMinVersion != null) {
-                m.notReportableMinVersion = d.notReportableMinVersion >>> 0;
-            }
-            if (d.never != null) {
-                m.never = Boolean(d.never);
-            }
-            return m;
-        };
-
-        Reportable.toObject = function toObject(m, o, q) {
-            if (!o)
-                o = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            var d = {};
-            if (m.minVersion != null && Object.hasOwnProperty.call(m, "minVersion")) {
-                d.minVersion = m.minVersion;
-                if (o.oneofs)
-                    d._minVersion = "minVersion";
-            }
-            if (m.maxVersion != null && Object.hasOwnProperty.call(m, "maxVersion")) {
-                d.maxVersion = m.maxVersion;
-                if (o.oneofs)
-                    d._maxVersion = "maxVersion";
-            }
-            if (m.notReportableMinVersion != null && Object.hasOwnProperty.call(m, "notReportableMinVersion")) {
-                d.notReportableMinVersion = m.notReportableMinVersion;
-                if (o.oneofs)
-                    d._notReportableMinVersion = "notReportableMinVersion";
-            }
-            if (m.never != null && Object.hasOwnProperty.call(m, "never")) {
-                d.never = m.never;
-                if (o.oneofs)
-                    d._never = "never";
-            }
-            return d;
-        };
-
-        Reportable.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-        };
-
-        Reportable.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/proto.Reportable";
-        };
-
-        return Reportable;
     })();
 
     proto.ReportingTokenInfo = (function() {
