@@ -29381,6 +29381,7 @@ export const proto = $root.proto = (() => {
         ContextInfo.prototype.partnerDeepLinkToken = null;
         ContextInfo.prototype.sourceExperienceId = null;
         ContextInfo.prototype.sourceExperienceIds = $util.emptyArray;
+        ContextInfo.prototype.foaMutualsSignature = null;
 
         let $oneOfFields;
 
@@ -29699,6 +29700,11 @@ export const proto = $root.proto = (() => {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        Object.defineProperty(ContextInfo.prototype, "_foaMutualsSignature", {
+            get: $util.oneOfGetter($oneOfFields = ["foaMutualsSignature"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         ContextInfo.create = function create(properties) {
             return new ContextInfo(properties);
         };
@@ -29860,6 +29866,8 @@ export const proto = $root.proto = (() => {
                     w.uint32(m.sourceExperienceIds[i]);
                 w.ldelim();
             }
+            if (m.foaMutualsSignature != null && Object.hasOwnProperty.call(m, "foaMutualsSignature"))
+                w.uint32(690).bytes(m.foaMutualsSignature);
             return w;
         };
 
@@ -30188,6 +30196,10 @@ export const proto = $root.proto = (() => {
                             r.len = c;
                         } else
                             m.sourceExperienceIds.push(r.uint32());
+                        break;
+                    }
+                case 86: {
+                        m.foaMutualsSignature = r.bytes();
                         break;
                     }
                 default:
@@ -30684,6 +30696,12 @@ export const proto = $root.proto = (() => {
                     m.sourceExperienceIds[i] = d.sourceExperienceIds[i] >>> 0;
                 }
             }
+            if (d.foaMutualsSignature != null) {
+                if (typeof d.foaMutualsSignature === "string")
+                    $util.base64.decode(d.foaMutualsSignature, m.foaMutualsSignature = $util.newBuffer($util.base64.length(d.foaMutualsSignature)), 0);
+                else if (d.foaMutualsSignature.length >= 0)
+                    m.foaMutualsSignature = d.foaMutualsSignature;
+            }
             return m;
         };
 
@@ -31051,6 +31069,11 @@ export const proto = $root.proto = (() => {
                 for (var j = 0; j < m.sourceExperienceIds.length; ++j) {
                     d.sourceExperienceIds[j] = m.sourceExperienceIds[j];
                 }
+            }
+            if (m.foaMutualsSignature != null && Object.hasOwnProperty.call(m, "foaMutualsSignature")) {
+                d.foaMutualsSignature = o.bytes === String ? $util.base64.encode(m.foaMutualsSignature, 0, m.foaMutualsSignature.length) : o.bytes === Array ? Array.prototype.slice.call(m.foaMutualsSignature) : m.foaMutualsSignature;
+                if (o.oneofs)
+                    d._foaMutualsSignature = "foaMutualsSignature";
             }
             return d;
         };
@@ -97063,8 +97086,6 @@ export const proto = $root.proto = (() => {
 
             VpcRequestMessage.prototype.payloadSchemaVersion = null;
             VpcRequestMessage.prototype.requestId = null;
-            VpcRequestMessage.prototype.launchRef = null;
-            VpcRequestMessage.prototype.invitationExpiresAtMs = null;
             VpcRequestMessage.prototype.scopeHint = null;
 
             let $oneOfFields;
@@ -97076,16 +97097,6 @@ export const proto = $root.proto = (() => {
 
             Object.defineProperty(VpcRequestMessage.prototype, "_requestId", {
                 get: $util.oneOfGetter($oneOfFields = ["requestId"]),
-                set: $util.oneOfSetter($oneOfFields)
-            });
-
-            Object.defineProperty(VpcRequestMessage.prototype, "_launchRef", {
-                get: $util.oneOfGetter($oneOfFields = ["launchRef"]),
-                set: $util.oneOfSetter($oneOfFields)
-            });
-
-            Object.defineProperty(VpcRequestMessage.prototype, "_invitationExpiresAtMs", {
-                get: $util.oneOfGetter($oneOfFields = ["invitationExpiresAtMs"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
 
@@ -97109,12 +97120,8 @@ export const proto = $root.proto = (() => {
                     w.uint32(8).uint32(m.payloadSchemaVersion);
                 if (m.requestId != null && Object.hasOwnProperty.call(m, "requestId"))
                     w.uint32(18).string(m.requestId);
-                if (m.launchRef != null && Object.hasOwnProperty.call(m, "launchRef"))
-                    w.uint32(26).string(m.launchRef);
-                if (m.invitationExpiresAtMs != null && Object.hasOwnProperty.call(m, "invitationExpiresAtMs"))
-                    w.uint32(32).int64(m.invitationExpiresAtMs);
                 if (m.scopeHint != null && Object.hasOwnProperty.call(m, "scopeHint"))
-                    w.uint32(40).int32(m.scopeHint);
+                    w.uint32(24).int32(m.scopeHint);
                 return w;
             };
 
@@ -97150,14 +97157,6 @@ export const proto = $root.proto = (() => {
                             break;
                         }
                     case 3: {
-                            m.launchRef = r.string();
-                            break;
-                        }
-                    case 4: {
-                            m.invitationExpiresAtMs = r.int64();
-                            break;
-                        }
-                    case 5: {
                             m.scopeHint = r.int32();
                             break;
                         }
@@ -97189,19 +97188,6 @@ export const proto = $root.proto = (() => {
                 }
                 if (d.requestId != null) {
                     m.requestId = String(d.requestId);
-                }
-                if (d.launchRef != null) {
-                    m.launchRef = String(d.launchRef);
-                }
-                if (d.invitationExpiresAtMs != null) {
-                    if ($util.Long)
-                        m.invitationExpiresAtMs = $util.Long.fromValue(d.invitationExpiresAtMs, false);
-                    else if (typeof d.invitationExpiresAtMs === "string")
-                        m.invitationExpiresAtMs = parseInt(d.invitationExpiresAtMs, 10);
-                    else if (typeof d.invitationExpiresAtMs === "number")
-                        m.invitationExpiresAtMs = d.invitationExpiresAtMs;
-                    else if (typeof d.invitationExpiresAtMs === "object")
-                        m.invitationExpiresAtMs = new $util.LongBits(d.invitationExpiresAtMs.low >>> 0, d.invitationExpiresAtMs.high >>> 0).toNumber();
                 }
                 switch (d.scopeHint) {
                 default:
@@ -97255,21 +97241,6 @@ export const proto = $root.proto = (() => {
                     d.requestId = m.requestId;
                     if (o.oneofs)
                         d._requestId = "requestId";
-                }
-                if (m.launchRef != null && Object.hasOwnProperty.call(m, "launchRef")) {
-                    d.launchRef = m.launchRef;
-                    if (o.oneofs)
-                        d._launchRef = "launchRef";
-                }
-                if (m.invitationExpiresAtMs != null && Object.hasOwnProperty.call(m, "invitationExpiresAtMs")) {
-                    if (typeof BigInt !== "undefined" && o.longs === BigInt)
-                        d.invitationExpiresAtMs = typeof m.invitationExpiresAtMs === "number" ? BigInt(m.invitationExpiresAtMs) : $util.Long.fromBits(m.invitationExpiresAtMs.low >>> 0, m.invitationExpiresAtMs.high >>> 0, false).toBigInt();
-                    else if (typeof m.invitationExpiresAtMs === "number")
-                        d.invitationExpiresAtMs = o.longs === String ? String(m.invitationExpiresAtMs) : m.invitationExpiresAtMs;
-                    else
-                        d.invitationExpiresAtMs = o.longs === String ? longToString(m.invitationExpiresAtMs) : o.longs === Number ? longToNumber(m.invitationExpiresAtMs) : m.invitationExpiresAtMs;
-                    if (o.oneofs)
-                        d._invitationExpiresAtMs = "invitationExpiresAtMs";
                 }
                 if (m.scopeHint != null && Object.hasOwnProperty.call(m, "scopeHint")) {
                     d.scopeHint = o.enums === String ? $root.proto.Message.VpcRequestMessage.ScopeHint[m.scopeHint] === undefined ? m.scopeHint : $root.proto.Message.VpcRequestMessage.ScopeHint[m.scopeHint] : m.scopeHint;
