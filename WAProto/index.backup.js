@@ -10512,6 +10512,10 @@ export const proto = $root.proto = (() => {
                     case 89:
                         m.capabilities[i] = 89;
                         break;
+                    case "AI_MUSE_JARVIS_ENVELOPE_GZIP_ENABLED":
+                    case 90:
+                        m.capabilities[i] = 90;
+                        break;
                     }
                 }
             }
@@ -10641,6 +10645,7 @@ export const proto = $root.proto = (() => {
             values[valuesById[87] = "AI_RICH_RESPONSE_READ_ALOUD_ENABLED"] = 87;
             values[valuesById[88] = "AI_RICH_RESPONSE_ITEM_LISTS_ENABLED"] = 88;
             values[valuesById[89] = "RICH_RESPONSE_SIDE_BY_SIDE_BUFFER_BOTH"] = 89;
+            values[valuesById[90] = "AI_MUSE_JARVIS_ENVELOPE_GZIP_ENABLED"] = 90;
             return values;
         })();
 
@@ -24821,6 +24826,7 @@ export const proto = $root.proto = (() => {
         ClientPairingProps.prototype.isBotJidDbMigrated = null;
         ClientPairingProps.prototype.companionAddPeerPayload = null;
         ClientPairingProps.prototype.isCompanionRegistrationFgsEnabled = null;
+        ClientPairingProps.prototype.isCompanionPairingProgressUiEnabled = null;
 
         let $oneOfFields;
 
@@ -24864,6 +24870,11 @@ export const proto = $root.proto = (() => {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        Object.defineProperty(ClientPairingProps.prototype, "_isCompanionPairingProgressUiEnabled", {
+            get: $util.oneOfGetter($oneOfFields = ["isCompanionPairingProgressUiEnabled"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         ClientPairingProps.create = function create(properties) {
             return new ClientPairingProps(properties);
         };
@@ -24891,6 +24902,8 @@ export const proto = $root.proto = (() => {
                 w.uint32(58).bytes(m.companionAddPeerPayload);
             if (m.isCompanionRegistrationFgsEnabled != null && Object.hasOwnProperty.call(m, "isCompanionRegistrationFgsEnabled"))
                 w.uint32(64).bool(m.isCompanionRegistrationFgsEnabled);
+            if (m.isCompanionPairingProgressUiEnabled != null && Object.hasOwnProperty.call(m, "isCompanionPairingProgressUiEnabled"))
+                w.uint32(80).bool(m.isCompanionPairingProgressUiEnabled);
             return w;
         };
 
@@ -24949,6 +24962,10 @@ export const proto = $root.proto = (() => {
                         m.isCompanionRegistrationFgsEnabled = r.bool();
                         break;
                     }
+                case 10: {
+                        m.isCompanionPairingProgressUiEnabled = r.bool();
+                        break;
+                    }
                 default:
                     r.skipType(t & 7, n);
                     break;
@@ -25002,6 +25019,9 @@ export const proto = $root.proto = (() => {
             if (d.isCompanionRegistrationFgsEnabled != null) {
                 m.isCompanionRegistrationFgsEnabled = Boolean(d.isCompanionRegistrationFgsEnabled);
             }
+            if (d.isCompanionPairingProgressUiEnabled != null) {
+                m.isCompanionPairingProgressUiEnabled = Boolean(d.isCompanionPairingProgressUiEnabled);
+            }
             return m;
         };
 
@@ -25052,6 +25072,11 @@ export const proto = $root.proto = (() => {
                 d.isCompanionRegistrationFgsEnabled = m.isCompanionRegistrationFgsEnabled;
                 if (o.oneofs)
                     d._isCompanionRegistrationFgsEnabled = "isCompanionRegistrationFgsEnabled";
+            }
+            if (m.isCompanionPairingProgressUiEnabled != null && Object.hasOwnProperty.call(m, "isCompanionPairingProgressUiEnabled")) {
+                d.isCompanionPairingProgressUiEnabled = m.isCompanionPairingProgressUiEnabled;
+                if (o.oneofs)
+                    d._isCompanionPairingProgressUiEnabled = "isCompanionPairingProgressUiEnabled";
             }
             return d;
         };
@@ -56622,6 +56647,7 @@ export const proto = $root.proto = (() => {
         InteractiveAnnotation.prototype.newsletter = null;
         InteractiveAnnotation.prototype.embeddedAction = null;
         InteractiveAnnotation.prototype.tapAction = null;
+        InteractiveAnnotation.prototype.pixKey = null;
 
         let $oneOfFields;
 
@@ -56641,7 +56667,7 @@ export const proto = $root.proto = (() => {
         });
 
         Object.defineProperty(InteractiveAnnotation.prototype, "action", {
-            get: $util.oneOfGetter($oneOfFields = ["location", "newsletter", "embeddedAction", "tapAction"]),
+            get: $util.oneOfGetter($oneOfFields = ["location", "newsletter", "embeddedAction", "tapAction", "pixKey"]),
             set: $util.oneOfSetter($oneOfFields)
         });
 
@@ -56674,6 +56700,8 @@ export const proto = $root.proto = (() => {
                 $root.proto.TapLinkAction.encode(m.tapAction, w.uint32(58).fork(), q + 1).ldelim();
             if (m.statusLinkType != null && Object.hasOwnProperty.call(m, "statusLinkType"))
                 w.uint32(64).int32(m.statusLinkType);
+            if (m.pixKey != null && Object.hasOwnProperty.call(m, "pixKey"))
+                $root.proto.StatusPixKey.encode(m.pixKey, w.uint32(74).fork(), q + 1).ldelim();
             return w;
         };
 
@@ -56732,6 +56760,10 @@ export const proto = $root.proto = (() => {
                     }
                 case 7: {
                         m.tapAction = $root.proto.TapLinkAction.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 9: {
+                        m.pixKey = $root.proto.StatusPixKey.decode(r, r.uint32(), undefined, n + 1);
                         break;
                     }
                 default:
@@ -56813,6 +56845,11 @@ export const proto = $root.proto = (() => {
                     throw TypeError(".proto.InteractiveAnnotation.tapAction: object expected");
                 m.tapAction = $root.proto.TapLinkAction.fromObject(d.tapAction, n + 1);
             }
+            if (d.pixKey != null) {
+                if (!$util.isObject(d.pixKey))
+                    throw TypeError(".proto.InteractiveAnnotation.pixKey: object expected");
+                m.pixKey = $root.proto.StatusPixKey.fromObject(d.pixKey, n + 1);
+            }
             return m;
         };
 
@@ -56867,6 +56904,11 @@ export const proto = $root.proto = (() => {
                 d.statusLinkType = o.enums === String ? $root.proto.InteractiveAnnotation.StatusLinkType[m.statusLinkType] === undefined ? m.statusLinkType : $root.proto.InteractiveAnnotation.StatusLinkType[m.statusLinkType] : m.statusLinkType;
                 if (o.oneofs)
                     d._statusLinkType = "statusLinkType";
+            }
+            if (m.pixKey != null && Object.hasOwnProperty.call(m, "pixKey")) {
+                d.pixKey = $root.proto.StatusPixKey.toObject(m.pixKey, o, q + 1);
+                if (o.oneofs)
+                    d.action = "pixKey";
             }
             return d;
         };
@@ -128214,6 +128256,206 @@ export const proto = $root.proto = (() => {
         };
 
         return StatusPSA;
+    })();
+
+    proto.StatusPixKey = (function() {
+
+        function StatusPixKey(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        StatusPixKey.prototype.key = null;
+        StatusPixKey.prototype.keyType = null;
+        StatusPixKey.prototype.displayName = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(StatusPixKey.prototype, "_key", {
+            get: $util.oneOfGetter($oneOfFields = ["key"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(StatusPixKey.prototype, "_keyType", {
+            get: $util.oneOfGetter($oneOfFields = ["keyType"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(StatusPixKey.prototype, "_displayName", {
+            get: $util.oneOfGetter($oneOfFields = ["displayName"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        StatusPixKey.create = function create(properties) {
+            return new StatusPixKey(properties);
+        };
+
+        StatusPixKey.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.key != null && Object.hasOwnProperty.call(m, "key"))
+                w.uint32(10).string(m.key);
+            if (m.keyType != null && Object.hasOwnProperty.call(m, "keyType"))
+                w.uint32(16).int32(m.keyType);
+            if (m.displayName != null && Object.hasOwnProperty.call(m, "displayName"))
+                w.uint32(26).string(m.displayName);
+            return w;
+        };
+
+        StatusPixKey.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.StatusPixKey();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.key = r.string();
+                        break;
+                    }
+                case 2: {
+                        m.keyType = r.int32();
+                        break;
+                    }
+                case 3: {
+                        m.displayName = r.string();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        StatusPixKey.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.StatusPixKey)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.StatusPixKey: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.StatusPixKey();
+            if (d.key != null) {
+                m.key = String(d.key);
+            }
+            switch (d.keyType) {
+            default:
+                if (typeof d.keyType === "number") {
+                    m.keyType = d.keyType;
+                    break;
+                }
+                break;
+            case "UNKNOWN":
+            case 0:
+                m.keyType = 0;
+                break;
+            case "CPF":
+            case 1:
+                m.keyType = 1;
+                break;
+            case "CNPJ":
+            case 2:
+                m.keyType = 2;
+                break;
+            case "PHONE":
+            case 3:
+                m.keyType = 3;
+                break;
+            case "EMAIL":
+            case 4:
+                m.keyType = 4;
+                break;
+            case "EVP":
+            case 5:
+                m.keyType = 5;
+                break;
+            }
+            if (d.displayName != null) {
+                m.displayName = String(d.displayName);
+            }
+            return m;
+        };
+
+        StatusPixKey.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.key != null && Object.hasOwnProperty.call(m, "key")) {
+                d.key = m.key;
+                if (o.oneofs)
+                    d._key = "key";
+            }
+            if (m.keyType != null && Object.hasOwnProperty.call(m, "keyType")) {
+                d.keyType = o.enums === String ? $root.proto.StatusPixKey.KeyType[m.keyType] === undefined ? m.keyType : $root.proto.StatusPixKey.KeyType[m.keyType] : m.keyType;
+                if (o.oneofs)
+                    d._keyType = "keyType";
+            }
+            if (m.displayName != null && Object.hasOwnProperty.call(m, "displayName")) {
+                d.displayName = m.displayName;
+                if (o.oneofs)
+                    d._displayName = "displayName";
+            }
+            return d;
+        };
+
+        StatusPixKey.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        StatusPixKey.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.StatusPixKey";
+        };
+
+        StatusPixKey.KeyType = (function() {
+            const valuesById = {}, values = Object.create(valuesById);
+            values[valuesById[0] = "UNKNOWN"] = 0;
+            values[valuesById[1] = "CPF"] = 1;
+            values[valuesById[2] = "CNPJ"] = 2;
+            values[valuesById[3] = "PHONE"] = 3;
+            values[valuesById[4] = "EMAIL"] = 4;
+            values[valuesById[5] = "EVP"] = 5;
+            return values;
+        })();
+
+        return StatusPixKey;
     })();
 
     proto.StickerMetadata = (function() {
