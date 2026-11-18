@@ -46392,6 +46392,198 @@ export const proto = $root.proto = (() => {
         return EncryptMessageSuccess;
     })();
 
+    proto.EncryptedJoinRequestPayload = (function() {
+
+        function EncryptedJoinRequestPayload(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        EncryptedJoinRequestPayload.prototype.encryptedAnswers = null;
+        EncryptedJoinRequestPayload.prototype.encIv = null;
+        EncryptedJoinRequestPayload.prototype.signalIdentityPublicKey = null;
+        EncryptedJoinRequestPayload.prototype.kemCiphertext = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(EncryptedJoinRequestPayload.prototype, "_encryptedAnswers", {
+            get: $util.oneOfGetter($oneOfFields = ["encryptedAnswers"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(EncryptedJoinRequestPayload.prototype, "_encIv", {
+            get: $util.oneOfGetter($oneOfFields = ["encIv"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(EncryptedJoinRequestPayload.prototype, "_signalIdentityPublicKey", {
+            get: $util.oneOfGetter($oneOfFields = ["signalIdentityPublicKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(EncryptedJoinRequestPayload.prototype, "_kemCiphertext", {
+            get: $util.oneOfGetter($oneOfFields = ["kemCiphertext"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        EncryptedJoinRequestPayload.create = function create(properties) {
+            return new EncryptedJoinRequestPayload(properties);
+        };
+
+        EncryptedJoinRequestPayload.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.encryptedAnswers != null && Object.hasOwnProperty.call(m, "encryptedAnswers"))
+                w.uint32(10).bytes(m.encryptedAnswers);
+            if (m.encIv != null && Object.hasOwnProperty.call(m, "encIv"))
+                w.uint32(18).bytes(m.encIv);
+            if (m.signalIdentityPublicKey != null && Object.hasOwnProperty.call(m, "signalIdentityPublicKey"))
+                w.uint32(26).bytes(m.signalIdentityPublicKey);
+            if (m.kemCiphertext != null && Object.hasOwnProperty.call(m, "kemCiphertext"))
+                w.uint32(34).bytes(m.kemCiphertext);
+            return w;
+        };
+
+        EncryptedJoinRequestPayload.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.EncryptedJoinRequestPayload();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.encryptedAnswers = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.encIv = r.bytes();
+                        break;
+                    }
+                case 3: {
+                        m.signalIdentityPublicKey = r.bytes();
+                        break;
+                    }
+                case 4: {
+                        m.kemCiphertext = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        EncryptedJoinRequestPayload.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.EncryptedJoinRequestPayload)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.EncryptedJoinRequestPayload: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.EncryptedJoinRequestPayload();
+            if (d.encryptedAnswers != null) {
+                if (typeof d.encryptedAnswers === "string")
+                    $util.base64.decode(d.encryptedAnswers, m.encryptedAnswers = $util.newBuffer($util.base64.length(d.encryptedAnswers)), 0);
+                else if (d.encryptedAnswers.length >= 0)
+                    m.encryptedAnswers = d.encryptedAnswers;
+            }
+            if (d.encIv != null) {
+                if (typeof d.encIv === "string")
+                    $util.base64.decode(d.encIv, m.encIv = $util.newBuffer($util.base64.length(d.encIv)), 0);
+                else if (d.encIv.length >= 0)
+                    m.encIv = d.encIv;
+            }
+            if (d.signalIdentityPublicKey != null) {
+                if (typeof d.signalIdentityPublicKey === "string")
+                    $util.base64.decode(d.signalIdentityPublicKey, m.signalIdentityPublicKey = $util.newBuffer($util.base64.length(d.signalIdentityPublicKey)), 0);
+                else if (d.signalIdentityPublicKey.length >= 0)
+                    m.signalIdentityPublicKey = d.signalIdentityPublicKey;
+            }
+            if (d.kemCiphertext != null) {
+                if (typeof d.kemCiphertext === "string")
+                    $util.base64.decode(d.kemCiphertext, m.kemCiphertext = $util.newBuffer($util.base64.length(d.kemCiphertext)), 0);
+                else if (d.kemCiphertext.length >= 0)
+                    m.kemCiphertext = d.kemCiphertext;
+            }
+            return m;
+        };
+
+        EncryptedJoinRequestPayload.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.encryptedAnswers != null && Object.hasOwnProperty.call(m, "encryptedAnswers")) {
+                d.encryptedAnswers = o.bytes === String ? $util.base64.encode(m.encryptedAnswers, 0, m.encryptedAnswers.length) : o.bytes === Array ? Array.prototype.slice.call(m.encryptedAnswers) : m.encryptedAnswers;
+                if (o.oneofs)
+                    d._encryptedAnswers = "encryptedAnswers";
+            }
+            if (m.encIv != null && Object.hasOwnProperty.call(m, "encIv")) {
+                d.encIv = o.bytes === String ? $util.base64.encode(m.encIv, 0, m.encIv.length) : o.bytes === Array ? Array.prototype.slice.call(m.encIv) : m.encIv;
+                if (o.oneofs)
+                    d._encIv = "encIv";
+            }
+            if (m.signalIdentityPublicKey != null && Object.hasOwnProperty.call(m, "signalIdentityPublicKey")) {
+                d.signalIdentityPublicKey = o.bytes === String ? $util.base64.encode(m.signalIdentityPublicKey, 0, m.signalIdentityPublicKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.signalIdentityPublicKey) : m.signalIdentityPublicKey;
+                if (o.oneofs)
+                    d._signalIdentityPublicKey = "signalIdentityPublicKey";
+            }
+            if (m.kemCiphertext != null && Object.hasOwnProperty.call(m, "kemCiphertext")) {
+                d.kemCiphertext = o.bytes === String ? $util.base64.encode(m.kemCiphertext, 0, m.kemCiphertext.length) : o.bytes === Array ? Array.prototype.slice.call(m.kemCiphertext) : m.kemCiphertext;
+                if (o.oneofs)
+                    d._kemCiphertext = "kemCiphertext";
+            }
+            return d;
+        };
+
+        EncryptedJoinRequestPayload.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        EncryptedJoinRequestPayload.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.EncryptedJoinRequestPayload";
+        };
+
+        return EncryptedJoinRequestPayload;
+    })();
+
     proto.EncryptedPairingRequest = (function() {
 
         function EncryptedPairingRequest(p) {
@@ -60763,6 +60955,152 @@ export const proto = $root.proto = (() => {
         };
 
         return MembershipFormKeyFingerprintVerification;
+    })();
+
+    proto.MembershipFormPublicKeys = (function() {
+
+        function MembershipFormPublicKeys(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        MembershipFormPublicKeys.prototype.mlKemPublicKey = null;
+        MembershipFormPublicKeys.prototype.x25519PublicKey = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(MembershipFormPublicKeys.prototype, "_mlKemPublicKey", {
+            get: $util.oneOfGetter($oneOfFields = ["mlKemPublicKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(MembershipFormPublicKeys.prototype, "_x25519PublicKey", {
+            get: $util.oneOfGetter($oneOfFields = ["x25519PublicKey"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        MembershipFormPublicKeys.create = function create(properties) {
+            return new MembershipFormPublicKeys(properties);
+        };
+
+        MembershipFormPublicKeys.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.mlKemPublicKey != null && Object.hasOwnProperty.call(m, "mlKemPublicKey"))
+                w.uint32(10).bytes(m.mlKemPublicKey);
+            if (m.x25519PublicKey != null && Object.hasOwnProperty.call(m, "x25519PublicKey"))
+                w.uint32(18).bytes(m.x25519PublicKey);
+            return w;
+        };
+
+        MembershipFormPublicKeys.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.MembershipFormPublicKeys();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.mlKemPublicKey = r.bytes();
+                        break;
+                    }
+                case 2: {
+                        m.x25519PublicKey = r.bytes();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        MembershipFormPublicKeys.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.MembershipFormPublicKeys)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.MembershipFormPublicKeys: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.MembershipFormPublicKeys();
+            if (d.mlKemPublicKey != null) {
+                if (typeof d.mlKemPublicKey === "string")
+                    $util.base64.decode(d.mlKemPublicKey, m.mlKemPublicKey = $util.newBuffer($util.base64.length(d.mlKemPublicKey)), 0);
+                else if (d.mlKemPublicKey.length >= 0)
+                    m.mlKemPublicKey = d.mlKemPublicKey;
+            }
+            if (d.x25519PublicKey != null) {
+                if (typeof d.x25519PublicKey === "string")
+                    $util.base64.decode(d.x25519PublicKey, m.x25519PublicKey = $util.newBuffer($util.base64.length(d.x25519PublicKey)), 0);
+                else if (d.x25519PublicKey.length >= 0)
+                    m.x25519PublicKey = d.x25519PublicKey;
+            }
+            return m;
+        };
+
+        MembershipFormPublicKeys.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.mlKemPublicKey != null && Object.hasOwnProperty.call(m, "mlKemPublicKey")) {
+                d.mlKemPublicKey = o.bytes === String ? $util.base64.encode(m.mlKemPublicKey, 0, m.mlKemPublicKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.mlKemPublicKey) : m.mlKemPublicKey;
+                if (o.oneofs)
+                    d._mlKemPublicKey = "mlKemPublicKey";
+            }
+            if (m.x25519PublicKey != null && Object.hasOwnProperty.call(m, "x25519PublicKey")) {
+                d.x25519PublicKey = o.bytes === String ? $util.base64.encode(m.x25519PublicKey, 0, m.x25519PublicKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.x25519PublicKey) : m.x25519PublicKey;
+                if (o.oneofs)
+                    d._x25519PublicKey = "x25519PublicKey";
+            }
+            return d;
+        };
+
+        MembershipFormPublicKeys.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        MembershipFormPublicKeys.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.MembershipFormPublicKeys";
+        };
+
+        return MembershipFormPublicKeys;
     })();
 
     proto.Message = (function() {
