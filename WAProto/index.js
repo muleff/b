@@ -9856,6 +9856,10 @@ export const proto = $root.proto = (() => {
                     case 90:
                         m.capabilities[i] = 90;
                         break;
+                    case "AI_RICH_RESPONSE_INLINE_MEDIA_LIGHTBOX_ENABLED":
+                    case 91:
+                        m.capabilities[i] = 91;
+                        break;
                     }
                 }
             }
@@ -9986,6 +9990,7 @@ export const proto = $root.proto = (() => {
             values[valuesById[88] = "AI_RICH_RESPONSE_ITEM_LISTS_ENABLED"] = 88;
             values[valuesById[89] = "RICH_RESPONSE_SIDE_BY_SIDE_BUFFER_BOTH"] = 89;
             values[valuesById[90] = "AI_MUSE_JARVIS_ENVELOPE_GZIP_ENABLED"] = 90;
+            values[valuesById[91] = "AI_RICH_RESPONSE_INLINE_MEDIA_LIGHTBOX_ENABLED"] = 91;
             return values;
         })();
 
@@ -71120,11 +71125,17 @@ export const proto = $root.proto = (() => {
             }
 
             InitialSecurityNotificationSettingSync.prototype.securityNotificationEnabled = null;
+            InitialSecurityNotificationSettingSync.prototype.initialAppTheme = null;
 
             let $oneOfFields;
 
             Object.defineProperty(InitialSecurityNotificationSettingSync.prototype, "_securityNotificationEnabled", {
                 get: $util.oneOfGetter($oneOfFields = ["securityNotificationEnabled"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            Object.defineProperty(InitialSecurityNotificationSettingSync.prototype, "_initialAppTheme", {
+                get: $util.oneOfGetter($oneOfFields = ["initialAppTheme"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
 
@@ -71141,6 +71152,8 @@ export const proto = $root.proto = (() => {
                     throw Error("max depth exceeded");
                 if (m.securityNotificationEnabled != null && Object.hasOwnProperty.call(m, "securityNotificationEnabled"))
                     w.uint32(8).bool(m.securityNotificationEnabled);
+                if (m.initialAppTheme != null && Object.hasOwnProperty.call(m, "initialAppTheme"))
+                    w.uint32(16).int32(m.initialAppTheme);
                 return w;
             };
 
@@ -71171,6 +71184,10 @@ export const proto = $root.proto = (() => {
                             m.securityNotificationEnabled = r.bool();
                             break;
                         }
+                    case 2: {
+                            m.initialAppTheme = r.int32();
+                            break;
+                        }
                     default:
                         r.skipType(t & 7, n);
                         break;
@@ -71197,6 +71214,9 @@ export const proto = $root.proto = (() => {
                 if (d.securityNotificationEnabled != null) {
                     m.securityNotificationEnabled = Boolean(d.securityNotificationEnabled);
                 }
+                if (d.initialAppTheme != null) {
+                    m.initialAppTheme = d.initialAppTheme | 0;
+                }
                 return m;
             };
 
@@ -71212,6 +71232,11 @@ export const proto = $root.proto = (() => {
                     d.securityNotificationEnabled = m.securityNotificationEnabled;
                     if (o.oneofs)
                         d._securityNotificationEnabled = "securityNotificationEnabled";
+                }
+                if (m.initialAppTheme != null && Object.hasOwnProperty.call(m, "initialAppTheme")) {
+                    d.initialAppTheme = m.initialAppTheme;
+                    if (o.oneofs)
+                        d._initialAppTheme = "initialAppTheme";
                 }
                 return d;
             };
@@ -87988,6 +88013,7 @@ export const proto = $root.proto = (() => {
 
                 Option.prototype.optionName = null;
                 Option.prototype.optionHash = null;
+                Option.prototype.optionDatetime = null;
 
                 let $oneOfFields;
 
@@ -87998,6 +88024,11 @@ export const proto = $root.proto = (() => {
 
                 Object.defineProperty(Option.prototype, "_optionHash", {
                     get: $util.oneOfGetter($oneOfFields = ["optionHash"]),
+                    set: $util.oneOfSetter($oneOfFields)
+                });
+
+                Object.defineProperty(Option.prototype, "_optionDatetime", {
+                    get: $util.oneOfGetter($oneOfFields = ["optionDatetime"]),
                     set: $util.oneOfSetter($oneOfFields)
                 });
 
@@ -88016,6 +88047,8 @@ export const proto = $root.proto = (() => {
                         w.uint32(10).string(m.optionName);
                     if (m.optionHash != null && Object.hasOwnProperty.call(m, "optionHash"))
                         w.uint32(18).string(m.optionHash);
+                    if (m.optionDatetime != null && Object.hasOwnProperty.call(m, "optionDatetime"))
+                        w.uint32(24).int64(m.optionDatetime);
                     return w;
                 };
 
@@ -88050,6 +88083,10 @@ export const proto = $root.proto = (() => {
                                 m.optionHash = r.string();
                                 break;
                             }
+                        case 3: {
+                                m.optionDatetime = r.int64();
+                                break;
+                            }
                         default:
                             r.skipType(t & 7, n);
                             break;
@@ -88079,6 +88116,16 @@ export const proto = $root.proto = (() => {
                     if (d.optionHash != null) {
                         m.optionHash = String(d.optionHash);
                     }
+                    if (d.optionDatetime != null) {
+                        if ($util.Long)
+                            m.optionDatetime = $util.Long.fromValue(d.optionDatetime, false);
+                        else if (typeof d.optionDatetime === "string")
+                            m.optionDatetime = parseInt(d.optionDatetime, 10);
+                        else if (typeof d.optionDatetime === "number")
+                            m.optionDatetime = d.optionDatetime;
+                        else if (typeof d.optionDatetime === "object")
+                            m.optionDatetime = new $util.LongBits(d.optionDatetime.low >>> 0, d.optionDatetime.high >>> 0).toNumber();
+                    }
                     return m;
                 };
 
@@ -88099,6 +88146,16 @@ export const proto = $root.proto = (() => {
                         d.optionHash = m.optionHash;
                         if (o.oneofs)
                             d._optionHash = "optionHash";
+                    }
+                    if (m.optionDatetime != null && Object.hasOwnProperty.call(m, "optionDatetime")) {
+                        if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                            d.optionDatetime = typeof m.optionDatetime === "number" ? BigInt(m.optionDatetime) : $util.Long.fromBits(m.optionDatetime.low >>> 0, m.optionDatetime.high >>> 0, false).toBigInt();
+                        else if (typeof m.optionDatetime === "number")
+                            d.optionDatetime = o.longs === String ? String(m.optionDatetime) : m.optionDatetime;
+                        else
+                            d.optionDatetime = o.longs === String ? longToString(m.optionDatetime) : o.longs === Number ? longToNumber(m.optionDatetime) : m.optionDatetime;
+                        if (o.oneofs)
+                            d._optionDatetime = "optionDatetime";
                     }
                     return d;
                 };
@@ -89903,6 +89960,7 @@ export const proto = $root.proto = (() => {
             ProtocolMessage.prototype.groupRootKeyRequest = null;
             ProtocolMessage.prototype.membershipFormKeyFingerprintVerification = null;
             ProtocolMessage.prototype.groupRootKeyShare = null;
+            ProtocolMessage.prototype.messageEditDisplayType = null;
 
             let $oneOfFields;
 
@@ -90086,6 +90144,11 @@ export const proto = $root.proto = (() => {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            Object.defineProperty(ProtocolMessage.prototype, "_messageEditDisplayType", {
+                get: $util.oneOfGetter($oneOfFields = ["messageEditDisplayType"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             ProtocolMessage.create = function create(properties) {
                 return new ProtocolMessage(properties);
             };
@@ -90173,6 +90236,8 @@ export const proto = $root.proto = (() => {
                     $root.proto.MembershipFormKeyFingerprintVerification.encode(m.membershipFormKeyFingerprintVerification, w.uint32(322).fork(), q + 1).ldelim();
                 if (m.groupRootKeyShare != null && Object.hasOwnProperty.call(m, "groupRootKeyShare"))
                     $root.proto.GroupRootKeyShare.encode(m.groupRootKeyShare, w.uint32(330).fork(), q + 1).ldelim();
+                if (m.messageEditDisplayType != null && Object.hasOwnProperty.call(m, "messageEditDisplayType"))
+                    w.uint32(336).int32(m.messageEditDisplayType);
                 return w;
             };
 
@@ -90347,6 +90412,10 @@ export const proto = $root.proto = (() => {
                         }
                     case 41: {
                             m.groupRootKeyShare = $root.proto.GroupRootKeyShare.decode(r, r.uint32(), undefined, n + 1);
+                            break;
+                        }
+                    case 42: {
+                            m.messageEditDisplayType = r.int32();
                             break;
                         }
                     default:
@@ -90720,6 +90789,22 @@ export const proto = $root.proto = (() => {
                         throw TypeError(".proto.Message.ProtocolMessage.groupRootKeyShare: object expected");
                     m.groupRootKeyShare = $root.proto.GroupRootKeyShare.fromObject(d.groupRootKeyShare, n + 1);
                 }
+                switch (d.messageEditDisplayType) {
+                default:
+                    if (typeof d.messageEditDisplayType === "number") {
+                        m.messageEditDisplayType = d.messageEditDisplayType;
+                        break;
+                    }
+                    break;
+                case "DEFAULT":
+                case 0:
+                    m.messageEditDisplayType = 0;
+                    break;
+                case "LINK_PREVIEW_ONLY":
+                case 1:
+                    m.messageEditDisplayType = 1;
+                    break;
+                }
                 return m;
             };
 
@@ -90930,6 +91015,11 @@ export const proto = $root.proto = (() => {
                     if (o.oneofs)
                         d._groupRootKeyShare = "groupRootKeyShare";
                 }
+                if (m.messageEditDisplayType != null && Object.hasOwnProperty.call(m, "messageEditDisplayType")) {
+                    d.messageEditDisplayType = o.enums === String ? $root.proto.Message.ProtocolMessage.MessageEditDisplayType[m.messageEditDisplayType] === undefined ? m.messageEditDisplayType : $root.proto.Message.ProtocolMessage.MessageEditDisplayType[m.messageEditDisplayType] : m.messageEditDisplayType;
+                    if (o.oneofs)
+                        d._messageEditDisplayType = "messageEditDisplayType";
+                }
                 return d;
             };
 
@@ -90943,6 +91033,13 @@ export const proto = $root.proto = (() => {
                 }
                 return typeUrlPrefix + "/proto.Message.ProtocolMessage";
             };
+
+            ProtocolMessage.MessageEditDisplayType = (function() {
+                const valuesById = {}, values = Object.create(valuesById);
+                values[valuesById[0] = "DEFAULT"] = 0;
+                values[valuesById[1] = "LINK_PREVIEW_ONLY"] = 1;
+                return values;
+            })();
 
             ProtocolMessage.Type = (function() {
                 const valuesById = {}, values = Object.create(valuesById);
@@ -100086,7 +100183,6 @@ export const proto = $root.proto = (() => {
         MessageContextInfo.prototype.associatedPrimaryIdentityKey = null;
         MessageContextInfo.prototype.teeContextAnchorMessageId = null;
         MessageContextInfo.prototype.acp2Setting = null;
-        MessageContextInfo.prototype.lightE2Ee = null;
 
         let $oneOfFields;
 
@@ -100190,11 +100286,6 @@ export const proto = $root.proto = (() => {
             set: $util.oneOfSetter($oneOfFields)
         });
 
-        Object.defineProperty(MessageContextInfo.prototype, "_lightE2Ee", {
-            get: $util.oneOfGetter($oneOfFields = ["lightE2Ee"]),
-            set: $util.oneOfSetter($oneOfFields)
-        });
-
         MessageContextInfo.create = function create(properties) {
             return new MessageContextInfo(properties);
         };
@@ -100250,8 +100341,6 @@ export const proto = $root.proto = (() => {
                 w.uint32(162).string(m.teeContextAnchorMessageId);
             if (m.acp2Setting != null && Object.hasOwnProperty.call(m, "acp2Setting"))
                 $root.proto.ACP2Setting.encode(m.acp2Setting, w.uint32(170).fork(), q + 1).ldelim();
-            if (m.lightE2Ee != null && Object.hasOwnProperty.call(m, "lightE2Ee"))
-                w.uint32(176).bool(m.lightE2Ee);
             return w;
         };
 
@@ -100362,10 +100451,6 @@ export const proto = $root.proto = (() => {
                     }
                 case 21: {
                         m.acp2Setting = $root.proto.ACP2Setting.decode(r, r.uint32(), undefined, n + 1);
-                        break;
-                    }
-                case 22: {
-                        m.lightE2Ee = r.bool();
                         break;
                     }
                 default:
@@ -100516,9 +100601,6 @@ export const proto = $root.proto = (() => {
                     throw TypeError(".proto.MessageContextInfo.acp2Setting: object expected");
                 m.acp2Setting = $root.proto.ACP2Setting.fromObject(d.acp2Setting, n + 1);
             }
-            if (d.lightE2Ee != null) {
-                m.lightE2Ee = Boolean(d.lightE2Ee);
-            }
             return m;
         };
 
@@ -100638,11 +100720,6 @@ export const proto = $root.proto = (() => {
                 d.acp2Setting = $root.proto.ACP2Setting.toObject(m.acp2Setting, o, q + 1);
                 if (o.oneofs)
                     d._acp2Setting = "acp2Setting";
-            }
-            if (m.lightE2Ee != null && Object.hasOwnProperty.call(m, "lightE2Ee")) {
-                d.lightE2Ee = m.lightE2Ee;
-                if (o.oneofs)
-                    d._lightE2Ee = "lightE2Ee";
             }
             return d;
         };
@@ -124916,6 +124993,7 @@ export const proto = $root.proto = (() => {
             ContactAction.prototype.pnJid = null;
             ContactAction.prototype.username = null;
             ContactAction.prototype.birthday = null;
+            ContactAction.prototype.nonE2EeType = null;
 
             let $oneOfFields;
 
@@ -124954,6 +125032,11 @@ export const proto = $root.proto = (() => {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            Object.defineProperty(ContactAction.prototype, "_nonE2EeType", {
+                get: $util.oneOfGetter($oneOfFields = ["nonE2EeType"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             ContactAction.create = function create(properties) {
                 return new ContactAction(properties);
             };
@@ -124979,6 +125062,8 @@ export const proto = $root.proto = (() => {
                     w.uint32(50).string(m.username);
                 if (m.birthday != null && Object.hasOwnProperty.call(m, "birthday"))
                     w.uint32(58).string(m.birthday);
+                if (m.nonE2EeType != null && Object.hasOwnProperty.call(m, "nonE2EeType"))
+                    w.uint32(64).int32(m.nonE2EeType);
                 return w;
             };
 
@@ -125033,6 +125118,10 @@ export const proto = $root.proto = (() => {
                             m.birthday = r.string();
                             break;
                         }
+                    case 8: {
+                            m.nonE2EeType = r.int32();
+                            break;
+                        }
                     default:
                         r.skipType(t & 7, n);
                         break;
@@ -125076,6 +125165,9 @@ export const proto = $root.proto = (() => {
                 }
                 if (d.birthday != null) {
                     m.birthday = String(d.birthday);
+                }
+                if (d.nonE2EeType != null) {
+                    m.nonE2EeType = d.nonE2EeType | 0;
                 }
                 return m;
             };
@@ -125122,6 +125214,11 @@ export const proto = $root.proto = (() => {
                     d.birthday = m.birthday;
                     if (o.oneofs)
                         d._birthday = "birthday";
+                }
+                if (m.nonE2EeType != null && Object.hasOwnProperty.call(m, "nonE2EeType")) {
+                    d.nonE2EeType = m.nonE2EeType;
+                    if (o.oneofs)
+                        d._nonE2EeType = "nonE2EeType";
                 }
                 return d;
             };
@@ -128626,6 +128723,7 @@ export const proto = $root.proto = (() => {
             LidContactAction.prototype.firstName = null;
             LidContactAction.prototype.username = null;
             LidContactAction.prototype.birthday = null;
+            LidContactAction.prototype.nonE2EeType = null;
 
             let $oneOfFields;
 
@@ -128649,6 +128747,11 @@ export const proto = $root.proto = (() => {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            Object.defineProperty(LidContactAction.prototype, "_nonE2EeType", {
+                get: $util.oneOfGetter($oneOfFields = ["nonE2EeType"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             LidContactAction.create = function create(properties) {
                 return new LidContactAction(properties);
             };
@@ -128668,6 +128771,8 @@ export const proto = $root.proto = (() => {
                     w.uint32(26).string(m.username);
                 if (m.birthday != null && Object.hasOwnProperty.call(m, "birthday"))
                     w.uint32(34).string(m.birthday);
+                if (m.nonE2EeType != null && Object.hasOwnProperty.call(m, "nonE2EeType"))
+                    w.uint32(40).int32(m.nonE2EeType);
                 return w;
             };
 
@@ -128710,6 +128815,10 @@ export const proto = $root.proto = (() => {
                             m.birthday = r.string();
                             break;
                         }
+                    case 5: {
+                            m.nonE2EeType = r.int32();
+                            break;
+                        }
                     default:
                         r.skipType(t & 7, n);
                         break;
@@ -128745,6 +128854,9 @@ export const proto = $root.proto = (() => {
                 if (d.birthday != null) {
                     m.birthday = String(d.birthday);
                 }
+                if (d.nonE2EeType != null) {
+                    m.nonE2EeType = d.nonE2EeType | 0;
+                }
                 return m;
             };
 
@@ -128775,6 +128887,11 @@ export const proto = $root.proto = (() => {
                     d.birthday = m.birthday;
                     if (o.oneofs)
                         d._birthday = "birthday";
+                }
+                if (m.nonE2EeType != null && Object.hasOwnProperty.call(m, "nonE2EeType")) {
+                    d.nonE2EeType = m.nonE2EeType;
+                    if (o.oneofs)
+                        d._nonE2EeType = "nonE2EeType";
                 }
                 return d;
             };
@@ -146818,6 +146935,10 @@ export const proto = $root.proto = (() => {
             case 291:
                 m.messageStubType = 291;
                 break;
+            case "POLL_OPTION_ADDED":
+            case 292:
+                m.messageStubType = 292;
+                break;
             case "GROUP_CUSTOM_REACTIONS":
             case 293:
                 m.messageStubType = 293;
@@ -147916,6 +148037,7 @@ export const proto = $root.proto = (() => {
             values[valuesById[289] = "SPLIT_PAYMENT_MARKED_AS_PAID"] = 289;
             values[valuesById[290] = "POLL_OPTIONS_REMOVED"] = 290;
             values[valuesById[291] = "POLL_ADDED_OPTION_REMOVED"] = 291;
+            values[valuesById[292] = "POLL_OPTION_ADDED"] = 292;
             values[valuesById[293] = "GROUP_CUSTOM_REACTIONS"] = 293;
             return values;
         })();
