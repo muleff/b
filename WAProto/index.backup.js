@@ -29156,170 +29156,6 @@ export const proto = $root.proto = (() => {
         return values;
     })();
 
-    proto.CombinedFingerprint = (function() {
-
-        function CombinedFingerprint(p) {
-            if (p)
-                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
-                    if (p[ks[i]] != null && ks[i] !== "__proto__")
-                        this[ks[i]] = p[ks[i]];
-        }
-
-        CombinedFingerprint.prototype.version = null;
-        CombinedFingerprint.prototype.localFingerprint = null;
-        CombinedFingerprint.prototype.remoteFingerprint = null;
-
-        let $oneOfFields;
-
-        Object.defineProperty(CombinedFingerprint.prototype, "_version", {
-            get: $util.oneOfGetter($oneOfFields = ["version"]),
-            set: $util.oneOfSetter($oneOfFields)
-        });
-
-        Object.defineProperty(CombinedFingerprint.prototype, "_localFingerprint", {
-            get: $util.oneOfGetter($oneOfFields = ["localFingerprint"]),
-            set: $util.oneOfSetter($oneOfFields)
-        });
-
-        Object.defineProperty(CombinedFingerprint.prototype, "_remoteFingerprint", {
-            get: $util.oneOfGetter($oneOfFields = ["remoteFingerprint"]),
-            set: $util.oneOfSetter($oneOfFields)
-        });
-
-        CombinedFingerprint.create = function create(properties) {
-            return new CombinedFingerprint(properties);
-        };
-
-        CombinedFingerprint.encode = function encode(m, w, q) {
-            if (!w)
-                w = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (m.version != null && Object.hasOwnProperty.call(m, "version"))
-                w.uint32(8).uint32(m.version);
-            if (m.localFingerprint != null && Object.hasOwnProperty.call(m, "localFingerprint"))
-                $root.proto.FingerprintData.encode(m.localFingerprint, w.uint32(18).fork(), q + 1).ldelim();
-            if (m.remoteFingerprint != null && Object.hasOwnProperty.call(m, "remoteFingerprint"))
-                $root.proto.FingerprintData.encode(m.remoteFingerprint, w.uint32(26).fork(), q + 1).ldelim();
-            return w;
-        };
-
-        CombinedFingerprint.decode = function decode(r, l, e, n) {
-            if (!(r instanceof $Reader))
-                r = $Reader.create(r);
-            if (n === undefined)
-                n = 0;
-            if (n > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
-            var c, m;
-            if (l === undefined)
-                c = r.len;
-            else {
-                c = r.pos + l;
-                if (c > r.len)
-                    throw RangeError("index out of range");
-                l = r.len;
-                r.len = c;
-            }
-            m = new $root.proto.CombinedFingerprint();
-            while (r.pos < c) {
-                var t = r.uint32();
-                if (t === e)
-                    break;
-                switch (t >>> 3) {
-                case 1: {
-                        m.version = r.uint32();
-                        break;
-                    }
-                case 2: {
-                        m.localFingerprint = $root.proto.FingerprintData.decode(r, r.uint32(), undefined, n + 1);
-                        break;
-                    }
-                case 3: {
-                        m.remoteFingerprint = $root.proto.FingerprintData.decode(r, r.uint32(), undefined, n + 1);
-                        break;
-                    }
-                default:
-                    r.skipType(t & 7, n);
-                    break;
-                }
-            }
-            if (l !== undefined) {
-                if (r.pos !== c)
-                    throw RangeError("index out of range");
-                r.len = l;
-            }
-            return m;
-        };
-
-        CombinedFingerprint.fromObject = function fromObject(d, n) {
-            if (d instanceof $root.proto.CombinedFingerprint)
-                return d;
-            if (!$util.isObject(d))
-                throw TypeError(".proto.CombinedFingerprint: object expected");
-            if (n === undefined)
-                n = 0;
-            if (n > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
-            var m = new $root.proto.CombinedFingerprint();
-            if (d.version != null) {
-                m.version = d.version >>> 0;
-            }
-            if (d.localFingerprint != null) {
-                if (!$util.isObject(d.localFingerprint))
-                    throw TypeError(".proto.CombinedFingerprint.localFingerprint: object expected");
-                m.localFingerprint = $root.proto.FingerprintData.fromObject(d.localFingerprint, n + 1);
-            }
-            if (d.remoteFingerprint != null) {
-                if (!$util.isObject(d.remoteFingerprint))
-                    throw TypeError(".proto.CombinedFingerprint.remoteFingerprint: object expected");
-                m.remoteFingerprint = $root.proto.FingerprintData.fromObject(d.remoteFingerprint, n + 1);
-            }
-            return m;
-        };
-
-        CombinedFingerprint.toObject = function toObject(m, o, q) {
-            if (!o)
-                o = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            var d = {};
-            if (m.version != null && Object.hasOwnProperty.call(m, "version")) {
-                d.version = m.version;
-                if (o.oneofs)
-                    d._version = "version";
-            }
-            if (m.localFingerprint != null && Object.hasOwnProperty.call(m, "localFingerprint")) {
-                d.localFingerprint = $root.proto.FingerprintData.toObject(m.localFingerprint, o, q + 1);
-                if (o.oneofs)
-                    d._localFingerprint = "localFingerprint";
-            }
-            if (m.remoteFingerprint != null && Object.hasOwnProperty.call(m, "remoteFingerprint")) {
-                d.remoteFingerprint = $root.proto.FingerprintData.toObject(m.remoteFingerprint, o, q + 1);
-                if (o.oneofs)
-                    d._remoteFingerprint = "remoteFingerprint";
-            }
-            return d;
-        };
-
-        CombinedFingerprint.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-        };
-
-        CombinedFingerprint.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/proto.CombinedFingerprint";
-        };
-
-        return CombinedFingerprint;
-    })();
-
     proto.CommentMetadata = (function() {
 
         function CommentMetadata(p) {
@@ -36507,6 +36343,7 @@ export const proto = $root.proto = (() => {
         Conversation.prototype.isWorkGroup = null;
         Conversation.prototype.nonE2EeType = null;
         Conversation.prototype.contactAccountEncryptionAttestationType = null;
+        Conversation.prototype.unreadReplyToMyMessageCount = null;
 
         let $oneOfFields;
 
@@ -36840,6 +36677,11 @@ export const proto = $root.proto = (() => {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        Object.defineProperty(Conversation.prototype, "_unreadReplyToMyMessageCount", {
+            get: $util.oneOfGetter($oneOfFields = ["unreadReplyToMyMessageCount"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         Conversation.create = function create(properties) {
             return new Conversation(properties);
         };
@@ -36995,6 +36837,8 @@ export const proto = $root.proto = (() => {
                 w.uint32(544).int32(m.nonE2EeType);
             if (m.contactAccountEncryptionAttestationType != null && Object.hasOwnProperty.call(m, "contactAccountEncryptionAttestationType"))
                 w.uint32(552).int32(m.contactAccountEncryptionAttestationType);
+            if (m.unreadReplyToMyMessageCount != null && Object.hasOwnProperty.call(m, "unreadReplyToMyMessageCount"))
+                w.uint32(560).uint32(m.unreadReplyToMyMessageCount);
             return w;
         };
 
@@ -37301,6 +37145,10 @@ export const proto = $root.proto = (() => {
                     }
                 case 69: {
                         m.contactAccountEncryptionAttestationType = r.int32();
+                        break;
+                    }
+                case 70: {
+                        m.unreadReplyToMyMessageCount = r.uint32();
                         break;
                     }
                 default:
@@ -37745,6 +37593,9 @@ export const proto = $root.proto = (() => {
                 m.contactAccountEncryptionAttestationType = 2;
                 break;
             }
+            if (d.unreadReplyToMyMessageCount != null) {
+                m.unreadReplyToMyMessageCount = d.unreadReplyToMyMessageCount >>> 0;
+            }
             return m;
         };
 
@@ -38153,6 +38004,11 @@ export const proto = $root.proto = (() => {
                 d.contactAccountEncryptionAttestationType = o.enums === String ? $root.proto.NonE2EEAttestation.AccountType[m.contactAccountEncryptionAttestationType] === undefined ? m.contactAccountEncryptionAttestationType : $root.proto.NonE2EEAttestation.AccountType[m.contactAccountEncryptionAttestationType] : m.contactAccountEncryptionAttestationType;
                 if (o.oneofs)
                     d._contactAccountEncryptionAttestationType = "contactAccountEncryptionAttestationType";
+            }
+            if (m.unreadReplyToMyMessageCount != null && Object.hasOwnProperty.call(m, "unreadReplyToMyMessageCount")) {
+                d.unreadReplyToMyMessageCount = m.unreadReplyToMyMessageCount;
+                if (o.oneofs)
+                    d._unreadReplyToMyMessageCount = "unreadReplyToMyMessageCount";
             }
             return d;
         };
@@ -49354,254 +49210,6 @@ export const proto = $root.proto = (() => {
         return Field;
     })();
 
-    proto.FingerprintData = (function() {
-
-        function FingerprintData(p) {
-            if (p)
-                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
-                    if (p[ks[i]] != null && ks[i] !== "__proto__")
-                        this[ks[i]] = p[ks[i]];
-        }
-
-        FingerprintData.prototype.publicKey = null;
-        FingerprintData.prototype.pnIdentifier = null;
-        FingerprintData.prototype.lidIdentifier = null;
-        FingerprintData.prototype.usernameIdentifier = null;
-        FingerprintData.prototype.hostedState = null;
-        FingerprintData.prototype.hashedPublicKey = null;
-
-        let $oneOfFields;
-
-        Object.defineProperty(FingerprintData.prototype, "_publicKey", {
-            get: $util.oneOfGetter($oneOfFields = ["publicKey"]),
-            set: $util.oneOfSetter($oneOfFields)
-        });
-
-        Object.defineProperty(FingerprintData.prototype, "_pnIdentifier", {
-            get: $util.oneOfGetter($oneOfFields = ["pnIdentifier"]),
-            set: $util.oneOfSetter($oneOfFields)
-        });
-
-        Object.defineProperty(FingerprintData.prototype, "_lidIdentifier", {
-            get: $util.oneOfGetter($oneOfFields = ["lidIdentifier"]),
-            set: $util.oneOfSetter($oneOfFields)
-        });
-
-        Object.defineProperty(FingerprintData.prototype, "_usernameIdentifier", {
-            get: $util.oneOfGetter($oneOfFields = ["usernameIdentifier"]),
-            set: $util.oneOfSetter($oneOfFields)
-        });
-
-        Object.defineProperty(FingerprintData.prototype, "_hostedState", {
-            get: $util.oneOfGetter($oneOfFields = ["hostedState"]),
-            set: $util.oneOfSetter($oneOfFields)
-        });
-
-        Object.defineProperty(FingerprintData.prototype, "_hashedPublicKey", {
-            get: $util.oneOfGetter($oneOfFields = ["hashedPublicKey"]),
-            set: $util.oneOfSetter($oneOfFields)
-        });
-
-        FingerprintData.create = function create(properties) {
-            return new FingerprintData(properties);
-        };
-
-        FingerprintData.encode = function encode(m, w, q) {
-            if (!w)
-                w = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (m.publicKey != null && Object.hasOwnProperty.call(m, "publicKey"))
-                w.uint32(10).bytes(m.publicKey);
-            if (m.pnIdentifier != null && Object.hasOwnProperty.call(m, "pnIdentifier"))
-                w.uint32(18).bytes(m.pnIdentifier);
-            if (m.lidIdentifier != null && Object.hasOwnProperty.call(m, "lidIdentifier"))
-                w.uint32(26).bytes(m.lidIdentifier);
-            if (m.usernameIdentifier != null && Object.hasOwnProperty.call(m, "usernameIdentifier"))
-                w.uint32(34).bytes(m.usernameIdentifier);
-            if (m.hostedState != null && Object.hasOwnProperty.call(m, "hostedState"))
-                w.uint32(40).int32(m.hostedState);
-            if (m.hashedPublicKey != null && Object.hasOwnProperty.call(m, "hashedPublicKey"))
-                w.uint32(50).bytes(m.hashedPublicKey);
-            return w;
-        };
-
-        FingerprintData.decode = function decode(r, l, e, n) {
-            if (!(r instanceof $Reader))
-                r = $Reader.create(r);
-            if (n === undefined)
-                n = 0;
-            if (n > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
-            var c, m;
-            if (l === undefined)
-                c = r.len;
-            else {
-                c = r.pos + l;
-                if (c > r.len)
-                    throw RangeError("index out of range");
-                l = r.len;
-                r.len = c;
-            }
-            m = new $root.proto.FingerprintData();
-            while (r.pos < c) {
-                var t = r.uint32();
-                if (t === e)
-                    break;
-                switch (t >>> 3) {
-                case 1: {
-                        m.publicKey = r.bytes();
-                        break;
-                    }
-                case 2: {
-                        m.pnIdentifier = r.bytes();
-                        break;
-                    }
-                case 3: {
-                        m.lidIdentifier = r.bytes();
-                        break;
-                    }
-                case 4: {
-                        m.usernameIdentifier = r.bytes();
-                        break;
-                    }
-                case 5: {
-                        m.hostedState = r.int32();
-                        break;
-                    }
-                case 6: {
-                        m.hashedPublicKey = r.bytes();
-                        break;
-                    }
-                default:
-                    r.skipType(t & 7, n);
-                    break;
-                }
-            }
-            if (l !== undefined) {
-                if (r.pos !== c)
-                    throw RangeError("index out of range");
-                r.len = l;
-            }
-            return m;
-        };
-
-        FingerprintData.fromObject = function fromObject(d, n) {
-            if (d instanceof $root.proto.FingerprintData)
-                return d;
-            if (!$util.isObject(d))
-                throw TypeError(".proto.FingerprintData: object expected");
-            if (n === undefined)
-                n = 0;
-            if (n > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
-            var m = new $root.proto.FingerprintData();
-            if (d.publicKey != null) {
-                if (typeof d.publicKey === "string")
-                    $util.base64.decode(d.publicKey, m.publicKey = $util.newBuffer($util.base64.length(d.publicKey)), 0);
-                else if (d.publicKey.length >= 0)
-                    m.publicKey = d.publicKey;
-            }
-            if (d.pnIdentifier != null) {
-                if (typeof d.pnIdentifier === "string")
-                    $util.base64.decode(d.pnIdentifier, m.pnIdentifier = $util.newBuffer($util.base64.length(d.pnIdentifier)), 0);
-                else if (d.pnIdentifier.length >= 0)
-                    m.pnIdentifier = d.pnIdentifier;
-            }
-            if (d.lidIdentifier != null) {
-                if (typeof d.lidIdentifier === "string")
-                    $util.base64.decode(d.lidIdentifier, m.lidIdentifier = $util.newBuffer($util.base64.length(d.lidIdentifier)), 0);
-                else if (d.lidIdentifier.length >= 0)
-                    m.lidIdentifier = d.lidIdentifier;
-            }
-            if (d.usernameIdentifier != null) {
-                if (typeof d.usernameIdentifier === "string")
-                    $util.base64.decode(d.usernameIdentifier, m.usernameIdentifier = $util.newBuffer($util.base64.length(d.usernameIdentifier)), 0);
-                else if (d.usernameIdentifier.length >= 0)
-                    m.usernameIdentifier = d.usernameIdentifier;
-            }
-            switch (d.hostedState) {
-            default:
-                if (typeof d.hostedState === "number") {
-                    m.hostedState = d.hostedState;
-                    break;
-                }
-                break;
-            case "E2EE":
-            case 0:
-                m.hostedState = 0;
-                break;
-            case "HOSTED":
-            case 1:
-                m.hostedState = 1;
-                break;
-            }
-            if (d.hashedPublicKey != null) {
-                if (typeof d.hashedPublicKey === "string")
-                    $util.base64.decode(d.hashedPublicKey, m.hashedPublicKey = $util.newBuffer($util.base64.length(d.hashedPublicKey)), 0);
-                else if (d.hashedPublicKey.length >= 0)
-                    m.hashedPublicKey = d.hashedPublicKey;
-            }
-            return m;
-        };
-
-        FingerprintData.toObject = function toObject(m, o, q) {
-            if (!o)
-                o = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            var d = {};
-            if (m.publicKey != null && Object.hasOwnProperty.call(m, "publicKey")) {
-                d.publicKey = o.bytes === String ? $util.base64.encode(m.publicKey, 0, m.publicKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.publicKey) : m.publicKey;
-                if (o.oneofs)
-                    d._publicKey = "publicKey";
-            }
-            if (m.pnIdentifier != null && Object.hasOwnProperty.call(m, "pnIdentifier")) {
-                d.pnIdentifier = o.bytes === String ? $util.base64.encode(m.pnIdentifier, 0, m.pnIdentifier.length) : o.bytes === Array ? Array.prototype.slice.call(m.pnIdentifier) : m.pnIdentifier;
-                if (o.oneofs)
-                    d._pnIdentifier = "pnIdentifier";
-            }
-            if (m.lidIdentifier != null && Object.hasOwnProperty.call(m, "lidIdentifier")) {
-                d.lidIdentifier = o.bytes === String ? $util.base64.encode(m.lidIdentifier, 0, m.lidIdentifier.length) : o.bytes === Array ? Array.prototype.slice.call(m.lidIdentifier) : m.lidIdentifier;
-                if (o.oneofs)
-                    d._lidIdentifier = "lidIdentifier";
-            }
-            if (m.usernameIdentifier != null && Object.hasOwnProperty.call(m, "usernameIdentifier")) {
-                d.usernameIdentifier = o.bytes === String ? $util.base64.encode(m.usernameIdentifier, 0, m.usernameIdentifier.length) : o.bytes === Array ? Array.prototype.slice.call(m.usernameIdentifier) : m.usernameIdentifier;
-                if (o.oneofs)
-                    d._usernameIdentifier = "usernameIdentifier";
-            }
-            if (m.hostedState != null && Object.hasOwnProperty.call(m, "hostedState")) {
-                d.hostedState = o.enums === String ? $root.proto.HostedState[m.hostedState] === undefined ? m.hostedState : $root.proto.HostedState[m.hostedState] : m.hostedState;
-                if (o.oneofs)
-                    d._hostedState = "hostedState";
-            }
-            if (m.hashedPublicKey != null && Object.hasOwnProperty.call(m, "hashedPublicKey")) {
-                d.hashedPublicKey = o.bytes === String ? $util.base64.encode(m.hashedPublicKey, 0, m.hashedPublicKey.length) : o.bytes === Array ? Array.prototype.slice.call(m.hashedPublicKey) : m.hashedPublicKey;
-                if (o.oneofs)
-                    d._hashedPublicKey = "hashedPublicKey";
-            }
-            return d;
-        };
-
-        FingerprintData.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-        };
-
-        FingerprintData.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/proto.FingerprintData";
-        };
-
-        return FingerprintData;
-    })();
-
     proto.ForwardEdgeInput = (function() {
 
         function ForwardEdgeInput(p) {
@@ -55019,13 +54627,6 @@ export const proto = $root.proto = (() => {
         };
 
         return HistorySyncMsg;
-    })();
-
-    proto.HostedState = (function() {
-        const valuesById = {}, values = Object.create(valuesById);
-        values[valuesById[0] = "E2EE"] = 0;
-        values[valuesById[1] = "HOSTED"] = 1;
-        return values;
     })();
 
     proto.HydratedTemplateButton = (function() {
@@ -122891,268 +122492,6 @@ export const proto = $root.proto = (() => {
         };
 
         return RotateEpochSuccess;
-    })();
-
-    proto.RoutingInfo = (function() {
-
-        function RoutingInfo(p) {
-            this.regionId = [];
-            this.clusterId = [];
-            if (p)
-                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
-                    if (p[ks[i]] != null && ks[i] !== "__proto__")
-                        this[ks[i]] = p[ks[i]];
-        }
-
-        RoutingInfo.prototype.regionId = $util.emptyArray;
-        RoutingInfo.prototype.clusterId = $util.emptyArray;
-        RoutingInfo.prototype.taskId = null;
-        RoutingInfo.prototype.debug = null;
-        RoutingInfo.prototype.tcpBbr = null;
-        RoutingInfo.prototype.tcpKeepalive = null;
-
-        let $oneOfFields;
-
-        Object.defineProperty(RoutingInfo.prototype, "_taskId", {
-            get: $util.oneOfGetter($oneOfFields = ["taskId"]),
-            set: $util.oneOfSetter($oneOfFields)
-        });
-
-        Object.defineProperty(RoutingInfo.prototype, "_debug", {
-            get: $util.oneOfGetter($oneOfFields = ["debug"]),
-            set: $util.oneOfSetter($oneOfFields)
-        });
-
-        Object.defineProperty(RoutingInfo.prototype, "_tcpBbr", {
-            get: $util.oneOfGetter($oneOfFields = ["tcpBbr"]),
-            set: $util.oneOfSetter($oneOfFields)
-        });
-
-        Object.defineProperty(RoutingInfo.prototype, "_tcpKeepalive", {
-            get: $util.oneOfGetter($oneOfFields = ["tcpKeepalive"]),
-            set: $util.oneOfSetter($oneOfFields)
-        });
-
-        RoutingInfo.create = function create(properties) {
-            return new RoutingInfo(properties);
-        };
-
-        RoutingInfo.encode = function encode(m, w, q) {
-            if (!w)
-                w = $Writer.create();
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            if (m.regionId != null && m.regionId.length) {
-                w.uint32(10).fork();
-                for (var i = 0; i < m.regionId.length; ++i)
-                    w.int32(m.regionId[i]);
-                w.ldelim();
-            }
-            if (m.clusterId != null && m.clusterId.length) {
-                w.uint32(18).fork();
-                for (var i = 0; i < m.clusterId.length; ++i)
-                    w.int32(m.clusterId[i]);
-                w.ldelim();
-            }
-            if (m.taskId != null && Object.hasOwnProperty.call(m, "taskId"))
-                w.uint32(24).int32(m.taskId);
-            if (m.debug != null && Object.hasOwnProperty.call(m, "debug"))
-                w.uint32(32).bool(m.debug);
-            if (m.tcpBbr != null && Object.hasOwnProperty.call(m, "tcpBbr"))
-                w.uint32(40).bool(m.tcpBbr);
-            if (m.tcpKeepalive != null && Object.hasOwnProperty.call(m, "tcpKeepalive"))
-                w.uint32(48).bool(m.tcpKeepalive);
-            return w;
-        };
-
-        RoutingInfo.decode = function decode(r, l, e, n) {
-            if (!(r instanceof $Reader))
-                r = $Reader.create(r);
-            if (n === undefined)
-                n = 0;
-            if (n > $Reader.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
-            var c, m;
-            if (l === undefined)
-                c = r.len;
-            else {
-                c = r.pos + l;
-                if (c > r.len)
-                    throw RangeError("index out of range");
-                l = r.len;
-                r.len = c;
-            }
-            m = new $root.proto.RoutingInfo();
-            while (r.pos < c) {
-                var t = r.uint32();
-                if (t === e)
-                    break;
-                switch (t >>> 3) {
-                case 1: {
-                        if (!(m.regionId && m.regionId.length))
-                            m.regionId = [];
-                        if ((t & 7) === 2) {
-                            var c2 = r.uint32() + r.pos;
-                            if (c2 > r.len)
-                                throw RangeError("index out of range");
-                            r.len = c2;
-                            while (r.pos < c2)
-                                m.regionId.push(r.int32());
-                            if (r.pos !== c2)
-                                throw RangeError("index out of range");
-                            r.len = c;
-                        } else
-                            m.regionId.push(r.int32());
-                        break;
-                    }
-                case 2: {
-                        if (!(m.clusterId && m.clusterId.length))
-                            m.clusterId = [];
-                        if ((t & 7) === 2) {
-                            var c2 = r.uint32() + r.pos;
-                            if (c2 > r.len)
-                                throw RangeError("index out of range");
-                            r.len = c2;
-                            while (r.pos < c2)
-                                m.clusterId.push(r.int32());
-                            if (r.pos !== c2)
-                                throw RangeError("index out of range");
-                            r.len = c;
-                        } else
-                            m.clusterId.push(r.int32());
-                        break;
-                    }
-                case 3: {
-                        m.taskId = r.int32();
-                        break;
-                    }
-                case 4: {
-                        m.debug = r.bool();
-                        break;
-                    }
-                case 5: {
-                        m.tcpBbr = r.bool();
-                        break;
-                    }
-                case 6: {
-                        m.tcpKeepalive = r.bool();
-                        break;
-                    }
-                default:
-                    r.skipType(t & 7, n);
-                    break;
-                }
-            }
-            if (l !== undefined) {
-                if (r.pos !== c)
-                    throw RangeError("index out of range");
-                r.len = l;
-            }
-            return m;
-        };
-
-        RoutingInfo.fromObject = function fromObject(d, n) {
-            if (d instanceof $root.proto.RoutingInfo)
-                return d;
-            if (!$util.isObject(d))
-                throw TypeError(".proto.RoutingInfo: object expected");
-            if (n === undefined)
-                n = 0;
-            if (n > $util.recursionLimit)
-                throw Error("maximum nesting depth exceeded");
-            var m = new $root.proto.RoutingInfo();
-            if (d.regionId) {
-                if (!Array.isArray(d.regionId))
-                    throw TypeError(".proto.RoutingInfo.regionId: array expected");
-                m.regionId = [];
-                for (var i = 0; i < d.regionId.length; ++i) {
-                    m.regionId[i] = d.regionId[i] | 0;
-                }
-            }
-            if (d.clusterId) {
-                if (!Array.isArray(d.clusterId))
-                    throw TypeError(".proto.RoutingInfo.clusterId: array expected");
-                m.clusterId = [];
-                for (var i = 0; i < d.clusterId.length; ++i) {
-                    m.clusterId[i] = d.clusterId[i] | 0;
-                }
-            }
-            if (d.taskId != null) {
-                m.taskId = d.taskId | 0;
-            }
-            if (d.debug != null) {
-                m.debug = Boolean(d.debug);
-            }
-            if (d.tcpBbr != null) {
-                m.tcpBbr = Boolean(d.tcpBbr);
-            }
-            if (d.tcpKeepalive != null) {
-                m.tcpKeepalive = Boolean(d.tcpKeepalive);
-            }
-            return m;
-        };
-
-        RoutingInfo.toObject = function toObject(m, o, q) {
-            if (!o)
-                o = {};
-            if (q === undefined)
-                q = 0;
-            if (q > $util.recursionLimit)
-                throw Error("max depth exceeded");
-            var d = {};
-            if (o.arrays || o.defaults) {
-                d.regionId = [];
-                d.clusterId = [];
-            }
-            if (m.regionId && m.regionId.length) {
-                d.regionId = [];
-                for (var j = 0; j < m.regionId.length; ++j) {
-                    d.regionId[j] = m.regionId[j];
-                }
-            }
-            if (m.clusterId && m.clusterId.length) {
-                d.clusterId = [];
-                for (var j = 0; j < m.clusterId.length; ++j) {
-                    d.clusterId[j] = m.clusterId[j];
-                }
-            }
-            if (m.taskId != null && Object.hasOwnProperty.call(m, "taskId")) {
-                d.taskId = m.taskId;
-                if (o.oneofs)
-                    d._taskId = "taskId";
-            }
-            if (m.debug != null && Object.hasOwnProperty.call(m, "debug")) {
-                d.debug = m.debug;
-                if (o.oneofs)
-                    d._debug = "debug";
-            }
-            if (m.tcpBbr != null && Object.hasOwnProperty.call(m, "tcpBbr")) {
-                d.tcpBbr = m.tcpBbr;
-                if (o.oneofs)
-                    d._tcpBbr = "tcpBbr";
-            }
-            if (m.tcpKeepalive != null && Object.hasOwnProperty.call(m, "tcpKeepalive")) {
-                d.tcpKeepalive = m.tcpKeepalive;
-                if (o.oneofs)
-                    d._tcpKeepalive = "tcpKeepalive";
-            }
-            return d;
-        };
-
-        RoutingInfo.prototype.toJSON = function toJSON() {
-            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-        };
-
-        RoutingInfo.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
-            if (typeUrlPrefix === undefined) {
-                typeUrlPrefix = "type.googleapis.com";
-            }
-            return typeUrlPrefix + "/proto.RoutingInfo";
-        };
-
-        return RoutingInfo;
     })();
 
     proto.ScheduledMessageMetadata = (function() {

@@ -122494,6 +122494,268 @@ export const proto = $root.proto = (() => {
         return RotateEpochSuccess;
     })();
 
+    proto.RoutingInfo = (function() {
+
+        function RoutingInfo(p) {
+            this.regionId = [];
+            this.clusterId = [];
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        RoutingInfo.prototype.regionId = $util.emptyArray;
+        RoutingInfo.prototype.clusterId = $util.emptyArray;
+        RoutingInfo.prototype.taskId = null;
+        RoutingInfo.prototype.debug = null;
+        RoutingInfo.prototype.tcpBbr = null;
+        RoutingInfo.prototype.tcpKeepalive = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(RoutingInfo.prototype, "_taskId", {
+            get: $util.oneOfGetter($oneOfFields = ["taskId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(RoutingInfo.prototype, "_debug", {
+            get: $util.oneOfGetter($oneOfFields = ["debug"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(RoutingInfo.prototype, "_tcpBbr", {
+            get: $util.oneOfGetter($oneOfFields = ["tcpBbr"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(RoutingInfo.prototype, "_tcpKeepalive", {
+            get: $util.oneOfGetter($oneOfFields = ["tcpKeepalive"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        RoutingInfo.create = function create(properties) {
+            return new RoutingInfo(properties);
+        };
+
+        RoutingInfo.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.regionId != null && m.regionId.length) {
+                w.uint32(10).fork();
+                for (var i = 0; i < m.regionId.length; ++i)
+                    w.int32(m.regionId[i]);
+                w.ldelim();
+            }
+            if (m.clusterId != null && m.clusterId.length) {
+                w.uint32(18).fork();
+                for (var i = 0; i < m.clusterId.length; ++i)
+                    w.int32(m.clusterId[i]);
+                w.ldelim();
+            }
+            if (m.taskId != null && Object.hasOwnProperty.call(m, "taskId"))
+                w.uint32(24).int32(m.taskId);
+            if (m.debug != null && Object.hasOwnProperty.call(m, "debug"))
+                w.uint32(32).bool(m.debug);
+            if (m.tcpBbr != null && Object.hasOwnProperty.call(m, "tcpBbr"))
+                w.uint32(40).bool(m.tcpBbr);
+            if (m.tcpKeepalive != null && Object.hasOwnProperty.call(m, "tcpKeepalive"))
+                w.uint32(48).bool(m.tcpKeepalive);
+            return w;
+        };
+
+        RoutingInfo.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.RoutingInfo();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        if (!(m.regionId && m.regionId.length))
+                            m.regionId = [];
+                        if ((t & 7) === 2) {
+                            var c2 = r.uint32() + r.pos;
+                            if (c2 > r.len)
+                                throw RangeError("index out of range");
+                            r.len = c2;
+                            while (r.pos < c2)
+                                m.regionId.push(r.int32());
+                            if (r.pos !== c2)
+                                throw RangeError("index out of range");
+                            r.len = c;
+                        } else
+                            m.regionId.push(r.int32());
+                        break;
+                    }
+                case 2: {
+                        if (!(m.clusterId && m.clusterId.length))
+                            m.clusterId = [];
+                        if ((t & 7) === 2) {
+                            var c2 = r.uint32() + r.pos;
+                            if (c2 > r.len)
+                                throw RangeError("index out of range");
+                            r.len = c2;
+                            while (r.pos < c2)
+                                m.clusterId.push(r.int32());
+                            if (r.pos !== c2)
+                                throw RangeError("index out of range");
+                            r.len = c;
+                        } else
+                            m.clusterId.push(r.int32());
+                        break;
+                    }
+                case 3: {
+                        m.taskId = r.int32();
+                        break;
+                    }
+                case 4: {
+                        m.debug = r.bool();
+                        break;
+                    }
+                case 5: {
+                        m.tcpBbr = r.bool();
+                        break;
+                    }
+                case 6: {
+                        m.tcpKeepalive = r.bool();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        RoutingInfo.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.RoutingInfo)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.RoutingInfo: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.RoutingInfo();
+            if (d.regionId) {
+                if (!Array.isArray(d.regionId))
+                    throw TypeError(".proto.RoutingInfo.regionId: array expected");
+                m.regionId = [];
+                for (var i = 0; i < d.regionId.length; ++i) {
+                    m.regionId[i] = d.regionId[i] | 0;
+                }
+            }
+            if (d.clusterId) {
+                if (!Array.isArray(d.clusterId))
+                    throw TypeError(".proto.RoutingInfo.clusterId: array expected");
+                m.clusterId = [];
+                for (var i = 0; i < d.clusterId.length; ++i) {
+                    m.clusterId[i] = d.clusterId[i] | 0;
+                }
+            }
+            if (d.taskId != null) {
+                m.taskId = d.taskId | 0;
+            }
+            if (d.debug != null) {
+                m.debug = Boolean(d.debug);
+            }
+            if (d.tcpBbr != null) {
+                m.tcpBbr = Boolean(d.tcpBbr);
+            }
+            if (d.tcpKeepalive != null) {
+                m.tcpKeepalive = Boolean(d.tcpKeepalive);
+            }
+            return m;
+        };
+
+        RoutingInfo.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (o.arrays || o.defaults) {
+                d.regionId = [];
+                d.clusterId = [];
+            }
+            if (m.regionId && m.regionId.length) {
+                d.regionId = [];
+                for (var j = 0; j < m.regionId.length; ++j) {
+                    d.regionId[j] = m.regionId[j];
+                }
+            }
+            if (m.clusterId && m.clusterId.length) {
+                d.clusterId = [];
+                for (var j = 0; j < m.clusterId.length; ++j) {
+                    d.clusterId[j] = m.clusterId[j];
+                }
+            }
+            if (m.taskId != null && Object.hasOwnProperty.call(m, "taskId")) {
+                d.taskId = m.taskId;
+                if (o.oneofs)
+                    d._taskId = "taskId";
+            }
+            if (m.debug != null && Object.hasOwnProperty.call(m, "debug")) {
+                d.debug = m.debug;
+                if (o.oneofs)
+                    d._debug = "debug";
+            }
+            if (m.tcpBbr != null && Object.hasOwnProperty.call(m, "tcpBbr")) {
+                d.tcpBbr = m.tcpBbr;
+                if (o.oneofs)
+                    d._tcpBbr = "tcpBbr";
+            }
+            if (m.tcpKeepalive != null && Object.hasOwnProperty.call(m, "tcpKeepalive")) {
+                d.tcpKeepalive = m.tcpKeepalive;
+                if (o.oneofs)
+                    d._tcpKeepalive = "tcpKeepalive";
+            }
+            return d;
+        };
+
+        RoutingInfo.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        RoutingInfo.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.RoutingInfo";
+        };
+
+        return RoutingInfo;
+    })();
+
     proto.ScheduledMessageMetadata = (function() {
 
         function ScheduledMessageMetadata(p) {
