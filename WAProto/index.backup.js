@@ -10543,9 +10543,25 @@ export const proto = $root.proto = (() => {
                     case 91:
                         m.capabilities[i] = 91;
                         break;
+                    case "HATCH_DEVICE_NODE_HOST":
+                    case 92:
+                        m.capabilities[i] = 92;
+                        break;
                     case "AI_MUSE_JARVIS_PAYLOAD_GZIP_ENABLED":
                     case 93:
                         m.capabilities[i] = 93;
+                        break;
+                    case "AI_RICH_RESPONSE_A2UI_CARDS_ENABLED":
+                    case 94:
+                        m.capabilities[i] = 94;
+                        break;
+                    case "AI_RICH_RESPONSE_READ_ALOUD_LENGTH_APPROXIMATION_ENABLED":
+                    case 95:
+                        m.capabilities[i] = 95;
+                        break;
+                    case "AI_RICH_RESPONSE_READ_ALOUD_ACTION_TRAY_ENABLED":
+                    case 96:
+                        m.capabilities[i] = 96;
                         break;
                     }
                 }
@@ -10678,7 +10694,11 @@ export const proto = $root.proto = (() => {
             values[valuesById[89] = "RICH_RESPONSE_SIDE_BY_SIDE_BUFFER_BOTH"] = 89;
             values[valuesById[90] = "AI_MUSE_JARVIS_ENVELOPE_GZIP_ENABLED"] = 90;
             values[valuesById[91] = "AI_RICH_RESPONSE_INLINE_MEDIA_LIGHTBOX_ENABLED"] = 91;
+            values[valuesById[92] = "HATCH_DEVICE_NODE_HOST"] = 92;
             values[valuesById[93] = "AI_MUSE_JARVIS_PAYLOAD_GZIP_ENABLED"] = 93;
+            values[valuesById[94] = "AI_RICH_RESPONSE_A2UI_CARDS_ENABLED"] = 94;
+            values[valuesById[95] = "AI_RICH_RESPONSE_READ_ALOUD_LENGTH_APPROXIMATION_ENABLED"] = 95;
+            values[valuesById[96] = "AI_RICH_RESPONSE_READ_ALOUD_ACTION_TRAY_ENABLED"] = 96;
             return values;
         })();
 
@@ -36344,6 +36364,7 @@ export const proto = $root.proto = (() => {
         Conversation.prototype.nonE2EeType = null;
         Conversation.prototype.contactAccountEncryptionAttestationType = null;
         Conversation.prototype.unreadReplyToMyMessageCount = null;
+        Conversation.prototype.draft = null;
 
         let $oneOfFields;
 
@@ -36682,6 +36703,11 @@ export const proto = $root.proto = (() => {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        Object.defineProperty(Conversation.prototype, "_draft", {
+            get: $util.oneOfGetter($oneOfFields = ["draft"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         Conversation.create = function create(properties) {
             return new Conversation(properties);
         };
@@ -36839,6 +36865,8 @@ export const proto = $root.proto = (() => {
                 w.uint32(552).int32(m.contactAccountEncryptionAttestationType);
             if (m.unreadReplyToMyMessageCount != null && Object.hasOwnProperty.call(m, "unreadReplyToMyMessageCount"))
                 w.uint32(560).uint32(m.unreadReplyToMyMessageCount);
+            if (m.draft != null && Object.hasOwnProperty.call(m, "draft"))
+                $root.proto.ConversationDraft.encode(m.draft, w.uint32(570).fork(), q + 1).ldelim();
             return w;
         };
 
@@ -37149,6 +37177,10 @@ export const proto = $root.proto = (() => {
                     }
                 case 70: {
                         m.unreadReplyToMyMessageCount = r.uint32();
+                        break;
+                    }
+                case 71: {
+                        m.draft = $root.proto.ConversationDraft.decode(r, r.uint32(), undefined, n + 1);
                         break;
                     }
                 default:
@@ -37596,6 +37628,11 @@ export const proto = $root.proto = (() => {
             if (d.unreadReplyToMyMessageCount != null) {
                 m.unreadReplyToMyMessageCount = d.unreadReplyToMyMessageCount >>> 0;
             }
+            if (d.draft != null) {
+                if (!$util.isObject(d.draft))
+                    throw TypeError(".proto.Conversation.draft: object expected");
+                m.draft = $root.proto.ConversationDraft.fromObject(d.draft, n + 1);
+            }
             return m;
         };
 
@@ -38010,6 +38047,11 @@ export const proto = $root.proto = (() => {
                 if (o.oneofs)
                     d._unreadReplyToMyMessageCount = "unreadReplyToMyMessageCount";
             }
+            if (m.draft != null && Object.hasOwnProperty.call(m, "draft")) {
+                d.draft = $root.proto.ConversationDraft.toObject(m.draft, o, q + 1);
+                if (o.oneofs)
+                    d._draft = "draft";
+            }
             return d;
         };
 
@@ -38043,6 +38085,180 @@ export const proto = $root.proto = (() => {
         })();
 
         return Conversation;
+    })();
+
+    proto.ConversationDraft = (function() {
+
+        function ConversationDraft(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        ConversationDraft.prototype.content = null;
+        ConversationDraft.prototype.editTimestampMs = null;
+        ConversationDraft.prototype.editorDeviceId = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(ConversationDraft.prototype, "_content", {
+            get: $util.oneOfGetter($oneOfFields = ["content"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ConversationDraft.prototype, "_editTimestampMs", {
+            get: $util.oneOfGetter($oneOfFields = ["editTimestampMs"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(ConversationDraft.prototype, "_editorDeviceId", {
+            get: $util.oneOfGetter($oneOfFields = ["editorDeviceId"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        ConversationDraft.create = function create(properties) {
+            return new ConversationDraft(properties);
+        };
+
+        ConversationDraft.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.content != null && Object.hasOwnProperty.call(m, "content"))
+                $root.proto.Message.encode(m.content, w.uint32(10).fork(), q + 1).ldelim();
+            if (m.editTimestampMs != null && Object.hasOwnProperty.call(m, "editTimestampMs"))
+                w.uint32(16).int64(m.editTimestampMs);
+            if (m.editorDeviceId != null && Object.hasOwnProperty.call(m, "editorDeviceId"))
+                w.uint32(24).uint32(m.editorDeviceId);
+            return w;
+        };
+
+        ConversationDraft.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.ConversationDraft();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.content = $root.proto.Message.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 2: {
+                        m.editTimestampMs = r.int64();
+                        break;
+                    }
+                case 3: {
+                        m.editorDeviceId = r.uint32();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        ConversationDraft.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.ConversationDraft)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.ConversationDraft: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.ConversationDraft();
+            if (d.content != null) {
+                if (!$util.isObject(d.content))
+                    throw TypeError(".proto.ConversationDraft.content: object expected");
+                m.content = $root.proto.Message.fromObject(d.content, n + 1);
+            }
+            if (d.editTimestampMs != null) {
+                if ($util.Long)
+                    m.editTimestampMs = $util.Long.fromValue(d.editTimestampMs, false);
+                else if (typeof d.editTimestampMs === "string")
+                    m.editTimestampMs = parseInt(d.editTimestampMs, 10);
+                else if (typeof d.editTimestampMs === "number")
+                    m.editTimestampMs = d.editTimestampMs;
+                else if (typeof d.editTimestampMs === "object")
+                    m.editTimestampMs = new $util.LongBits(d.editTimestampMs.low >>> 0, d.editTimestampMs.high >>> 0).toNumber();
+            }
+            if (d.editorDeviceId != null) {
+                m.editorDeviceId = d.editorDeviceId >>> 0;
+            }
+            return m;
+        };
+
+        ConversationDraft.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.content != null && Object.hasOwnProperty.call(m, "content")) {
+                d.content = $root.proto.Message.toObject(m.content, o, q + 1);
+                if (o.oneofs)
+                    d._content = "content";
+            }
+            if (m.editTimestampMs != null && Object.hasOwnProperty.call(m, "editTimestampMs")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.editTimestampMs = typeof m.editTimestampMs === "number" ? BigInt(m.editTimestampMs) : $util.Long.fromBits(m.editTimestampMs.low >>> 0, m.editTimestampMs.high >>> 0, false).toBigInt();
+                else if (typeof m.editTimestampMs === "number")
+                    d.editTimestampMs = o.longs === String ? String(m.editTimestampMs) : m.editTimestampMs;
+                else
+                    d.editTimestampMs = o.longs === String ? longToString(m.editTimestampMs) : o.longs === Number ? longToNumber(m.editTimestampMs) : m.editTimestampMs;
+                if (o.oneofs)
+                    d._editTimestampMs = "editTimestampMs";
+            }
+            if (m.editorDeviceId != null && Object.hasOwnProperty.call(m, "editorDeviceId")) {
+                d.editorDeviceId = m.editorDeviceId;
+                if (o.oneofs)
+                    d._editorDeviceId = "editorDeviceId";
+            }
+            return d;
+        };
+
+        ConversationDraft.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        ConversationDraft.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.ConversationDraft";
+        };
+
+        return ConversationDraft;
     })();
 
     proto.CreateBackupInput = (function() {
@@ -40298,6 +40514,7 @@ export const proto = $root.proto = (() => {
         DeviceCapabilities.prototype.phoneNumberSharing = null;
         DeviceCapabilities.prototype.recentConversationsOnDemand = null;
         DeviceCapabilities.prototype.aiMuseJarvisGzip = null;
+        DeviceCapabilities.prototype.draftSync = null;
 
         let $oneOfFields;
 
@@ -40381,6 +40598,11 @@ export const proto = $root.proto = (() => {
             set: $util.oneOfSetter($oneOfFields)
         });
 
+        Object.defineProperty(DeviceCapabilities.prototype, "_draftSync", {
+            get: $util.oneOfGetter($oneOfFields = ["draftSync"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
         DeviceCapabilities.create = function create(properties) {
             return new DeviceCapabilities(properties);
         };
@@ -40424,6 +40646,8 @@ export const proto = $root.proto = (() => {
                 $root.proto.DeviceCapabilities.RecentConversationsOnDemand.encode(m.recentConversationsOnDemand, w.uint32(122).fork(), q + 1).ldelim();
             if (m.aiMuseJarvisGzip != null && Object.hasOwnProperty.call(m, "aiMuseJarvisGzip"))
                 $root.proto.DeviceCapabilities.AiMuseJarvisGzip.encode(m.aiMuseJarvisGzip, w.uint32(130).fork(), q + 1).ldelim();
+            if (m.draftSync != null && Object.hasOwnProperty.call(m, "draftSync"))
+                $root.proto.DeviceCapabilities.DraftSync.encode(m.draftSync, w.uint32(138).fork(), q + 1).ldelim();
             return w;
         };
 
@@ -40512,6 +40736,10 @@ export const proto = $root.proto = (() => {
                     }
                 case 16: {
                         m.aiMuseJarvisGzip = $root.proto.DeviceCapabilities.AiMuseJarvisGzip.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 17: {
+                        m.draftSync = $root.proto.DeviceCapabilities.DraftSync.decode(r, r.uint32(), undefined, n + 1);
                         break;
                     }
                 default:
@@ -40647,6 +40875,11 @@ export const proto = $root.proto = (() => {
                     throw TypeError(".proto.DeviceCapabilities.aiMuseJarvisGzip: object expected");
                 m.aiMuseJarvisGzip = $root.proto.DeviceCapabilities.AiMuseJarvisGzip.fromObject(d.aiMuseJarvisGzip, n + 1);
             }
+            if (d.draftSync != null) {
+                if (!$util.isObject(d.draftSync))
+                    throw TypeError(".proto.DeviceCapabilities.draftSync: object expected");
+                m.draftSync = $root.proto.DeviceCapabilities.DraftSync.fromObject(d.draftSync, n + 1);
+            }
             return m;
         };
 
@@ -40737,6 +40970,11 @@ export const proto = $root.proto = (() => {
                 d.aiMuseJarvisGzip = $root.proto.DeviceCapabilities.AiMuseJarvisGzip.toObject(m.aiMuseJarvisGzip, o, q + 1);
                 if (o.oneofs)
                     d._aiMuseJarvisGzip = "aiMuseJarvisGzip";
+            }
+            if (m.draftSync != null && Object.hasOwnProperty.call(m, "draftSync")) {
+                d.draftSync = $root.proto.DeviceCapabilities.DraftSync.toObject(m.draftSync, o, q + 1);
+                if (o.oneofs)
+                    d._draftSync = "draftSync";
             }
             return d;
         };
@@ -41755,6 +41993,126 @@ export const proto = $root.proto = (() => {
             };
 
             return ContactRefresh;
+        })();
+
+        DeviceCapabilities.DraftSync = (function() {
+
+            function DraftSync(p) {
+                if (p)
+                    for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                        if (p[ks[i]] != null && ks[i] !== "__proto__")
+                            this[ks[i]] = p[ks[i]];
+            }
+
+            DraftSync.prototype.version = null;
+
+            let $oneOfFields;
+
+            Object.defineProperty(DraftSync.prototype, "_version", {
+                get: $util.oneOfGetter($oneOfFields = ["version"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            DraftSync.create = function create(properties) {
+                return new DraftSync(properties);
+            };
+
+            DraftSync.encode = function encode(m, w, q) {
+                if (!w)
+                    w = $Writer.create();
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                if (m.version != null && Object.hasOwnProperty.call(m, "version"))
+                    w.uint32(8).uint32(m.version);
+                return w;
+            };
+
+            DraftSync.decode = function decode(r, l, e, n) {
+                if (!(r instanceof $Reader))
+                    r = $Reader.create(r);
+                if (n === undefined)
+                    n = 0;
+                if (n > $Reader.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var c, m;
+                if (l === undefined)
+                    c = r.len;
+                else {
+                    c = r.pos + l;
+                    if (c > r.len)
+                        throw RangeError("index out of range");
+                    l = r.len;
+                    r.len = c;
+                }
+                m = new $root.proto.DeviceCapabilities.DraftSync();
+                while (r.pos < c) {
+                    var t = r.uint32();
+                    if (t === e)
+                        break;
+                    switch (t >>> 3) {
+                    case 1: {
+                            m.version = r.uint32();
+                            break;
+                        }
+                    default:
+                        r.skipType(t & 7, n);
+                        break;
+                    }
+                }
+                if (l !== undefined) {
+                    if (r.pos !== c)
+                        throw RangeError("index out of range");
+                    r.len = l;
+                }
+                return m;
+            };
+
+            DraftSync.fromObject = function fromObject(d, n) {
+                if (d instanceof $root.proto.DeviceCapabilities.DraftSync)
+                    return d;
+                if (!$util.isObject(d))
+                    throw TypeError(".proto.DeviceCapabilities.DraftSync: object expected");
+                if (n === undefined)
+                    n = 0;
+                if (n > $util.recursionLimit)
+                    throw Error("maximum nesting depth exceeded");
+                var m = new $root.proto.DeviceCapabilities.DraftSync();
+                if (d.version != null) {
+                    m.version = d.version >>> 0;
+                }
+                return m;
+            };
+
+            DraftSync.toObject = function toObject(m, o, q) {
+                if (!o)
+                    o = {};
+                if (q === undefined)
+                    q = 0;
+                if (q > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                var d = {};
+                if (m.version != null && Object.hasOwnProperty.call(m, "version")) {
+                    d.version = m.version;
+                    if (o.oneofs)
+                        d._version = "version";
+                }
+                return d;
+            };
+
+            DraftSync.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            DraftSync.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+                if (typeUrlPrefix === undefined) {
+                    typeUrlPrefix = "type.googleapis.com";
+                }
+                return typeUrlPrefix + "/proto.DeviceCapabilities.DraftSync";
+            };
+
+            return DraftSync;
         })();
 
         DeviceCapabilities.HostWriteMutationSupport = (function() {
@@ -44208,6 +44566,7 @@ export const proto = $root.proto = (() => {
             HistorySyncConfig.prototype.supportNewsletter = null;
             HistorySyncConfig.prototype.supportUniversalReachChat = null;
             HistorySyncConfig.prototype.supportOmittedConversationMetadata = null;
+            HistorySyncConfig.prototype.supportDraftSync = null;
 
             let $oneOfFields;
 
@@ -44341,6 +44700,11 @@ export const proto = $root.proto = (() => {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            Object.defineProperty(HistorySyncConfig.prototype, "_supportDraftSync", {
+                get: $util.oneOfGetter($oneOfFields = ["supportDraftSync"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             HistorySyncConfig.create = function create(properties) {
                 return new HistorySyncConfig(properties);
             };
@@ -44408,6 +44772,8 @@ export const proto = $root.proto = (() => {
                     w.uint32(208).bool(m.supportUniversalReachChat);
                 if (m.supportOmittedConversationMetadata != null && Object.hasOwnProperty.call(m, "supportOmittedConversationMetadata"))
                     w.uint32(224).bool(m.supportOmittedConversationMetadata);
+                if (m.supportDraftSync != null && Object.hasOwnProperty.call(m, "supportDraftSync"))
+                    w.uint32(232).bool(m.supportDraftSync);
                 return w;
             };
 
@@ -44544,6 +44910,10 @@ export const proto = $root.proto = (() => {
                             m.supportOmittedConversationMetadata = r.bool();
                             break;
                         }
+                    case 29: {
+                            m.supportDraftSync = r.bool();
+                            break;
+                        }
                     default:
                         r.skipType(t & 7, n);
                         break;
@@ -44652,6 +45022,9 @@ export const proto = $root.proto = (() => {
                 }
                 if (d.supportOmittedConversationMetadata != null) {
                     m.supportOmittedConversationMetadata = Boolean(d.supportOmittedConversationMetadata);
+                }
+                if (d.supportDraftSync != null) {
+                    m.supportDraftSync = Boolean(d.supportDraftSync);
                 }
                 return m;
             };
@@ -44802,6 +45175,11 @@ export const proto = $root.proto = (() => {
                     d.supportOmittedConversationMetadata = m.supportOmittedConversationMetadata;
                     if (o.oneofs)
                         d._supportOmittedConversationMetadata = "supportOmittedConversationMetadata";
+                }
+                if (m.supportDraftSync != null && Object.hasOwnProperty.call(m, "supportDraftSync")) {
+                    d.supportDraftSync = m.supportDraftSync;
+                    if (o.oneofs)
+                        d._supportDraftSync = "supportDraftSync";
                 }
                 return d;
             };
@@ -45107,6 +45485,300 @@ export const proto = $root.proto = (() => {
         })();
 
         return DisappearingMode;
+    })();
+
+    proto.DraftMessageSync = (function() {
+
+        function DraftMessageSync(p) {
+            if (p)
+                for (var ks = Object.keys(p), i = 0; i < ks.length; ++i)
+                    if (p[ks[i]] != null && ks[i] !== "__proto__")
+                        this[ks[i]] = p[ks[i]];
+        }
+
+        DraftMessageSync.prototype.chatJid = null;
+        DraftMessageSync.prototype.altChatJid = null;
+        DraftMessageSync.prototype.action = null;
+        DraftMessageSync.prototype.editTimestampMs = null;
+        DraftMessageSync.prototype.draft = null;
+        DraftMessageSync.prototype.clearReason = null;
+
+        let $oneOfFields;
+
+        Object.defineProperty(DraftMessageSync.prototype, "_chatJid", {
+            get: $util.oneOfGetter($oneOfFields = ["chatJid"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DraftMessageSync.prototype, "_altChatJid", {
+            get: $util.oneOfGetter($oneOfFields = ["altChatJid"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DraftMessageSync.prototype, "_action", {
+            get: $util.oneOfGetter($oneOfFields = ["action"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DraftMessageSync.prototype, "_editTimestampMs", {
+            get: $util.oneOfGetter($oneOfFields = ["editTimestampMs"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DraftMessageSync.prototype, "_draft", {
+            get: $util.oneOfGetter($oneOfFields = ["draft"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        Object.defineProperty(DraftMessageSync.prototype, "_clearReason", {
+            get: $util.oneOfGetter($oneOfFields = ["clearReason"]),
+            set: $util.oneOfSetter($oneOfFields)
+        });
+
+        DraftMessageSync.create = function create(properties) {
+            return new DraftMessageSync(properties);
+        };
+
+        DraftMessageSync.encode = function encode(m, w, q) {
+            if (!w)
+                w = $Writer.create();
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            if (m.chatJid != null && Object.hasOwnProperty.call(m, "chatJid"))
+                w.uint32(10).string(m.chatJid);
+            if (m.altChatJid != null && Object.hasOwnProperty.call(m, "altChatJid"))
+                w.uint32(18).string(m.altChatJid);
+            if (m.action != null && Object.hasOwnProperty.call(m, "action"))
+                w.uint32(24).int32(m.action);
+            if (m.editTimestampMs != null && Object.hasOwnProperty.call(m, "editTimestampMs"))
+                w.uint32(32).int64(m.editTimestampMs);
+            if (m.draft != null && Object.hasOwnProperty.call(m, "draft"))
+                $root.proto.Message.encode(m.draft, w.uint32(42).fork(), q + 1).ldelim();
+            if (m.clearReason != null && Object.hasOwnProperty.call(m, "clearReason"))
+                w.uint32(48).int32(m.clearReason);
+            return w;
+        };
+
+        DraftMessageSync.decode = function decode(r, l, e, n) {
+            if (!(r instanceof $Reader))
+                r = $Reader.create(r);
+            if (n === undefined)
+                n = 0;
+            if (n > $Reader.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var c, m;
+            if (l === undefined)
+                c = r.len;
+            else {
+                c = r.pos + l;
+                if (c > r.len)
+                    throw RangeError("index out of range");
+                l = r.len;
+                r.len = c;
+            }
+            m = new $root.proto.DraftMessageSync();
+            while (r.pos < c) {
+                var t = r.uint32();
+                if (t === e)
+                    break;
+                switch (t >>> 3) {
+                case 1: {
+                        m.chatJid = r.string();
+                        break;
+                    }
+                case 2: {
+                        m.altChatJid = r.string();
+                        break;
+                    }
+                case 3: {
+                        m.action = r.int32();
+                        break;
+                    }
+                case 4: {
+                        m.editTimestampMs = r.int64();
+                        break;
+                    }
+                case 5: {
+                        m.draft = $root.proto.Message.decode(r, r.uint32(), undefined, n + 1);
+                        break;
+                    }
+                case 6: {
+                        m.clearReason = r.int32();
+                        break;
+                    }
+                default:
+                    r.skipType(t & 7, n);
+                    break;
+                }
+            }
+            if (l !== undefined) {
+                if (r.pos !== c)
+                    throw RangeError("index out of range");
+                r.len = l;
+            }
+            return m;
+        };
+
+        DraftMessageSync.fromObject = function fromObject(d, n) {
+            if (d instanceof $root.proto.DraftMessageSync)
+                return d;
+            if (!$util.isObject(d))
+                throw TypeError(".proto.DraftMessageSync: object expected");
+            if (n === undefined)
+                n = 0;
+            if (n > $util.recursionLimit)
+                throw Error("maximum nesting depth exceeded");
+            var m = new $root.proto.DraftMessageSync();
+            if (d.chatJid != null) {
+                m.chatJid = String(d.chatJid);
+            }
+            if (d.altChatJid != null) {
+                m.altChatJid = String(d.altChatJid);
+            }
+            switch (d.action) {
+            default:
+                if (typeof d.action === "number") {
+                    m.action = d.action;
+                    break;
+                }
+                break;
+            case "ACTION_UNKNOWN":
+            case 0:
+                m.action = 0;
+                break;
+            case "SET":
+            case 1:
+                m.action = 1;
+                break;
+            case "CLEAR":
+            case 2:
+                m.action = 2;
+                break;
+            }
+            if (d.editTimestampMs != null) {
+                if ($util.Long)
+                    m.editTimestampMs = $util.Long.fromValue(d.editTimestampMs, false);
+                else if (typeof d.editTimestampMs === "string")
+                    m.editTimestampMs = parseInt(d.editTimestampMs, 10);
+                else if (typeof d.editTimestampMs === "number")
+                    m.editTimestampMs = d.editTimestampMs;
+                else if (typeof d.editTimestampMs === "object")
+                    m.editTimestampMs = new $util.LongBits(d.editTimestampMs.low >>> 0, d.editTimestampMs.high >>> 0).toNumber();
+            }
+            if (d.draft != null) {
+                if (!$util.isObject(d.draft))
+                    throw TypeError(".proto.DraftMessageSync.draft: object expected");
+                m.draft = $root.proto.Message.fromObject(d.draft, n + 1);
+            }
+            switch (d.clearReason) {
+            default:
+                if (typeof d.clearReason === "number") {
+                    m.clearReason = d.clearReason;
+                    break;
+                }
+                break;
+            case "CLEAR_REASON_UNKNOWN":
+            case 0:
+                m.clearReason = 0;
+                break;
+            case "USER_CLEARED":
+            case 1:
+                m.clearReason = 1;
+                break;
+            case "SENT":
+            case 2:
+                m.clearReason = 2;
+                break;
+            case "CHAT_LOCKED":
+            case 3:
+                m.clearReason = 3;
+                break;
+            case "REPLACED_BY_NON_TEXT":
+            case 4:
+                m.clearReason = 4;
+                break;
+            }
+            return m;
+        };
+
+        DraftMessageSync.toObject = function toObject(m, o, q) {
+            if (!o)
+                o = {};
+            if (q === undefined)
+                q = 0;
+            if (q > $util.recursionLimit)
+                throw Error("max depth exceeded");
+            var d = {};
+            if (m.chatJid != null && Object.hasOwnProperty.call(m, "chatJid")) {
+                d.chatJid = m.chatJid;
+                if (o.oneofs)
+                    d._chatJid = "chatJid";
+            }
+            if (m.altChatJid != null && Object.hasOwnProperty.call(m, "altChatJid")) {
+                d.altChatJid = m.altChatJid;
+                if (o.oneofs)
+                    d._altChatJid = "altChatJid";
+            }
+            if (m.action != null && Object.hasOwnProperty.call(m, "action")) {
+                d.action = o.enums === String ? $root.proto.DraftMessageSync.Action[m.action] === undefined ? m.action : $root.proto.DraftMessageSync.Action[m.action] : m.action;
+                if (o.oneofs)
+                    d._action = "action";
+            }
+            if (m.editTimestampMs != null && Object.hasOwnProperty.call(m, "editTimestampMs")) {
+                if (typeof BigInt !== "undefined" && o.longs === BigInt)
+                    d.editTimestampMs = typeof m.editTimestampMs === "number" ? BigInt(m.editTimestampMs) : $util.Long.fromBits(m.editTimestampMs.low >>> 0, m.editTimestampMs.high >>> 0, false).toBigInt();
+                else if (typeof m.editTimestampMs === "number")
+                    d.editTimestampMs = o.longs === String ? String(m.editTimestampMs) : m.editTimestampMs;
+                else
+                    d.editTimestampMs = o.longs === String ? longToString(m.editTimestampMs) : o.longs === Number ? longToNumber(m.editTimestampMs) : m.editTimestampMs;
+                if (o.oneofs)
+                    d._editTimestampMs = "editTimestampMs";
+            }
+            if (m.draft != null && Object.hasOwnProperty.call(m, "draft")) {
+                d.draft = $root.proto.Message.toObject(m.draft, o, q + 1);
+                if (o.oneofs)
+                    d._draft = "draft";
+            }
+            if (m.clearReason != null && Object.hasOwnProperty.call(m, "clearReason")) {
+                d.clearReason = o.enums === String ? $root.proto.DraftMessageSync.ClearReason[m.clearReason] === undefined ? m.clearReason : $root.proto.DraftMessageSync.ClearReason[m.clearReason] : m.clearReason;
+                if (o.oneofs)
+                    d._clearReason = "clearReason";
+            }
+            return d;
+        };
+
+        DraftMessageSync.prototype.toJSON = function toJSON() {
+            return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+        };
+
+        DraftMessageSync.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
+            if (typeUrlPrefix === undefined) {
+                typeUrlPrefix = "type.googleapis.com";
+            }
+            return typeUrlPrefix + "/proto.DraftMessageSync";
+        };
+
+        DraftMessageSync.Action = (function() {
+            const valuesById = {}, values = Object.create(valuesById);
+            values[valuesById[0] = "ACTION_UNKNOWN"] = 0;
+            values[valuesById[1] = "SET"] = 1;
+            values[valuesById[2] = "CLEAR"] = 2;
+            return values;
+        })();
+
+        DraftMessageSync.ClearReason = (function() {
+            const valuesById = {}, values = Object.create(valuesById);
+            values[valuesById[0] = "CLEAR_REASON_UNKNOWN"] = 0;
+            values[valuesById[1] = "USER_CLEARED"] = 1;
+            values[valuesById[2] = "SENT"] = 2;
+            values[valuesById[3] = "CHAT_LOCKED"] = 3;
+            values[valuesById[4] = "REPLACED_BY_NON_TEXT"] = 4;
+            return values;
+        })();
+
+        return DraftMessageSync;
     })();
 
     proto.EmbeddedContent = (function() {
@@ -95963,6 +96635,7 @@ export const proto = $root.proto = (() => {
             ProtocolMessage.prototype.membershipFormKeyFingerprintVerification = null;
             ProtocolMessage.prototype.groupRootKeyShare = null;
             ProtocolMessage.prototype.messageEditDisplayType = null;
+            ProtocolMessage.prototype.draftMessageSync = null;
 
             let $oneOfFields;
 
@@ -96151,6 +96824,11 @@ export const proto = $root.proto = (() => {
                 set: $util.oneOfSetter($oneOfFields)
             });
 
+            Object.defineProperty(ProtocolMessage.prototype, "_draftMessageSync", {
+                get: $util.oneOfGetter($oneOfFields = ["draftMessageSync"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
             ProtocolMessage.create = function create(properties) {
                 return new ProtocolMessage(properties);
             };
@@ -96240,6 +96918,8 @@ export const proto = $root.proto = (() => {
                     $root.proto.GroupRootKeyShare.encode(m.groupRootKeyShare, w.uint32(330).fork(), q + 1).ldelim();
                 if (m.messageEditDisplayType != null && Object.hasOwnProperty.call(m, "messageEditDisplayType"))
                     w.uint32(336).int32(m.messageEditDisplayType);
+                if (m.draftMessageSync != null && Object.hasOwnProperty.call(m, "draftMessageSync"))
+                    $root.proto.DraftMessageSync.encode(m.draftMessageSync, w.uint32(346).fork(), q + 1).ldelim();
                 return w;
             };
 
@@ -96418,6 +97098,10 @@ export const proto = $root.proto = (() => {
                         }
                     case 42: {
                             m.messageEditDisplayType = r.int32();
+                            break;
+                        }
+                    case 43: {
+                            m.draftMessageSync = $root.proto.DraftMessageSync.decode(r, r.uint32(), undefined, n + 1);
                             break;
                         }
                     default:
@@ -96606,6 +97290,10 @@ export const proto = $root.proto = (() => {
                 case "GROUP_ROOT_KEY_SHARE":
                 case 44:
                     m.type = 44;
+                    break;
+                case "DRAFT_MESSAGE_SYNC":
+                case 45:
+                    m.type = 45;
                     break;
                 }
                 if (d.ephemeralExpiration != null) {
@@ -96806,6 +97494,11 @@ export const proto = $root.proto = (() => {
                 case 1:
                     m.messageEditDisplayType = 1;
                     break;
+                }
+                if (d.draftMessageSync != null) {
+                    if (!$util.isObject(d.draftMessageSync))
+                        throw TypeError(".proto.Message.ProtocolMessage.draftMessageSync: object expected");
+                    m.draftMessageSync = $root.proto.DraftMessageSync.fromObject(d.draftMessageSync, n + 1);
                 }
                 return m;
             };
@@ -97022,6 +97715,11 @@ export const proto = $root.proto = (() => {
                     if (o.oneofs)
                         d._messageEditDisplayType = "messageEditDisplayType";
                 }
+                if (m.draftMessageSync != null && Object.hasOwnProperty.call(m, "draftMessageSync")) {
+                    d.draftMessageSync = $root.proto.DraftMessageSync.toObject(m.draftMessageSync, o, q + 1);
+                    if (o.oneofs)
+                        d._draftMessageSync = "draftMessageSync";
+                }
                 return d;
             };
 
@@ -97083,6 +97781,7 @@ export const proto = $root.proto = (() => {
                 values[valuesById[42] = "GROUP_ROOT_KEY_REQUEST"] = 42;
                 values[valuesById[43] = "MEMBERSHIP_FORM_KEY_FINGERPRINT_VERIFICATION"] = 43;
                 values[valuesById[44] = "GROUP_ROOT_KEY_SHARE"] = 44;
+                values[valuesById[45] = "DRAFT_MESSAGE_SYNC"] = 45;
                 return values;
             })();
 
